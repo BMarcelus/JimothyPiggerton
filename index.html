@@ -1,0 +1,77 @@
+<style>
+  canvas {
+    border: 1px solid black;
+    margin: auto;
+    display: block;
+  }
+</style>
+<canvas id="gc"></canvas>
+<script src="./screens.js"></script>
+<script src="./gui.js"></script>
+<script src="./levels.js"></script>
+<script src="./game.js"></script>
+<script>
+var movementKeys = [32,37,38,39,40];
+class MainDriver {
+  constructor() {
+    this.frameCount=0;
+    this.lastTime = Date.now();
+    this.keys = [];
+    this.scene = new MenuScreen();
+    this.scene.driver = this;
+  }
+  update() {
+    this.frameCount++;
+    var time = Date.now();
+    var dt = time-this.lastTime;
+    this.lastTime=time;
+    
+    this.scene.keys = this.keys;
+    this.scene.update(1, this.frameCount);
+  }
+  draw(canvas) {
+    canvas.clearRect(0,0,canvas.width,canvas.height);
+    this.scene.draw(canvas);
+  }
+  keydown(e) {
+    var keys = this.keys;
+    var k = e.keyCode;
+    if(movementKeys.includes(k)) {
+      e.preventDefault();
+    }
+    if(keys[k])return;
+    this.scene.keydown(k);
+    keys[k] = true;
+  }
+  keyup(e) {
+    var keys = this.keys;
+    var k = e.keyCode;
+    if(!keys[k])return;
+    this.scene.keyup(k);
+    keys[k] = false;
+  }
+  setScene(scene) {
+    scene.driver = this;
+    this.scene = scene;
+  }
+}
+
+window.onload = function() {
+  var CE = document.getElementById('gc');
+  CE.width = 1000;
+  CE.height = 600;
+  var canvas = CE.getContext('2d');
+  canvas.width = CE.width;
+  canvas.height = CE.height;
+  canvas.font = "30px Arial";
+  var driver = new MainDriver();
+  function step() {
+    driver.update();
+    driver.draw(canvas);
+    window.requestAnimationFrame(step);
+  }
+  step();
+  window.addEventListener('keydown', driver.keydown.bind(driver));
+  window.addEventListener('keyup', driver.keyup.bind(driver));
+}
+</script>

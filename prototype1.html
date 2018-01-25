@@ -1,0 +1,608 @@
+<style>
+  canvas {
+    border: 1px solid black;
+    margin: auto;
+    display: block;
+  }
+</style>
+<canvas id="gc"></canvas>
+<script>
+var CE = document.getElementById('gc');
+CE.width = 640;
+CE.height = 480;
+var canvas = CE.getContext('2d');
+
+var keys = [];
+var frameCount = 0;
+
+function moverCollide(a,b) {
+  return a.x+a.w/2>b.x-b.w/2&&a.x-a.w/2<b.x+b.w/2 &&
+    a.y>=b.y-b.h&&a.y-a.h<=b.y;
+}
+
+class Cloud {
+  constructor(x,y,w,h,vx,vy,life) {
+    this.x=x;this.y=y;this.w=w;this.h=h;this.vx=vx;this.vy=vy;
+    this.life = life||10;
+    this.maxlife = this.life;
+  }
+  update() {
+    this.life--;
+    if(this.life<=0) {
+      this.shouldDelete = true;
+      return;
+    }
+    this.x+=this.vx;
+    this.y+=this.vy;
+  }
+  draw(canvas) {
+    canvas.save();
+    canvas.fillStyle = "rgba(200,200,200,.3)";
+    canvas.globalAlpha = this.life/this.maxlife;
+    var w = this.w + (this.maxlife-this.life);
+    var h = w;
+    canvas.translate(this.x,this.y);
+    canvas.fillRect(-w/2,-h,w,h);
+    canvas.restore();
+  }
+}
+
+class Mover {
+  constructor(x,y) {
+    this.x = x||10;
+    this.y = y||10;
+    this.w = 25;
+    this.h = 35;
+    this.width = this.w;
+    this.height = this.h;
+    this.vx = 0;
+    this.vy = 0;
+    this.grav = .8;
+    this.mx = 0;
+    this.my = 0;
+    this.speed = 10;
+    this.grounded = false;
+    this.jumpPower = 14;
+    this.flipped = false;
+    this.color = "#000";
+    this.cloudParticlesOn = true;
+    this.wallcolliding = false;
+    this.maxJumps = 10;
+    this.jumpCount = 0;
+    this.angle = 0;
+    this.terminalVelocity = 20;
+    this.mover = true;
+  }
+  update(dt) {
+    if(this.mx>1)this.mx=1;
+    if(this.mx<-1)this.mx=-1;
+    if(this.my>1)this.my=1;
+    if(this.my<-1)this.my=-1;
+    if(this.mx){
+      this.flipped=this.mx<0;
+      if(!this.wallcolliding&&this.cloudParticlesOn&&this.grounded&&!this.crouching&&(frameCount%20==0||this.vx*this.mx<=0||Math.abs(this.vx)<1)) {
+        for(var i=0;i<3;i++) {
+          entities.push(new Cloud(this.x-this.mx*i*5,this.y+Math.random(),5+i*2,10,-this.mx,0,10+i*2));
+        }
+      }
+    }
+    if(this.crouching&&this.grounded) {
+      this.vx -= this.vx / 10;
+      this.mx = 0;
+    } else {
+      this.vx += (this.mx*this.speed-this.vx)/3;      
+    }
+    this.vy += this.grav;
+    if(this.vy>this.terminalVelocity)this.vy = this.terminalVelocity;
+    // this.x += this.vx;
+    // this.y += this.vy;
+    this.safeMove(this.vx,this.vy);
+    // staticWorldCollide(this);
+    // safeMoveOnWorld(this,this.vx,this.vy);
+    // var maxHeight = CE.height-10;
+    // if(this.y > maxHeight) {
+    //   this.groundCollide(maxHeight);
+    // }
+    if(this.vy>0) {
+      this.grounded = false;
+    }
+    if(this.jumpCount>1) {
+      this.angle += Math.PI/10*(1-2*this.flipped);
+    } else if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching) {
+      // this.angle = (Math.cos(this.x/this.speed*10*Math.PI/70)*Math.PI/20-Math.PI/40*(this.vx/this.speed));
+      this.angle = -Math.PI/40*this.vx/this.speed + Math.cos(frameCount*Math.PI/7)*Math.PI/20;
+    } else {
+      this.angle = 0;
+    }
+    if(this.crouching) {
+      this.width += (this.w*1.2-this.width)/2;
+      this.height += (this.h*.6-this.height)/2;
+    } else {
+      this.width += (this.w-this.width)/2;
+      this.height += (this.h-this.height)/2;
+    }
+  }
+  safeMove(vx,vy) {
+    var world = world1;
+    if(!world.rectCollides(this.x-this.w/2+vx, this.y-this.h+1,this.w,this.h-2)) {
+      this.x += vx;
+      this.wallcolliding=false;
+    } else {
+      if(this.vx>0) {
+        this.x = Math.floor((this.x+this.w/2+vx)/world.s)*world.s-this.w/2-1;
+      } else if(this.vx<0){
+        this.x = Math.floor((this.x-this.w/2+vx)/world.s+1)*world.s+this.w/2+1;
+      }
+      this.vx = 0;
+      this.wallcolliding=true;
+    }
+    if(world.rectCollides(this.x-this.w/2,this.y-this.h+vy,this.w,this.h)) {
+      if(this.vy>0) {
+        this.groundCollide(Math.floor((this.y+vy)/world.s)*world.s);
+      } else {
+        this.y = (Math.floor((this.y+vy-this.h)/world.s+1)*world.s)+this.h;
+        this.vy = 0;
+      }
+    } else {
+      this.y += this.vy;
+    }
+  }
+  groundCollide(y) {
+    this.y = y;
+    this.vy = 0;
+    if(!this.grounded) {
+      this.width += 10;
+      this.height -= 10;
+      if(this.cloudParticlesOn) {
+        for(var i=0;i<6;i++) {
+          entities.push(new Cloud(this.x,this.y-Math.random()*5,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
+        }
+      }
+    }
+    this.grounded = true;
+    this.jumpCount = 0;
+  }
+  draw(canvas) {
+    var h = this.height;
+    var w = this.width;
+    canvas.save();
+    canvas.translate(this.x,this.y);
+    if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching) {
+      canvas.translate(0,-(Math.sin(this.x/this.speed*10*Math.PI/70)+1)*3)
+    }
+    if(this.jumpCount>1) {
+      canvas.translate(0,-h/2);      
+    }
+    canvas.rotate(this.angle);
+    canvas.fillStyle = this.color;
+    if(this.jumpCount>1) {
+      canvas.translate(0,h/2);      
+    }
+    canvas.fillRect(-w/2,-h, w,h);
+    canvas.restore();
+  }
+  jump() {
+    // if(!this.grounded)return;
+    if(this.jumpCount>=this.maxJumps)return;
+    this.jumpCount++;
+    this.vy = -this.jumpPower;
+    this.grounded = false;
+    this.height += 10;
+    this.width -= 10;
+    if(this.cloudParticlesOn) {
+      for(var i=0;i<3;i++) {
+        entities.push(new Cloud(this.x-i*5,this.y,5+i*2,10,-2,0,5+i*2));
+        entities.push(new Cloud(this.x+i*5,this.y,5+i*2,10,2,0,5+i*2));
+        entities.push(new Cloud(this.x-6+i*3,this.y,5,10,-1+i,0,5+i*2));
+      }
+    }
+  }
+  shortJump() {
+    if(!this.grounded&&this.jumpCount==1&&this.vy<0) {
+      this.vy = this.vy/2;
+    }
+  }
+  crouch() {
+    this.crouching = true;
+    if(!this.grounded&&this.vy>0) this.vy += 10;
+  }
+  uncrouch() {
+    this.crouching = false;
+  }
+}
+class Player extends Mover {
+}
+Player.controls = {
+  right: {held: function(e) { e.mx += 1; }},
+  left: {held: function(e) { e.mx -= 1; }},
+  up: {down: function(e) { e.jump(); }, up: function(e) { e.shortJump(); }},
+  down: {down: function(e) { e.crouch(); }, up: function(e) { e.uncrouch(); }},
+}
+
+class Pig extends Mover {
+  constructor(x,y) {
+    super(x,y);
+    this.color = "pink";
+    this.w = 25;
+    this.h = 20;
+    this.speed = 3;
+    this.cloudParticlesOn=false;
+    this.mx = 1;
+  }
+  update(dt) {
+    if(this.x > 500) this.mx = -1;
+    if(this.x < 100) this.mx = 1;
+    super.update(dt);
+  }
+}
+
+class Enemy extends Mover {
+  constructor(x,y) {
+    super(x,y);
+    this.color = '#800';
+    this.speed = 4;
+    this.w=27;
+    this.h=32;
+  }
+  update(dt) {
+    // if(Math.random()>.9) {
+    //   this.mx = 0;
+    // }
+    if(this.x>player.x+20) {
+      this.mx = -1;
+    }
+    if(this.x<player.x-20) {
+      this.mx = 1;
+    }
+    if(player.vy>0&&moverCollide(player,this)) {
+      player.vy = -20;
+    }
+    super.update(dt);
+  }
+}
+
+class SpinnerEnemy {
+  constructor(x,y) {
+    this.x=x;this.y=y;
+    this.w = 30;
+    this.h = 30;
+    this.angle = 0;
+    this.spinSpeed = 0;
+    this.vx=0;
+    this.vy=0;
+    this.attacking = false;
+  }
+  update(dt) {
+    this.x+=this.vx;
+    this.y+=this.vy;
+    var dx = this.x-player.x;
+    var dy = this.y-player.y;
+    var r = Math.sqrt(dx*dx+dy*dy);
+    if(r<200) {
+      this.spinSpeed+=.05;
+      if(this.spinSpeed>1) {
+        if(!this.attacking) {
+          this.vx = -dx/r*10;
+          this.vy = -dy/r*10;
+        }
+        this.attacking=true;
+        this.spinSpeed=1;
+      }
+    } else if(!this.attacking) {
+      this.spinSpeed += -this.spinSpeed/10;
+    }
+    this.angle += this.spinSpeed*Math.PI/7;
+  }
+  draw(canvas) {
+    var d1 = this.w/3;
+    var d2 = this.h/3;
+    canvas.save();
+    canvas.translate(this.x,this.y);
+    canvas.rotate(this.angle);
+    canvas.fillStyle = "red";
+    canvas.fillRect(-d1/2,-this.h/2, d1,this.h);
+    canvas.fillRect(-this.w/2,-d2/2, this.w, d2);
+    canvas.restore();
+  }
+}
+
+class FloatingBouncer {
+  constructor(x,y) {
+    this.x=x;
+    this.y=y;
+    this.w=30;
+    this.h=30;
+    this.speed = 4;
+    this.vx = Math.random();
+    this.vy = Math.random();
+    this.hit=false;
+    this.offset = Math.floor(Math.random()*100);
+    this.color = "#800";
+  }
+  update(dt) {
+    if(this.hit) {
+      this.vy+=1;
+      this.y+=this.vy;
+      if(this.wallCollides()) {
+        this.vy = 0;
+        this.y = Math.floor(this.y/world1.s)*world1.s;
+      }
+    } else {
+      this.y += this.vy*this.speed;
+      if(this.wallCollides()) {
+        this.vy=-this.vy;
+        this.y+=this.vy*this.speed;
+      }
+    }
+    this.x += this.vx*this.speed;
+    if(this.wallCollides()) {
+      this.vx=-this.vx;
+      this.x+=this.vx*this.speed;
+    }
+    if(moverCollide(this,player)) {
+      this.onCollision(player);
+    }
+    // var dx = player.x-this.x;
+    // var dy = player.y-this.y;
+    // var r = Math.sqrt(dx*dx+dy*dy);
+    // if(r<200&&(frameCount+this.offset)%20==0) {
+    //   var speed = 5;
+    //   entities.push(new Bullet(this.x,this.y, dx/r*speed, dy/r*speed));
+    // }
+  }
+  onCollision(player) {
+    if(player.vy>0&&player.y<this.y-this.h/4) {
+      player.vy = -20;
+    }
+  }
+  wallCollides() {
+    return world1.rectCollides(this.x-this.w/2,this.y-this.h,this.w,this.h);
+  }
+  draw(canvas) {
+    canvas.save();
+    canvas.translate(this.x,this.y);
+    canvas.fillStyle=this.color;
+    canvas.fillRect(-this.w/2,-this.h,this.w,this.h);
+    canvas.restore();
+  }
+}
+
+class FloatingEnemy extends FloatingBouncer {
+  constructor(x,y) {
+    super(x,y);
+    this.color = 'red';
+  }
+  onCollision(player) {
+    if(player.vy>0) {
+      player.vy = -20;
+      this.hit=true;      
+    } else {
+      player.shouldDelete=true;
+    }
+  }
+  draw(canvas) {
+    canvas.save();
+    canvas.translate(this.x,this.y-this.h/2);
+    canvas.rotate(frameCount*Math.PI/20);
+    canvas.fillStyle=this.color;
+    canvas.fillRect(-this.w/2,-this.h/2,this.w,this.h);
+    canvas.restore();
+  }
+}
+
+class Bullet {
+  constructor(x,y,vx,vy) {
+    this.x=x;this.y=y;this.vx=vx;this.vy=vy;
+    this.angle = Math.atan2(vy,vx);
+    this.w=15;
+    this.h=30;
+  }
+  explode() {
+    this.shouldDelete=true;
+  }
+  update(dt) {
+    this.x+=this.vx;
+    this.y+=this.vy;
+    if(world1.pointCollides(this.x,this.y)) {
+      this.explode();
+    }
+  }
+  draw(canvas) {
+    var s1 = this.w;
+    var s2 = this.h;
+    canvas.save();
+    canvas.fillStyle="#f00";
+    canvas.translate(this.x,this.y);
+    canvas.rotate(this.angle);
+    canvas.fillRect(-s1/2,-s1/2,s2,s1);
+    canvas.restore();
+  }
+}
+
+class BouncyThing {
+  constructor(x,y) {
+    this.x=x;this.y=y;
+    this.r = 15;
+    this.bounceAnimation=0;
+    this.bouncy = true;
+  }
+  update(dt) {
+    for(var i=0;i<entities.length;i+=1) {
+      var entity = entities[i];
+      if(entity.mover&&entity.y<this.y&&entity.vy>0) {
+        var dx = this.x-entity.x;
+        var dy = this.y-entity.y;
+        var r = this.r+entity.w;
+        if(dx*dx+dy*dy<r*r) {
+          entity.vy = -20;
+          this.bounceAnimation = 20;
+        }
+      }
+    }
+    if(this.bounceAnimation>0)this.bounceAnimation-=1;
+  }
+  draw(canvas) {
+    var r = this.r;
+    r += Math.cos(this.bounceAnimation*Math.PI/5)*10;
+    canvas.fillStyle="#f33";
+    canvas.beginPath();
+    canvas.arc(this.x,this.y-Math.cos(this.bounceAnimation*Math.PI/10)*10,r,0,Math.PI*2);
+    canvas.fill();
+  }
+}
+
+var keyMap = {
+  68: Player.controls.right,
+  87: Player.controls.up,
+  65: Player.controls.left,
+  83: Player.controls.down,
+
+  37: Player.controls.left,
+  38: Player.controls.up,
+  39: Player.controls.right,
+  40: Player.controls.down,
+
+  32: Player.controls.up,
+}
+
+var entities = [];
+
+function update() {
+  var dt = 100/6;
+  for(var i=0;i<entities.length;i+=1) {
+    var entity = entities[i];
+    entity.update(dt);
+    if(entity.shouldDelete) {
+      entities.splice(i--,1);
+    }
+  }
+  // if(Math.abs(camera.x-player.x)>30) {
+    camera.x += (player.x-camera.x)/10;
+  // }
+  // if(Math.abs(camera.y-player.y)>10) {
+    camera.y += (player.y-camera.y)/10;
+  // }
+
+  if(camera.x<CE.width/2)camera.x = CE.width/2;
+  if(camera.y<CE.height/2)camera.y = CE.height/2;
+  if(camera.x>world1.w*world1.s-CE.width/2) camera.x = world1.w*world1.s-CE.width/2;
+  if(camera.y>world1.h*world1.s-CE.height/2)camera.y = world1.h*world1.s-CE.height/2;
+}
+
+function draw() {
+  canvas.clearRect(0,0,CE.width,CE.height);
+  canvas.save();
+  canvas.translate(CE.width/2,CE.height/2);  
+  // canvas.scale(.5,.5);  
+  canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
+  world1.draw(canvas);
+  for(var i=0;i<entities.length;i+=1) {
+    var entity = entities[i];
+    entity.draw(canvas);
+  }
+  canvas.restore();
+}
+
+function handleHeldKeys(player) {
+  player.mx=0;
+  player.my=0;
+  for(var k in keyMap) {
+    if(keys[k]&&keyMap[k].held) {
+      keyMap[k].held(player);
+    }
+  }
+}
+
+function makeWorld(width, height) {
+  var world = [];
+  for(var i=0;i<width;i++) {
+    var row = [];
+    for(var j=0;j<height;j++) {
+      if(i==0||j==0||i==width-1||j==height-1)row.push(1);
+      else row.push(0);
+    }
+    world.push(row);
+  }
+  return world;
+}
+
+class World {
+  constructor(w,h,s) {
+    this.w=w;
+    this.h=h;
+    this.s=s;
+    this.world = makeWorld(w,h);
+  }
+  draw(canvas) {
+    var s = this.s;
+    var world = this.world;
+    for(var i=0;i<this.w;i++) {
+      for(var j=0;j<this.h;j++) {
+        if(world[j][i]) {
+          canvas.fillRect(s*i,s*j, s,s);
+        }
+      }
+    }
+  }
+  oob(x,y) {
+    return x<0||y<0||x>=this.w||y>=this.h;
+  }
+  wallExists(x,y) {
+    return this.oob(x,y) || this.world[y][x];
+  }
+  pointCollides(x,y) {
+    return this.wallExists(Math.floor(x/this.s), Math.floor(y/this.s));
+  }
+  rectCollides(x,y,w,h) {
+    return this.pointCollides(x,y) ||
+      this.pointCollides(x+w,y) ||
+      this.pointCollides(x,y+h) ||
+      this.pointCollides(x+w,y+h);
+  }
+}
+var world1 = new World(30,30,30);
+
+var player;
+var camera = {x:0,y:0};
+window.onload = function() {
+  
+  player = new Player(100,800);
+  entities.push(new BouncyThing(500,800));  
+  // entities.push(new Enemy(500,800));
+  // for(var i=0;i<10;i++) {
+  //   entities.push(new FloatingBouncer(Math.random()*700+100,Math.random()*700+100));    
+  // }
+  // for(var i=0;i<10;i++) {
+  //   entities.push(new FloatingEnemy(Math.random()*700+100,Math.random()*700+100,"red"));    
+  // }
+  entities.push(player);
+  entities.push(new Pig(300,800));  
+
+  function step() {
+    frameCount += 1;
+    handleHeldKeys(player);
+    update();
+    draw();
+    window.requestAnimationFrame(step);
+  }
+  step();
+
+  window.addEventListener('keydown', function(e) {
+    var k = e.keyCode;
+    if(keys[k])return;
+    keys[k] = true;
+    if(keyMap[k]&&keyMap[k].down) {
+      keyMap[k].down(player);
+    }
+  })
+  window.addEventListener('keyup', function(e) {
+    var k = e.keyCode;
+    if(!keys[k])return;
+    keys[k] = false;
+    if(keyMap[k]&&keyMap[k].up) {
+      keyMap[k].up(player);
+    }
+  })
+}
+
+</script>
