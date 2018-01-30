@@ -3,7 +3,7 @@ addLevel( function(nameSpace) {
     
     return {
       name: "wall jump",
-      modifyPlayer: function(player) {player.wallJumps = true, player.maxJumps = 2},
+      modifyPlayer: function(player) {player.wallJumps = true; player.maxJumps = 2},
       grid: [
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
           [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
