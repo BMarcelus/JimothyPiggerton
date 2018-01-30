@@ -135,11 +135,17 @@ var CELLMAP = {
     //Ground
     solid: true,
     draw: function(canvas, x,y,w,h, world,i,j) {
-      canvas.fillStyle="#732";
+      var color1 = "#732";
+      var color2 = "#843";
+      var color3 = "#090";
+      // color1 = "#555";
+      // color2 = "#777";
+      // color3 = "#000";
+      canvas.fillStyle=color1;
       canvas.fillRect(x,y,w,h);
       canvas.strokeStyle="#000";
       // canvas.strokeRect(x,y,w,h);
-      canvas.fillStyle="#843";
+      canvas.fillStyle=color2;
       var ww = w/3;
       var hh = h/3;
       var spacing = 10;
@@ -149,7 +155,7 @@ var CELLMAP = {
         canvas.fillRect(xx+x,yy+y,ww,hh);
       }
       if(world.wallExists(i,j-1)!=1) {
-        canvas.fillStyle="green";
+        canvas.fillStyle=color3;
         canvas.fillRect(x,y,w,h/8);
         canvas.strokeRect(x,y,w,0);
       }
