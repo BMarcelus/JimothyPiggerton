@@ -110,6 +110,10 @@ class World {
   drawBackground(canvas, camera) {
     this.background.draw(canvas, camera);
   }
+  getCell(x,y) {
+    if(this.oob(x,y))return {};
+    return CELLMAP[this.world[y][x]];
+  }
 }
 
 class WorldDefault extends World {
@@ -132,13 +136,17 @@ class WorldFromLevel extends World {
   }
 }
 
+
+
 var CELLMAP = {
+  'false': {},
   0: {
     //air
   },
   1: {
     //Ground
     solid: true,
+    groundBlock: true,
     draw: function(canvas, x,y,w,h, world,i,j) {
       var color1 = "#732";
       var color2 = "#843";
@@ -149,28 +157,29 @@ var CELLMAP = {
       canvas.fillStyle=color1;
       canvas.fillRect(x,y,w,h);
       canvas.strokeStyle="#000";
+      var s = Math.max(w,h);
       // canvas.strokeRect(x,y,w,h);
       canvas.fillStyle=color2;
-      var ww = w/3;
-      var hh = h/3;
+      var ww = s/3;
+      var hh = ww;
       var spacing = 10;
       for(var ii=0;ii<3;ii++) {
         var xx = Math.floor(Math.random()*(w-ww)/spacing) * spacing;
-        var yy = Math.floor(Math.random()*(w-ww)/spacing) * spacing;
+        var yy = Math.floor(Math.random()*(h-hh)/spacing) * spacing;
         canvas.fillRect(xx+x,yy+y,ww,hh);
       }
-      if(world.wallExists(i,j-1)!=1) {
+      if(!world.getCell(i,j-1).groundBlock) {
         canvas.fillStyle=color3;
-        canvas.fillRect(x,y,w,h/8);
+        canvas.fillRect(x,y,w,s/8);
         canvas.strokeRect(x,y,w,0);
       }
-      if(world.wallExists(i,j+1)!=1&&world.wallExists(i,j+1)!=3) {
+      if(!world.getCell(i,j+1).groundBlock) {
         canvas.strokeRect(x,y+h,w,0);
       }
-      if(world.wallExists(i+1,j)!=1&&world.wallExists(i+1,j)!=3) {
+      if(!world.getCell(i+1,j).groundBlock) {
         canvas.strokeRect(x+w,y,0,h);
       }
-      if(world.wallExists(i-1,j)!=1&&world.wallExists(i-1,j)!=3) {
+      if(!world.getCell(i-1,j).groundBlock) {
         canvas.strokeRect(x,y,0,h);
       }
     }
@@ -200,7 +209,8 @@ var CELLMAP = {
   3: {
     //Spike floor
     solid: true,
-    draw: function(canvas, x,y,width,height, world,i,j) {
+    groundBlock: true,
+    draw: function(canvas, x,y,width,height, world,ii,jj) {
       var w= width;
       var h=height;
       canvas.fillStyle="white";
@@ -219,39 +229,8 @@ var CELLMAP = {
       canvas.fillStyle="grey";
       canvas.fillRect(-w/2,-h/2,w,h);      
       canvas.restore();
-//ground part
-      w= width;
-      h=height;
-      y+=h*.2;
-      h*=.8;
-      
-      canvas.fillStyle="#732";
-      canvas.fillRect(x,y,w,h);
-      canvas.strokeStyle="#000";
-      // canvas.strokeRect(x,y,w,h);
-      canvas.fillStyle="#843";
-      var ww = w/3;
-      var hh = height/3;
-      var spacing = 10;
-      for(var ii=0;ii<3;ii++) {
-        var xx = Math.floor(Math.random()*(w-ww)/spacing) * spacing;
-        var yy = Math.floor(Math.random()*(h-hh)/spacing) * spacing;
-        canvas.fillRect(xx+x,yy+y,ww,hh);
-      }
-      if(world.wallExists(i,j-1)!=1&&world.wallExists(i,j-1)!=3) {
-        canvas.fillStyle="green";
-        canvas.fillRect(x,y,w,h/8);
-        canvas.strokeRect(x,y,w,0);
-      }
-      if(world.wallExists(i,j+1)!=1&&world.wallExists(i,j+1)!=3) {
-        canvas.strokeRect(x,y+h,w,0);
-      }
-      if(world.wallExists(i+1,j)!=1&&world.wallExists(i+1,j)!=3) {
-        canvas.strokeRect(x+w,y,0,h);
-      }
-      if(world.wallExists(i-1,j)!=1&&world.wallExists(i-1,j)!=3) {
-        canvas.strokeRect(x,y,0,h);
-      }
+      var dh = h * .4;
+      CELLMAP[1].draw(canvas,x,y+dh, width, height-dh, world, ii,jj);
     }
   }
 }

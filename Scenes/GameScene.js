@@ -22,17 +22,28 @@ class GameScene extends Scene {
       27: {down: this.pause.bind(this)},
       69: {down: function() {
         this.player.vx += 30 * (1-2*this.player.flipped);
-      }.bind(this)}
+      }.bind(this)},
+      78: {down: function() {
+        if(this.keys[67]) {
+          this.loadNewLevel(this.levelIndex+1);
+        }
+      }.bind(this)},
+      66: {down: function() {
+        if(this.keys[67]) {
+          this.loadNewLevel(this.levelIndex-1);
+        }
+      }.bind(this)},
     }
     this.camera = {x:0,y:0,dx:0};
     // this.world = new World(200,50,50);
     this.levels = createLevels();
     this.levelIndex = 0;
-    this.level = this.levels[0];
-    this.world = new WorldFromLevel(this.level);
-    this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
-    this.addEntity(new Enemy(300,100));
-    this.shouldFillAroundWorld = true;
+    this.loadNewLevel(0);
+    this.shouldFillAroundWorld = true;    
+    // this.level = this.levels[0];
+    // this.world = new WorldFromLevel(this.level);
+    // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
+    // this.addEntity(new Enemy(300,100));
   }
   addEntity(entity) {
     this.entities.push(entity);
@@ -67,11 +78,16 @@ class GameScene extends Scene {
   }
   detectLevelComplete() {
     if(this.player.x/this.world.s >= this.world.w-2&&this.player.grounded) {
-      this.loadNewLevel();
+      this.loadNewLevel(this.levelIndex+1);
     }
   }
-  loadNewLevel(same) {
-    this.levelIndex = this.levelIndex+1;
+  loadNewLevel(index) {
+    var same = false;
+    if(index==undefined) {
+      same=true;
+    } else {
+      this.levelIndex = index;
+    }
     if(this.levelIndex>=this.levels.length) {
       this.driver.setScene(new WinScene());
       return;
@@ -87,11 +103,11 @@ class GameScene extends Scene {
     this.camera.x=this.player.x;
     this.camera.y=this.player.y;
     this.entities = [this.player];
-    this.addEntity(new Pig(this.world.w*this.world.s-200,100));     
+    this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
+    this.addEntity(new Enemy(300,100));  
   }
   respawn() {
-    this.levelIndex-=1;
-    this.loadNewLevel(true);
+    this.loadNewLevel();
   }
   update(dt, frameCount) {
     this.player.resetControls();

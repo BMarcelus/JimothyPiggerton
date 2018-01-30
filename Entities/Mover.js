@@ -27,6 +27,10 @@ class Mover {
     this.wallSlides = true;
     this.wallJumps = false;
     this.groundAccel = 2;
+    this.diesToSpikes = false;
+  }
+  die() {
+    this.shouldDelete=true;
   }
   update(dt, frameCount) {
     if(this.mx>1)this.mx=1;
@@ -173,7 +177,7 @@ class Mover {
     }
   }
   wallJump() {
-    this.jumpCount = 0;
+    this.jumpCount = 1;
     this.vy = -this.jumpPower;
     this.grounded = false;
     this.height += 10;
