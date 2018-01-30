@@ -373,16 +373,17 @@ class FloatingEnemy extends FloatingBouncer {
     this.color = 'red';
   }
   onCollision(player) {
-    if(player.vy>0) {
+    if(player.vy>0&&player.y<this.y) {
       player.vy = -20;
       this.hit=true;      
-    } else {
+    } else if(!this.hit) {
       player.shouldDelete=true;
     }
   }
   draw(canvas) {
     canvas.save();
     canvas.translate(this.x,this.y-this.h/2);
+    if(!this.hit)
     canvas.rotate(frameCount*Math.PI/20);
     canvas.fillStyle=this.color;
     canvas.fillRect(-this.w/2,-this.h/2,this.w,this.h);
@@ -572,9 +573,9 @@ window.onload = function() {
   // for(var i=0;i<10;i++) {
   //   entities.push(new FloatingBouncer(Math.random()*700+100,Math.random()*700+100));    
   // }
-  // for(var i=0;i<10;i++) {
-  //   entities.push(new FloatingEnemy(Math.random()*700+100,Math.random()*700+100,"red"));    
-  // }
+  for(var i=0;i<10;i++) {
+    entities.push(new FloatingEnemy(Math.random()*700+100,Math.random()*700+100,"red"));    
+  }
   entities.push(player);
   entities.push(new Pig(300,800));  
 
