@@ -11,7 +11,7 @@ class Background {
     canvas.save();
     canvas.fillStyle=this.backgroundColor;
     canvas.fillRect(0,0,canvas.width,canvas.height);
-    canvas.translate(-camera.x/4,-camera.y/4);
+    canvas.translate(-camera.x/8,-camera.y/8);
     canvas.drawImage(this.background1,-150,-100);   
     canvas.translate(-camera.x/4,-camera.y/4);
     canvas.drawImage(this.background2,-150,0); 

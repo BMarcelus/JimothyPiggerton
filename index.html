@@ -91,9 +91,23 @@ window.onload = function() {
   canvas.height = CE.height;
   canvas.font = "30px Arial";
   var driver = new MainDriver();
+  var lastTime = Date.now();
+  var FPScounter = 0;
+  var currentFPS = 0;
+  var lastFPSupdate = lastTime;
   function step() {
+    var currentTime = Date.now();
+    var dt = currentTime-lastTime;
+    FPScounter ++;
+    if(currentTime>lastFPSupdate+1000) {
+      currentFPS = FPScounter;
+      FPScounter=0;
+      lastFPSupdate = currentTime;
+    }
     driver.update();
     driver.draw(canvas);
+    canvas.fillStyle = "white";
+    canvas.fillText(currentFPS, 20,20);
     window.requestAnimationFrame(step);
   }
   step();

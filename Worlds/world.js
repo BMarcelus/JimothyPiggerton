@@ -55,11 +55,15 @@ class World {
     for(var i=0;i<this.w;i++) {
       for(var j=0;j<this.h;j++) {
         var type = world[j][i];
-        if(type == 1) ctx.fillStyle='#000';
-        else if(type == 2) ctx.fillStyle='#f00';
-        if(type) {
-          ctx.fillRect(s*i,s*j, s,s);
+        var cell = CELLMAP[type];
+        if(cell.draw) {
+          cell.draw(ctx, s*i,s*j,s,s, this, i,j);
         }
+        // if(type == 1) ctx.fillStyle='brown';
+        // else if(type == 2) ctx.fillStyle='#fdd';
+        // if(type) {
+        //   ctx.fillRect(s*i,s*j, s,s);
+        // }
       }
     }
     canvas.drawImage(this.image,0,0);    
@@ -120,5 +124,66 @@ class WorldFromLevel extends World {
     this.world = grid;
     this.h = grid.length;
     this.w = grid[0].length;
+  }
+}
+
+var CELLMAP = {
+  0: {
+    //air
+  },
+  1: {
+    //Ground
+    solid: true,
+    draw: function(canvas, x,y,w,h, world,i,j) {
+      canvas.fillStyle="#732";
+      canvas.fillRect(x,y,w,h);
+      canvas.strokeStyle="#000";
+      // canvas.strokeRect(x,y,w,h);
+      canvas.fillStyle="#843";
+      var ww = w/3;
+      var hh = h/3;
+      var spacing = 10;
+      for(var ii=0;ii<3;ii++) {
+        var xx = Math.floor(Math.random()*(w-ww)/spacing) * spacing;
+        var yy = Math.floor(Math.random()*(w-ww)/spacing) * spacing;
+        canvas.fillRect(xx+x,yy+y,ww,hh);
+      }
+      if(world.wallExists(i,j-1)!=1) {
+        canvas.fillStyle="green";
+        canvas.fillRect(x,y,w,h/8);
+        canvas.strokeRect(x,y,w,0);
+      }
+      if(world.wallExists(i,j+1)!=1) {
+        canvas.strokeRect(x,y+h,w,0);
+      }
+      if(world.wallExists(i+1,j)!=1) {
+        canvas.strokeRect(x+w,y,0,h);
+      }
+      if(world.wallExists(i-1,j)!=1) {
+        canvas.strokeRect(x,y,0,h);
+      }
+    }
+  },
+  2: {
+    //Spike
+    solid: true,
+    draw: function(canvas, x,y,w,h, world,i,j) {
+      canvas.fillStyle="white";
+      canvas.save();
+      canvas.translate(x+w/2,y+h/2);
+      w=w*.8;
+      h=h*.8;
+      for(var i=0;i<3;i++){
+        canvas.rotate(Math.PI/8);
+        canvas.fillRect(-w/2,-h/2,w,h);        
+        canvas.strokeRect(-w/2,-h/2,w,h);
+      }
+      w=w*.8;
+      h=h*.8;
+      canvas.rotate(-3*Math.PI/8);
+      canvas.fillStyle="grey";
+      canvas.fillRect(-w/2,-h/2,w,h);      
+      canvas.restore();
+    }
   }
 }

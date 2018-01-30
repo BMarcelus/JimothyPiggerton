@@ -146,10 +146,10 @@ class Mover {
       canvas.translate(0,-h/2);      
     }
     canvas.rotate(this.angle);
-    canvas.fillStyle = this.color;
     if(this.jumpCount>1) {
       canvas.translate(0,h/2);      
     }
+    canvas.fillStyle = this.color;    
     canvas.fillRect(-w/2,-h, w,h);
     canvas.restore();
   }

@@ -35,19 +35,22 @@ class GameScene extends Scene {
     entity.game = this;
   }
   pause() {
-    this.driver.setScene(new PauseScreen(this));
+    this.driver.setScene(new PauseScene(this));
   }
   moveCamera() {
     var camera = this.camera;
     var player = this.player;
     var canvas = this.canvas;
+    if(player.mx) {
       camera.x += (player.x-camera.x+camera.dx)/10;
+    }
+    // camera.x = linearMove(camera.x, (player.x + camera.dx), 5);    
     camera.y += (player.y-camera.y-30)/10;
     if(player.vy>0) camera.y += (player.y-camera.y-30)/10;
     //make the camera point more towards the direction
     //that the player is moving in so they can see ahead
     if(player.mx!=0) {
-      camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
+      // camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
     }
     if(!canvas)return;
     var world1 = this.world;
@@ -74,6 +77,8 @@ class GameScene extends Scene {
       level.modifyPlayer(this.player);
     }
     this.level=level;
+    this.camera.x=this.player.x;
+    this.camera.y=this.player.y;
     this.entities = [this.player];
     this.addEntity(new Pig(this.world.w*this.world.s-200,100));     
   }
