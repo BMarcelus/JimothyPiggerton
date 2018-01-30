@@ -31,6 +31,7 @@ class GameScene extends Scene {
     this.level = this.levels[0];
     this.world = new WorldFromLevel(this.level);
     this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
+    this.addEntity(new Enemy(100,100));
     this.shouldFillAroundWorld = true;
   }
   addEntity(entity) {
