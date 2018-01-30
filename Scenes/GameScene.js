@@ -20,6 +20,9 @@ class GameScene extends Scene {
       32: p1controls.up,
 
       27: {down: this.pause.bind(this)},
+      69: {down: function() {
+        this.player.vx += 30 * (1-2*this.player.flipped);
+      }.bind(this)}
     }
     this.camera = {x:0,y:0,dx:0};
     // this.world = new World(200,50,50);
@@ -28,6 +31,7 @@ class GameScene extends Scene {
     this.level = this.levels[0];
     this.world = new WorldFromLevel(this.level);
     this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
+    this.addEntity(new Enemy(300,100));
     this.shouldFillAroundWorld = true;
   }
   addEntity(entity) {
@@ -41,9 +45,11 @@ class GameScene extends Scene {
     var camera = this.camera;
     var player = this.player;
     var canvas = this.canvas;
-    if(player.mx) {
-      camera.x += (player.x-camera.x+camera.dx)/10;
-    }
+    // if(player.mx) {
+      var cdx = (player.x-camera.x+camera.dx)/10;
+      if(Math.abs(cdx)>3)camera.x += cdx;
+      // camera.x += (player.x-camera.x+camera.dx)/10;
+    // }
     // camera.x = linearMove(camera.x, (player.x + camera.dx), 5);    
     camera.y += (player.y-camera.y-30)/10;
     if(player.vy>0) camera.y += (player.y-camera.y-30)/10;
@@ -71,6 +77,7 @@ class GameScene extends Scene {
       return;
     }
     var level = this.levels[this.levelIndex];
+    if(!same)
     this.world = new WorldFromLevel(level);
     this.player.reset();
     if(level.modifyPlayer) {
