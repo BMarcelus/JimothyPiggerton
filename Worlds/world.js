@@ -80,6 +80,7 @@ class World {
     return type;
   }
   rectCollides(x,y,w,h,entity) {
+    var result = false;
     var points = [[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
     var types = {};
     for(var i in points) {
@@ -87,20 +88,24 @@ class World {
       var y1 = points[i][1];
       var type = this.pointCollides(x1,y1);
       if(type == 1) return true;
-      else types[type] = true;
+      if(type != 0) types[type] = true;//[x1,y1];
     }
     for(var i in types) {
-      this.entityCollision(entity, i);
+      if(this.entityCollision(entity, i)){
+        result = true;
+      }
     }
+    return result;
     // return this.pointCollides(x,y,entity) +
     //   this.pointCollides(x+w,y,entity) +
     //   this.pointCollides(x,y+h,entity) +
     //   this.pointCollides(x+w,y+h,entity);
   }
   entityCollision(entity, type) {
-    if(type==2) {
+    if(type==2 || (type==3&&entity.grounded)) {
       entity.die();
     }
+    else return true;
   }
   drawBackground(canvas, camera) {
     this.background.draw(canvas, camera);
@@ -148,18 +153,18 @@ var CELLMAP = {
         var yy = Math.floor(Math.random()*(w-ww)/spacing) * spacing;
         canvas.fillRect(xx+x,yy+y,ww,hh);
       }
-      if(world.wallExists(i,j-1)!=1) {
+      if(world.wallExists(i,j-1)!=1&&world.wallExists(i,j-1)!=3) {
         canvas.fillStyle="green";
         canvas.fillRect(x,y,w,h/8);
         canvas.strokeRect(x,y,w,0);
       }
-      if(world.wallExists(i,j+1)!=1) {
+      if(world.wallExists(i,j+1)!=1&&world.wallExists(i,j+1)!=3) {
         canvas.strokeRect(x,y+h,w,0);
       }
-      if(world.wallExists(i+1,j)!=1) {
+      if(world.wallExists(i+1,j)!=1&&world.wallExists(i+1,j)!=3) {
         canvas.strokeRect(x+w,y,0,h);
       }
-      if(world.wallExists(i-1,j)!=1) {
+      if(world.wallExists(i-1,j)!=1&&world.wallExists(i-1,j)!=3) {
         canvas.strokeRect(x,y,0,h);
       }
     }
@@ -184,6 +189,63 @@ var CELLMAP = {
       canvas.fillStyle="grey";
       canvas.fillRect(-w/2,-h/2,w,h);      
       canvas.restore();
+    }
+  },
+  3: {
+    //Spike floor
+    solid: true,
+    draw: function(canvas, x,y,width,height, world,i,j) {
+      var w= width;
+      var h=height;
+      canvas.fillStyle="white";
+      canvas.save();
+      canvas.translate(x+w/2,y+h/2);
+      w=width*.7;
+      h=height*.7;
+      for(var i=0;i<3;i++){
+        canvas.rotate(Math.PI/8);
+        canvas.fillRect(-w/2,-h/2,w,h);        
+        canvas.strokeRect(-w/2,-h/2,w,h);
+      }
+      w=w*.8;
+      h=h*.8;
+      canvas.rotate(-3*Math.PI/8);
+      canvas.fillStyle="grey";
+      canvas.fillRect(-w/2,-h/2,w,h);      
+      canvas.restore();
+//ground part
+      w= width;
+      h=height;
+      y+=h*.2;
+      h*=.8;
+      
+      canvas.fillStyle="#732";
+      canvas.fillRect(x,y,w,h);
+      canvas.strokeStyle="#000";
+      // canvas.strokeRect(x,y,w,h);
+      canvas.fillStyle="#843";
+      var ww = w/3;
+      var hh = height/3;
+      var spacing = 10;
+      for(var ii=0;ii<3;ii++) {
+        var xx = Math.floor(Math.random()*(w-ww)/spacing) * spacing;
+        var yy = Math.floor(Math.random()*(h-hh)/spacing) * spacing;
+        canvas.fillRect(xx+x,yy+y,ww,hh);
+      }
+      if(world.wallExists(i,j-1)!=1&&world.wallExists(i,j-1)!=3) {
+        canvas.fillStyle="green";
+        canvas.fillRect(x,y,w,h/8);
+        canvas.strokeRect(x,y,w,0);
+      }
+      if(world.wallExists(i,j+1)!=1&&world.wallExists(i,j+1)!=3) {
+        canvas.strokeRect(x,y+h,w,0);
+      }
+      if(world.wallExists(i+1,j)!=1&&world.wallExists(i+1,j)!=3) {
+        canvas.strokeRect(x+w,y,0,h);
+      }
+      if(world.wallExists(i-1,j)!=1&&world.wallExists(i-1,j)!=3) {
+        canvas.strokeRect(x,y,0,h);
+      }
     }
   }
 }
