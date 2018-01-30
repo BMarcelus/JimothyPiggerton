@@ -11,6 +11,7 @@ function loadScript (dir, file) {
  var scr = document.createElement("script");
  scr.src = dir + file;
  document.body.appendChild(scr);
+ return scr;
 }
 function loadFolder (dir, preNum, num, postNum) {
   var file = preNum + num + postNum;
@@ -20,6 +21,13 @@ function loadFolder (dir, preNum, num, postNum) {
   scr.onload = function() {
     loadFolder(dir, preNum, num+1, postNum);
   }
+}
+function loadSequentially (dir, list) {
+    var file = list.shift();
+    loadScript(dir, file).onload = function() {
+      if(list.length!=0)
+      loadSequentially(dir, list);
+    };
 }
 </script>
 <script src="./math.js"></script>

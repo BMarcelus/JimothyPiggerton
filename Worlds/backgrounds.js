@@ -2,14 +2,15 @@ class Background {
   constructor() {
     this.background1 = this.createBackground(60, "#888", true);
     this.background2 = this.createBackground(100, "#666", false);
+    this.backgroundColor = "#4df";
   }
   draw(canvas, camera) {
     this.drawLayers(canvas, camera);
   }
   drawLayers(canvas,camera) {
     canvas.save();
-    // canvas.fillStyle="#4df";
-    // canvas.fillRect(0,0,canvas.width,canvas.height);
+    canvas.fillStyle=this.backgroundColor;
+    canvas.fillRect(0,0,canvas.width,canvas.height);
     canvas.translate(-camera.x/4,-camera.y/4);
     canvas.drawImage(this.background1,-150,-100);   
     canvas.translate(-camera.x/4,-camera.y/4);
@@ -17,7 +18,7 @@ class Background {
     canvas.restore();
   }
   createBackground(w,c, e) {
-    return createCityRuinBackground(w,c, e);
+    return createForrestBackground(w,c, e);
   }
 }
 
