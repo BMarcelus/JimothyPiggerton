@@ -173,6 +173,7 @@ class Mover {
     }
   }
   wallJump() {
+    this.jumpCount = 0;
     this.vy = -this.jumpPower;
     this.grounded = false;
     this.height += 10;
