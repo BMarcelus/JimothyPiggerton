@@ -1,6 +1,7 @@
 loadSequentially('Entities/',
 [
   "Cloud.js",
+  "FallingParticle.js",
   "Mover.js",
   "Player.js",
   "Pig.js",

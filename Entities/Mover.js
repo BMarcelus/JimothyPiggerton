@@ -28,6 +28,7 @@ class Mover {
     this.wallJumps = false;
     this.groundAccel = 2;
     this.diesToSpikes = false;
+    this.spinning = false;
   }
   die() {
     this.shouldDelete=true;
@@ -76,10 +77,14 @@ class Mover {
     // if(this.wallCollideTimer>0) {
     //   this.x -= this.vx;
     // }
-    if(this.vy>this.grav*5&&this.jumpCount==0)this.jumpCount=1;    
-    if(this.jumpCount>1) {
+    if(this.vy>this.grav*5&&this.jumpCount==0)this.jumpCount=1; 
+    if (this.jumpCount == 1) {
+      // this.angle = Math.atan2(-this.vy, this.vx);//,this.vy);
+      this.angle = -Math.cos(this.vy/this.terminalVelocity*Math.PI)*(1-2*this.flipped)*Math.abs(this.vx/this.speed)/2;
+    }
+    else if(this.spinning) {
       this.angle += Math.PI/10*(1-2*this.flipped);
-    } else if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching) {
+    } else if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching&&this.grounded) {
       // this.angle = (Math.cos(this.x/this.speed*10*Math.PI/70)*Math.PI/20-Math.PI/40*(this.vx/this.speed));
       this.angle = -Math.PI/40*this.vx/this.speed + Math.cos(frameCount*Math.PI/7)*Math.PI/20;
     } else {
@@ -137,25 +142,32 @@ class Mover {
     }
     this.grounded = true;
     this.jumpCount = 0;
+    this.spinning=false;
   }
   draw(canvas) {
     var h = this.height;
     var w = this.width;
     canvas.save();
     canvas.translate(this.x,this.y);
-    if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching) {
+    if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching&&this.grounded) {
       canvas.translate(0,-(Math.sin(this.x/this.speed*10*Math.PI/70)+1)*3)
     }
-    if(this.jumpCount>1) {
+    if(this.spinning) {
       canvas.translate(0,-h/2);      
     }
     canvas.rotate(this.angle);
-    if(this.jumpCount>1) {
+    if(this.spinning) {
       canvas.translate(0,h/2);      
     }
+    if(this.flipped) {
+      canvas.scale(-1,1);
+    }
+    this.drawShape(canvas,w,h);
+    canvas.restore();
+  }
+  drawShape(canvas,w,h) {
     canvas.fillStyle = this.color;    
     canvas.fillRect(-w/2,-h, w,h);
-    canvas.restore();
   }
   jump() {
     // if(!this.grounded)return;
@@ -164,6 +176,7 @@ class Mover {
     }
     if(this.jumpCount>=this.maxJumps)return;
     this.jumpCount++;
+    if(this.jumpCount>1)this.spinning=true;
     this.vy = -this.jumpPower;
     this.grounded = false;
     this.height += 10;

@@ -1,9 +1,11 @@
-class Cloud {
-  constructor(x,y,w,h,vx,vy,life,color) {
+class FallingParticle {
+  constructor(x,y,w,h,vx,vy,life,color,da) {
     this.x=x;this.y=y;this.w=w;this.h=h;this.vx=vx;this.vy=vy;
     this.life = life||10;
     this.maxlife = this.life;
     this.color = color||"rgba(200,200,200,.4)";
+    this.da = Math.PI/20;
+    this.angle = 0;
   }
   update() {
     this.life--;
@@ -13,15 +15,17 @@ class Cloud {
     }
     this.x+=this.vx;
     this.y+=this.vy;
+    this.angle += this.da;
+    this.vy += .5;
   }
   draw(canvas) {
     canvas.save();
     canvas.fillStyle = this.color;
-    canvas.globalAlpha = this.life/this.maxlife;
-    var w = this.w + (this.maxlife-this.life);
+    var w = this.w;// + (this.maxlife-this.life);
     var h = w;
     canvas.translate(this.x,this.y);
-    canvas.fillRect(-w/2,-h,w,h);
+    canvas.rotate(this.angle);
+    canvas.fillRect(-w/2,-h/2,w,h);
     canvas.restore();
   }
 }
