@@ -68,7 +68,12 @@ class Mover {
     if(this.vy>0) {
       this.grounded = false;
       if(this.wallcolliding) {
-        if(this.wallJumps&&this.wallSlides)this.vy = this.vy * .8;
+        if(this.wallJumps&&this.wallSlides) {
+          this.vy = this.vy * .8;
+          if(!this.spinning) {
+            this.flipped = this.mx > 0;
+          }
+        }
         if(this.wallJumps)this.wallCollideTimer = 10;
       } else if(this.wallCollideTimer>0&&this.mx!=0&&((this.mx>0)==this.walldirection)) {
         this.wallCollideTimer=0;
@@ -84,6 +89,8 @@ class Mover {
     }
     else if(this.spinning) {
       this.angle += Math.PI/10*(1-2*this.flipped);
+      this.width += 1;
+      this.height -=  4;
     } else if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching&&this.grounded) {
       // this.angle = (Math.cos(this.x/this.speed*10*Math.PI/70)*Math.PI/20-Math.PI/40*(this.vx/this.speed));
       this.angle = -Math.PI/40*this.vx/this.speed + Math.cos(frameCount*Math.PI/7)*Math.PI/20;

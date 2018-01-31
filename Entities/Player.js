@@ -154,7 +154,10 @@ class Player extends Mover{
     canvas.fillRect(eyex,eyey,6,eyh2);    
     w=this.w;
     canvas.translate(0,-h);
-    canvas.rotate(this.angle*(1-2*this.flipped));
+    var hatAngle = Math.abs(this.angle);
+    if(hatAngle>Math.PI/4)hatAngle=Math.PI/4;
+    canvas.rotate(-hatAngle);
+    canvas.rotate(0);
     canvas.fillStyle = "#444";
     canvas.beginPath();
     canvas.rect(-w/2-1,-4,w+9,4);
@@ -173,6 +176,10 @@ class Player extends Mover{
 Player.controls = {
   right: {held: function() { this.mx += 1; }},
   left: {held: function() { this.mx -= 1; }},
-  up: {down: function() { this.jump(); }, up: function() { this.shortJump(); }},
+  up: {
+    down: function() { this.jump(); },
+    up: function() { this.shortJump(); this.eyeMovement.ty = 0; },
+    held: function() { this.eyeMovement.ty = - 6; this.height += 2; this.width -= 2},
+  },
   down: {down: function() { this.crouch(); }, up: function() { this.uncrouch(); }},
 }
