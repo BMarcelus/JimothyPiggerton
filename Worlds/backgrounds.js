@@ -108,15 +108,16 @@ function createSpikeBackground(w,c) {
   var image = document.createElement('canvas');
   var canvas = image.getContext('2d');
   image.width = 3000;
-  image.height =  500;
+  image.height =  1000;
   canvas.fillStyle = c;
+  var y = 500;
   for(var i=0;i<image.width;i+=w) {
     var ww = w/3;
-    canvas.fillRect(i+w/2-ww/2, 200, ww, 400);
+    canvas.fillRect(i+w/2-ww/2, y, ww, 400);
     canvas.beginPath();
-    canvas.moveTo(i+w/2-ww, 200);
-    canvas.lineTo(i+w/2+ww, 200);
-    canvas.lineTo(i+w/2, 200- ww*2);
+    canvas.moveTo(i+w/2-ww, y);
+    canvas.lineTo(i+w/2+ww, y);
+    canvas.lineTo(i+w/2, y- ww*2);
     canvas.fill();
   }
   return image;

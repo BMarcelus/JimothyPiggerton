@@ -8,6 +8,7 @@ class Player extends Mover{
     this.mx = 0;
     this.eyeMovement = {x:0,y:0, blink: 0, blinkTime: 10, tx: 0, ty: 0};
     this.dead=false;
+    this.player=true;
   }
   die() {
     this.dead=true;
@@ -75,7 +76,8 @@ class Player extends Mover{
     // } else {
     //   this.eyeMovement.blink = 0;
     // }
-    if(this.mx==0&&frameCount%120==0) {
+    // if(frameCount%120==0) {
+    if(Math.random()>.5&&frameCount%60==0) {
       this.eyeMovement.blink = this.eyeMovement.blinkTime;
     }
     if(this.eyeMovement.blink>0) {
@@ -142,8 +144,14 @@ class Player extends Mover{
     squint*= (1-blink);
     eyey += blink*4;
     // eyey -= this.width/this.w * 5;
-    canvas.fillRect(eyex-eyed,eyey,8,8*squint);
-    canvas.fillRect(eyex,eyey,6,8*squint);    
+    var eyh = 8*squint;
+    var eyh2 = eyh;
+    if(this.crouching) {
+      eyed += 2;
+      eyex += 2;
+    }
+    canvas.fillRect(eyex-eyed,eyey,8,eyh);
+    canvas.fillRect(eyex,eyey,6,eyh2);    
     w=this.w;
     canvas.translate(0,-h);
     canvas.rotate(this.angle*(1-2*this.flipped));

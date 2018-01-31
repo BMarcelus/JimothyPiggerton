@@ -2,7 +2,7 @@ addLevel( function(nameSpace) {
   with(nameSpace) {
     
     return {
-      name: "wall jump",
+      name: "double jump and wall jump",
       modifyPlayer: function(player) {player.wallJumps = true; player.maxJumps = 2},
       grid: [
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],

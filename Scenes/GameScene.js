@@ -22,6 +22,7 @@ class GameScene extends Scene {
       27: {down: this.pause.bind(this)},
       69: {down: function() {
         this.player.vx += 30 * (1-2*this.player.flipped);
+        if(this.player.vy>=0)this.player.vy = -5;
       }.bind(this)},
       78: {down: function() {
         if(this.keys[67]) {

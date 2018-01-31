@@ -88,10 +88,10 @@ class World {
       var y1 = points[i][1];
       var type = this.pointCollides(x1,y1);
       if(type == 1) return true;
-      if(type != 0) types[type] = true;//[x1,y1];
+      if(type != 0) types[type] = {x: x1, y: y1};
     }
     for(var i in types) {
-      if(this.entityCollision(entity, i)){
+      if(this.entityCollision(entity, i, types[i])){
         result = true;
       }
     }
@@ -101,11 +101,11 @@ class World {
     //   this.pointCollides(x,y+h,entity) +
     //   this.pointCollides(x+w,y+h,entity);
   }
-  entityCollision(entity, type) {
-    if(type==2 || (type==3&&entity.grounded)) {
-      entity.die();
-    }
-    else return true;
+  entityCollision(entity, type, pos) {
+    var cell = CELLMAP[type];
+    if(!cell)return false;
+    if(!cell.entityCollision)return true;
+    return cell.entityCollision(entity, pos);
   }
   drawBackground(canvas, camera) {
     this.background.draw(canvas, camera);
@@ -204,6 +204,10 @@ var CELLMAP = {
       canvas.fillStyle="grey";
       canvas.fillRect(-w/2,-h/2,w,h);      
       canvas.restore();
+    },
+    entityCollision: function(entity, pos) {
+      if(entity.player) entity.die();
+      return true;
     }
   },
   3: {
@@ -231,6 +235,10 @@ var CELLMAP = {
       canvas.restore();
       var dh = h * .4;
       CELLMAP[1].draw(canvas,x,y+dh, width, height-dh, world, ii,jj);
+    },
+    entityCollision: function(entity, pos) {
+      if(entity.player && entity.grounded) entity.die();
+      return true;
     }
   }
 }
