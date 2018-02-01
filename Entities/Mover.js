@@ -67,17 +67,17 @@ class Mover {
     if(this.wallCollideTimer>0)this.wallCollideTimer-=1;
     if(this.vy>0) {
       this.grounded = false;
-      if(this.wallcolliding) {
-        if(this.wallJumps&&this.wallSlides) {
-          this.vy = this.vy * .8;
-          if(!this.spinning) {
-            this.flipped = this.mx > 0;
-          }
+    }
+    if(this.wallcolliding) {
+      if(this.wallJumps&&this.wallSlides&&this.vy>0) {
+        this.vy = this.vy * .8;
+        if(!this.spinning) {
+          this.flipped = this.mx > 0;
         }
-        if(this.wallJumps)this.wallCollideTimer = 10;
-      } else if(this.wallCollideTimer>0&&this.mx!=0&&((this.mx>0)==this.walldirection)) {
-        this.wallCollideTimer=0;
       }
+      if(this.wallJumps)this.wallCollideTimer = 10;
+    } else if(this.wallCollideTimer>0&&this.mx!=0&&((this.mx>0)==this.walldirection)) {
+      this.wallCollideTimer=0;
     }
     // if(this.wallCollideTimer>0) {
     //   this.x -= this.vx;
