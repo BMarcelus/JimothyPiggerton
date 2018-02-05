@@ -45,6 +45,7 @@ class GameScene extends Scene {
     // this.world = new WorldFromLevel(this.level);
     // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
     // this.addEntity(new Enemy(300,100));
+    this.screenShakeLevel=0;
   }
   addEntity(entity) {
     this.entities.push(entity);
@@ -122,6 +123,8 @@ class GameScene extends Scene {
     }
     this.moveCamera();
     this.detectLevelComplete();
+    this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);
+    // this.screenShakeLevel -= this.screenShakeLevel/10;
   }
   draw(canvas) {
     if(!this.canvas) {
@@ -129,15 +132,21 @@ class GameScene extends Scene {
     }
     var camera = this.camera;
     canvas.clearRect(0,0,canvas.width,canvas.height);
+    this.doScreenShake(canvas);    
+    
+    // canvas.translate(-canvas.width/2,-canvas.height/2);      
     this.world.drawBackground(canvas, this.camera);    
     if(this.shouldFillAroundWorld) {
       this.fillAroundWorld(canvas);
     }
+    // canvas.translate(canvas.width/2,canvas.height/2);  
+  
     canvas.save();
     canvas.translate(canvas.width/2,canvas.height/2);  
     // canvas.scale(.5,.5);  
+    canvas.rotate(camera.r);
+    
     canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
-
     
     this.world.draw(canvas);
     for(var i=0;i<this.entities.length;i+=1) {
@@ -157,5 +166,18 @@ class GameScene extends Scene {
       canvas.fillRect(0,this.world.image.height+cameraOffsetY,this.world.image.width,1000);  
       canvas.fillRect(0,-1000+cameraOffsetY,this.world.image.width,1000);    
     }
+  }
+  doScreenShake(canvas) {
+    if(this.screenShakeLevel==0) {
+      return this.camera.r = 0;
+    }
+    var x = Math.cos(this.driver.frameCount*Math.PI/3)*this.screenShakeLevel*10;
+    var y = Math.sin(this.driver.frameCount*Math.PI/3)*this.screenShakeLevel*10;
+    var r = Math.cos(this.driver.frameCount*Math.PI/4)*this.screenShakeLevel*Math.PI/80;
+    // canvas.translate(x,y);
+    this.camera.x+=x;
+    this.camera.y+=y;
+    this.camera.r=r;
+    // canvas.rotate(r);
   }
 }

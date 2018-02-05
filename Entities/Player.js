@@ -14,7 +14,9 @@ class Player extends Mover{
     this.dead=true;
     this.eyeMovement.x = -5;
     this.eyeMovement.y = 0;
-    this.eyeMovement.blink = 0;
+      this.game.screenShakeLevel += 1;            
+      this.eyeMovement.blink = 0;
+    
     this.animation = new Animation(4, function(dt, frameCount) {
       this.mx = 0;
       this.angle = 0;
