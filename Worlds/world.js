@@ -42,22 +42,38 @@ class World {
     this.background = new Background();    
   }
   draw(canvas) {
+    var s = this.s;
+    var world = this.world;
     if(this.image) {
       canvas.drawImage(this.image,0,0);
+      for(var i=0;i<this.w;i++) {
+        for(var j=0;j<this.h;j++) {
+          var type = world[j][i];
+          var cell = CELLMAP[type];
+          if(cell.draw&&cell.redraws) {
+            cell.draw(canvas, s*i,s*j,s,s, this, i,j);
+          }
+          // if(type == 1) ctx.fillStyle='brown';
+          // else if(type == 2) ctx.fillStyle='#fdd';
+          // if(type) {
+          //   ctx.fillRect(s*i,s*j, s,s);
+          // }
+        }
+      }
       return;
     }
     this.image = document.createElement('canvas');
     this.image.width = this.w*this.s;
     this.image.height = this.h*this.s;
     var ctx = this.image.getContext('2d');
-    var s = this.s;
-    var world = this.world;
     for(var i=0;i<this.w;i++) {
       for(var j=0;j<this.h;j++) {
         var type = world[j][i];
         var cell = CELLMAP[type];
         if(cell.draw) {
-          cell.draw(ctx, s*i,s*j,s,s, this, i,j);
+          var c = ctx;
+          if(cell.redraws)c = canvas;
+          cell.draw(c, s*i,s*j,s,s, this, i,j);
         }
         // if(type == 1) ctx.fillStyle='brown';
         // else if(type == 2) ctx.fillStyle='#fdd';
@@ -187,12 +203,16 @@ var CELLMAP = {
   2: {
     //Spike
     solid: true,
+    angle: 0,
+    redraws: false,
     draw: function(canvas, x,y,w,h, world,i,j) {
       canvas.fillStyle="white";
       canvas.save();
       canvas.translate(x+w/2,y+h/2);
-      w=w*.8;
-      h=h*.8;
+      canvas.rotate(this.angle);
+      // this.angle += Math.PI/20;
+      w=w*.9;
+      h=h*.9;
       for(var i=0;i<3;i++){
         canvas.rotate(Math.PI/8);
         canvas.fillRect(-w/2,-h/2,w,h);        
@@ -217,22 +237,8 @@ var CELLMAP = {
     draw: function(canvas, x,y,width,height, world,ii,jj) {
       var w= width;
       var h=height;
-      canvas.fillStyle="white";
-      canvas.save();
-      canvas.translate(x+w/2,y+h/2);
-      w=width*.7;
-      h=height*.7;
-      for(var i=0;i<3;i++){
-        canvas.rotate(Math.PI/8);
-        canvas.fillRect(-w/2,-h/2,w,h);        
-        canvas.strokeRect(-w/2,-h/2,w,h);
-      }
-      w=w*.8;
-      h=h*.8;
-      canvas.rotate(-3*Math.PI/8);
-      canvas.fillStyle="grey";
-      canvas.fillRect(-w/2,-h/2,w,h);      
-      canvas.restore();
+      var dd = width*.1;
+      CELLMAP[2].draw(canvas,x+dd,y+dd,width-dd*2,height-dd*2,world,ii.jj)
       var dh = h * .4;
       CELLMAP[1].draw(canvas,x,y+dh, width, height-dh, world, ii,jj);
     },

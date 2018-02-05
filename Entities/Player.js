@@ -112,11 +112,13 @@ class Player extends Mover{
     canvas.strokeRect(-w/2-1,-h-1,w+2,h+2);
     // canvas.fillStyle = "#73d";
     canvas.fillStyle = "#666";    
+    
     // canvas.fillStyle = "#999";
     canvas.fillRect(-w/2,-h,w,h);
     // canvas.fillStyle = "#74e";
     // canvas.fillStyle = "#ddd";
     canvas.fillStyle = "#222";
+    
     var shadeX = w*.4+this.eyeMovement.x/2;
     if(this.dead)shadeX-=5;
     canvas.fillRect(-w/2,-h,shadeX,h);
@@ -158,14 +160,16 @@ class Player extends Mover{
     if(hatAngle>Math.PI/4)hatAngle=Math.PI/4;
     canvas.rotate(-hatAngle);
     canvas.rotate(0);
-    canvas.fillStyle = "#444";
+    canvas.fillStyle = "#f4d";
+    // canvas.fillStyle = "#444";
     canvas.beginPath();
     canvas.rect(-w/2-1,-4,w+9,4);
     canvas.rect(-w/2-1,-12,w-3,12);
     canvas.stroke();
     canvas.fill();
 
-    canvas.fillStyle = "#111";
+    canvas.fillStyle = "#c2d";
+    // canvas.fillStyle = "#111";
     canvas.beginPath();
     canvas.rect(-w/2-1,-4,(w+9)/4,4);
     canvas.rect(-w/2-1,-12,(w-3)/2,12);
