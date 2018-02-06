@@ -14,7 +14,7 @@ class Mover {
     this.my = 0;
     this.speed = 10;
     this.grounded = false;
-    this.jumpPower = 14;
+    this.jumpPower = 15;
     this.flipped = false;
     this.color = "#000";
     this.cloudParticlesOn = true;
@@ -205,8 +205,9 @@ class Mover {
       jumpPower += 2;
     }
     // this.grounded = false;
-    this.width += 3;
-    this.height -= 3;
+    this.width = 55;
+    this.height = 15;
+    this.vy = 0;
     // this.jumpCount++;    
     setTimeout(function() {
       if(this.jumpCount>=this.maxJumps)return;      
@@ -218,7 +219,7 @@ class Mover {
         this.width -= 10;
       }
       this.vy = -jumpPower;
-      if(this.jumpRelease) this.vy = this.vy*.75;
+      if(this.jumpRelease) this.vy = this.vy * .65;
       if(this.cloudParticlesOn) {
         for(var i=0;i<3;i++) {
           this.game.addEntity(new Cloud(this.x-i*5,this.y,5+i*2,10,-2,0,5+i*2));

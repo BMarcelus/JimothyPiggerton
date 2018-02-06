@@ -4,7 +4,8 @@ function makeWorld(width, height) {
   for(var j=0;j<height;j++) {
     var row = [];
     for(var i=0;i<width;i++) {
-      if(i==0||j==0||i==width-1||j==height-1||Math.random()>.9)row.push(1);
+      // if(i==0||j==0||i==width-1||j==height-1||Math.random()>.9)row.push(1);
+      if(i==0||i==width-1||j==height-1)row.push(1);
       else row.push(0);
       // row.push(1);
     }
@@ -40,6 +41,9 @@ function randomizeWorld(world, width,height) {
 class World {
   constructor() {
     this.background = new Background();    
+  }
+  forceRedraw() {
+    this.image = null;
   }
   draw(canvas) {
     var s = this.s;
@@ -124,7 +128,7 @@ class World {
     return cell.entityCollision(entity, pos);
   }
   drawBackground(canvas, camera) {
-    this.background.draw(canvas, camera);
+    this.background.draw(canvas, camera, this);
   }
   getCell(x,y) {
     if(this.oob(x,y))return {};
@@ -134,8 +138,10 @@ class World {
 
 class WorldDefault extends World {
   constructor(w,h,s) {
+    super();    
     this.w=w;
     this.h=h;
+    s = 40;    
     this.s=s;
     this.world = makeWorld(w,h);
   }
@@ -180,8 +186,10 @@ var CELLMAP = {
       var hh = ww;
       var spacing = 10;
       for(var ii=0;ii<3;ii++) {
-        var xx = Math.floor(Math.random()*(w-ww)/spacing) * spacing;
-        var yy = Math.floor(Math.random()*(h-hh)/spacing) * spacing;
+        var r1 = psuedoRandom(x,y,ii,1);
+        var r2 = psuedoRandom(x,y,ii,2);
+        var xx = Math.floor(r1*(w-ww)/spacing) * spacing;
+        var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
         canvas.fillRect(xx+x,yy+y,ww,hh);
       }
       if(!world.getCell(i,j-1).groundBlock) {

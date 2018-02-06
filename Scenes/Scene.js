@@ -1,6 +1,6 @@
 function sceneTransition(driver, scene) {
   var func = function() {
-    this.driver.setScene(new GameScene());
+    this.driver.setScene(new scene());
   };
   return func.bind(driver);
 }
@@ -33,4 +33,7 @@ class Scene {
       }
     }
   }
+  mousedown(e, mouse) {}
+  mouseup(e, mouse) {}
+  mousemove(e, mouse) {}
 }

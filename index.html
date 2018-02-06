@@ -78,13 +78,24 @@ class MainDriver {
     keys[k] = false;
   }
   mousedown(e) {
+    var boundingClientRect = e.target.getBoundingClientRect();
+    this.mouse.x = e.clientX-boundingClientRect.left;
+    this.mouse.y = e.clientY-boundingClientRect.top;
+    this.mouse.held = true;
+    this.scene.mousedown(e, this.mouse);
   }
   mouseup(e) {
+    var boundingClientRect = e.target.getBoundingClientRect();
+    this.mouse.x = e.clientX-boundingClientRect.left;
+    this.mouse.y = e.clientY-boundingClientRect.top;
+    this.mouse.held = false;
+    this.scene.mouseup(e, this.mouse);    
   }
   mousemove(e) {
     var boundingClientRect = e.target.getBoundingClientRect();
     this.mouse.x = e.clientX-boundingClientRect.left;
     this.mouse.y = e.clientY-boundingClientRect.top;
+    this.scene.mousemove(e, this.mouse);    
   }
   setScene(scene) {
     scene.driver = this;

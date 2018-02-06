@@ -4,16 +4,17 @@ class Background {
     this.background2 = this.createBackground(100, "#666", false);
     this.backgroundColor = "#4df";
   }
-  draw(canvas, camera) {
-    this.drawLayers(canvas, camera);
+  draw(canvas, camera, world) {
+    this.drawLayers(canvas, camera, world);
   }
-  drawLayers(canvas,camera) {
+  drawLayers(canvas,camera, world) {
     canvas.save();
     canvas.fillStyle=this.backgroundColor;
     canvas.fillRect(0,0,canvas.width,canvas.height);
-    canvas.translate(-camera.x/8,-camera.y/8);
+    canvas.translate(0,world.h*world.s-canvas.height/2);
+    canvas.translate(-camera.x/8,-camera.y);
     canvas.drawImage(this.background1,-150,-200);   
-    canvas.translate(-camera.x/4,-camera.y/4);
+    canvas.translate(-camera.x/4,0);
     canvas.drawImage(this.background2,-150,-100); 
     canvas.restore();
   }

@@ -1,6 +1,6 @@
 
 class GameScene extends Scene {
-  constructor() {
+  constructor(level) {
     super();
     this.player = new Player();
     this.entities = [];
@@ -37,7 +37,11 @@ class GameScene extends Scene {
     }
     this.camera = {x:0,y:0,dx:0};
     // this.world = new World(200,50,50);
-    this.levels = createLevels();
+    if(level) {
+      this.levels = [level];
+    } else {
+      this.levels = createLevels();
+    }
     this.levelIndex = 0;
     this.loadNewLevel(0);
     this.shouldFillAroundWorld = true;    
@@ -64,8 +68,12 @@ class GameScene extends Scene {
       // camera.x += (player.x-camera.x+camera.dx)/10;
     // }
     // camera.x = linearMove(camera.x, (player.x + camera.dx), 5);    
-    camera.y += (player.y-camera.y-30)/10;
-    if(player.vy>0) camera.y += (player.y-camera.y-30)/10;
+
+    // var cdy = (player.y-camera.x+camera.dy-30)/10;
+    // if(Math.abs(cdy)>3)camera.y += cdy;
+    camera.y += (player.y-camera.y-30)/30;
+    if(player.grounded) camera.y += (player.y-camera.y-30)/20;
+    if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
     //make the camera point more towards the direction
     //that the player is moving in so they can see ahead
     if(player.mx!=0) {
@@ -83,6 +91,9 @@ class GameScene extends Scene {
       this.loadNewLevel(this.levelIndex+1);
     }
   }
+  win() {
+    this.driver.setScene(new WinScene());    
+  }
   loadNewLevel(index) {
     var same = false;
     if(index==undefined) {
@@ -91,7 +102,7 @@ class GameScene extends Scene {
       this.levelIndex = index;
     }
     if(this.levelIndex>=this.levels.length) {
-      this.driver.setScene(new WinScene());
+      this.win();
       return;
     }
     var level = this.levels[this.levelIndex];

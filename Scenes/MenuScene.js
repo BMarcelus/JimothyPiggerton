@@ -3,7 +3,8 @@ class MenuScene extends Scene{
     super();
     this.gui = [];
     this.keyMap = {
-      '32': {down: sceneTransition(this, new GameScene())}
+      '32': {down: sceneTransition(this, GameScene)},
+      '69': {down: sceneTransition(this, LevelEditorScene)},
     }
   }
   draw(canvas) {
