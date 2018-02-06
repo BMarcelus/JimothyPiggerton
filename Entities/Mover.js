@@ -261,4 +261,7 @@ class Mover {
   uncrouch() {
     this.crouching = false;
   }
+  getHitBox() {
+    return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
+  }
 }

@@ -42,6 +42,18 @@ function setUpRandomGrid(w,h) {
 }
 psuedoRandom.grid = setUpRandomGrid(100,100);
 
+// Expecting rectangle object. Don't pass weird shit ok? ok
+function rectangleCollision(rect1, rect2) {
+  if(rect1.x <= rect2.x + rect2.w &&
+    rect1.x + rect1.w >= rect2.x &&
+    rect1.y <= rect2.y + rect2.h &&
+    rect1.h + rect1.y >= rect2.y) {
+      return true;
+    } else {
+      return false;
+    }
+}
+
 
 // class Random {
 //   constructor(seed) {

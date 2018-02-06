@@ -61,6 +61,8 @@ class Player extends Mover{
   }
   draw(canvas){
     super.draw(canvas);
+    var box = this.getHitBox();
+		canvas.strokeRect(box.x, box.y, box.w, box.h);
   }
   reset() {
     this.x=60;
