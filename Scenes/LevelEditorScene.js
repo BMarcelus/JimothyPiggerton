@@ -42,8 +42,8 @@ class LevelEditorScene extends Scene{
     // var x = Math.floor(wx/this.world.s);
     // var y = Math.floor(wy/this.world.s);
     // if(this.world.oob(x,y))return;
-    // // var t = this.grid[y][x];
-    // // this.grid[y][x] = (t+1)%3;
+    // var t = this.grid[y][x];
+    // this.grid[y][x] = (t+1)%3;
     // this.grid[y][x] = this.currentBlock;
     // this.world.forceRedraw();
     this.clickDragPivot.x = mouse.x;
@@ -66,7 +66,9 @@ class LevelEditorScene extends Scene{
     for(var i = x1; i != x2+dx; i+= dx) {
       for(var j=y1; j!=y2+dy; j+=dy) {
         if(this.world.oob(i, j))continue;
-        this.grid[j][i] = this.currentBlock;
+        // this.grid[j][i] = this.currentBlock;
+        var t = this.grid[j][i];
+        this.grid[j][i] = (t+1)%3;
       }
     }
     this.world.forceRedraw();
