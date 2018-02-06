@@ -4,7 +4,7 @@ class Player extends Mover{
     super();
     this.x = 100;
     this.y = 100;
-    this.speed = 10;
+    // this.speed = 10;
     this.mx = 0;
     this.eyeMovement = {x:0,y:0, blink: 0, blinkTime: 10, tx: 0, ty: 0};
     this.dead=false;
@@ -91,13 +91,13 @@ class Player extends Mover{
         this.eyeMovement.ty = Math.random()*5-4;
       }
       if(!this.crouching) {
-        if(frameCount%80<30) {
-          this.width += 1;
-          this.height -= 1;
-        } else {
-          this.width -= 1;
-          this.height += 1;
-        }
+        // if(frameCount%80<30) {
+        //   this.width += 1;
+        //   this.height -= 1;
+        // } else {
+        //   this.width -= 1;
+        //   this.height += 1;
+        // }
       }
     }else {
       this.eyeMovement.tx= 0;
@@ -151,11 +151,11 @@ class Player extends Mover{
     var eyh = 8*squint;
     var eyh2 = eyh;
     if(this.crouching) {
-      eyed += 2;
+      // eyed += 2;
       eyex += 2;
     }
     canvas.fillRect(eyex-eyed,eyey,8,eyh);
-    canvas.fillRect(eyex,eyey,6,eyh2);    
+    canvas.fillRect(eyex,eyey,6,eyh2);
     w=this.w;
     canvas.translate(0,-h);
     var hatAngle = Math.abs(this.angle);
@@ -185,7 +185,7 @@ Player.controls = {
   up: {
     down: function() { this.jump(); },
     up: function() { this.shortJump(); this.eyeMovement.ty = 0; },
-    held: function() { this.eyeMovement.ty = - 6; this.height += 2; this.width -= 2},
+    held: function() { this.eyeMovement.ty = - 6; this.height += .5; this.width -= .5},
   },
   down: {down: function() { this.crouch(); }, up: function() { this.uncrouch(); }},
 }

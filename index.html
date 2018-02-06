@@ -45,6 +45,7 @@ class MainDriver {
     this.keys = [];
     this.scene = new MenuScene();
     this.scene.driver = this;
+    this.mouse = {x:0,y:0};
   }
   update() {
     this.frameCount++;
@@ -75,6 +76,15 @@ class MainDriver {
     if(!keys[k])return;
     this.scene.keyup(k);
     keys[k] = false;
+  }
+  mousedown(e) {
+  }
+  mouseup(e) {
+  }
+  mousemove(e) {
+    var boundingClientRect = e.target.getBoundingClientRect();
+    this.mouse.x = e.clientX-boundingClientRect.left;
+    this.mouse.y = e.clientY-boundingClientRect.top;
   }
   setScene(scene) {
     scene.driver = this;
@@ -114,5 +124,8 @@ window.onload = function() {
   step();
   window.addEventListener('keydown', driver.keydown.bind(driver));
   window.addEventListener('keyup', driver.keyup.bind(driver));
+  CE.addEventListener('mousemove', driver.mousemove.bind(driver));
+  CE.addEventListener('mouseup', driver.mouseup.bind(driver));
+  CE.addEventListener('mousedown', driver.mousedown.bind(driver));
 }
 </script>

@@ -74,6 +74,8 @@ class Mover {
         if(!this.spinning) {
           this.flipped = this.mx > 0;
         }
+        // this.width -= .5;
+        // this.height += .5;
       }
       if(this.wallJumps)this.wallCollideTimer = 10;
     } else if(this.wallCollideTimer>0&&this.mx!=0&&((this.mx>0)==this.walldirection)) {
@@ -89,8 +91,8 @@ class Mover {
     }
     else if(this.spinning) {
       this.angle += Math.PI/10*(1-2*this.flipped);
-      this.width += 1;
-      this.height -=  4;
+      // this.width += 1;
+      // this.height -=  4;
     } else if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching&&this.grounded) {
       // this.angle = (Math.cos(this.x/this.speed*10*Math.PI/70)*Math.PI/20-Math.PI/40*(this.vx/this.speed));
       this.angle = -Math.PI/40*this.vx/this.speed + Math.cos(frameCount*Math.PI/7)*Math.PI/20;
@@ -100,9 +102,12 @@ class Mover {
     if(this.crouching) {
       this.width += (this.w*1.2-this.width)/2;
       this.height += (this.h*.6-this.height)/2;
+    } else if(this.spinning) {
+      this.width += (this.w*1-this.width)/5;
+      this.height += (this.h*1-this.height)/5;
     } else {
-      this.width += (this.w-this.width)/2;
-      this.height += (this.h-this.height)/2;
+      this.width += (this.w-this.width)/8;
+      this.height += (this.h-this.height)/8;
     }
   }
   safeMove(vx,vy) {
@@ -137,10 +142,17 @@ class Mover {
     this.y = y;
     this.vy = 0;
     if(!this.grounded) {
-      this.width += 20;
+      this.width += 30;
       this.height -= 20;
-      if(!this.crouching)
-      this.vx = 0;
+      var ga = this.groundAccel;
+      this.groundAccel=ga/2;
+      var self = this;
+      setTimeout(function(){
+        self.groundAccel = ga;
+      }, 100);
+      if(!this.crouching) {
+        this.vx = 0;
+      }
       if(this.cloudParticlesOn) {
         for(var i=0;i<6;i++) {
           this.game.addEntity(new Cloud(this.x,this.y-Math.random()*5,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
@@ -169,6 +181,9 @@ class Mover {
     if(this.flipped) {
       canvas.scale(-1,1);
     }
+    if(this.wallcolliding&&this.wallSlides&&this.wallJumps) {
+      canvas.translate(-(this.w-this.width)/2,0);
+    }
     this.drawShape(canvas,w,h);
     canvas.restore();
   }
@@ -182,19 +197,37 @@ class Mover {
       return this.wallJump();
     }
     if(this.jumpCount>=this.maxJumps)return;
-    this.jumpCount++;
-    if(this.jumpCount>1)this.spinning=true;
-    this.vy = -this.jumpPower;
-    this.grounded = false;
-    this.height += 10;
-    this.width -= 10;
-    if(this.cloudParticlesOn) {
-      for(var i=0;i<3;i++) {
-        this.game.addEntity(new Cloud(this.x-i*5,this.y,5+i*2,10,-2,0,5+i*2));
-        this.game.addEntity(new Cloud(this.x+i*5,this.y,5+i*2,10,2,0,5+i*2));
-        this.game.addEntity(new Cloud(this.x-6+i*3,this.y,5,10,-1+i,0,5+i*2));
-      }
+    this.jumpRelease=false;
+    var time = 50;
+    var jumpPower = this.jumpPower;
+    if(this.jumpCount>0) {
+      time = 0;
+      jumpPower += 2;
     }
+    // this.grounded = false;
+    this.width += 3;
+    this.height -= 3;
+    // this.jumpCount++;    
+    setTimeout(function() {
+      if(this.jumpCount>=this.maxJumps)return;      
+      this.jumpCount++;
+      this.grounded=false;
+      if(this.jumpCount>1)this.spinning=true;
+      else {
+        this.height += 10;
+        this.width -= 10;
+      }
+      this.vy = -jumpPower;
+      if(this.jumpRelease) this.vy = this.vy*.75;
+      if(this.cloudParticlesOn) {
+        for(var i=0;i<3;i++) {
+          this.game.addEntity(new Cloud(this.x-i*5,this.y,5+i*2,10,-2,0,5+i*2));
+          this.game.addEntity(new Cloud(this.x+i*5,this.y,5+i*2,10,2,0,5+i*2));
+          this.game.addEntity(new Cloud(this.x-6+i*3,this.y,5,10,-1+i,0,5+i*2));
+        }
+      }
+    }.bind(this), time);
+    
   }
   wallJump() {
     this.jumpCount = 1;
@@ -202,6 +235,7 @@ class Mover {
     this.grounded = false;
     this.height += 10;
     this.width -= 10;
+    this.spinning = false;
     if(this.cloudParticlesOn) {
       for(var i=0;i<3;i++) {
         this.game.addEntity(new Cloud(this.x-i*5,this.y,5+i*2,10,-2,0,5+i*2));
@@ -214,8 +248,9 @@ class Mover {
     this.wallCollideTimer=0;
   }
   shortJump() {
+    this.jumpRelease = true;
     if(!this.grounded&&this.jumpCount==1&&this.vy<0) {
-      this.vy = this.vy/2;
+      this.vy = this.vy*3/4;
     }
   }
   crouch() {
