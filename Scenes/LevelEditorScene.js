@@ -8,10 +8,23 @@ class LevelEditorScene extends Scene{
     this.keyMap = {
       '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
       '82': {down: this.runTest.bind(this)},
+      '80': {down: this.printLevel.bind(this)},
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
     this.currentBlock = 1;
+  }
+  printLevel() {
+    var string = '[\n';
+    for(var i = 0;i < this.grid.length;i++) {
+      string += '[';
+      for(var j=0;j<this.grid[i].length;j++) {
+        string += this.grid[i][j] + ',';
+      }
+      string += '],\n'
+    }
+    string += ']';
+    console.log(string);
   }
   getLevel() {
     return {

@@ -46,6 +46,7 @@ class World {
     this.image = null;
   }
   draw(canvas) {
+    CELLMAP[2].angle += Math.PI/10;
     var s = this.s;
     var world = this.world;
     if(this.image) {
@@ -215,10 +216,11 @@ var CELLMAP = {
     redraws: false,
     draw: function(canvas, x,y,w,h, world,i,j) {
       canvas.fillStyle="white";
+      canvas.strokeStyle = "#000";
       canvas.save();
       canvas.translate(x+w/2,y+h/2);
       canvas.rotate(this.angle);
-      // this.angle += Math.PI/20;
+      // this.angle += Math.PI/20*1.5;
       w=w*.9;
       h=h*.9;
       for(var i=0;i<3;i++){
@@ -241,6 +243,7 @@ var CELLMAP = {
   3: {
     //Spike floor
     solid: true,
+    redraws: false,
     groundBlock: true,
     draw: function(canvas, x,y,width,height, world,ii,jj) {
       var w= width;
