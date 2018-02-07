@@ -6,5 +6,6 @@ loadSequentially('Worlds/levels/',
   "level3.js",
   "level4.js",
   "level5.js",
+  "levelx.js",
 ]
 );
