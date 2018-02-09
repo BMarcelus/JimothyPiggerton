@@ -29,6 +29,7 @@ class Mover {
     this.groundAccel = 2;
     this.diesToSpikes = false;
     this.spinning = false;
+    this.invisible=false;
   }
   die() {
     this.shouldDelete=true;
@@ -164,6 +165,7 @@ class Mover {
     this.spinning=false;
   }
   draw(canvas) {
+    if(this.invisible)return;
     var h = this.height;
     var w = this.width;
     canvas.save();

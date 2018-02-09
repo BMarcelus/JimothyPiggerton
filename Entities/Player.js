@@ -16,7 +16,6 @@ class Player extends Mover{
     this.eyeMovement.y = 0;
       this.game.screenShakeLevel += 1;            
       this.eyeMovement.blink = 0;
-    
     this.animation = new Animation(4, function(dt, frameCount) {
       this.mx = 0;
       this.angle = 0;
@@ -38,7 +37,7 @@ class Player extends Mover{
         this.game.addEntity(new FallingParticle(x,y,w,h,vx,vy,100,color));
       }
       this.vy=-20;   
-      this.y=-1000;   
+      this.invisible = true;  
       this.animation = new Animation(60, function(dt, frameCount) {
         // this.y+=this.vy;
         // this.vy++;
@@ -59,11 +58,11 @@ class Player extends Mover{
     this.updateEye(dt, frameCount);
     super.update(dt, frameCount);
   }
-  draw(canvas){
-    super.draw(canvas);
-    var box = this.getHitBox();
-		canvas.strokeRect(box.x, box.y, box.w, box.h);
-  }
+  // draw(canvas){
+  //   super.draw(canvas);
+  //   var box = this.getHitBox();
+	// 	canvas.strokeRect(box.x, box.y, box.w, box.h);
+  // }
   reset() {
     this.x=60;
     this.y=100;
@@ -72,6 +71,7 @@ class Player extends Mover{
     this.maxJumps=1;
     this.wallJumps=false;
     this.animation=null;
+    this.invisible=false;
   }
   updateEye(dt, frameCount) {
     var t = frameCount%120;
