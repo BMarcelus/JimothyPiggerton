@@ -29,12 +29,18 @@ function loadSequentially (dir, list) {
       loadSequentially(dir, list);
     };
 }
+loadSequentially("./",[
+  "Blocks/index.js",
+  "Worlds/index.js",
+  "Scenes/index.js",
+]);
 </script>
 <script src="./math.js"></script>
 <script src="./gui.js"></script>
-<script src="./Worlds/index.js"></script>
+<!--<script src="./Blocks/index.js"></script>-->
+<!--<script src="./Worlds/index.js"></script>-->
 <script src="./Entities/index.js"></script>
-<script src="./Scenes/index.js"></script>
+<!--<script src="./Scenes/index.js"></script>-->
 <script src="./Animations/Animation.js"></script>
 <script>
 var movementKeys = [32,37,38,39,40];
