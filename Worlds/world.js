@@ -159,10 +159,10 @@ class WorldFromLevel extends World {
   }
 }
 
-
+// for(var index in CELLMAP)
 
 var CELLMAP = {
-  'false': {},
+  // 'false': {},
   0: {
     //air
   },
