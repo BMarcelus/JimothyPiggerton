@@ -41,20 +41,19 @@ var movementKeys = [32,37,38,39,40];
 class MainDriver {
   constructor() {
     this.frameCount=0;
-    this.lastTime = Date.now();
     this.keys = [];
     this.scene = new MenuScene();
     this.scene.driver = this;
     this.mouse = {x:0,y:0};
   }
-  update() {
-    this.frameCount++;
-    var time = Date.now();
-    var dt = time-this.lastTime;
-    this.lastTime=time;
+  update(dt) {
+    this.frameCount+=dt;
+    // var time = Date.now();
+    // var dt = time-this.lastTime;
+    // this.lastTime=time;
     
     this.scene.keys = this.keys;
-    this.scene.update(1, this.frameCount);
+    this.scene.update(dt, this.frameCount);
   }
   draw(canvas) {
     canvas.clearRect(0,0,canvas.width,canvas.height);
@@ -120,19 +119,24 @@ window.onload = function() {
   function step() {
     var currentTime = Date.now();
     var dt = currentTime-lastTime;
+    lastTime = currentTime;
+    dt = dt * 60 / 1000;
     FPScounter ++;
     if(currentTime>lastFPSupdate+1000) {
       currentFPS = FPScounter;
       FPScounter=0;
       lastFPSupdate = currentTime;
     }
-    driver.update();
+    driver.update(dt);
     driver.draw(canvas);
     canvas.fillStyle = "white";
     canvas.fillText(currentFPS, 20,20);
-    window.requestAnimationFrame(step);
+    dt = 1;
+    canvas.fillText(dt, 40,40);
+    // window.requestAnimationFrame(step);
   }
-  step();
+  // step();
+  setInterval(step, 1000/60);
   window.addEventListener('keydown', driver.keydown.bind(driver));
   window.addEventListener('keyup', driver.keyup.bind(driver));
   CE.addEventListener('mousemove', driver.mousemove.bind(driver));

@@ -52,13 +52,13 @@ class Mover {
       this.mx = 0;
     } else {
       // this.vx += (this.mx*this.speed-this.vx)/3;     
-      this.vx = linearMove(this.vx, this.mx*this.speed, this.groundAccel); 
+      this.vx = linearMove(this.vx, this.mx*this.speed, this.groundAccel*dt); 
     }
-    this.vy += this.grav;
+    this.vy += this.grav * dt;
     if(this.vy>this.terminalVelocity)this.vy = this.terminalVelocity;
     // this.x += this.vx;
     // this.y += this.vy;
-    this.safeMove(this.vx,this.vy);
+    this.safeMove(this.vx*dt,this.vy*dt + this.grav * dt * dt /2);
     // staticWorldCollide(this);
     // safeMoveOnWorld(this,this.vx,this.vy);
     var maxHeight = this.game.world.h*this.game.world.s+200;
@@ -94,7 +94,7 @@ class Mover {
     }
     else if(this.spinning) {
       if(this.wallcolliding) {
-        this.angle -= this.angle/5; 
+        this.angle -= angleBetween(this.angle, 0)/5 * -(1-2*this.flipped); 
       } else {
         this.angle += Math.PI/10*(1-2*this.flipped);
       }
@@ -140,9 +140,10 @@ class Mover {
       } else {
         this.y = (Math.floor((this.y+vy-h)/world.s+1)*world.s)+h;
         this.vy = 0;
+        vy = 0;
       }
     } else {
-      this.y += this.vy;
+      this.y += vy;
     }
   }
   groundCollide(y) {

@@ -4,6 +4,19 @@ function linearMove(a,b,s) {
   if(a<b)return a+s;
 }
 
+function angleBetween(a, b, signed) {
+  a = (a % (Math.PI*2)) + Math.PI*2;
+  b = (b % (Math.PI*2)) + Math.PI*2;
+  var negate = a < b;
+  var dif = Math.abs(a-b);
+  if(dif>Math.PI) {
+    dif = Math.PI*2-dif;
+    negate = !negate;
+  }
+  if(negate && signed) dif = -dif;
+  return dif;
+}
+
 
 function connectControls(controls, obj) {
   var result = {};
