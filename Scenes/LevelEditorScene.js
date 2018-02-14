@@ -121,7 +121,9 @@ class LevelEditorScene extends Scene{
     canvas.rect(0, canvas.height - canvas.height/5, canvas.width, canvas.height/5);
     canvas.fill();
     canvas.stroke();
-    CELLMAP[2].draw(canvas,canvas.width/5,canvas.height - canvas.height/10,this.world.s,this.world.s,this.world,0,0);
+    canvas.fillStyle='#000';
+    canvas.fillText(CELLMAP[this.currentBlock].name, canvas.width/5, canvas.height-30);
+
 
     if(mouse.held) {
       canvas.strokeStyle = "rgba(0,100,0,1)";

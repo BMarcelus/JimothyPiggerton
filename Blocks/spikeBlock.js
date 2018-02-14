@@ -1,6 +1,7 @@
 addBlock({
       //Spike
       id: 2,
+      name: "Spike",
       solid: true,
       angle: 0,
       redraws: false,
