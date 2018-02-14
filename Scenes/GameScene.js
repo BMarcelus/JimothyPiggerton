@@ -91,6 +91,9 @@ class GameScene extends Scene {
       this.loadNewLevel(this.levelIndex+1);
     }
   }
+  levelComplete() {
+    this.loadNewLevel(this.levelIndex+1);
+  }
   win() {
     this.driver.setScene(new WinScene());    
   }
@@ -109,6 +112,7 @@ class GameScene extends Scene {
     if(!same)
     this.world = new WorldFromLevel(level);
     this.player.reset();
+    this.world.loadWorld(this);
     if(level.modifyPlayer) {
       level.modifyPlayer(this.player);
     }

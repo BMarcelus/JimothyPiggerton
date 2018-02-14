@@ -111,8 +111,8 @@ class Player extends Mover{
   }
   drawShape(canvas,w,h) {
     canvas.save();
-    canvas.strokeStyle = "#fff";
-    canvas.lineWidth=5;
+    canvas.strokeStyle = "#000";
+    canvas.lineWidth=7;
     canvas.strokeRect(-w/2-1,-h-1,w+2,h+2);
     // canvas.fillStyle = "#73d";
     canvas.fillStyle = "#666";    

@@ -29,16 +29,26 @@ class Pig extends Mover {
     if(this.wallcolliding)this.mx = -this.mx;
     this.width += Math.sin(frameCount*Math.PI/5)*2;
     this.height -= Math.sin(frameCount*Math.PI/5)*2;
+    // this.width += Math.cos(this.angle*20) * 2;
+    // this.height -= Math.cos(this.angle*20) * 2;
     super.update(dt, frameCount);
   }
   drawShape(canvas, w, h) {
+    var tailSize = 15;
+    var earSize = 5;    
     canvas.strokeStyle="#fff";
     canvas.fillStyle="#fff";    
     canvas.lineWidth = 5;
     // var feetSize = w/5;
     canvas.strokeRect(-w/2-1, -h-1, w+2, h+2); 
-    this.drawTail(canvas,-w/2,-h*.9,7,20); 
+    this.drawTail(canvas,-w/2,-h*.8,7,tailSize); 
     canvas.strokeRect(w/2-h/4, -h*11/16, h/2, h/2);    
+    canvas.beginPath();
+    this.drawEar(canvas, 6, -h-earSize,earSize,earSize);
+    canvas.stroke();
+    canvas.beginPath();    
+    this.drawEar(canvas, -6, -h-earSize,earSize,earSize);
+    canvas.stroke();
     canvas.fillStyle = this.color;          
     canvas.fillRect(-w/2, -h, w, h);
     // canvas.fillRect(w/2-feetSize, 0, feetSize, feetSize/2);
@@ -48,11 +58,19 @@ class Pig extends Mover {
     // canvas.fillRect(-w/2+feetSize*1.2, 0, feetSize, feetSize/2);
     canvas.fillRect(-w/2, -h, w/3, h);    
     // canvas.fillStyle = '#000';
-    this.drawTail(canvas,-w/2,-h*.9,3,20);
+    this.drawTail(canvas,-w/2,-h*.8,3,tailSize);
+    canvas.fillStyle=this.color;
+    canvas.beginPath();
+    this.drawEar(canvas, 6, -h-earSize,earSize,earSize);
+    this.drawEar(canvas, -6, -h-earSize,earSize,earSize);
+    canvas.fill();
     this.drawSnout(canvas, w/2-h/4, -h*11/16, h/2, h/2);
     canvas.fillStyle='#000';
     this.drawEye(canvas, 0,-h+2,5,4, -Math.PI/5);
     this.drawEye(canvas, w/2-3,-h+2,5,4, Math.PI/5);
+  }
+  drawEar(canvas, x,y,w,h) {
+    canvas.rect(x,y,w,h);
   }
   drawSnout(canvas,x,y,w,h) {
     canvas.fillStyle = "#faa";
@@ -67,7 +85,8 @@ class Pig extends Mover {
     canvas.strokeStyle = canvas.fillStyle;
     canvas.lineWidth = w;
     canvas.translate(x,y);
-    canvas.rotate(Math.cos(this.x/this.speed/2));
+    canvas.rotate(Math.cos(this.x/this.speed/2)/2);
+    // canvas.rotate(Math.cos(this.angle));
     // canvas.fillRect(-w,-h,w,h);
     canvas.beginPath();
     canvas.arc(-w/2,-h/4,h/4,Math.PI/2,Math.PI*3/2);

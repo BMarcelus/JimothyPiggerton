@@ -9,10 +9,14 @@ class LevelEditorScene extends Scene{
       '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
       '82': {down: this.runTest.bind(this)},
       '80': {down: this.printLevel.bind(this)},
+      '65': {down: this.cycleBlock.bind(this)},
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
     this.currentBlock = 1;
+  }
+  cycleBlock() {
+    this.currentBlock = (this.currentBlock + 1) % CELLMAP.length;
   }
   printLevel() {
     var string = '[\n';
@@ -102,7 +106,7 @@ class LevelEditorScene extends Scene{
     camera.offset = {x: canvas.width/2, y: canvas.height/2};
     if(camera.x<canvas.width/2)camera.x = canvas.width/2;
     if(camera.x>world1.w*world1.s-canvas.width/2) camera.x = world1.w*world1.s-canvas.width/2;
-    if(camera.y>world1.h*world1.s-canvas.height/2)camera.y = world1.h*world1.s-canvas.height/2;
+    if(camera.y>world1.h*world1.s-canvas.height/2+canvas.height/5)camera.y = world1.h*world1.s-canvas.height/2+canvas.height/5;
     if(camera.y<canvas.height/2)camera.y = canvas.height/2;  
     var camera = this.camera;
     canvas.save();

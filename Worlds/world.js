@@ -109,6 +109,8 @@ class World {
       var y1 = points[i][1];
       var type = this.pointCollides(x1,y1);
       if(type == 1) return true;
+      if(!CELLMAP[type])continue;
+      if(CELLMAP[type].ignoreCollisions) continue;
       if(type != 0) types[type] = {x: x1, y: y1};
     }
     for(var i in types) {
@@ -156,6 +158,19 @@ class WorldFromLevel extends World {
     this.world = grid;
     this.h = grid.length;
     this.w = grid[0].length;
+  }
+  loadWorld(game) {
+    var s = this.s;
+    var world = this.world;
+    for(var i=0;i<this.w;i++) {
+      for(var j=0;j<this.h;j++) {
+        var type = world[j][i];
+        var cell = CELLMAP[type];
+        if(cell.onload) {
+          cell.onload(game, s*i,j*s,s,s,this,i,j);
+        }
+      }
+    }
   }
 }
 

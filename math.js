@@ -17,6 +17,50 @@ function angleBetween(a, b, signed) {
   return dif;
 }
 
+function fakeShaderTest(canvas, game) {
+  return;
+  var imageData = canvas.getImageData(0,0,canvas.width,canvas.height);
+  var data = imageData.data;
+  var originalData = data.slice();
+  // // Loop over each pixel and invert the color.
+  // for (var i = 0, n = pix.length; i < n; i += 4) {
+  //   pix[i  ] = 255 - pix[i  ]; // red
+  //   pix[i+1] = 255 - pix[i+1]; // green
+  //   pix[i+2] = 255 - pix[i+2]; // blue
+  //   // i+3 is alpha (the fourth element)
+  // }
+  var circleRadius = 50+ Math.cos(game.driver.frameCount*Math.PI/15) * 50;
+  var circleWidth = circleRadius*2;
+  var circleHeight = circleRadius*2;
+  var posX = game.player.x-game.camera.x-canvas.width/2-100;
+  var posY = game.player.y-game.camera.y+canvas.height/2-100;
+  var centerX = circleWidth/2;
+  var centerY = circleHeight/2;
+  var canvasWidth = canvas.width;
+  var ra = Math.cos(game.driver.frameCount*Math.PI/20)/2+.5;
+  for(var i=0;i<circleWidth;i++) {
+    for(var j=0;j<circleHeight;j++) {
+      var dx = i - centerX;
+      var dy = j - centerY;
+      var tx = Math.floor(i + centerX+posX);
+      var ty = Math.floor(j + centerY+posY);
+      var r = Math.sqrt(dx*dx+dy*dy);
+      if(r>circleRadius||r<circleRadius/2)continue;
+      var nx = Math.floor(dx * ra + centerX+posX);
+      var ny = Math.floor(dy * ra + centerY+posY);
+      var ti = (tx + ty * canvasWidth) * 4;
+      var ni = (nx + ny * canvasWidth) * 4;
+      data[ti] = originalData[ni];
+      data[ti+1] = originalData[ni+1];
+      data[ti+2] = originalData[ni+2];
+      data[ti+3] = originalData[ni+3];
+    }
+  }
+
+  // Draw the ImageData at the given (x,y) coordinates.
+  canvas.putImageData(imageData, 0,0);
+}
+
 
 function connectControls(controls, obj) {
   var result = {};

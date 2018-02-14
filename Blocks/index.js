@@ -4,4 +4,6 @@ loadSequentially('Blocks/',
   "block1.js",
   "block2.js",
   "block3.js",
+  "startBlock.js",
+  "endBlock.js",
 ]);
