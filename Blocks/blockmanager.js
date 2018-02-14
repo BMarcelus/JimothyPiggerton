@@ -1,4 +1,4 @@
-var blocks = [{},];
+var blocks = [{name:"Air"},];
 
 
 function addBlock(b) {

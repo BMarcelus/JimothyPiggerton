@@ -1,6 +1,7 @@
 addBlock({
     //Ground
       id: 1,
+      name: "Ground",
       solid: true,
       groundBlock: true,
       draw: function(canvas, x,y,w,h, world,i,j) {

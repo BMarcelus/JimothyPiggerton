@@ -10,13 +10,28 @@ class LevelEditorScene extends Scene{
       '82': {down: this.runTest.bind(this)},
       '80': {down: this.printLevel.bind(this)},
       '65': {down: this.cycleBlock.bind(this)},
+      '83': {down: this.cycleAbility.bind(this)},
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
     this.currentBlock = 1;
+    this.playerAbility = [0,0];
   }
   cycleBlock() {
     this.currentBlock = (this.currentBlock + 1) % CELLMAP.length;
+  }
+  cycleAbility() {
+    if (this.playerAbility[1] == 0)
+      this.playerAbility[1] = 1;
+    else
+    {
+      if (this.playerAbility[0] == 0)
+      {
+        this.playerAbility = [1,0];
+      }
+      else
+        this.playerAbility = [0,0];
+    }
   }
   printLevel() {
     var string = '[\n';
@@ -33,6 +48,16 @@ class LevelEditorScene extends Scene{
   getLevel() {
     return {
       name: 'test1',
+      abilities: this.playerAbility,
+      modifyPlayer: function(player) {
+        for (var i = 0; i < this.abilities.length; i++)
+        {
+          if (this.abilities[i] == 1)
+          {
+            PLAYER_ABILITIES[i+1](player);
+          }
+        }
+      },
       grid: this.grid,
     }
   }
@@ -121,7 +146,10 @@ class LevelEditorScene extends Scene{
     canvas.rect(0, canvas.height - canvas.height/5, canvas.width, canvas.height/5);
     canvas.fill();
     canvas.stroke();
-    CELLMAP[2].draw(canvas,canvas.width/5,canvas.height - canvas.height/10,this.world.s,this.world.s,this.world,0,0);
+    canvas.fillStyle='#000';
+    canvas.fillText("'A' - [" + CELLMAP[this.currentBlock].name + "]", canvas.width/5, canvas.height/1.1);
+    canvas.fillText("'S' - [Wall Jump: " + this.playerAbility[0] + "   Double Jump: " + this.playerAbility[1]+ "]", canvas.width/1.5, canvas.height/1.1);
+
 
     if(mouse.held) {
       canvas.strokeStyle = "rgba(0,100,0,1)";
