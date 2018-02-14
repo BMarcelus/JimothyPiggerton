@@ -79,9 +79,9 @@ class LevelEditorScene extends Scene{
     for(var i = x1; i != x2+dx; i+= dx) {
       for(var j=y1; j!=y2+dy; j+=dy) {
         if(this.world.oob(i, j))continue;
-        // this.grid[j][i] = this.currentBlock;
-        var t = this.grid[j][i];
-        this.grid[j][i] = (t+1)%3;
+        this.grid[j][i] = this.currentBlock;
+        //var t = this.grid[j][i];
+        //this.grid[j][i] = (t+1)%3;
       }
     }
     this.world.forceRedraw();
@@ -111,6 +111,14 @@ class LevelEditorScene extends Scene{
     this.world.draw(canvas);
     canvas.restore();
     var mouse = this.driver.mouse;
+
+    canvas.fillStyle='#fff';
+    canvas.beginPath();
+    canvas.rect(0, canvas.height - canvas.height/5, canvas.width, canvas.height/5);
+    canvas.fill();
+    canvas.stroke();
+    CELLMAP[2].draw(canvas,canvas.width/5,canvas.height - canvas.height/10,this.world.s,this.world.s,this.world,0,0);
+
     if(mouse.held) {
       canvas.strokeStyle = "rgba(0,100,0,1)";
       canvas.fillStyle = "rgba(0,255,0,.5)";

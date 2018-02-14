@@ -161,7 +161,9 @@ class WorldFromLevel extends World {
 
 // for(var index in CELLMAP)
 
-var CELLMAP = {
+var CELLMAP = createBlocks();
+/*
+{
   // 'false': {},
   0: {
     //air
@@ -258,4 +260,4 @@ var CELLMAP = {
       return true;
     }
   }
-}
+}*/
