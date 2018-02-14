@@ -3,7 +3,7 @@ addLevel( function(nameSpace) {
     
     return {
       name: "double jump",
-      modifyPlayer: function(player) {player.maxJumps = 2},
+      modifyPlayer: PLAYER_ABILITIES[2],
       grid: [
           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
           [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
