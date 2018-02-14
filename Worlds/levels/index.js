@@ -1,11 +1,14 @@
 loadSequentially('Worlds/levels/',
 [
   "init.js",
-  "level1.js",
-  "level2.js",
-  "level3.js",
-  "level4.js",
-  "level5.js",
-  "levelx.js",
+  "simpleJumpLevel.js",
+  "longJumpLevel.js",
+  "spikeyIslandsLevel.js",
+  // "level1.js",
+  // "level2.js",
+  // "level3.js",
+  // "level4.js",
+  // "level5.js",
+  // "levelx.js",
 ]
 );

@@ -7,7 +7,7 @@ addBlock({
     canvas.fillRect(x,y,width,height);
   },
   onload: function(game, x,y,width,height, world,ii,jj) {
-    game.player.x = x;
-    game.player.y = y;
+    game.player.x = x + width/2;
+    game.player.y = y + height/2;
   },
 });
