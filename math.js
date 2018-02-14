@@ -18,6 +18,9 @@ function angleBetween(a, b, signed) {
 }
 
 function fakeShaderTest(canvas, game) {
+  var posX = game.player.x-game.camera.x-canvas.width/2;
+  var posY = game.player.y-game.camera.y+canvas.height/2;
+  canvas.drawImage(canvas.canvas, posX,posY,10,10,100,100,100,100);
   return;
   var imageData = canvas.getImageData(0,0,canvas.width,canvas.height);
   var data = imageData.data;
