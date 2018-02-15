@@ -45,6 +45,15 @@ class World {
   forceRedraw() {
     this.image = null;
   }
+  /*drawGrid(canvas){
+    var s = this.s;
+
+    if (this.image){
+      for (var i=0;i<this.w;i++){
+        canvas.draw
+      }
+    }
+  }*/
   draw(canvas) {
     CELLMAP[2].angle += Math.PI/10;
     var s = this.s;

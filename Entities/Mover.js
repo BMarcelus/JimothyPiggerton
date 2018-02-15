@@ -90,7 +90,7 @@ class Mover {
     // if(this.wallCollideTimer>0) {
     //   this.x -= this.vx;
     // }
-    if(this.vy>this.grav*5&&this.jumpCount==0)this.jumpCount=1; 
+    if(this.vy>this.grav*3&&this.jumpCount==0)this.jumpCount=1; 
     if (this.jumpCount == 1 && !this.wallcolliding) {
       // this.angle = Math.atan2(-this.vy, this.vx);//,this.vy);
       this.angle = -Math.cos(this.vy/this.terminalVelocity*Math.PI)*(1-2*this.flipped)*Math.abs(this.vx/this.speed)/2;
