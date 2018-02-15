@@ -26,7 +26,11 @@ class Pig extends Mover {
     // }
     // if(Math.random()>.95) this.speed=0;
     // if(Math.random()>.95) this.speed = 3;
-    if(this.wallcolliding)this.mx = -this.mx;
+    if(this.wallcolliding) {
+      this.mx = -this.mx;
+      this.wallcolliding=false;
+      this.vx = 0;
+    }
     this.width += Math.sin(frameCount*Math.PI/5)*2;
     this.height -= Math.sin(frameCount*Math.PI/5)*2;
     // this.width += Math.cos(this.angle*20) * 2;

@@ -121,7 +121,7 @@ class GameScene extends Scene {
     this.camera.y=this.player.y;
     this.entities = [this.player];
     this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
-    this.addEntity(new Enemy(300,100));  
+    // this.addEntity(new Enemy(300,100));  
   }
   respawn() {
     this.loadNewLevel();

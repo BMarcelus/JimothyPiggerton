@@ -27,6 +27,7 @@ class Mover {
     this.wallSlides = true;
     this.wallJumps = false;
     this.groundAccel = 2;
+    this.currentGroundAccel = this.groundAccel;
     this.diesToSpikes = false;
     this.spinning = false;
     this.invisible=false;
@@ -52,7 +53,9 @@ class Mover {
       this.mx = 0;
     } else {
       // this.vx += (this.mx*this.speed-this.vx)/3;     
-      this.vx = linearMove(this.vx, this.mx*this.speed, this.groundAccel*dt); 
+      var ga = this.currentGroundAccel;
+      if(!this.grounded)ga = ga/2;
+      this.vx = linearMove(this.vx, this.mx*this.speed, ga*dt); 
     }
     this.vy += this.grav * dt;
     if(this.vy>this.terminalVelocity)this.vy = this.terminalVelocity;
@@ -73,7 +76,7 @@ class Mover {
       // this.spinning = false;
       
       if(this.wallJumps&&this.wallSlides&&this.vy>0) {
-        this.vy = this.vy * .8;
+        this.vy = this.vy * .7;
         if(!this.spinning) {
           this.flipped = this.mx > 0;
         }
@@ -88,7 +91,7 @@ class Mover {
     //   this.x -= this.vx;
     // }
     if(this.vy>this.grav*5&&this.jumpCount==0)this.jumpCount=1; 
-    if (this.jumpCount == 1) {
+    if (this.jumpCount == 1 && !this.wallcolliding) {
       // this.angle = Math.atan2(-this.vy, this.vx);//,this.vy);
       this.angle = -Math.cos(this.vy/this.terminalVelocity*Math.PI)*(1-2*this.flipped)*Math.abs(this.vx/this.speed)/2;
     }
@@ -121,16 +124,19 @@ class Mover {
     var world = this.game.world;
     var w = this.w;
     var h = this.h;
-    if(!world.rectCollides(this.x-w/2+vx, this.y-h+1,w,h-2,this)) {
+    var d = (1-2*this.flipped);
+    if(!world.rectCollides(this.x-w/2+vx+d, this.y-h+1,w,h-2,this)) {
       this.x += vx;
       this.wallcolliding=false;
     } else {
       if(this.vx>0) {
-        this.x = Math.floor((this.x+w/2+vx)/world.s)*world.s-w/2-1;
+        this.x = Math.floor((this.x+w/2+vx+d)/world.s)*world.s-w/2-1;
       } else if(this.vx<0){
-        this.x = Math.floor((this.x-w/2+vx)/world.s+1)*world.s+w/2+1;
+        this.x = Math.floor((this.x-w/2+vx+d)/world.s+1)*world.s+w/2+1;
       }
-      this.walldirection = this.vx>0;
+      this.walldirection = (this.vx+d)>0;
+      // if(this.vx>0)this.vx = 1;
+      // else this.vx = -1;
       this.vx = 0;
       this.wallcolliding=true;
     }
@@ -152,12 +158,11 @@ class Mover {
     if(!this.grounded) {
       this.width += 30;
       this.height -= 20;
-      var ga = this.groundAccel;
-      this.groundAccel=ga/2;
+      this.currentGroundAccel=this.groundAccel/2;
       var self = this;
       setTimeout(function(){
-        self.groundAccel = ga;
-      }, 100);
+        self.currentGroundAccel = self.groundAccel;
+      }, 10);
       if(!this.crouching) {
         this.vx = 0;
       }
@@ -201,8 +206,9 @@ class Mover {
     canvas.fillRect(-w/2,-h, w,h);
   }
   jump() {
+    if(this.jumpSquating)return;
     // if(!this.grounded)return;
-    if(this.wallCollideTimer>0&&this.wallJumps) {
+    if(this.wallCollideTimer>0&&this.wallJumps&&!this.grounded) {
       return this.wallJump();
     }
     if(this.jumpCount>=this.maxJumps)return;
@@ -212,13 +218,22 @@ class Mover {
     if(this.jumpCount>0) {
       time = 0;
       jumpPower += 2;
+    } 
+    {
+      this.width = 55;
+      this.height = 15;
     }
     // this.grounded = false;
-    this.width = 55;
-    this.height = 15;
     this.vy = 0;
-    // this.jumpCount++;    
+    // this.jumpCount++;   
+    this.jumpSquating = true; 
+    var vx = this.vx;
+    this.vx = 0;
+    this.currentGroundAccel=0;
     setTimeout(function() {
+      this.jumpSquating = false;      
+      this.vx = vx; 
+      this.currentGroundAccel=this.groundAccel;
       if(this.jumpCount>=this.maxJumps)return;      
       this.jumpCount++;
       this.grounded=false;
@@ -253,7 +268,7 @@ class Mover {
         this.game.addEntity(new Cloud(this.x-6+i*3,this.y,5,10,-1+i,0,5+i*2));
       }
     }
-    this.vx = 12*(1-2*this.walldirection);
+    this.vx = 12*(1-2*this.walldirection)*.7;
     this.wallcolliding=0;
     this.wallCollideTimer=0;
   }
