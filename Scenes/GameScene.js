@@ -112,6 +112,7 @@ class GameScene extends Scene {
     if(!same)
     this.world = new WorldFromLevel(level);
     this.player.reset();
+    this.entities = [this.player];    
     this.world.loadWorld(this);
     if(level.modifyPlayer) {
       level.modifyPlayer(this.player);
@@ -119,7 +120,6 @@ class GameScene extends Scene {
     this.level=level;
     this.camera.x=this.player.x;
     this.camera.y=this.player.y;
-    this.entities = [this.player];
     this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
     // this.addEntity(new Enemy(300,100));  
   }
