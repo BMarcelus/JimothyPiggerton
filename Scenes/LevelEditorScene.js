@@ -55,7 +55,6 @@ class LevelEditorScene extends Scene{
   }
   load() {
     var string = localStorage.getItem("currentLevel");
-    console.log(string);
     if(!string)return false;
     var grid = [];
     var currentRow;
@@ -84,7 +83,7 @@ class LevelEditorScene extends Scene{
     return grid;
   }
   printLevel() {
-    string = this.getLevelString();
+    var string = this.getLevelString();
     console.log(string);
   }
   getLevel() {
