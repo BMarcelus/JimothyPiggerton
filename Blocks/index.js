@@ -6,4 +6,5 @@ loadSequentially('Blocks/',
   "groundspikeBlock.js",
   "startBlock.js",
   "endBlock.js",
+  "enemyBlock.js",
 ]);
