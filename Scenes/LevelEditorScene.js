@@ -3,6 +3,10 @@ class LevelEditorScene extends Scene{
     super();
     this.gui = [];
     this.world = new WorldDefault(48, 24);
+    var grid = this.load();
+    if(grid) {
+      this.world.world = grid;
+    }
     this.grid = this.world.world;
     this.camera = {x:0,y:0, offset: {x: 0, y: 0}};
     this.keyMap = {
@@ -33,7 +37,7 @@ class LevelEditorScene extends Scene{
         this.playerAbility = [0,0];
     }
   }
-  printLevel() {
+  getLevelString() {
     var string = '[\n';
     for(var i = 0;i < this.grid.length;i++) {
       string += '[';
@@ -43,6 +47,44 @@ class LevelEditorScene extends Scene{
       string += '],\n'
     }
     string += ']';
+    return string;
+  }
+  save() {
+    var string = this.getLevelString();
+    localStorage.setItem("currentLevel", string);
+  }
+  load() {
+    var string = localStorage.getItem("currentLevel");
+    console.log(string);
+    if(!string)return false;
+    var grid = [];
+    var currentRow;
+    var currentDigit = '';
+    var x = 0;
+    var y = 0;
+    for(var i = 1; i < string.length-1; i++) {
+      var char = string[i];
+      switch(char) {
+        case '[':
+          currentRow = [];
+          break;
+        case ']':
+          grid.push(currentRow);
+          break;
+        case ',':
+          if(currentDigit != '') {
+            currentRow.push(parseInt(currentDigit, 10));
+            currentDigit = '';
+          }
+          break;
+        default:
+          currentDigit += char;
+      }
+    }
+    return grid;
+  }
+  printLevel() {
+    string = this.getLevelString();
     console.log(string);
   }
   getLevel() {
@@ -114,6 +156,7 @@ class LevelEditorScene extends Scene{
       }
     }
     this.world.forceRedraw();
+    this.save();
   }
   // mouseheld(mouse) {
 

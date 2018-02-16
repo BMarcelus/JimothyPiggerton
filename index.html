@@ -135,12 +135,15 @@ window.onload = function() {
     }
     dt = .8;    
     driver.update(dt);
+    // window.requestAnimationFrame(step);
+  }
+  function draw() {
     driver.draw(canvas);
     canvas.fillStyle = "white";
     canvas.fillText(currentFPS, 20,20);
-    canvas.fillText(dt, 40,40);
-    // window.requestAnimationFrame(step);
+    window.requestAnimationFrame(draw);    
   }
+  draw();
   // step();
   setInterval(step, 1000/60);
   window.addEventListener('keydown', driver.keydown.bind(driver));
