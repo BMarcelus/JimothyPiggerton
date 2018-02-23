@@ -21,6 +21,7 @@ class Mover {
     this.wallcolliding = false;
     this.maxJumps = 1;
     this.jumpCount = 0;
+    this.dashCount = 0;
     this.angle = 0;
     this.terminalVelocity = 20;
     this.mover = true;
@@ -174,6 +175,7 @@ class Mover {
     }
     this.grounded = true;
     this.jumpCount = 0;
+    this.dashCount = 0;
     this.spinning=false;
   }
   draw(canvas) {
@@ -287,5 +289,20 @@ class Mover {
   }
   getHitBox() {
     return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
+  }
+  dash(dir) {
+    if (this.dashCount == 0)
+    {
+      if(this.grounded || this.jumpCount < this.maxJumps)
+      {
+        this.dashCount++;
+        this.vx = (.5 * this.vx) + 30 * (dir);
+        if (this.vy < 0)
+          this.jumpCount++;
+        else
+          this.vy = -10;
+        
+      }
+    }
   }
 }

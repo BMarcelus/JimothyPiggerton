@@ -182,12 +182,13 @@ class Player extends Mover{
   }
 }
 Player.controls = {
-  right: {held: function() { this.mx += 1; }},
-  left: {held: function() { this.mx -= 1; }},
+  right: {down: function() {if (this.crouching) this.dash(1);}, held: function() { this.mx += 1; }},
+  left: {down: function() {if (this.crouching) this.dash(-1);}, held: function() { this.mx -= 1; }},
   up: {
     down: function() { this.jump(); },
     up: function() { this.shortJump(); this.eyeMovement.ty = 0; },
     held: function() { this.eyeMovement.ty = - 6; this.height += .5; this.width -= .5},
   },
   down: {down: function() { this.crouch(); }, up: function() { this.uncrouch(); }},
+  dash: { down: function() { this.dash(1-2*this.flipped); }},
 }
