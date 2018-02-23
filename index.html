@@ -4,6 +4,14 @@
     margin: auto;
     display: block;
   }
+  @font-face {
+    font-family: 'Noteworthy';
+    src: url('Noteworthy-Bold.ttf');
+  }
+  @font-face {
+    font-family: 'Chalkduster';
+    src: url('Chalkduster.ttf');
+  }
 </style>
 <canvas id="gc"></canvas>
 <script>
@@ -116,7 +124,7 @@ window.onload = function() {
   var canvas = CE.getContext('2d');
   canvas.width = CE.width;
   canvas.height = CE.height;
-  canvas.font = "30px Arial";
+  canvas.font = "30px Noteworthy";
   var driver = new MainDriver();
   var lastTime = Date.now();
   var FPScounter = 0;
