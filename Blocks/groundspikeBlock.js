@@ -13,8 +13,8 @@ addBlock({
         var dh = h * .4;
         CELLMAP[1].draw(canvas,x,y+dh, width, height-dh, world, ii,jj);
       },
-      entityCollision: function(entity, pos) {
-        if(entity.player && entity.grounded) entity.die();
+      entityCollision: function(entity, pos, dx, dy) {
+        if(entity.player && dy>0) entity.die();
         return true;
       }
 });

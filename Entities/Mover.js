@@ -41,7 +41,7 @@ class Mover {
     if(this.mx<-1)this.mx=-1;
     if(this.my>1)this.my=1;
     if(this.my<-1)this.my=-1;
-    if(this.mx){
+    if(this.mx && !this.spinning){
       this.flipped=this.mx<0;
       if(!this.wallcolliding&&this.cloudParticlesOn&&this.grounded&&!this.crouching&&(frameCount%20==0||this.vx*this.mx<=0||Math.abs(this.vx)<1)) {
         for(var i=0;i<3;i++) {
@@ -126,7 +126,7 @@ class Mover {
     var w = this.w;
     var h = this.h;
     var d = (1-2*this.flipped);
-    if(!world.rectCollides(this.x-w/2+vx+d, this.y-h+1,w,h-2,this)) {
+    if(!world.rectCollides(this.x-w/2+vx+d, this.y-h+1,w,h-2,this, d+vx,0)) {
       this.x += vx;
       this.wallcolliding=false;
     } else {
@@ -141,7 +141,7 @@ class Mover {
       this.vx = 0;
       this.wallcolliding=true;
     }
-    if(world.rectCollides(this.x-w/2,this.y-h+vy,w,h,this)) {
+    if(world.rectCollides(this.x-w/2,this.y-h+vy,w,h,this, 0,vy)) {
       if(this.vy>0) {
         this.groundCollide(Math.floor((this.y+vy)/world.s)*world.s);
       } else {

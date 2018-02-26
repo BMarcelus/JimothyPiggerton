@@ -109,7 +109,7 @@ class World {
     // this.entityCollision(entity, type);
     return type;
   }
-  rectCollides(x,y,w,h,entity) {
+  rectCollides(x,y,w,h,entity, dx,dy) {
     var result = false;
     var points = [[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
     var types = {};
@@ -123,7 +123,7 @@ class World {
       if(type != 0) types[type] = {x: x1, y: y1};
     }
     for(var i in types) {
-      if(this.entityCollision(entity, i, types[i])){
+      if(this.entityCollision(entity, i, types[i], dx,dy)){
         result = true;
       }
     }
@@ -133,11 +133,11 @@ class World {
     //   this.pointCollides(x,y+h,entity) +
     //   this.pointCollides(x+w,y+h,entity);
   }
-  entityCollision(entity, type, pos) {
+  entityCollision(entity, type, pos,dx,dy) {
     var cell = CELLMAP[type];
     if(!cell)return false;
     if(!cell.entityCollision)return true;
-    return cell.entityCollision(entity, pos);
+    return cell.entityCollision(entity, pos, dx,dy);
   }
   drawBackground(canvas, camera) {
     this.background.draw(canvas, camera, this);
