@@ -114,7 +114,13 @@ function rectangleCollision(rect1, rect2) {
     }
 }
 
-
+function rectangleCollisionAtTopOfEnemy(rect1, rect2) {
+  if(rect1.y + rect1.h == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 // class Random {
 //   constructor(seed) {
 //     this.seed = seed % 2147483647;
