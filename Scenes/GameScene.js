@@ -126,7 +126,8 @@ class GameScene extends Scene {
   update(dt, frameCount) {
     this.player.resetControls();
     var entities = this.entities;
-    super.update(dt);for(var i=0;i<entities.length;i+=1) {
+    super.update(dt);
+    for(var i=0;i<entities.length;i+=1) {
       var entity = entities[i];
       entity.update(dt, frameCount);
       if(entity.shouldDelete) {

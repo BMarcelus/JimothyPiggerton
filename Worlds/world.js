@@ -55,7 +55,7 @@ class World {
     }
   }*/
   draw(canvas) {
-    CELLMAP[2].angle += Math.PI/10;
+    // CELLMAP[2].angle += Math.PI/10;
     var s = this.s;
     var world = this.world;
     if(this.image) {
@@ -109,6 +109,18 @@ class World {
     // this.entityCollision(entity, type);
     return type;
   }
+  pointToMatrix(x,y) {
+    return {
+      x: Math.floor(x/this.s),
+      y: Math.floor(y/this.s),
+    };
+  }
+  matrixToPoint(x,y) {
+    return {
+      x: x*this.s,
+      y: y*this.s,
+    }
+  }
   rectCollides(x,y,w,h,entity, dx,dy) {
     var result = false;
     var points = [[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
@@ -116,11 +128,13 @@ class World {
     for(var i in points) {
       var x1 = points[i][0];
       var y1 = points[i][1];
-      var type = this.pointCollides(x1,y1);
+      var p = this.pointToMatrix(x1,y1);
+      // var type = this.pointCollides(x1,y1);
+      var type = this.wallExists(p.x,p.y);
       if(type == 1) return true;
       if(!CELLMAP[type])continue;
       if(CELLMAP[type].ignoreCollisions) continue;
-      if(type != 0) types[type] = {x: x1, y: y1};
+      if(type != 0) types[type] = {x: x1, y: y1, p:p};
     }
     for(var i in types) {
       if(this.entityCollision(entity, i, types[i], dx,dy)){
@@ -137,7 +151,8 @@ class World {
     var cell = CELLMAP[type];
     if(!cell)return false;
     if(!cell.entityCollision)return true;
-    return cell.entityCollision(entity, pos, dx,dy);
+    var cellPos = this.matrixToPoint(pos.p.x,pos.p.y);
+    return cell.entityCollision(entity, pos, dx,dy, cellPos);
   }
   drawBackground(canvas, camera) {
     this.background.draw(canvas, camera, this);

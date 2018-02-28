@@ -9,4 +9,6 @@ loadSequentially('Blocks/',
   "enemyBlock.js",
   "walljumpPowerup.js",
   "doublejumpPowerup.js",
+  "platformBlock.js",
+  "platformBlock2.js",
 ]);

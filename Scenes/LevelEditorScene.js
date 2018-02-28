@@ -13,13 +13,18 @@ class LevelEditorScene extends Scene{
       '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
       '82': {down: this.runTest.bind(this)},
       '80': {down: this.printLevel.bind(this)},
-      '65': {down: this.cycleBlock.bind(this)},
+      '65': {down: this.cycleBlockBackwards.bind(this)},
+      '68': {down: this.cycleBlock.bind(this)},
       '83': {down: this.cycleAbility.bind(this)},
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
     this.currentBlock = 1;
     this.playerAbility = [0,0];
+  }
+  cycleBlockBackwards() {
+    var l = CELLMAP.length;
+    this.currentBlock = (this.currentBlock - 1 + l) % l;
   }
   cycleBlock() {
     this.currentBlock = (this.currentBlock + 1) % CELLMAP.length;

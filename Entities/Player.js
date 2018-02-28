@@ -11,6 +11,7 @@ class Player extends Mover{
     this.player=true;
   }
   die() {
+    if(this.dead)return;
     this.dead=true;
     this.eyeMovement.x = -5;
     this.eyeMovement.y = 0;
@@ -72,6 +73,7 @@ class Player extends Mover{
     this.wallJumps=false;
     this.animation=null;
     this.invisible=false;
+    this.dead=false;
   }
   updateEye(dt, frameCount) {
     var t = frameCount%120;

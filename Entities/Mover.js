@@ -32,6 +32,7 @@ class Mover {
     this.diesToSpikes = false;
     this.spinning = false;
     this.invisible=false;
+    this.ceilingColliding=false;
   }
   die() {
     this.shouldDelete=true;
@@ -96,7 +97,7 @@ class Mover {
       // this.angle = Math.atan2(-this.vy, this.vx);//,this.vy);
       this.angle = -Math.cos(this.vy/this.terminalVelocity*Math.PI)*(1-2*this.flipped)*Math.abs(this.vx/this.speed)/2;
     }
-    else if(this.spinning) {
+    else if(this.spinning&&!this.ceilingColliding) {
       if(this.wallcolliding) {
         this.angle -= angleBetween(this.angle, 0)/5 * -(1-2*this.flipped); 
       } else {
@@ -120,12 +121,16 @@ class Mover {
       this.width += (this.w-this.width)/8;
       this.height += (this.h-this.height)/8;
     }
+    if(this.ceilingColliding && (this.h-this.height) <= .5) {
+      this.ceilingColliding = false;
+    }
   }
   safeMove(vx,vy) {
     var world = this.game.world;
     var w = this.w;
     var h = this.h;
-    var d = (1-2*this.flipped);
+    var d = 0;//(1-2*this.flipped)*10;
+    // this.ceilingColliding=false;    
     if(!world.rectCollides(this.x-w/2+vx+d, this.y-h+1,w,h-2,this, d+vx,0)) {
       this.x += vx;
       this.wallcolliding=false;
@@ -138,40 +143,54 @@ class Mover {
       this.walldirection = (this.vx+d)>0;
       // if(this.vx>0)this.vx = 1;
       // else this.vx = -1;
-      this.vx = 0;
+      if(!(this.wallJumps&&this.wallSlides&&!this.grounded)) {
+        this.vx = 0;
+      } else {
+        if(this.vx>this.speed/2)this.vx=this.speed/2;
+        else if(this.vx<-this.speed/2)this.vx = -this.speed/2;
+      }
       this.wallcolliding=true;
     }
     if(world.rectCollides(this.x-w/2,this.y-h+vy,w,h,this, 0,vy)) {
       if(this.vy>0) {
         this.groundCollide(Math.floor((this.y+vy)/world.s)*world.s);
+        this.ceilingColliding=false;        
       } else {
         this.y = (Math.floor((this.y+vy-h)/world.s+1)*world.s)+h;
-        this.vy = 0;
+        // this.vy = 0;
+        this.width+=-this.vy+3;
+        this.height-=5;
+        // this.spinning=false;
+        this.vy = this.vy*.7;
         vy = 0;
+        this.ceilingColliding=true;
       }
     } else {
       this.y += vy;
+    }
+  }
+  land() {
+    this.width += 30;
+    this.height -= 20;
+    this.currentGroundAccel=this.groundAccel/2;
+    var self = this;
+    setTimeout(function(){
+      self.currentGroundAccel = self.groundAccel;
+    }, 10);
+    if(!this.crouching) {
+      this.vx = 0;
+    }
+    if(this.cloudParticlesOn) {
+      for(var i=0;i<6;i++) {
+        this.game.addEntity(new Cloud(this.x,this.y-Math.random()*5,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
+      }
     }
   }
   groundCollide(y) {
     this.y = y;
     this.vy = 0;
     if(!this.grounded) {
-      this.width += 30;
-      this.height -= 20;
-      this.currentGroundAccel=this.groundAccel/2;
-      var self = this;
-      setTimeout(function(){
-        self.currentGroundAccel = self.groundAccel;
-      }, 10);
-      if(!this.crouching) {
-        this.vx = 0;
-      }
-      if(this.cloudParticlesOn) {
-        for(var i=0;i<6;i++) {
-          this.game.addEntity(new Cloud(this.x,this.y-Math.random()*5,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
-        }
-      }
+      this.land();
     }
     this.grounded = true;
     this.jumpCount = 0;
@@ -184,6 +203,9 @@ class Mover {
     var w = this.width;
     canvas.save();
     canvas.translate(this.x,this.y);
+    if(this.ceilingColliding) {
+      canvas.translate(0,-this.h+this.height);
+    }
     if(Math.abs(this.vx)>1&&!this.wallcolliding&&!this.crouching&&this.grounded) {
       canvas.translate(0,-(Math.sin(this.x/this.speed*10*Math.PI/70)+1)*3)
     }
@@ -215,7 +237,7 @@ class Mover {
     }
     if(this.jumpCount>=this.maxJumps)return;
     this.jumpRelease=false;
-    var time = 50;
+    var time = 30;
     var jumpPower = this.jumpPower;
     if(this.jumpCount>0) {
       time = 0;
@@ -277,7 +299,7 @@ class Mover {
   }
   shortJump() {
     this.jumpRelease = true;
-    if(!this.grounded&&this.jumpCount==1&&this.vy<0) {
+    if(!this.grounded&&this.jumpCount==1&&this.vy<-this.jumpPower/2) {
       this.vy = this.vy*.65;
     }
   }
