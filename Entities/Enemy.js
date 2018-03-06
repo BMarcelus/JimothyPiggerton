@@ -8,13 +8,12 @@ class Enemy extends Mover {
 	}
 		 
 	enemyDies(player) {
-		if(player.vy > 0 && player.y <= this.y) {
+		if(player.vy > 0) {
 			player.vy = -20;
 			return true;
-			
 		} else {
-			false;
-		}
+			return false;
+    }
 	}
 
 
@@ -33,5 +32,9 @@ class Enemy extends Mover {
 			}
 		}
 	}       
-	
+	draw(canvas) {
+    super.draw(canvas);
+    var box = this.getHitBox();
+    canvas.strokeRect(box.x,box.y,box.w,box.h);
+  }
 }

@@ -119,6 +119,8 @@ class World {
     return {
       x: x*this.s,
       y: y*this.s,
+      w: this.s,
+      h: this.s,
     }
   }
   rectCollides(x,y,w,h,entity, dx,dy) {
@@ -179,6 +181,7 @@ class WorldFromLevel extends World {
     super();
     this.s = 40;
     var grid = level.grid;
+    //
     this.world = grid;
     this.h = grid.length;
     this.w = grid[0].length;

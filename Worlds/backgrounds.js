@@ -19,7 +19,7 @@ class Background {
     canvas.restore();
   }
   createBackground(w,c, e) {
-    return createForrestBackground(w,c, e);
+    return createHillBackground(w,c, e);
   }
 }
 
@@ -60,6 +60,42 @@ function createSunEffect() {
   return image;
 }
 
+function createHillBackground(w,c,e){
+  var image = document.createElement('canvas');
+  var canvas = image.getContext('2d');
+  image.width = 3000;
+  image.height =  800;
+  canvas.fillStyle = c;
+  var colors = ["#382", "#4a3"];
+  var colorIndex = 0;
+  var yy = 260+300;
+  canvas.fillStyle="#050";
+  // canvas.fillRect(0,yy,image.width,yy);
+  var r = Math.random()*200+100;
+  for(var i=0;i<image.width;i+=r) {
+    var x = i;
+    var y = yy+r;
+    canvas.beginPath();
+    canvas.arc(x,y,r,0,Math.PI*2);
+    canvas.fill();
+    r = Math.random()*200+100;    
+  }
+  for(var i=0;i<20;i++) {
+    var r = Math.random()*200+100;
+    var x = Math.random()*image.width;
+    var y = yy+r/2;
+    canvas.beginPath();
+    canvas.arc(x,y,r,0,Math.PI*2);
+    canvas.fill();
+  }
+  if(e) {
+    canvas.globalCompositeOperation="source-atop";
+    canvas.fillStyle="rgba(1,1,1,.1)";
+    canvas.fillRect(0,0,image.width,image.height);
+  }
+  return image;
+}
+
 function createForrestBackground(w,c,e) {
   var image = document.createElement('canvas');
   var canvas = image.getContext('2d');
@@ -93,6 +129,7 @@ function createForrestBackground(w,c,e) {
       canvas.lineTo(i+w/2, y+j-h*2);
       canvas.fill();
     }
+    y+=Math.random()*10-Math.random()*10;
   }
   // canvas.globalCompositeOperation="source-atop";
   // canvas.fillStyle="rgba(255,255,255,.1)";

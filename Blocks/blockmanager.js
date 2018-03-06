@@ -1,10 +1,10 @@
-var blocks = [{name:"Air"},];
+var BLOCKS = [{name:"Air"},];
 
 
 function addBlock(b) {
-  blocks.push(b);
+  BLOCKS.push(b);
 }
 
 function createBlocks() {
-  return blocks;
+  return BLOCKS;
 }

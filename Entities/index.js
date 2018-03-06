@@ -6,4 +6,5 @@ loadSequentially('Entities/',
   "Player.js",
   "Pig.js",
   "Enemy.js",
+  "Byrd.js",
 ]);

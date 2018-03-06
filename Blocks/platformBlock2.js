@@ -2,7 +2,7 @@ addBlock({
   name: "Platform2",
   solid: true,
   groundBlock: false,
-  id: blocks.length,
+  id: BLOCKS.length,
   draw: function(canvas, x,y,w,h, world,i,j) {
     h*=.4;
     var color1 = "#642";

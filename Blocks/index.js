@@ -11,4 +11,7 @@ loadSequentially('Blocks/',
   "doublejumpPowerup.js",
   "platformBlock.js",
   "platformBlock2.js",
+  "boostBlock.js",
+  "bounceBlock.js",
+  "kaizoBlock.js",
 ]);
