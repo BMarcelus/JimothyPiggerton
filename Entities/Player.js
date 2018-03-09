@@ -182,6 +182,15 @@ class Player extends Mover{
     canvas.fill();
     canvas.restore();    
   }
+  BounceOffEntity(enemy) {
+    this.vy = -20;
+  }
+
+  getHitByEntity(enemy) {
+    this.die();
+  }
+
+  
 }
 Player.controls = {
   right: {down: function() {if (this.crouching) this.dash(1);}, held: function() { this.mx += 1; }},
