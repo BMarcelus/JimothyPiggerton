@@ -1,19 +1,32 @@
 class Enemy extends Mover {
 	constructor(x,y) {
 		super(x,y);
+		this.w = 40;
+		this.h = 40;
+		this.height = this.h;
+		this.width = this.w; 
 		this.color = "red";
 		this.speed = 5;
 		this.groundAccel = 5;
 		this.mx = 1;
 	}
 		 
-	enemyDies(player) {
+	playerCollision(player) {
 		if(player.vy > 0) {
-			player.vy = -20;
 			return true;
 		} else {
 			return false;
-    }
+		}
+	}
+
+	getHitByEntity(player) {
+		player.BounceOffEntity(this);
+		this.h=this.h/2;
+		// this.die();
+	}
+
+	onHitPlayer(player) {
+		
 	}
 
 
@@ -25,10 +38,11 @@ class Enemy extends Mover {
 		var enemyBox = this.getHitBox();	// Perforamnce effeciency issue
 		var playerBox = this.game.player.getHitBox();
 		if(rectangleCollision(enemyBox, playerBox) == true) {
-			if(this.enemyDies(this.game.player) == true) {
-				this.die();
+			if(this.playerCollision(this.game.player) == true) {
+				 this.getHitByEntity(this.game.player);
 			} else {
-				this.game.player.die();
+				this.onHitPlayer(this.game.player);
+				this.game.player.getHitByEntity(this);
 			}
 		}
 	}       
