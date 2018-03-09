@@ -186,10 +186,10 @@ class Mover {
       }
     }
   }
-  groundCollide(y) {
+  groundCollide(y, animationless) {
     this.y = y;
     this.vy = 0;
-    if(!this.grounded) {
+    if(!this.grounded && !animationless) {
       this.land();
     }
     this.grounded = true;
