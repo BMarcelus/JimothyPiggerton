@@ -56,9 +56,11 @@ class LevelEditorScene extends Scene{
   }
   save() {
     var string = this.getLevelString();
+    if(!localStorage||!localStorage.setItem)return;
     localStorage.setItem("currentLevel", string);
   }
   load() {
+    if(!localStorage || !localStorage.getItem)return null;
     var string = localStorage.getItem("currentLevel");
     if(!string)return false;
     var grid = [];
@@ -77,7 +79,9 @@ class LevelEditorScene extends Scene{
           break;
         case ',':
           if(currentDigit != '') {
-            currentRow.push(parseInt(currentDigit, 10));
+            var type = parseInt(currentDigit, 10);
+            if(!CELLMAP[type]) type = 0;
+            currentRow.push(type);
             currentDigit = '';
           }
           break;
