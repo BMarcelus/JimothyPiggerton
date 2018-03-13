@@ -1,6 +1,6 @@
 addBlock({
   //Enemy Block
-  id: 6,
+  id: BLOCKS.length,
   name: "Enemy",
   ignoreCollisions: true,
   draw: function(canvas, x,y,width,height, world,ii,jj) {

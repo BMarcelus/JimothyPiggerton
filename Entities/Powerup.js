@@ -12,6 +12,7 @@ class Powerup extends Enemy {
   }
 
   playerCollision(player) {
+    this.die();
 		return false;
 	}
 
@@ -24,5 +25,6 @@ class Powerup extends Enemy {
   onHitPlayer(player) 
   {
     PLAYER_ABILITIES[this.power](player);
+    this.die();
   }
 }

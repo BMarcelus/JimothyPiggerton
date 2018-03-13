@@ -65,7 +65,8 @@ class World {
           var type = world[j][i];
           var cell = CELLMAP[type];
           if(cell.draw&&cell.redraws) {
-            cell.draw(canvas, s*i,s*j,s,s, this, i,j);
+            if (!cell.hide)
+              cell.draw(canvas, s*i,s*j,s,s, this, i,j);
           }
           // if(type == 1) ctx.fillStyle='brown';
           // else if(type == 2) ctx.fillStyle='#fdd';
@@ -87,7 +88,8 @@ class World {
         if(cell.draw) {
           var c = ctx;
           if(cell.redraws)c = canvas;
-          cell.draw(c, s*i,s*j,s,s, this, i,j);
+          if (!cell.hide)
+            cell.draw(c, s*i,s*j,s,s, this, i,j);
         }
         // if(type == 1) ctx.fillStyle='brown';
         // else if(type == 2) ctx.fillStyle='#fdd';

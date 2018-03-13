@@ -1,6 +1,6 @@
 addBlock({
   //End Block
-  id: 5,
+  id: BLOCKS.length,
   name: "End",
   draw: function(canvas, x,y,width,height, world,ii,jj) {
     var w= width;

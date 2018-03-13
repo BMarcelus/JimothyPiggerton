@@ -1,7 +1,9 @@
 addBlock({
   //End Block
-  id: 7,
+  id: BLOCKS.length,
   name: "WallJump",
+  hide: true,
+  ignoreCollisions: true,
   draw: function(canvas, x,y,width,height, world,ii,jj) {
     var w= width;
     var h=height;
@@ -13,9 +15,6 @@ addBlock({
 //    entity.game.world.forceRedraw();
   //},
   onload: function(game, x,y,width,height, world,ii,jj) {
-    world.world[jj][ii] = 0;
-    world.forceRedraw();
-    world.world[jj][ii] = this.id;
     game.addEntity(new wallJump(x + width/2,y + height));
   },
 });
