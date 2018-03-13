@@ -173,6 +173,7 @@ class Mover {
     this.width += 30;
     this.height -= 20;
     this.currentGroundAccel=this.groundAccel/2;
+    SOUNDMAP.land.play(this);
     var self = this;
     setTimeout(function(){
       self.currentGroundAccel = self.groundAccel;
@@ -267,6 +268,7 @@ class Mover {
         this.width -= 10;
       }
       this.vy = -jumpPower;
+      SOUNDMAP.jump.play(this);
       if(this.jumpRelease) this.vy = this.vy * .65;
       if(this.cloudParticlesOn) {
         for(var i=0;i<3;i++) {
@@ -282,6 +284,7 @@ class Mover {
     this.jumpCount = 1;
     this.dashCount = 0;
     this.vy = -this.jumpPower;
+    SOUNDMAP.jump.play(this);
     this.grounded = false;
     this.height += 10;
     this.width -= 10;
@@ -319,6 +322,7 @@ class Mover {
       if(this.grounded || this.jumpCount < this.maxJumps)
       {
         this.dashCount++;
+        SOUNDMAP.dash.play(this);
         this.vx = (.5 * this.vx) + 30 * (dir);
         if (this.vy < 0)
           this.jumpCount++;

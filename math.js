@@ -121,6 +121,13 @@ function rectangleCollisionAtTopOfEnemy(rect1, rect2) {
     return false;
   }
 }
+
+function distanceBetweenEntities(a,b) {
+  var dx = a.x-b.x;
+  var dy = a.y-b.y;
+  var r = Math.sqrt(dx*dx+dy*dy);
+  return r;
+}
 // class Random {
 //   constructor(seed) {
 //     this.seed = seed % 2147483647;
