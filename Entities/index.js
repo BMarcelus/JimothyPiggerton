@@ -10,4 +10,5 @@ loadSequentially('Entities/',
   "Powerup.js",
   "doubleJump.js",
   "wallJump.js",
+  "DoinkPad.js"
 ]);
