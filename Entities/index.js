@@ -7,4 +7,5 @@ loadSequentially('Entities/',
   "Pig.js",
   "Enemy.js",
   "Byrd.js",
+  "DoinkPad.js"
 ]);
