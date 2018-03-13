@@ -187,7 +187,8 @@ class Player extends Mover{
   }
 
   getHitByEntity(enemy) {
-    this.die();
+    if (enemy.killPlayer)
+      this.die();
   }
 
   

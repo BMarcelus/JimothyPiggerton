@@ -110,7 +110,7 @@ class GameScene extends Scene {
     this.world = new WorldFromLevel(level);
     this.player.reset();
     this.entities = [this.player];    
-    this.addEntity(new Byrd(100,400));
+    //this.addEntity(new Byrd(100,400));
     this.world.loadWorld(this);
     if(level.modifyPlayer) {
       level.modifyPlayer(this.player);

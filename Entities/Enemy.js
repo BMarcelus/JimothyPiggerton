@@ -9,6 +9,7 @@ class Enemy extends Mover {
 		this.speed = 5;
 		this.groundAccel = 5;
 		this.mx = 1;
+		this.killPlayer = true;
 	}
 		 
 	playerCollision(player) {
