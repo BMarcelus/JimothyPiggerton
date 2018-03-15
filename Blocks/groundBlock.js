@@ -1,6 +1,6 @@
 addBlock({
     //Ground
-      id: 1,
+      id: BLOCKS.length,
       name: "Ground",
       solid: true,
       groundBlock: true,

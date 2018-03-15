@@ -1,7 +1,8 @@
 addBlock({
   //Start Block
-  id: 4,
+  id: BLOCKS.length,
   name: "Start",
+  hide: true,   
   ignoreCollisions: true,
   draw: function(canvas, x,y,width,height, world,ii,jj) {
     canvas.fillStyle = 'rgba(0,100,0,.5)';

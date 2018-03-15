@@ -2,6 +2,8 @@ addBlock({
   //End Block
   id: BLOCKS.length,
   name: "End",
+  hide: true,
+  ignoreCollisions: true,
   draw: function(canvas, x,y,width,height, world,ii,jj) {
     var w= width;
     var h=height;

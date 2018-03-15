@@ -1,6 +1,6 @@
 addBlock({
       //Spike
-      id: 2,
+      id: BLOCKS.length,
       name: "Spike",
       solid: true,
       angle: 0,
