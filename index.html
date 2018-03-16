@@ -74,6 +74,12 @@ class MainDriver {
     canvas.clearRect(0,0,canvas.width,canvas.height);
     this.scene.draw(canvas);
   }
+  touchstart(e) {
+    // var x = e.changedTouches[0].pageX;
+    // var y = e.changedTouches[0].pageY;
+    // this.keydown({keyCode: 32});
+    this.scene.keydown(32);
+  }
   keydown(e) {
     var keys = this.keys;
     var k = e.keyCode;
@@ -160,5 +166,6 @@ window.onload = function() {
   CE.addEventListener('mousemove', driver.mousemove.bind(driver));
   CE.addEventListener('mouseup', driver.mouseup.bind(driver));
   CE.addEventListener('mousedown', driver.mousedown.bind(driver));
+  window.addEventListener('touchstart', driver.touchstart.bind(driver));
 }
 </script>

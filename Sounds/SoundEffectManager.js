@@ -5,7 +5,7 @@ if('webkitAudioContext' in window) {
   AUDIOCONTEXT = new AudioContext();
 }
 var GAIN = AUDIOCONTEXT.createGain();
-GAIN.gain.setValueAtTime(3, 0);
+GAIN.gain.setValueAtTime(1, 0);
 GAIN.connect(AUDIOCONTEXT.destination);
 var DESTINATION = GAIN;
 // var DESTINATION = AUDIOCONTEXT.destination;
@@ -21,8 +21,12 @@ class SoundEffect {
   play(entity) {
     var volume = 1;
     if(!entity.player) {
-      var d = distanceBetweenEntities(entity, entity.game.player);
-      volume = 1/(d+1);
+      // var d = distanceBetweenEntities(entity, entity.game.player);
+      // console.log(d);
+      // volume = 1/(d+1);
+      volume = .1;
+      // volume = 0;
+      // console.log(volume);
     }
     var audioContext= AUDIOCONTEXT;
     var destination = DESTINATION;
@@ -37,6 +41,7 @@ class SoundEffect {
     oscillator.connect(gain);
     gain.connect(destination);
     this.applyData(oscillator, gain, time, volume);
+    return oscillator;
   }
   applyData(oscillator, gain, time, volume) {
     var last;
@@ -46,7 +51,7 @@ class SoundEffect {
       oscillator.frequency.setValueAtTime(frq, time+i*this.sampleRate);
       if(last)
       for(var j=0;j<this.inBetweens;j++){
-        if(frq) oscillator.frequency.setValueAtTime(last + (frq-last)*j/this.inBetweens, time+(i-1+j/this.inBetweens)*this.sampleRate);        
+        if(frq) oscillator.frequency.setValueAtTime( last + (frq-last)*j/this.inBetweens, time+(i-1+j/this.inBetweens)*this.sampleRate);        
       }
       last = frq;
     }
@@ -54,11 +59,11 @@ class SoundEffect {
     for(var i=0;i<this.volData.length;i++) {
       var amplitude = this.volData[i];
       if(!amplitude)continue;
-      amplitude = amplitude/10;
+      amplitude = amplitude;
       gain.gain.setValueAtTime(amplitude*volume, time+i*this.sampleRate);
       if(last)
       for(var j=0;j<this.inBetweens;j++){
-        if(amplitude) gain.gain.setValueAtTime(last + (amplitude-last)*j/this.inBetweens*volume, time+(i-1+j/this.inBetweens)*this.sampleRate);        
+        if(amplitude) gain.gain.setValueAtTime((last + (amplitude-last)*j/this.inBetweens)*volume, time+(i-1+j/this.inBetweens)*this.sampleRate);        
       }
       last = amplitude;
     }

@@ -268,7 +268,7 @@ class Mover {
         this.width -= 10;
       }
       this.vy = -jumpPower;
-      SOUNDMAP.jump.play(this);
+      this.playJumpSound();
       if(this.jumpRelease) this.vy = this.vy * .65;
       if(this.cloudParticlesOn) {
         for(var i=0;i<3;i++) {
@@ -280,11 +280,14 @@ class Mover {
     }.bind(this), time);
     
   }
+  playJumpSound() {
+    this.jumpSound = SOUNDMAP.jump.play(this);
+  }
   wallJump() {
     this.jumpCount = 1;
     this.dashCount = 0;
     this.vy = -this.jumpPower;
-    SOUNDMAP.jump.play(this);
+    this.playJumpSound();
     this.grounded = false;
     this.height += 10;
     this.width -= 10;
@@ -304,6 +307,7 @@ class Mover {
     this.jumpRelease = true;
     if(!this.grounded&&this.jumpCount==1&&this.vy<-this.jumpPower/2) {
       this.vy = this.vy*.65;
+      this.jumpSound.stop(AUDIOCONTEXT.currentTime+.05);
     }
   }
   crouch() {
