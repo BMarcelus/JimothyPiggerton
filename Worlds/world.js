@@ -54,7 +54,7 @@ class World {
       }
     }
   }*/
-  draw(canvas) {
+  draw(canvas,editor) {
     // CELLMAP[2].angle += Math.PI/10;
     var s = this.s;
     var world = this.world;
@@ -65,7 +65,7 @@ class World {
           var type = world[j][i];
           var cell = CELLMAP[type];
           if(cell.draw&&cell.redraws) {
-            if (!cell.hide)
+            if (!cell.hide || editor)
               cell.draw(canvas, s*i,s*j,s,s, this, i,j);
           }
           // if(type == 1) ctx.fillStyle='brown';
@@ -88,7 +88,7 @@ class World {
         if(cell.draw) {
           var c = ctx;
           if(cell.redraws)c = canvas;
-          if (!cell.hide)
+          if (!cell.hide || editor)
             cell.draw(c, s*i,s*j,s,s, this, i,j);
         }
         // if(type == 1) ctx.fillStyle='brown';
@@ -100,6 +100,7 @@ class World {
     }
     canvas.drawImage(this.image,0,0);    
   }
+
   oob(x,y) {
     return x<0||y<0||x>=this.w||y>=this.h;
   }

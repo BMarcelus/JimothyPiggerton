@@ -1,6 +1,6 @@
 addBlock({
       //Spike floor
-      id: 3,
+      id: BLOCKS.length,
       name: "Ground Spike",
       solid: true,
       redraws: false,

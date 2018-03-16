@@ -2,6 +2,7 @@ addBlock({
   //Byrd Block
   id: BLOCKS.length,
   name: "Byrd",
+  hide: true,   
   ignoreCollisions: true,
   draw: function(canvas, x,y,width,height, world,ii,jj) {
     canvas.fillStyle = 'rgba(50,0,50,.5)';

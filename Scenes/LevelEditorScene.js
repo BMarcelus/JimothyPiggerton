@@ -188,7 +188,7 @@ class LevelEditorScene extends Scene{
     canvas.save();
     canvas.translate(canvas.width/2,canvas.height/2);  
     canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
-    this.world.draw(canvas);
+    this.world.draw(canvas,true);
     canvas.restore();
     var mouse = this.driver.mouse;
 
