@@ -57,6 +57,7 @@ class Mover {
       // this.vx += (this.mx*this.speed-this.vx)/3;     
       var ga = this.currentGroundAccel;
       if(!this.grounded)ga = ga/2;
+      if(this.mx==0&&this.grounded)ga = 10;
       this.vx = linearMove(this.vx, this.mx*this.speed, ga*dt); 
     }
     this.vy += this.grav * dt;
@@ -80,7 +81,7 @@ class Mover {
       if(this.wallJumps&&this.wallSlides&&this.vy>0) {
         this.vy = this.vy * .7;
         if(!this.spinning) {
-          this.flipped = this.mx > 0;
+          // this.flipped = this.mx > 0;
         }
         // this.width -= .5;
         // this.height += .5;
@@ -183,7 +184,8 @@ class Mover {
     }
     if(this.cloudParticlesOn) {
       for(var i=0;i<6;i++) {
-        this.game.addEntity(new Cloud(this.x,this.y-Math.random()*5,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
+        this.game.addEntity(new Cloud(this.x+this.w/2+4,this.y+3,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
+        this.game.addEntity(new Cloud(this.x-this.w/2-4,this.y+3,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
       }
     }
   }
@@ -323,16 +325,16 @@ class Mover {
   dash(dir) {
     if (this.dashCount == 0)
     {
-      if(this.grounded || this.jumpCount < this.maxJumps)
+      // if(this.grounded || this.jumpCount < this.maxJumps)
       {
         this.dashCount++;
         SOUNDMAP.dash.play(this);
         this.vx = (.5 * this.vx) + 30 * (dir);
-        if (this.vy < 0)
-          this.jumpCount++;
-        else
+        // if (this.vy < 0)
+          // this.jumpCount++;
+        // else
           this.vy = -10;
-        
+        this.grounded=false;
       }
     }
   }

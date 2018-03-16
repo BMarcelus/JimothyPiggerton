@@ -3,7 +3,8 @@ class Cloud {
     this.x=x;this.y=y;this.w=w;this.h=h;this.vx=vx;this.vy=vy;
     this.life = life||10;
     this.maxlife = this.life;
-    this.color = color||"rgba(200,200,200,.4)";
+    this.color = color||"rgba(200,200,200,1)";
+    this.behind = true;
   }
   update() {
     this.life--;
@@ -13,15 +14,19 @@ class Cloud {
     }
     this.x+=this.vx;
     this.y+=this.vy;
+    var val = Math.floor(200+50 * this.life/this.maxlife);
+    this.color = "rgb("+val+","+val+","+val+")";
   }
   draw(canvas) {
     canvas.save();
     canvas.fillStyle = this.color;
-    canvas.globalAlpha = this.life/this.maxlife;
+    // canvas.globalAlpha = this.life/this.maxlife;
     var w = this.w + (this.maxlife-this.life);
     var h = w;
     canvas.translate(this.x,this.y);
-    canvas.fillRect(-w/2,-h,w,h);
+    var d = w/5;
+    canvas.fillRect(-w/2+d,-h,w-d*2,h);
+    canvas.fillRect(-w/2,-h+d,w,h-d*2);
     canvas.restore();
   }
 }

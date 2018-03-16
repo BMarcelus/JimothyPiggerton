@@ -47,10 +47,15 @@ class GameScene extends Scene {
     // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
     // this.addEntity(new Enemy(300,100));
     this.screenShakeLevel=0;
+    this.behinds=[];
   }
   addEntity(entity) {
-    this.entities.push(entity);
     entity.game = this;
+    if(entity.behind) {
+      this.behinds.push(entity);
+    } else {
+      this.entities.push(entity);
+    }
   }
   pause() {
     this.driver.setScene(new PauseScene(this));
@@ -135,6 +140,13 @@ class GameScene extends Scene {
         entities.splice(i--,1);
       }
     }
+    this.behinds.forEach(function (e){
+      entities.unshift(e);
+    });
+    this.behinds=[];
+    // this.entities = this.entities.sort(function(a,b) {
+    //   return -b.behind;
+    // })
     this.moveCamera();
     this.detectLevelComplete();
     this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);

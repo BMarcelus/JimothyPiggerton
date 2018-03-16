@@ -111,7 +111,39 @@ class Player extends Mover{
     this.eyeMovement.x += (this.eyeMovement.tx-this.eyeMovement.x)/10;
     this.eyeMovement.y += (this.eyeMovement.ty-this.eyeMovement.y)/10;
   }
+  drawTail(canvas, w,h) {
+    canvas.fillStyle = 'brown';
+    var width = 30;
+    // canvas.fillRect(-w/2-width,-10,width,10);
+    var dx = Math.cos(Date.now()/500)*10;
+    var dy = 0;
+    if(this.wallCollideTimer>0) {
+      dy = 10;
+      canvas.fillStyle="#c60";
+      width += 5;
+    }
+    var a = Math.cos(Date.now()/300)*Math.PI/30+Math.PI/20+this.vy/30;
+    canvas.save();
+    canvas.rotate(a);
+    canvas.beginPath();
+    canvas.moveTo(-w/2, -1);
+    canvas.quadraticCurveTo(-w/2-width/2, -1, -w/2-width/2+dx/2,-width/2-dx/2);
+    canvas.quadraticCurveTo(-w/2, -width, -w/2-width,-width-dx-dy);
+    canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
+    // canvas.closePath();
+    canvas.fill();
+    canvas.fillStyle = '#a42';    
+    canvas.beginPath();
+    canvas.moveTo(-w/2, -1);
+    canvas.quadraticCurveTo(-w/2-width, -width/2, -w/2-width,-width-dx);
+    canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
+    canvas.fill();
+    
+    canvas.restore();
+    
+  }
   drawShape(canvas,w,h) {
+    if(this.wallJumps) this.drawTail(canvas, w,h);
     canvas.save();
     canvas.strokeStyle = "#000";
     canvas.lineWidth=7;
@@ -183,6 +215,7 @@ class Player extends Mover{
     canvas.restore();    
   }
   BounceOffEntity(enemy) {
+    this.groundCollide(this.y);
     this.vy = -20;
   }
 

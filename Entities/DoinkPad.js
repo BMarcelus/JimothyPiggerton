@@ -2,8 +2,8 @@
 class DoinkPad {
     constructor(x,y){
         this.x=x;this.y=y;
-        this.w= 20;
-        this.h = 20;
+        this.w= 30;
+        this.h = 30;
         this.r = 15;
         this.bounceAnimation = 0;
     }
@@ -20,18 +20,31 @@ class DoinkPad {
     draw(canvas) {
     var r = this.r;
     r += Math.cos(this.bounceAnimation*Math.PI/5)*10;
-    canvas.fillStyle="#f33";
+    canvas.fillStyle="#d3ba61";
+    // canvas.arc(this.x,this.y-Math.cos(this.bounceAnimation*Math.PI/10)*10,r,0,Math.PI*2);
+    var bounce = Math.cos(this.bounceAnimation*Math.PI/10);
+    var pinch = this.w/10;
+    pinch += 3*bounce;
+    canvas.beginPath();    
+    canvas.moveTo(this.x-this.w+pinch, this.y-this.h-5*bounce);
+    canvas.quadraticCurveTo(this.x,this.y-this.h-20*bounce,this.x+this.w-pinch, this.y-this.h-5*bounce);
+    canvas.lineTo(this.x+this.w,this.y);
+    canvas.lineTo(this.x-this.w,this.y);
+    canvas.fill();
+    canvas.fillStyle = "#aa9855";
     canvas.beginPath();
-    canvas.arc(this.x,this.y-Math.cos(this.bounceAnimation*Math.PI/10)*10,r,0,Math.PI*2);
+    canvas.moveTo(this.x-this.w+pinch, this.y-this.h-5*bounce);
+    canvas.quadraticCurveTo(this.x-this.w,this.y,this.x+this.w,this.y);
+    canvas.lineTo(this.x-this.w,this.y);
     canvas.fill();
     }
 
     getHitByEntity(player) {
         this.bounceAnimation = 20;
-		player.BounceOffEntity(this);
+      player.BounceOffEntity(this);
 	}
 
-    playerCollision(player) {
+  playerCollision(player) {
 		if(player.vy > 0) {
 			return true;
 		} else {
