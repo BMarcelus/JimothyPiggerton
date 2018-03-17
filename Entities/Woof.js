@@ -29,7 +29,7 @@ class Woof extends Enemy {
     var dist = this.game.player.x-this.x;
     var close = false;
     var superclose = false;
-    if ((dist > -300 && dist < 300)) {
+    if ((dist > -200 && dist < 200)) {
       close = true;
       if ((dist > -100 && dist < 100)) {
         superclose = true;
@@ -37,7 +37,7 @@ class Woof extends Enemy {
     }
     
     var ydist = this.game.player.y-this.y;
-    if (close && ydist < 200 && ydist > -300)
+    if (close && ydist < 200 && ydist > -200)
     {
       var left = dist < 0;
       var moveleft = this.mx < 0;
