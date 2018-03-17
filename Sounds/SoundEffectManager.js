@@ -10,8 +10,8 @@ GAIN.connect(AUDIOCONTEXT.destination);
 var DESTINATION = GAIN;
 // var DESTINATION = AUDIOCONTEXT.destination;
 class SoundEffect {
-  constructor(rate, frq, vol, len, inBetweens) {
-    this.type = 'triangle';
+  constructor(rate, frq, vol, len, inBetweens, type) {
+    this.type = type||'triangle';
     this.sampleRate = rate;
     this.inBetweens = inBetweens || 0;
     this.frqData=frq;

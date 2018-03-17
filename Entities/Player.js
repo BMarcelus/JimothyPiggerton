@@ -12,6 +12,7 @@ class Player extends Mover{
   }
   die() {
     if(this.dead)return;
+    SOUNDMAP.playerDeath.play(this);
     this.dead=true;
     this.eyeMovement.x = -5;
     this.eyeMovement.y = 0;

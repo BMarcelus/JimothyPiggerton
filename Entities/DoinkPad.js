@@ -6,6 +6,7 @@ class DoinkPad {
         this.h = 30;
         this.r = 15;
         this.bounceAnimation = 0;
+        this.behind = true;
     }
     update() {    
 		var doinkBox = this.getHitBox();

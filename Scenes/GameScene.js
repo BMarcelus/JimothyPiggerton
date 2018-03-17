@@ -4,6 +4,7 @@ class GameScene extends Scene {
     super();
     this.player = new Player();
     this.entities = [];
+    this.behinds=[];    
     this.addEntity(this.player);
     var p1controls = connectControls(Player.controls, this.player);
     this.keyMap = {
@@ -47,7 +48,6 @@ class GameScene extends Scene {
     // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
     // this.addEntity(new Enemy(300,100));
     this.screenShakeLevel=0;
-    this.behinds=[];
   }
   addEntity(entity) {
     entity.game = this;
@@ -75,7 +75,9 @@ class GameScene extends Scene {
     // if(Math.abs(cdy)>3)camera.y += cdy;
     camera.y += (player.y-camera.y-30)/30;
     if(player.grounded) camera.y += (player.y-camera.y-30)/20;
+    var d = 0;
     if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
+    if(player.crouching) camera.y += 1;
     //make the camera point more towards the direction
     //that the player is moving in so they can see ahead
     if(player.mx!=0) {
