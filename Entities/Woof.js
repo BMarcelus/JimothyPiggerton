@@ -7,7 +7,6 @@ class Woof extends Enemy {
     this.jumpPower = 10;
     this.killPlayer = false;
     this.startY= y;
-    this.push = true;
   }
 
   onHitPlayer(player) {
@@ -16,7 +15,7 @@ class Woof extends Enemy {
     player.vx = (2*(this.mx >= 0)-1) * 35;
     super.onHitPlayer(player);
 
-}
+  }
 
 
   getHitByEntity(player) {
@@ -38,16 +37,17 @@ class Woof extends Enemy {
     }
     
     var ydist = this.game.player.y-this.y;
-    if (close && ydist < 300 && ydist > -300)
+    if (close && ydist < 200 && ydist > -300)
     {
       var left = dist < 0;
       var moveleft = this.mx < 0;
-      if (left != moveleft)
-        this.mx *= -1;
       if (superclose)
       {
-        this.jump();
+        if (ydist <= 0)
+          this.jump();
       }
+      else if (left != moveleft)
+        this.mx *= -1;
     }
 
     super.update(dt, frameCount);
