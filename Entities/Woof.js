@@ -31,7 +31,7 @@ class Woof extends Enemy {
     var superclose = false;
     if ((dist > -200 && dist < 200)) {
       close = true;
-      if ((dist > -100 && dist < 100)) {
+      if ((dist > -75 && dist < 75)) {
         superclose = true;
       }
     }
