@@ -16,4 +16,5 @@ loadSequentially('Blocks/',
   "kaizoBlock.js",
   "byrdBlock.js",
   "doinkBlock.js",
+  "woofBlock.js",
 ]);
