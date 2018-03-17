@@ -6,7 +6,7 @@ addBlock({
   ignoreCollisions: true,
   draw: function(canvas, x,y,w,h, world,i,j) {
     //var w= width;
-    //var h=height;v 
+    //var h=height;
     canvas.fillStyle = 'rgba(50,50,0,.5)';
     canvas.fillRect(x,y,w,h);
   },
