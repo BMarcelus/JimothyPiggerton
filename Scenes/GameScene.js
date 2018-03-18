@@ -48,6 +48,7 @@ class GameScene extends Scene {
     // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
     // this.addEntity(new Enemy(300,100));
     this.screenShakeLevel=0;
+    this.deaths = 0;
   }
   addEntity(entity) {
     entity.game = this;
@@ -134,6 +135,8 @@ class GameScene extends Scene {
     // this.addEntity(new Enemy(300,100));  
   }
   respawn() {
+    this.deaths++;
+    console.log(this.deaths);
     this.loadNewLevel();
   }
   update(dt, frameCount) {

@@ -216,8 +216,14 @@ class Player extends Mover{
     canvas.restore();    
   }
   BounceOffEntity(enemy) {
-    this.groundCollide(this.y);
-    this.vy = -20;
+    this.groundCollide(this.y, true);
+    var jr = this.jumpRelease;
+    this.jump(20);
+    this.jumpRelease=jr;
+    var self = this;
+    // setTimeout(function() {
+      
+    // }, 100);
   }
 
   getHitByEntity(enemy) {

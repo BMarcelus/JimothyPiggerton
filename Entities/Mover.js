@@ -232,16 +232,16 @@ class Mover {
     canvas.fillStyle = this.color;    
     canvas.fillRect(-w/2,-h, w,h);
   }
-  jump() {
+  jump(amt) {
+    this.jumpRelease=false;    
     if(this.jumpSquating)return;
     // if(!this.grounded)return;
     if(this.wallCollideTimer>0&&this.wallJumps&&!this.grounded) {
       return this.wallJump();
     }
     if(this.jumpCount>=this.maxJumps)return;
-    this.jumpRelease=false;
     var time = 30;
-    var jumpPower = this.jumpPower;
+    var jumpPower = amt || this.jumpPower;
     if(this.jumpCount>0) {
       time = 0;
       jumpPower += 2;
