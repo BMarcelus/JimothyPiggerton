@@ -1,5 +1,5 @@
 addBlock({
-  name: "Kaizo",
+  name: "ByrdWall",
   solid: false,
   id: BLOCKS.length,
   hide: true,
@@ -11,9 +11,12 @@ addBlock({
     canvas.fillRect(x,y,w,h);
   },
   entityCollision: function(entity, pos, dx, dy, cellPos) {
-    if(dy<0) {
-      entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
-      entity.game.world.forceRedraw();
+    if(entity.isByrd) {
+      return true;
+      //entity.mx = 2*(entity.x < this.x) - 1;
+      //entity.mx = 2*(dx<0)-1;
+      //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
+      //entity.game.world.forceRedraw();
       //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = this.id;
     }
   },

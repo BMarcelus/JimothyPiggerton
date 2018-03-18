@@ -7,6 +7,7 @@ class Byrd extends Enemy {
     this.jumpPower = 10;
     this.killPlayer = false;
     this.startY= y;
+    this.isByrd = true;
   }
   die() {
 
