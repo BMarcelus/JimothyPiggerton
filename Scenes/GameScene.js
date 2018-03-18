@@ -103,6 +103,7 @@ class GameScene extends Scene {
   }
   loadNewLevel(index) {
     var same = false;
+    var entities = this.entities;
     if(index==undefined) {
       same=true;
     } else {
@@ -119,6 +120,10 @@ class GameScene extends Scene {
     this.entities = [this.player];    
     //this.addEntity(new Byrd(100,400));
     this.world.loadWorld(this);
+    // this.behinds.forEach(function (e){
+    //   entities.unshift(e);
+    // });
+    // this.behinds=[];
     if(level.modifyPlayer) {
       level.modifyPlayer(this.player);
     }
@@ -142,6 +147,7 @@ class GameScene extends Scene {
         entities.splice(i--,1);
       }
     }
+    entities = this.entities;
     this.behinds.forEach(function (e){
       entities.unshift(e);
     });
