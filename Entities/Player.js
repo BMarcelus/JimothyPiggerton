@@ -220,10 +220,6 @@ class Player extends Mover{
     var jr = this.jumpRelease;
     this.jump(20);
     this.jumpRelease=jr;
-    var self = this;
-    // setTimeout(function() {
-      
-    // }, 100);
   }
 
   getHitByEntity(enemy) {
