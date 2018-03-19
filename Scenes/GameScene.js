@@ -33,7 +33,7 @@ class GameScene extends Scene {
         }
       }.bind(this)},
     }
-    this.camera = {x:0,y:0,dx:0};
+    this.camera = {x:0,y:0,dx:0,dy:0};
     // this.world = new World(200,50,50);
     if(level) {
       this.levels = [level];
@@ -78,7 +78,9 @@ class GameScene extends Scene {
     if(player.grounded) camera.y += (player.y-camera.y-30)/20;
     var d = 0;
     if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
-    if(player.crouching) camera.y += 1;
+    if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
+    if(camera.dy>50)camera.dy=50;
+    if(camera.dy>2) camera.y+=camera.dy/3;
     //make the camera point more towards the direction
     //that the player is moving in so they can see ahead
     if(player.mx!=0) {
