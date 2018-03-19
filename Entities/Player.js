@@ -217,9 +217,9 @@ class Player extends Mover{
   }
   BounceOffEntity(enemy) {
     this.groundCollide(this.y, true);
-    var jr = this.jumpRelease;
+    // var jr = this.jumpRelease;
     this.jump(20);
-    this.jumpRelease=jr;
+    // this.jumpRelease=jr;
   }
 
   getHitByEntity(enemy) {

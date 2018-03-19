@@ -5,7 +5,7 @@ if('webkitAudioContext' in window) {
   AUDIOCONTEXT = new AudioContext();
 }
 var GAIN = AUDIOCONTEXT.createGain();
-GAIN.gain.setValueAtTime(1, 0);
+GAIN.gain.setValueAtTime(.5, 0);
 GAIN.connect(AUDIOCONTEXT.destination);
 var DESTINATION = GAIN;
 // var DESTINATION = AUDIOCONTEXT.destination;
@@ -34,13 +34,18 @@ class SoundEffect {
     var gain = audioContext.createGain();
     var time = audioContext.currentTime;
     oscillator.start(time);
-    oscillator.stop(time+this.length);
+    var stopTime = time+this.length;
+    oscillator.stop(stopTime);
     oscillator.type=this.type;
     oscillator.frequency.setValueAtTime(this.frqData[0], time);
     gain.gain.setValueAtTime(this.volData[0]*volume, time);
     oscillator.connect(gain);
     gain.connect(destination);
     this.applyData(oscillator, gain, time, volume);
+    oscillator.stopSound = function() {
+      if(AUDIOCONTEXT.currentTime<stopTime)
+      this.disconnect(gain);
+    };
     return oscillator;
   }
   applyData(oscillator, gain, time, volume) {

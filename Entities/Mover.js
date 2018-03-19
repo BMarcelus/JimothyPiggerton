@@ -309,7 +309,7 @@ class Mover {
     this.jumpRelease = true;
     if(!this.grounded&&this.jumpCount==1&&this.vy<-this.jumpPower/2) {
       this.vy = this.vy*.65;
-      this.jumpSound.stop(AUDIOCONTEXT.currentTime+.05);
+      this.jumpSound.stopSound();
     }
   }
   crouch() {
