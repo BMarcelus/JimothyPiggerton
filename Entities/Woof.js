@@ -20,8 +20,8 @@ class Woof extends Enemy {
 
   onHitPlayer(player) {
     this.y -= 5;
-    player.vy = -5;
-    player.vx = (2*(this.mx >= 0)-1) * 35;
+    //player.vy = -5;
+    player.vx = (2*(this.mx >= 0)-1) * 20;
     super.onHitPlayer(player);
 
   }

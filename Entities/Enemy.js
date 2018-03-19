@@ -6,7 +6,7 @@ class Enemy extends Mover {
 		this.height = this.h;
 		this.width = this.w; 
 		this.color = "red";
-		this.speed = 5;
+		this.speed = 3;
 		this.groundAccel = 5;
 		this.mx = 1;
 		this.killPlayer = true;
