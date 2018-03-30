@@ -79,8 +79,8 @@ class GameScene extends Scene {
     var d = 0;
     if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
     if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
-    if(camera.dy>50)camera.dy=50;
-    if(camera.dy>2) camera.y+=camera.dy/3;
+    if(camera.dy>60)camera.dy=60;
+    if(camera.dy>10) camera.y+=(camera.dy-10)/3;
     //make the camera point more towards the direction
     //that the player is moving in so they can see ahead
     if(player.mx!=0) {
@@ -161,7 +161,7 @@ class GameScene extends Scene {
     //   return -b.behind;
     // })
     this.moveCamera();
-    this.detectLevelComplete();
+    // this.detectLevelComplete();
     this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);
     // this.screenShakeLevel -= this.screenShakeLevel/10;
   }
