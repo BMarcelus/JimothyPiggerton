@@ -9,8 +9,10 @@ class Background {
   }
   drawLayers(canvas,camera, world) {
     canvas.save();
-    canvas.fillStyle=this.backgroundColor;
-    canvas.fillRect(0,0,canvas.width,canvas.height);
+    if(this.backgroundColor) {
+      canvas.fillStyle=this.backgroundColor;
+      canvas.fillRect(0,0,canvas.width,canvas.height);
+    }
     canvas.translate(0,world.h*world.s-canvas.height/2);
     canvas.translate(-camera.x/8,-camera.y);
     canvas.drawImage(this.background1,-150,-200);   
@@ -19,7 +21,33 @@ class Background {
     canvas.restore();
   }
   createBackground(w,c, e) {
-    return createHillBackground(w,c, e);
+    return createForrestBackground(w,c, e);
+  }
+}
+
+class InfiniteBackground extends Background {
+  drawLayers(canvas, camera) {
+    var w = 3000;
+    var w2 = 6000;
+    var x1 = Math.floor(camera.x/w/2-.5)+1;
+    var x2 = Math.floor(camera.x/w/2);
+    var x11 = Math.floor(camera.x/w2/2-.5)+1;
+    var x12 = Math.floor(camera.x/w2/2);
+    canvas.save();
+    if(this.backgroundColor) {
+      canvas.fillStyle=this.backgroundColor;
+      canvas.fillRect(0,0,canvas.width,canvas.height);
+    }
+    canvas.translate(-camera.x/2,-camera.y);
+    canvas.drawImage(this.background1,0+w*2*x11,-200);
+    canvas.drawImage(this.background1,w+x12*w*2,-200);
+    canvas.translate(-camera.x/2,0);
+    canvas.drawImage(this.background2,0+w*2*x1,-100);
+    canvas.drawImage(this.background2,w+x2*w*2,-100);
+
+    // canvas.drawImage(this.background2,-150+x1*w*2,-100);     
+    // canvas.drawImage(this.background2,-150+w+x2*w*2,-100);     
+    canvas.restore();
   }
 }
 
