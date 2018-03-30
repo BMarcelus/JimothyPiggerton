@@ -22,12 +22,15 @@ class State
 
     variables(entity)
     {
-        for (i = 0; i < this.checks.Length(); ++i)
+        for (i = 0; i < this.variables.Length(); ++i)
         {
             this.variables[i](entity);
         }
     }
 }
+
+
+
 
 class StateMachine 
 { 
@@ -35,7 +38,7 @@ class StateMachine
     {
         this.entity = entity;
         this.base = states[0];
-        goto(1);
+        this.goto(1);
     }
 
     goto(l)
@@ -49,7 +52,7 @@ class StateMachine
         check = this.current.check();
         if (check != false)
         {
-            goto(check);
+            this.goto(check);
         }
         this.current.run(dt, frameCount);	
         this.base.run(dt, frameCount);
