@@ -16,6 +16,7 @@ class Pig extends Mover {
     this.ty = y;
     this.turnTime = 50;
     this.turnCounter = this.turnTime;
+    this.bounceFrq = Math.PI/5;
   }
   update(dt, frameCount) {
     // if(this.x > this.tx+50) this.mx = -1;
@@ -31,8 +32,8 @@ class Pig extends Mover {
       this.wallcolliding=false;
       this.vx = 0;
     }
-    this.width += Math.sin(frameCount*Math.PI/5)*2;
-    this.height -= Math.sin(frameCount*Math.PI/5)*2;
+    this.width += Math.sin(frameCount*this.bounceFrq)*this.bounceFrq;
+    this.height -= Math.sin(frameCount*this.bounceFrq)*this.bounceFrq;
     // this.width += Math.cos(this.angle*20) * 2;
     // this.height -= Math.cos(this.angle*20) * 2;
     super.update(dt, frameCount);

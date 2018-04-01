@@ -3,7 +3,7 @@ class MenuScene extends Scene{
     super();
     this.gui = [];
     this.keyMap = {
-      '32': {down: sceneTransition(this, GameScene)},
+      '32': {down: sceneTransition(this, IntroScene)},
       '69': {down: sceneTransition(this, LevelEditorScene)},
     }
     this.background = new InfiniteBackground();

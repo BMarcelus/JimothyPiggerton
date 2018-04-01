@@ -33,6 +33,7 @@ class Mover {
     this.spinning = false;
     this.invisible=false;
     this.ceilingColliding=false;
+    this._angle = 0;
   }
   die() {
     this.shouldDelete=true;
@@ -215,7 +216,7 @@ class Mover {
     if(this.spinning) {
       canvas.translate(0,-h/2);      
     }
-    canvas.rotate(this.angle);
+    canvas.rotate(this.angle+this._angle);
     if(this.spinning) {
       canvas.translate(0,h/2);      
     }

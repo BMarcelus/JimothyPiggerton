@@ -12,4 +12,5 @@ loadSequentially('Entities/',
   "wallJump.js",
   "DoinkPad.js",
   "WoofSM.js",
+  "Butcher.js",
 ]);
