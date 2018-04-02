@@ -26,7 +26,7 @@ class IntroScene extends GameScene{
     }
     // this.player.x = 500;
     this.player.flipped = true;
-    this.pig = new Pig(this.player.x-30, this.player.y);
+    this.pig = new Pig(this.player.x-20, this.player.y);
     this.pig.speed=0;
     this.butcher = new Butcher(this.player.x+300, this.player.y);
     this.addEntity(this.butcher);
@@ -34,7 +34,10 @@ class IntroScene extends GameScene{
     this.player.updateEye = function() {};
     this.pig.mx = 0;
     this.pig.bounceFrq = Math.PI/30;
-    this.time = 300;
+    this.totalTime = 350;
+    this.time = this.totalTime;
+    this.player.resetControls = function() {};
+    this.player.speed = 4;
   }
   update(dt, frameCount) {
     super.update(dt,frameCount);
@@ -42,5 +45,14 @@ class IntroScene extends GameScene{
     if(this.time<=0) {
       sceneTransition(this, GameScene)();
     }
+    if(this.time == this.totalTime - 150) {
+      this.player.flipped = false;
+      this.player.jump(7);
+    }
+    if(this.time < this.totalTime - 180) {
+      this.player.mx = 1;
+      this.moveCamera = function() {};
+    }
+    
   }
 }

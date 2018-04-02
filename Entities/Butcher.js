@@ -11,7 +11,7 @@ class Butcher extends Mover {
     this.color1 = "#aaa";
     this.color2 = "#888";
     this.mx=-1;
-    this.speed = 3;
+    this.speed = 4;
     this.state = 0;
   }
   update(dt, frameCount) {
@@ -37,6 +37,7 @@ class Butcher extends Mover {
     this.game.pig.flipped = true;
     this.game.pig.vy = 0;
     this.game.pig._angle = this.angle;
+    this.game.pig.bounceFrq = Math.PI/5;
   }
   drawShape(canvas,w,h) {
     canvas.save();

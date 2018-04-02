@@ -43,8 +43,11 @@ class SoundEffect {
     gain.connect(destination);
     this.applyData(oscillator, gain, time, volume);
     oscillator.stopSound = function() {
-      if(AUDIOCONTEXT.currentTime<stopTime)
-      this.disconnect(gain);
+      try {
+        this.disconnect(gain);
+      } catch(e) {
+        console.log(e);
+      }
     };
     return oscillator;
   }
