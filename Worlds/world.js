@@ -107,7 +107,7 @@ class World {
   wallExists(x,y) {
     return this.oob(x,y) || this.world[y][x];
   }
-  pointCollides(x,y,entity) {
+  pointCollides(x,y) {
     var type = this.wallExists(Math.floor(x/this.s), Math.floor(y/this.s));
     // this.entityCollision(entity, type);
     return type;

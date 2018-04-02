@@ -1,4 +1,4 @@
-var BLOCKS = [{name:"Air", id: 0},];
+var BLOCKS = [{name:"Air", id: 0, ignoreCollisions: true},];
 
 
 function addBlock(b) {
