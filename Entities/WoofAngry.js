@@ -1,8 +1,8 @@
 class Woof extends Enemy {
   constructor(x,y) {
     super(x,y);
-    this.w = 45;
-    this.h = 35;
+    this.w = 50;
+    this.h = 40;
     this.jumpPower = 7;
     this.killPlayer = true;
     this.startY= y;
@@ -238,8 +238,10 @@ class Woof extends Enemy {
     canvas.stroke();
     canvas.translate(0,4);
     canvas.lineWidth = 1;  
+    var m = Math.abs(this.vy);
+    canvas.translate(0,-m/4);
     this.drawMouth(canvas,w*.6,h*.8);
-    canvas.translate(0,-this.vy); 
+    canvas.translate(0,m); 
     this.drawMouth(canvas,w*.6,h*.8); 
   }
   drawMouth(canvas, w,h) {

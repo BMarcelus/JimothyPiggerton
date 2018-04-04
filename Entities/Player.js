@@ -9,6 +9,8 @@ class Player extends Mover{
     this.eyeMovement = {x:0,y:0, blink: 0, blinkTime: 10, tx: 0, ty: 0};
     this.dead=false;
     this.player=true;
+    this.color1 = "#666";
+    this.color2 = "#222";
   }
   die() {
     if(this.dead)return;
@@ -144,11 +146,46 @@ class Player extends Mover{
     canvas.restore();
     
   }
+  drawWings(canvas, w,h,s) {
+    if(this.maxJumps<2)return;
+    var angle = 0;
+    var ww = 40;
+    var hh = 7;
+    if(this.jumpCount==0) {
+      ww=20;
+      hh=5;
+    }
+    if(this.jumpCount<this.maxJumps) angle = Math.PI/10+this.vy/10;
+    else {
+      angle = -Math.PI/4+this.vy/10;
+      ww=25;
+    }
+    canvas.fillStyle = this.color2;
+    canvas.beginPath();
+    // canvas.rect(-w/2-ww/2,-h/2, ww,hh);
+    // canvas.rect(w/2,-h/2, ww,hh);
+    var y = -h-angle*10;
+    this.pathWingAtAngle(canvas, -w/2-ww*.8,y, ww,hh, ww*.8, hh/2, angle);
+    this.pathWingAtAngle(canvas,w*.3,y, ww,hh, ww*.2, hh/2, -angle);
+    if(s)canvas.stroke();
+    else canvas.fill();
+  }
+  pathWingAtAngle(canvas, x,y,w,h, px,py, angle) {
+    canvas.save();
+    canvas.translate(x+px, y+py);
+    canvas.rotate(angle);
+    canvas.rect(-px,-py-10,w,h);
+    canvas.rect(-px*.8,-py,w*.8,h);
+    canvas.rect(-px*.5,-py+5,w*.5,h);
+    canvas.restore();
+  }
   drawShape(canvas,w,h) {
     if(this.wallJumps) this.drawTail(canvas, w,h);
     canvas.save();
     canvas.strokeStyle = "#000";
     canvas.lineWidth=7;
+    this.drawWings(canvas,w,h,1);    
+    this.drawWings(canvas,w,h);    
     canvas.strokeRect(-w/2-1,-h-1,w+2,h+2);
     // canvas.fillStyle = "#73d";
     canvas.fillStyle = "#666";    

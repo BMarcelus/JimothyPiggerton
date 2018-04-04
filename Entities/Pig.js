@@ -4,8 +4,10 @@ class Pig extends Mover {
     x+=70;
     super(x,y);
     this.color = "pink";
-    this.w = 27;
-    this.h = 23;
+    // this.w = 27;
+    // this.h = 23;
+    this.w=30;
+    this.h=25;
     this.width = this.w;
     this.height = this.h;
     this.speed = 3;

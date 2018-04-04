@@ -140,7 +140,7 @@ class GameScene extends Scene {
   }
   respawn() {
     this.deaths++;
-    console.log(this.deaths);
+    // console.log(this.deaths);
     this.loadNewLevel();
   }
   update(dt, frameCount) {
