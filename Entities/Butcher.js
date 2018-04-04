@@ -21,23 +21,49 @@ class Butcher extends Mover {
         this.moveToPig();
         break;
       case 1:
+        this.waitForJump();
+        break;
+      case 2:
+        this.waitForFall();
+        break;
+      case 3:
         this.moveOffScreen();
       default:
         break;
     }
   }
+  attachPig() {
+    this.game.pig.x = this.x-this.w/4*(1-2*this.flipped);
+    this.game.pig.y = this.y-this.h/4;
+    this.game.pig.flipped = !this.flipped;
+    this.game.pig.vy = 0;
+    this.game.pig._angle = this.angle;
+    this.game.pig.animationState = 0;    
+    this.game.pig.bounceFrq = Math.PI/10;
+  }
+  waitForJump() {
+    this.mx = 0;
+    if(this.grounded==false) this.state = 2;
+    this.attachPig();
+  }
+  waitForFall() {
+    this.mx = 0;
+    if(this.grounded) {
+      this.state = 3;
+    }
+    this.attachPig();
+  }
   moveToPig() {
     this.mx = -1;
-    if(this.x<this.game.pig.x) this.state=1;
+    if(this.x<this.game.pig.x) {
+      this.state=1;
+      this.jump(7);
+      this.mx = 0;
+    }
   }
   moveOffScreen() {
     this.mx = 1;
-    this.game.pig.x = this.x-this.w/4;
-    this.game.pig.y = this.y-this.h/4;
-    this.game.pig.flipped = true;
-    this.game.pig.vy = 0;
-    this.game.pig._angle = this.angle;
-    this.game.pig.bounceFrq = Math.PI/5;
+    this.attachPig();
   }
   drawShape(canvas,w,h) {
     canvas.save();

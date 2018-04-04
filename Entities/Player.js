@@ -77,6 +77,7 @@ class Player extends Mover{
     this.dead=false;
   }
   updateEye(dt, frameCount) {
+    frameCount = Math.floor(frameCount);
     var t = frameCount%120;
     // if(t<10) {
     //   this.eyeMovement.blink = (1+Math.cos(t*Math.PI/20))/2;
@@ -84,7 +85,7 @@ class Player extends Mover{
     //   this.eyeMovement.blink = 0;
     // }
     // if(frameCount%120==0) {
-    if(Math.random()>.5&&frameCount%60==0) {
+    if(frameCount%60==0&&Math.random()>.5) {
       this.eyeMovement.blink = this.eyeMovement.blinkTime;
     }
     if(this.eyeMovement.blink>0) {

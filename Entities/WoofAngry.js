@@ -1,9 +1,8 @@
 class Woof extends Enemy {
   constructor(x,y) {
     super(x,y);
-    this.w = 50;
-    this.h = 50;
-    this.color="gray";
+    this.w = 45;
+    this.h = 35;
     this.jumpPower = 7;
     this.killPlayer = true;
     this.startY= y;
@@ -14,6 +13,9 @@ class Woof extends Enemy {
     this.state = 0;//starting state
     this.xsight = 300;//line of sight
     this.ysight = 300;
+    this.color1="#aaa";
+    this.color2="#888";
+    this.color3="#555";
   }
 
   populateFsm()
@@ -150,6 +152,9 @@ class Woof extends Enemy {
   getHitByEntity(player) {
 		player.BounceOffEntity(this);
     player.y -= 20;
+    this.width+=20;
+    this.height-=10;
+    this.movementStun += 20;
 		//this.h=this.h/2;
 		//this.die();
 	}
@@ -163,5 +168,89 @@ class Woof extends Enemy {
      // this.jump();
     //}
     super.update(dt, frameCount);
+  }
+  drawShape(canvas,w,h) {
+    var hh = h*.2;
+    canvas.translate(0,-hh);
+    h -= hh;
+    canvas.fillStyle = this.color1;
+    canvas.strokeStyle = "#000";
+    canvas.lineWidth = 5;
+    canvas.strokeRect(-w/2,-h,w,h);
+    this.pathEars(canvas,w,h);
+    canvas.stroke();
+    this.pathTail(canvas,w,h);
+    canvas.stroke();
+    this.pathFeet(canvas,w,h,hh);    
+    canvas.stroke();
+    canvas.fillStyle = this.color1;
+    canvas.fillRect(-w/2,-h,w,h);
+    this.pathEars(canvas,w,h);
+    canvas.fill();
+    this.pathFeet(canvas,w,h,hh);    
+    canvas.fill();
+    this.pathTail(canvas,w,h);    
+    canvas.fill();
+    canvas.fillStyle = this.color2;
+    canvas.fillRect(-w/2,-h,w/3,h);
+    // canvas.fillRect(-w/2,-h/6,w,h/6);
+    canvas.translate(w/4,-h*.6);
+    this.drawFace(canvas, w/2,h*.6);
+  }
+  pathFeet(canvas,w,h,hh) {
+    hh-=2;
+    canvas.beginPath();
+    canvas.fillStyle=this.color3;
+    var ww = w/10;
+    var d = this.angle*10;
+    canvas.rect(-w*.4+d,-d/2,ww,hh);
+    canvas.rect(w*.3-ww-d,-d/2,ww,hh);
+  }
+  pathEars(canvas, w,h) {
+    canvas.beginPath();
+    canvas.rect(w*.35, -h-4, 4,4);
+    canvas.rect(0, -h-4, 4,4);
+    canvas.fillStyle = this.color2;    
+  }
+  pathTail(canvas,w,h) {
+    canvas.beginPath();
+    var ww = 8;
+    var hh = 8;
+    canvas.fillStyle=this.color3;
+    canvas.rect(-w/2-ww*.8,-h-hh*.3,ww,hh);
+    ww*=.8;
+    hh*=.8;
+    canvas.rect(-w/2-ww*1.5,-h-hh,ww,hh);
+  }
+  drawFace(canvas, w,h) {
+    canvas.lineWidth = 3;
+    canvas.lineCap = "round";
+    canvas.beginPath();
+    canvas.moveTo(-w/4-2, -h/4);
+    canvas.lineTo(-w/4,-h/4+2);
+    canvas.moveTo(w/4+2, -h/4);
+    canvas.lineTo(w/4,-h/4+2);    
+    canvas.stroke();
+    canvas.lineWidth = 3;
+    canvas.beginPath();
+    canvas.moveTo(1,0);
+    canvas.lineTo(0,0);
+    canvas.stroke();
+    canvas.translate(0,4);
+    canvas.lineWidth = 1;  
+    this.drawMouth(canvas,w*.6,h*.8);
+    canvas.translate(0,-this.vy); 
+    this.drawMouth(canvas,w*.6,h*.8); 
+  }
+  drawMouth(canvas, w,h) {
+    canvas.beginPath();
+    canvas.moveTo(-w/2,2);
+    canvas.lineTo(-w/2,h/4);
+    canvas.lineTo(-w/7,2);
+    canvas.lineTo(0,h/4);
+    canvas.lineTo(w/7,2);    
+    canvas.lineTo(w/2,h/4);    
+    canvas.lineTo(w/2,2);  
+    canvas.stroke();
   }
 }

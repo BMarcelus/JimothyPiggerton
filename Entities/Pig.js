@@ -17,6 +17,8 @@ class Pig extends Mover {
     this.turnTime = 50;
     this.turnCounter = this.turnTime;
     this.bounceFrq = Math.PI/5;
+    this.animationState = 0;
+    this.isPig=true;
   }
   update(dt, frameCount) {
     // if(this.x > this.tx+50) this.mx = -1;
@@ -74,8 +76,19 @@ class Pig extends Mover {
     canvas.fill();
     this.drawSnout(canvas, w/2-h/4, -h*11/16, h/2, h/2);
     canvas.fillStyle='#000';
-    this.drawEye(canvas, 0,-h+2,5,4, -Math.PI/5);
-    this.drawEye(canvas, w/2-3,-h+2,5,4, Math.PI/5);
+    var eyeH = 4+this.width/10;
+    var eyeBrowAngle = Math.PI/5;
+    var eyeY = -h+2;
+    if(this.animationState==1) {
+      eyeH = 2;
+      eyeBrowAngle = 0;
+      eyeY+=2;
+    }
+    if(this.animationState==2) {
+      eyeBrowAngle = 0;
+    }
+    this.drawEye(canvas, 0,eyeY,5,eyeH, -eyeBrowAngle);
+    this.drawEye(canvas, w/2-3,eyeY,5,eyeH, eyeBrowAngle);
   }
   drawEar(canvas, x,y,w,h) {
     canvas.rect(x,y,w,h);
@@ -103,15 +116,31 @@ class Pig extends Mover {
     canvas.restore();
   }
   drawEye(canvas, x,y,w,h,r) {
-    
+    if(this.animationState==2) {
+      // canvas.fillRect(x,y,w,h);
+      canvas.beginPath();
+      canvas.moveTo(x,y+h/2);
+      canvas.lineTo(x+w/2,y);
+      canvas.lineTo(x+w,y+h/2);
+      canvas.lineTo(x+w,y+h);
+      canvas.lineTo(x+w/2,y+h/2);
+      canvas.lineTo(x,y+h);
+      canvas.fill();
+      return;
+    }
     canvas.save();
     canvas.translate(x+w/2,y+h/2);
     canvas.fillRect(-w/2,-h/2,w,h);
     // canvas.fillStyle = "#fff";
     // canvas.fillRect(-w*.5,-h*.5, w*.5,h*.5);
-    canvas.rotate(r);
-    canvas.fillStyle="pink";
-    canvas.fillRect(-w,-h/2-h/2,w*2,h/2);
+    if(this.animationState==0) {
+      canvas.rotate(r);
+    // w = w/2;
+    // w=w*.8;
+    // canvas.fillStyle="pink";
+    // h = 4;
+      canvas.fillRect(-w,-h,w*2,h/2);
+    }
     canvas.restore();
   }
 }

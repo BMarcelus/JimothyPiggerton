@@ -1,7 +1,8 @@
 
 class GameScene extends Scene {
-  constructor(level) {
+  constructor(level, dontSpawnPig) {
     super();
+    this.dontSpawnPig=dontSpawnPig;
     this.player = new Player();
     this.entities = [];
     this.behinds=[];    
@@ -133,6 +134,7 @@ class GameScene extends Scene {
     this.level=level;
     this.camera.x=this.player.x;
     this.camera.y=this.player.y;
+    if(!this.dontSpawnPig)
     this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
     // this.addEntity(new Enemy(300,100));  
   }

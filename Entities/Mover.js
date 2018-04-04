@@ -34,6 +34,7 @@ class Mover {
     this.invisible=false;
     this.ceilingColliding=false;
     this._angle = 0;
+    this.movementStun=0;
   }
   die() {
     this.shouldDelete=true;
@@ -43,6 +44,9 @@ class Mover {
     if(this.mx<-1)this.mx=-1;
     if(this.my>1)this.my=1;
     if(this.my<-1)this.my=-1;
+    if(this.movementStun>0) {
+      this.movementStun--;
+    }
     if(this.mx && !this.spinning){
       this.flipped=this.mx<0;
       if(!this.wallcolliding&&this.cloudParticlesOn&&this.grounded&&!this.crouching&&(frameCount%20==0||this.vx*this.mx<=0||Math.abs(this.vx)<1)) {
@@ -58,8 +62,10 @@ class Mover {
       // this.vx += (this.mx*this.speed-this.vx)/3;     
       var ga = this.currentGroundAccel;
       if(!this.grounded)ga = ga/2;
-      if(this.mx==0&&this.grounded)ga = 10;
-      this.vx = linearMove(this.vx, this.mx*this.speed, ga*dt); 
+      var mx = this.mx;
+      if(this.movementStun) mx =0;
+      if(mx==0&&this.grounded)ga = 10;
+      this.vx = linearMove(this.vx, mx*this.speed, ga*dt); 
     }
     this.vy += this.grav * dt;
     if(this.vy>this.terminalVelocity)this.vy = this.terminalVelocity;
