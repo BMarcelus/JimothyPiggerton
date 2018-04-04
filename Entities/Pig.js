@@ -40,9 +40,15 @@ class Pig extends Mover {
     // this.height -= Math.cos(this.angle*20) * 2;
     super.update(dt, frameCount);
     if(rectangleCollision(this.getHitBox(), this.game.player.getHitBox()) == true) {
-			this.game.levelComplete();
+			this.playerCollision();
 		}
   }
+
+  playerCollision()
+  {
+    this.game.levelComplete();
+  }
+
   drawShape(canvas, w, h) {
     var tailSize = 15;
     var earSize = 5;    

@@ -18,4 +18,6 @@ loadSequentially('Blocks/',
   "doinkBlock.js",
   "woofBlock.js",
   "byrdWall.js",
+  "treeTrunk.js",
+  "treeLeaves.js",
 ]);
