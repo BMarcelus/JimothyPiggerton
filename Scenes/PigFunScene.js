@@ -21,7 +21,7 @@ class PigFunScene extends GameScene{
     ]
     },true);
     this.gui = [];
-    this.pig = new Pig(this.player.x+200, this.player.y);
+    this.pig = new PigBeginning(this.player.x+200, this.player.y);
     this.pig.animationState = 2;
     this.addEntity(this.pig);
   }

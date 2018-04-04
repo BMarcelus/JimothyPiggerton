@@ -13,4 +13,5 @@ loadSequentially('Entities/',
   "DoinkPad.js",
   "WoofAngry.js",
   "Butcher.js",
+  "PigBeginning.js",
 ]);
