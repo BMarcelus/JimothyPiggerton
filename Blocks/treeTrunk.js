@@ -37,7 +37,6 @@ addBlock({
         canvas.strokeRect(x,y+h,w,0);
       }
       if(world.getCell(i+1,j).id!=this.id&&!(world.getCell(i+1,j).id==this.id+1&&world.getCell(i,j+1).id!=this.id)) {
-        //if ()
         canvas.strokeRect(x+w,y,0,h);
       }
       if(world.getCell(i-1,j).id!=this.id&&!(world.getCell(i-1,j).id==this.id+1&&world.getCell(i,j+1).id!=this.id)) {

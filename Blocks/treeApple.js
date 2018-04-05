@@ -1,11 +1,10 @@
 addBlock({
-    name: "treeLeaves",
+    name: "treeApple",
     solid: false,
     groundBlock: false,
     ignoreCollisions: true,
     id: BLOCKS.length,
     draw: function(canvas, x,y,w,h, world,i,j) {
-      //h*=.5;
       var color1 = "#090";
       var color2 = "#080";
       var color3 = "#532";
@@ -47,6 +46,8 @@ addBlock({
         //console.log("help");
 
         world.getCell(i,j+1).draw(canvas,x,y+h-he,w,he, world,i,j);
+
+       
         /*canvas.fillStyle=color3;
         canvas.fillRect(x,y+h-he,w,he);
 
@@ -70,7 +71,6 @@ addBlock({
         } 
         */
       }
-
             
       canvas.fillStyle=color1;
       for(var ii=0;ii<10;ii++) {
@@ -80,7 +80,7 @@ addBlock({
           var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
           canvas.fillRect(xx+x,yy+y,ww,hh);
       }
-
+    //this.id+=2;
     },
     entityCollision: function(entity, pos, dx, dy, cellPos) {
       if(dy>0&&entity.y<=cellPos.y) {
@@ -88,4 +88,8 @@ addBlock({
       }
       return false;
     },
+    onload: function(game, x,y,width,height, world,ii,jj) {
+      world.getCell(ii,jj).id = 19;
+      game.addEntity(new Apple(x + width/2,y + height));
+  },
 });

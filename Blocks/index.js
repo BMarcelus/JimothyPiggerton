@@ -20,4 +20,6 @@ loadSequentially('Blocks/',
   "byrdWall.js",
   "treeTrunk.js",
   "treeLeaves.js",
+  "pigBlock.js",
+  "treeApple.js",
 ]);

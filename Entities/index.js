@@ -14,4 +14,5 @@ loadSequentially('Entities/',
   "WoofAngry.js",
   "Butcher.js",
   "PigBeginning.js",
+  "Apple.js",
 ]);
