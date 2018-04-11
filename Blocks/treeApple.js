@@ -6,7 +6,7 @@ addBlock({
     id: BLOCKS.length,
     draw: function(canvas, x,y,w,h, world,i,j) {
       var color1 = "#090";
-      var color2 = "#080";
+      var color2 = "#080";  
       var color3 = "#532";
       var color4 = "#754";
       

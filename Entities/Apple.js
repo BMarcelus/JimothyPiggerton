@@ -3,6 +3,7 @@ class Apple extends Mover {
     constructor(x,y){
         super(x,y);
         this.x=x;this.y=y;
+        this.startY=this.y;
         this.w= 20;
         this.h = 20;
         this.r = 15;
@@ -21,8 +22,9 @@ class Apple extends Mover {
 			}
 		}
         if(rectangleCollision(doinkBox, this.game.pig.getHitBox()) == true) {
-			this.game.pig.apples++;
-            this.shouldDelete = true;
+            this.grav = 0;
+            this.y -= 5000;
+            this.game.pig.apples++;
 		}
         super.update(dt, frameCount);
 
@@ -31,8 +33,9 @@ class Apple extends Mover {
 
     getHitByEntity(player) {
         //this.bounceAnimation = 20;
-      player.BounceOffEntity(this);
+      //player.BounceOffEntity(this);
       this.grav = 1;
+      //player.apples++;
 	}
 
   playerCollision(player) {

@@ -55,6 +55,7 @@ class Player extends Mover{
     this.mx = 0;
   }
   update(dt, frameCount){
+    
     if(this.animation) {
       this.animation.update(dt, frameCount);
       return;
