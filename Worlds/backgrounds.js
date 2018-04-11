@@ -1,8 +1,9 @@
 class Background {
-  constructor() {
+  constructor(type) {
+    this.type = type;    
     this.background1 = this.createBackground(60, "#888", true);
     this.background2 = this.createBackground(100, "#666", false);
-    this.backgroundColor = "#4df";
+    this.backgroundColor = "#87ceeb";
   }
   draw(canvas, camera, world) {
     this.drawLayers(canvas, camera, world);
@@ -21,7 +22,17 @@ class Background {
     canvas.restore();
   }
   createBackground(w,c, e) {
-    return createForrestBackground(w,c, e);
+    switch(this.type) {
+      case 0:
+        return createHillBackground(w,c,e);
+        break;
+      case 1:
+        return createForrestBackground(w,c,e);
+        break;
+      default:
+        return createHillBackground(w,c,e);
+        break;
+    }
   }
 }
 
@@ -97,7 +108,7 @@ function createHillBackground(w,c,e){
   var colors = ["#382", "#4a3"];
   var colorIndex = 0;
   var yy = 260+300;
-  canvas.fillStyle="#050";
+  canvas.fillStyle="#0b6623";
   // canvas.fillRect(0,yy,image.width,yy);
   var r = Math.random()*200+100;
   for(var i=0;i<image.width;i+=r) {

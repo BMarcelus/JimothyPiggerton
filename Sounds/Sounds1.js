@@ -1,5 +1,6 @@
 // SOUNDMAP.jump = new SoundEffect(.02, [440, 880, 1100, 2400], [.1,.5,.6,.7,.1], 5, 2);
-SOUNDMAP.jump = new SoundEffect(.04, [440, 550, 660,770, 1100], [.1,.5,.6,.7,.1], 5, 10);
+// SOUNDMAP.jump = new SoundEffect(.04, [440, 550, 660,770, 1100], [.1,.5,.6,.7,.1], 5, 10);
+SOUNDMAP.jump = new SoundEffect(.04, [440, 442,770, 1100], [.1,.5,.6,.7,0], 4, 10);
 // SOUNDMAP.jump = new SoundEffect(.04, [330, 500, 550,660, 770, 1100], [.1,.5,.6,.6,.6,.001 ], 6, 10);
 SOUNDMAP.land = new SoundEffect(.01, 
   [220, 440, 220, 440, 220, 220,],
