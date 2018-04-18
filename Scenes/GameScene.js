@@ -36,12 +36,20 @@ class GameScene extends Scene {
     }
     this.camera = {x:0,y:0,dx:0,dy:0};
     // this.world = new World(200,50,50);
+
+    this.inTransition = false;
+    this.transitionDirection = 1;
+    this.overlayColor = "rgba(0,0,0,0)";
+    this.transitionTimer = 0.0;
+    this.transitionDuration = 25.0;
+
     if(level) {
       this.levels = [level];
     } else {
       this.levels = createLevels();
     }
     this.levelIndex = 0;
+    this.levelCompleted = false;
     this.loadNewLevel(0);
     this.shouldFillAroundWorld = true;    
     // this.level = this.levels[0];
@@ -50,7 +58,7 @@ class GameScene extends Scene {
     // this.addEntity(new Enemy(300,100));
     this.screenShakeLevel=0;
     this.deaths = 0;
-    this.introPlayed = false;
+
     
   }
   addEntity(entity) {
@@ -62,11 +70,16 @@ class GameScene extends Scene {
     }
   }
   playLevelIntro(){
-    this.introPlayed = true;
-    this.driver.setScene(new FadeToBlack(this, this, 15.0, -1));
+    this.transitionDirection = -1;
+    this.overlayColor = "rgba(0,0,0,1)";
+    this.inTransition = true;         
+    this.transitionTimer = this.transitionDuration;
   }
   playLevelOutro(){
-    this.driver.setScene(new FadeToBlack(this, this, 15.0, 1));
+    this.inTransition = true;
+    this.overlayColor = "rgba(0,0,0,0)";
+    this.transitionDirection = 1;
+    this.transitionTimer = 0;
   }
   pause() {
     this.driver.setScene(new PauseScene(this));
@@ -109,7 +122,10 @@ class GameScene extends Scene {
     }
   }
   levelComplete() {
-    this.loadNewLevel(this.levelIndex+1);
+    if(!this.levelCompleted){
+      this.levelCompleted = true;
+      this.playLevelOutro();
+    }
   }
   win() {
     this.driver.setScene(new WinScene());    
@@ -119,8 +135,6 @@ class GameScene extends Scene {
     var entities = this.entities;
     if(index==undefined) {
       same=true;
-      this.playLevelIntro();
-
     } else {
       this.levelIndex = index;
     }
@@ -130,7 +144,7 @@ class GameScene extends Scene {
     }
     var level = this.levels[this.levelIndex];
     if(!same)
-    this.world = new WorldFromLevel(level, this.levelIndex);
+      this.world = new WorldFromLevel(level, this.levelIndex);
     this.player.reset();
     this.entities = [];    
     //this.addEntity(new Byrd(100,400));
@@ -147,9 +161,9 @@ class GameScene extends Scene {
     this.camera.x=this.player.x;
     this.camera.y=this.player.y;
     if(!this.dontSpawnPig)
-    this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
+      this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
     // this.addEntity(new Enemy(300,100));  
-
+    this.playLevelIntro();
   }
   respawn() {
     this.deaths++;
@@ -179,8 +193,10 @@ class GameScene extends Scene {
     // this.detectLevelComplete();
     this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);
     // this.screenShakeLevel -= this.screenShakeLevel/10;
-    if(!this.introPlayed){
-      this.playLevelIntro();
+    this.updateTransition(dt);
+    if(this.levelCompleted && !this.inTransition){
+      this.levelCompleted = false;
+      this.loadNewLevel(this.levelIndex+1);
     }
   }
   draw(canvas) {
@@ -214,6 +230,16 @@ class GameScene extends Scene {
     if(this.level.name) {
       canvas.fillStyle='#fff';
       canvas.fillText(this.level.name, 200, canvas.height-30);
+    }
+    drawScreenOverlay(this.overlayColor,canvas);
+  }
+  updateTransition(dt){
+    if(this.inTransition){
+      if(this.transitionTimer > this.transitionDuration || this.transitionTimer < 0){
+        this.inTransition = false;
+      }
+      this.transitionTimer += dt * this.transitionDirection;
+      this.overlayColor = "rgba(0,0,0," + (this.transitionTimer/this.transitionDuration) + ")"
     }
   }
   fillAroundWorld(canvas) {

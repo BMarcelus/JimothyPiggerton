@@ -11,6 +11,10 @@ function loadTransitionScene(driver, nextScene, TransitionType, duration, direct
   };
   return func.bind(driver);
 }
+function drawScreenOverlay(color, canvas){
+  canvas.fillStyle=color;
+  canvas.fillRect(0,0,canvas.width,canvas.height);
+}
 class Scene {
   constructor() {
     this.keyMap = [];
