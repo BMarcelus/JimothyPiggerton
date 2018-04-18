@@ -6,7 +6,7 @@ class GameScene extends Scene {
     this.player = new Player();
     this.entities = [];
     this.behinds=[];    
-    this.addEntity(this.player);
+    this.addEntity(this.player);    
     var p1controls = connectControls(Player.controls, this.player);
     this.keyMap = {
       68: p1controls.right,
@@ -121,9 +121,10 @@ class GameScene extends Scene {
     if(!same)
     this.world = new WorldFromLevel(level, this.levelIndex);
     this.player.reset();
-    this.entities = [this.player];    
+    this.entities = [];    
     //this.addEntity(new Byrd(100,400));
     this.world.loadWorld(this);
+    this.entities.push(this.player);
     // this.behinds.forEach(function (e){
     //   entities.unshift(e);
     // });
