@@ -4,6 +4,13 @@ function sceneTransition(driver, scene) {
   };
   return func.bind(driver);
 }
+function loadTransitionScene(driver, nextScene, TransitionType, duration, direction) {
+  //direction is 1 or -1.  1 is fade to black, -1 is fade from black
+  var func = function () {
+    this.driver.setScene(new TransitionType(driver, nextScene, duration, direction));
+  };
+  return func.bind(driver);
+}
 class Scene {
   constructor() {
     this.keyMap = [];

@@ -50,6 +50,8 @@ class GameScene extends Scene {
     // this.addEntity(new Enemy(300,100));
     this.screenShakeLevel=0;
     this.deaths = 0;
+    this.introPlayed = false;
+    
   }
   addEntity(entity) {
     entity.game = this;
@@ -58,6 +60,13 @@ class GameScene extends Scene {
     } else {
       this.entities.push(entity);
     }
+  }
+  playLevelIntro(){
+    this.introPlayed = true;
+    this.driver.setScene(new FadeToBlack(this, this, 15.0, -1));
+  }
+  playLevelOutro(){
+    this.driver.setScene(new FadeToBlack(this, this, 15.0, 1));
   }
   pause() {
     this.driver.setScene(new PauseScene(this));
@@ -110,6 +119,8 @@ class GameScene extends Scene {
     var entities = this.entities;
     if(index==undefined) {
       same=true;
+      this.playLevelIntro();
+
     } else {
       this.levelIndex = index;
     }
@@ -138,6 +149,7 @@ class GameScene extends Scene {
     if(!this.dontSpawnPig)
     this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
     // this.addEntity(new Enemy(300,100));  
+
   }
   respawn() {
     this.deaths++;
@@ -167,6 +179,9 @@ class GameScene extends Scene {
     // this.detectLevelComplete();
     this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);
     // this.screenShakeLevel -= this.screenShakeLevel/10;
+    if(!this.introPlayed){
+      this.playLevelIntro();
+    }
   }
   draw(canvas) {
     if(!this.canvas) {

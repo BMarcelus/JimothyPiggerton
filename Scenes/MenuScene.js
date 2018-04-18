@@ -3,12 +3,13 @@ class MenuScene extends Scene{
     super();
     this.gui = [];
     this.keyMap = {
-      '32': {down: sceneTransition(this, PigFunScene)},
-      '69': {down: sceneTransition(this, LevelEditorScene)},
+      '32': { down: loadTransitionScene(this,PigFunScene,FadeToBlack,25.0, 1) },
+      '69': { down: sceneTransition(this, LevelEditorScene) },
     }
     this.background = new InfiniteBackground();
     this.camera = {x:0,y:0,dx:0,dy:0};
   }
+  
   update() {
     this.camera.x+=3;
   }

@@ -9,4 +9,5 @@ loadSequentially('Scenes/',
   "WinScene.js",
   "LevelTesterScene.js",
   "LevelEditorScene.js",
+  "FadeToBlack.js",
 ]);
