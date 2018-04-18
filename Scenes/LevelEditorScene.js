@@ -1,9 +1,24 @@
 class LevelEditorScene extends Scene{
   constructor() {
     super();
+    this.editLevel = -1;
     this.gui = [];
     this.world = new WorldDefault(48, 24);
-    var grid = this.load();
+    if(this.editLevel)
+    {
+      if (this.editLevel == -1)
+      {
+        var level = new PigFunScene();
+        var grid = level.levels[0].grid;
+      }
+      else
+      {
+        var levels = createLevels();
+        var grid = levels[this.editLevel].grid;
+      }
+    }
+    else
+      var grid = this.load();
     if(grid) {
       this.world.world = grid;
     }
@@ -16,11 +31,31 @@ class LevelEditorScene extends Scene{
       '65': {down: this.cycleBlockBackwards.bind(this)},
       '68': {down: this.cycleBlock.bind(this)},
       '83': {down: this.cycleAbility.bind(this)},
+      '73': {down: this.growi.bind(this)},
+      '74': {down: this.growj.bind(this)},
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
     this.currentBlock = 1;
     this.playerAbility = [0,0];
+  }
+  growi()
+  {
+    for (var j = 0; j < this.grid.length; j++)
+    {
+      this.grid[j].push(0);
+    }
+    this.world.w++;
+  }
+  growj()
+  {
+    var newrow = [];
+    for (var j = 0; j < this.grid[0].length; j++)
+    {
+      newrow.push(0);
+    }
+    this.grid.push(newrow);
+    this.world.h++;
   }
   cycleBlockBackwards() {
     var l = CELLMAP.length;
@@ -55,6 +90,9 @@ class LevelEditorScene extends Scene{
     return string;
   }
   save() {
+
+    if (this.editLevel)
+      return;
     var string = this.getLevelString();
     if(!localStorage||!localStorage.setItem)return;
     localStorage.setItem("currentLevel", string);

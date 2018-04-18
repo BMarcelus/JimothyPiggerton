@@ -33,17 +33,14 @@ class Apple extends Mover {
 
     getHitByEntity(player) {
         //this.bounceAnimation = 20;
-      //player.BounceOffEntity(this);
-      this.grav = 1;
+        player.jumpCount--;
+        player.jump(5);
+        this.grav = 1;
       //player.apples++;
 	}
 
   playerCollision(player) {
-		if(player.vy > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return true;
 	}
 
     getHitBox() {
