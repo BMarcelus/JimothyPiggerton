@@ -18,6 +18,7 @@ function drawScreenOverlay(color, canvas){
 class Scene {
   constructor() {
     this.keyMap = [];
+    this.gui = [];
   }
   update(dt){
     this.handleHeldKeys(dt);
