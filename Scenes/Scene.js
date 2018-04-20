@@ -45,6 +45,7 @@ class Scene {
       }
     }
   }
+  
   mousedown(e, mouse) {}
   mouseup(e, mouse) {}
   mousemove(e, mouse) {}
