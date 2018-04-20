@@ -17,4 +17,4 @@ class PauseScene extends Scene {
     canvas.textAlign = 'center';
     canvas.fillText('Paused', canvas.width/2, canvas.height/2);
   }
-}
+} 
