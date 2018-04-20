@@ -7,6 +7,7 @@ class Woof extends Enemy {
     this.jumpPower = 10;
     this.killPlayer = false;
     this.startY= y;
+    this.jumpSoundType = SOUNDMAP.woof;
   }
 
   playerCollision(player) {
@@ -28,7 +29,7 @@ class Woof extends Enemy {
 
 
   getHitByEntity(player) {
-		player.BounceOffEntity(this);
+		player.bounceOffEntity(this);
     player.y -= 20;
 		//this.h=this.h/2;
 		//this.die();

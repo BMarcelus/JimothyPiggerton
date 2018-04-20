@@ -1,7 +1,7 @@
 class LevelEditorScene extends Scene{
   constructor() {
     super();
-    this.editLevel = -1;
+    this.editLevel = 0;
     this.gui = [];
     this.world = new WorldDefault(48, 24);
     if(this.editLevel)

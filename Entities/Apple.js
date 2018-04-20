@@ -12,11 +12,12 @@ class Apple extends Mover {
         this.grav = 0;
         this.color = "red";
         //this.behind = true;
+        this.hit = false;
     }
     update(dt, frameCount) {    
 		var doinkBox = this.getHitBox();
 		var playerBox = this.game.player.getHitBox();
-		if(rectangleCollision(doinkBox, playerBox) == true) {
+		if(!this.hit&&rectangleCollision(doinkBox, playerBox) == true) {
 			if(this.playerCollision(this.game.player) == true) {
 				 this.getHitByEntity(this.game.player);
 			}
@@ -33,9 +34,11 @@ class Apple extends Mover {
 
     getHitByEntity(player) {
         //this.bounceAnimation = 20;
-        player.jumpCount--;
-        player.jump(5);
+        // player.jumpCount--;
+        // player.jump(5);
+        player.bounceOffEntity(this, 12);
         this.grav = 1;
+        this.hit=true;
       //player.apples++;
 	}
 

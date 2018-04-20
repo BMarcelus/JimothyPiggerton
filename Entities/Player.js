@@ -11,6 +11,7 @@ class Player extends Mover{
     this.player=true;
     this.color1 = "#666";
     this.color2 = "#222";
+    this.jumpSoundType = SOUNDMAP.jump;
   }
   die() {
     if(this.dead)return;
@@ -254,10 +255,11 @@ class Player extends Mover{
     canvas.fill();
     canvas.restore();    
   }
-  BounceOffEntity(enemy) {
+  bounceOffEntity(enemy, amt) {
     this.groundCollide(this.y, true);
     // var jr = this.jumpRelease;
-    this.jump(20);
+    var d = (amt || amt==0) ? amt : 20;
+    this.jump(d);
     // this.jumpRelease=jr;
   }
 

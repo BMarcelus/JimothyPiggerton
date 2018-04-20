@@ -23,8 +23,8 @@ class PigBeginning extends Pig {
 
   playerCollision()
   {
-    if (this.game.player.y < this.y)
-      this.game.player.BounceOffEntity(this);
+    if (this.game.player.y < this.y && this.game.player.vy>0)
+      this.game.player.bounceOffEntity(this, 22);
   }
 
   populateFsm()

@@ -16,6 +16,7 @@ class Woof extends Enemy {
     this.color1="#aaa";
     this.color2="#888";
     this.color3="#555";
+    this.jumpSoundType = SOUNDMAP.woof; 
   }
 
   populateFsm()
@@ -133,7 +134,7 @@ class Woof extends Enemy {
 
 
   getHitByEntity(player) {
-		player.BounceOffEntity(this);
+		player.bounceOffEntity(this);
     player.y -= 20;
     this.width+=20;
     this.height-=10;

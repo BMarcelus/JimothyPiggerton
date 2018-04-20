@@ -21,7 +21,7 @@ class Enemy extends Mover {
 	}
 
 	getHitByEntity(player) {
-		player.BounceOffEntity(this);
+		player.bounceOffEntity(this);
 		this.h=this.h/2;
 		// this.die();
 	}

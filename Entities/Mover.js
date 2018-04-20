@@ -35,6 +35,7 @@ class Mover {
     this.ceilingColliding=false;
     this._angle = 0;
     this.movementStun=0;
+    this.jumpSoundType = SOUNDMAP.jump2;
   }
   die() {
     this.shouldDelete=true;
@@ -290,7 +291,7 @@ class Mover {
     
   }
   playJumpSound() {
-    this.jumpSound = SOUNDMAP.jump.play(this);
+    this.jumpSound = this.jumpSoundType.play(this);
   }
   wallJump() {
     this.jumpCount = 1;

@@ -1,4 +1,4 @@
-loadSequentially('Entities/',
+loadSequentially('GUI/',
 [
   "GUI.js",
   "Button.js",

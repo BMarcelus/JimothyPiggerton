@@ -14,6 +14,7 @@ class Woof extends Enemy {
     this.state = 0;//starting state
     this.xsight = 300;//line of sight
     this.ysight = 300;
+    this.jumpSoundType = SOUNDMAP.woof; 
   }
 
   populateFsm()
@@ -126,7 +127,7 @@ class Woof extends Enemy {
 
 
   getHitByEntity(player) {
-		player.BounceOffEntity(this);
+		player.bounceOffEntity(this);
     player.y -= 20;
 		//this.h=this.h/2;
 		//this.die();

@@ -42,7 +42,7 @@ class DoinkPad {
 
     getHitByEntity(player) {
         this.bounceAnimation = 20;
-      player.BounceOffEntity(this);
+      player.bounceOffEntity(this);
 	}
 
   playerCollision(player) {
