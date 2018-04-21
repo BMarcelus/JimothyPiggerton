@@ -11,17 +11,59 @@ function loadTransitionScene(driver, nextScene, TransitionType, duration, direct
   };
   return func.bind(driver);
 }
-function drawScreenOverlay(color, canvas){
+function drawTransitionOverlay(color, canvas){
   canvas.fillStyle=color;
   canvas.fillRect(0,0,canvas.width,canvas.height);
+}
+function drawGrid(canvas){
+  canvas.lineWidth = 1;
+  canvas.strokeStyle = 'black';
+  for(var i = 0; i < 10; i++){
+    canvas.beginPath();
+    canvas.moveTo(i/10.0*canvas.width,0);
+    canvas.lineTo(i/10.0*canvas.width,canvas.height);
+    canvas.stroke();
+  }
+  for(var j = 0; j < 10; j++){
+    canvas.beginPath();
+    canvas.moveTo(0,j/10.0*canvas.height);
+    canvas.lineTo(canvas.width,j/10.0*canvas.height);
+    canvas.stroke();
+  }
 }
 class Scene {
   constructor() {
     this.keyMap = [];
     this.gui = [];
+    this.selectedButton = undefined;
+    this.buttons = undefined;
+    this.debug = false;
+
+    this.inTransition = false;
+    this.overlayColor = "rgba(0,0,0,0)";
+    this.transitionTimer = 0;
+    this.transitionDuration = 25;
+    this.postTransitionCallback = undefined;
+    this.transitionDirection = 1;
   }
   update(dt){
     this.handleHeldKeys(dt);
+  }
+  updateTransition(dt){
+    if(this.inTransition){
+      if(this.transitionTimer > this.transitionDuration
+        || this.transtionTimer < 0){
+        this.transitionTimer = (this.direction == 1) ? 0 : this.transitionDuration;
+        this.inTransition = false;
+        this.overlayColor = 'transparent';
+        if(this.postTransitionCallback != undefined)
+          this.postTransitionCallback();
+      } else {
+        this.transitionTimer += this.transitionDirection*dt;
+        this.overlayColor = 'rgba(0,0,0,' + 
+          (this.transitionTimer*1.0/this.transitionDuration) + ')';
+      }
+    }
   }
   draw(canvas){}
   keydown(k) {
@@ -45,8 +87,81 @@ class Scene {
       }
     }
   }
+  drawAllGUI(canvas){
+    for(var i = 0; i < this.gui.length; i++){
+      if(this.gui[i].visible){
+        this.gui[i].draw(canvas);
+      }
+    }
+  }
+  startTransition(duration,direction,callback){
+    //callback is optional and is undefined if not provided
+    this.inTransition = true;
+    this.transitionDuration = duration;
+    this.transitionTimer = (direction == 1) ? 0 : duration;
+    this.transitionDirection = direction;
+    this.postTransitionCallback = callback;
+  }
+  pressButton(){
+    //called by keys, not mouse
+    if(!this.allowUIInput)
+      return;
+    this.selectedButton.held = true;
+    this.allowUIInput = false;
+  }
+  unpressButton(){
+    //called by keystrokes, not mouse
+    this.allowUIInput = true;
+    if(this.selectedButton.held){
+      this.selectedButton.held = false;
+      this.selectedButton.callback();
+    }
+  }
+  navigateUp(){
+    if(this.selectedButton.buttonLinks[0] == undefined || !this.allowUIInput)
+      return;
+    this.selectedButton.selected = false;
+    this.selectedButton.buttonLinks[0].selected = true;
+    this.selectedButton = this.selectedButton.buttonLinks[0];
+  }
+  navigateRight(){
+    if(this.selectedButton.buttonLinks[1] == undefined || !this.allowUIInput)
+      return;
+    this.selectedButton.selected = false;
+    this.selectedButton.buttonLinks[1].selected = true;
+    this.selectedButton = this.selectedButton.buttonLinks[1];
+  }
+  navigateDown(){
+    if(this.selectedButton.buttonLinks[2] == undefined || !this.allowUIInput)
+      return;
+    this.selectedButton.selected = false;
+    this.selectedButton.buttonLinks[2].selected = true;
+    this.selectedButton = this.selectedButton.buttonLinks[2];
+  }
+  navigateLeft(){
+    if(this.selectedButton.buttonLinks[3] == undefined || !this.allowUIInput)
+      return;
+    this.selectedButton.selected = false;
+    this.selectedButton.buttonLinks[3].selected = true;
+    this.selectedButton = this.selectedButton.buttonLinks[3];
+  }
+  toggleDebug(){
+    this.debug = !this.debug;
+  }
+  mousedown(e, mouse) {
+    if(!this.allowUIInput)
+      return;
+    handleMouseDown(e,this.buttons);
+  }
+  mouseup(e, mouse) {
+    if(!this.allowUIInput)
+      return;
+    handleMouseUp(e,this.buttons);
+  }
+  mousemove(e, mouse) {
+    if(!this.allowUIInput)
+      return;
+    handleMouseMove(this,e,this.buttons);
+  }
   
-  mousedown(e, mouse) {}
-  mouseup(e, mouse) {}
-  mousemove(e, mouse) {}
 }

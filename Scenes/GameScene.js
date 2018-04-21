@@ -70,16 +70,11 @@ class GameScene extends Scene {
     }
   }
   playLevelIntro(){
-    this.transitionDirection = -1;
-    this.overlayColor = "rgba(0,0,0,1)";
-    this.inTransition = true;         
-    this.transitionTimer = this.transitionDuration;
+    this.startTransition(25,-1,undefined);
   }
   playLevelOutro(){
-    this.inTransition = true;
-    this.overlayColor = "rgba(0,0,0,0)";
-    this.transitionDirection = 1;
-    this.transitionTimer = 0;
+    this.startTransition(25,1,function() { 
+      this.loadNewLevel(this.levelIndex+1); });
   }
   pause() {
     this.driver.setScene(new PauseScene(this));
@@ -127,6 +122,7 @@ class GameScene extends Scene {
       this.playLevelOutro();
     }
   }
+  
   win() {
     this.driver.setScene(new WinScene());    
   }
@@ -164,6 +160,7 @@ class GameScene extends Scene {
       this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
     // this.addEntity(new Enemy(300,100));  
     this.playLevelIntro();
+    this.levelCompleted = false;
   }
   respawn() {
     this.deaths++;
@@ -194,10 +191,6 @@ class GameScene extends Scene {
     this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);
     // this.screenShakeLevel -= this.screenShakeLevel/10;
     this.updateTransition(dt);
-    if(this.levelCompleted && !this.inTransition){
-      this.levelCompleted = false;
-      this.loadNewLevel(this.levelIndex+1);
-    }
   }
   draw(canvas) {
     if(!this.canvas) {
@@ -231,17 +224,9 @@ class GameScene extends Scene {
       canvas.fillStyle='#fff';
       canvas.fillText(this.level.name, 200, canvas.height-30);
     }
-    drawScreenOverlay(this.overlayColor,canvas);
+    drawTransitionOverlay(this.overlayColor,canvas);
   }
-  updateTransition(dt){
-    if(this.inTransition){
-      if(this.transitionTimer > this.transitionDuration || this.transitionTimer < 0){
-        this.inTransition = false;
-      }
-      this.transitionTimer += dt * this.transitionDirection;
-      this.overlayColor = "rgba(0,0,0," + (this.transitionTimer/this.transitionDuration) + ")"
-    }
-  }
+
   fillAroundWorld(canvas) {
     if(this.world.image) {
       var cameraOffsetY = canvas.height/2-Math.floor(this.camera.y);

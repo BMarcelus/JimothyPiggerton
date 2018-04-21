@@ -143,6 +143,7 @@ window.onload = function() {
     var dt = currentTime-lastTime;
     lastTime = currentTime;
     dt = dt * 60 / 1000;
+    dt*=.5;
     FPScounter ++;
     if(currentTime>lastFPSupdate+1000) {
       currentFPS = FPScounter;
