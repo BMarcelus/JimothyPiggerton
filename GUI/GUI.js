@@ -37,6 +37,10 @@ function rectDimFromCenter(x,y,width,height){
   return result;
 }
 function getPercentPoint(e){
+  //Will return percentPoint relative to object clicked in
+  //eg: if there was a smaller canvas in the game, clicking on that
+  //would yield the percent point within that smaller canvas.
+  //Currently this should never happen.
   var point = [];
   point.push(e.offsetX/e.path[0].width);
   point.push(e.offsetY/e.path[0].height);
@@ -66,17 +70,43 @@ function getGUIInGroup(n){
   return result;
 }
 
-function handleMouseDown(e,guiList){
-  for(var i = 0; i < guiList.length; i++){
+function handleMouseDown(e,buttonList){
+  for(var i = 0; i < buttonList.length; i++){
     var percentPoint = getPercentPoint(e);
-    if(guiList[i].contains(percentPoint[0],percentPoint[1]) 
-        && guiList[i].interactable){
-      guiList[i].callback();
+    if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
+        && buttonList[i].interactable){
+      buttonList[i].held = true;
     }
   }
 }
-function handleMouseUp(e,guiList){
-
+function handleMouseUp(e,buttonList){
+  for(var i = 0; i < buttonList.length; i++){
+    var percentPoint = getPercentPoint(e);
+    if(buttonList[i].contains(percentPoint[0],percentPoint[1])
+        && buttonList[i].interactable && buttonList[i].held){
+      buttonList[i].held = false;
+      buttonList[i].callback();
+    } else {
+      buttonList[i].held = false;
+    }
+  }
 }
+function handleMouseMove(self, e, buttonList){
+  for(var j = 0; j < buttonList.length; j++){
+    if(buttonList[j].held)
+      return; //If a button is currently being held (meaning this is a mouse drag
+              //that was initiated on a valid button), bail out
+  }
+  for(var i = 0; i < buttonList.length; i++){
+    var percentPoint = getPercentPoint(e);
+    if(buttonList[i].contains(percentPoint[0],percentPoint[1])){
+      self.selectedButton.selected = false;
+      buttonList[i].selected = true;
+      self.selectedButton = buttonList[i];
+      break;    //In case of overlapping buttons, exit loop after first contains
+    } 
+  }
+}
+
 
 

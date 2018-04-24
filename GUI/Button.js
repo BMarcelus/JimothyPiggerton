@@ -3,7 +3,6 @@ class Button extends GUIElement {
     super(x,y,w,h,groupID);
     this.callback = callback;
     this.held = false;
-    this.isDefault = false;   //Will load as selected UI element
     this.selected = false;
     //buttonlinks can be filled in later 
     //(buttons to be linked to may not exist at this time)
@@ -13,10 +12,6 @@ class Button extends GUIElement {
     //buttonLinks[3] = LEFT
     this.buttonLinks = Array(4).fill(undefined);
     
-  }
-  setOptions(interactable, visible, isDefault){
-    super.setOptions(interactable,visible);
-    this.isDefault = isDefault;
   }
   setNeighbors(buttonList){
     this.buttonLinks = buttonList;
