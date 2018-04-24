@@ -94,6 +94,11 @@ class Scene {
       }
     }
   }
+  updateAllGUI(dt){
+    for(var i = 0; i < this.gui.length; i++){
+      this.gui[i].update(dt);
+    }
+  }
   startTransition(duration,direction,callback){
     //callback is optional and is undefined if not provided
     this.inTransition = true;
@@ -117,33 +122,12 @@ class Scene {
       this.selectedButton.callback();
     }
   }
-  navigateUp(){
-    if(this.selectedButton.buttonLinks[0] == undefined || !this.allowUIInput)
+  navigateUI(direction){
+    if(this.selectedButton.buttonLinks[direction] == undefined || !this.allowUIInput)
       return;
     this.selectedButton.selected = false;
-    this.selectedButton.buttonLinks[0].selected = true;
-    this.selectedButton = this.selectedButton.buttonLinks[0];
-  }
-  navigateRight(){
-    if(this.selectedButton.buttonLinks[1] == undefined || !this.allowUIInput)
-      return;
-    this.selectedButton.selected = false;
-    this.selectedButton.buttonLinks[1].selected = true;
-    this.selectedButton = this.selectedButton.buttonLinks[1];
-  }
-  navigateDown(){
-    if(this.selectedButton.buttonLinks[2] == undefined || !this.allowUIInput)
-      return;
-    this.selectedButton.selected = false;
-    this.selectedButton.buttonLinks[2].selected = true;
-    this.selectedButton = this.selectedButton.buttonLinks[2];
-  }
-  navigateLeft(){
-    if(this.selectedButton.buttonLinks[3] == undefined || !this.allowUIInput)
-      return;
-    this.selectedButton.selected = false;
-    this.selectedButton.buttonLinks[3].selected = true;
-    this.selectedButton = this.selectedButton.buttonLinks[3];
+    this.selectedButton.buttonLinks[direction].selected = true;
+    this.selectedButton = this.selectedButton.buttonLinks[direction];
   }
   toggleDebug(){
     this.debug = !this.debug;
