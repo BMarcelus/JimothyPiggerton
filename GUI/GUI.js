@@ -27,6 +27,8 @@ class GUIElement{
     //returns pixel [x,y,width,height] for this button
     return [this.x*canvas.width, this.y*canvas.height, this.w*canvas.width, this.h*canvas.height];
   }
+  update(dt){}
+  draw(canvas){}
 }
 function rectDimFromCenter(x,y,width,height){
   var result = [];
@@ -69,7 +71,6 @@ function getGUIInGroup(n){
   }
   return result;
 }
-
 function handleMouseDown(e,buttonList){
   for(var i = 0; i < buttonList.length; i++){
     var percentPoint = getPercentPoint(e);

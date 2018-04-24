@@ -19,14 +19,15 @@ class MenuScene extends Scene{
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) },
       '69': { down: sceneTransition(this, LevelEditorScene) },
       '79': { down: this.toggleDebug.bind(this) },
-      '87': { down: this.navigateUp.bind(this) },     //W
-      '65': { down: this.navigateRight.bind(this) },  //D
-      '83': { down: this.navigateDown.bind(this) },   //S
-      '68': { down: this.navigateLeft.bind(this) },   //A
-      '38': { down: this.navigateUp.bind(this) },     //up
-      '39': { down: this.navigateRight.bind(this) },  //right
-      '40': { down: this.navigateDown.bind(this) },   //down
-      '37': { down: this.navigateLeft.bind(this) },   //left
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '83': { down: this.navigateUI.bind(this,2)},    //S
+      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '38': { down: this.navigateUI.bind(this,0)},  //up
+      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '40': { down: this.navigateUI.bind(this,2)},   //down
+      '37': { down: this.navigateUI.bind(this,3)},   //left
+
     }
     this.background = new InfiniteBackground();
     this.camera = {x:0,y:0,dx:0,dy:0};
@@ -94,13 +95,15 @@ class MenuScene extends Scene{
     this.startTransition(25,1,sceneTransition(this,PigFunScene));
   }
   goToLevelSelect(){
-    
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,LevelSelectScene));
   }
   goToOptions(){
 
   }
   goToCredits(){
-
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,CreditsScene));
   }
   
   
