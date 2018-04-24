@@ -15,4 +15,5 @@ loadSequentially('Entities/',
   "Butcher.js",
   "PigBeginning.js",
   "Apple.js",
+  "Collectable.js",
 ]);

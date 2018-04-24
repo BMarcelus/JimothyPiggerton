@@ -59,7 +59,7 @@ class GameScene extends Scene {
     this.screenShakeLevel=0;
     this.deaths = 0;
 
-    
+    this.moveCamera();
   }
   addEntity(entity) {
     entity.game = this;
@@ -131,6 +131,7 @@ class GameScene extends Scene {
     this.driver.setScene(new WinScene());    
   }
   loadNewLevel(index) {
+    if(index<0)index=0;
     var same = false;
     var entities = this.entities;
     if(index==undefined) {
@@ -262,5 +263,10 @@ class GameScene extends Scene {
     this.camera.y+=y;
     this.camera.r=r;
     // canvas.rotate(r);
+  }
+  collidesWithPlayer(entity) {
+    var h1 = entity.getHitBox();	// Perforamnce effeciency issue
+    var playerBox = this.player.getHitBox();
+		return rectangleCollision(h1, playerBox);
   }
 }
