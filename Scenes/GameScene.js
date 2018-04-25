@@ -38,9 +38,9 @@ class GameScene extends Scene {
     // this.world = new World(200,50,50);
 
     this.inTransition = false;
-    this.transitionDirection = 1;
+    this.transitionDirection = -1;
     this.overlayColor = "rgba(0,0,0,0)";
-    this.transitionTimer = 0.0;
+    this.transitionTimer = 25.0;
     this.transitionDuration = 25.0;
 
     if(level) {
@@ -73,8 +73,9 @@ class GameScene extends Scene {
     this.startTransition(25,-1,undefined);
   }
   playLevelOutro(){
-    this.startTransition(25,1,function() { 
-      this.loadNewLevel(this.levelIndex+1); });
+    this.startTransition(25, 1, function() { 
+      this.loadNewLevel(this.levelIndex+1);
+    });
   }
   pause() {
     this.driver.setScene(new PauseScene(this));
@@ -157,6 +158,7 @@ class GameScene extends Scene {
     this.level=level;
     this.camera.x=this.player.x;
     this.camera.y=this.player.y;
+    this.moveCamera();
     if(!this.dontSpawnPig)
       this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
     // this.addEntity(new Enemy(300,100));  
@@ -196,6 +198,7 @@ class GameScene extends Scene {
   draw(canvas) {
     if(!this.canvas) {
       this.canvas = canvas;
+      this.moveCamera();
     }
     var camera = this.camera;
     canvas.clearRect(0,0,canvas.width,canvas.height);

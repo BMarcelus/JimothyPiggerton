@@ -3,6 +3,7 @@
     border: 1px solid black;
     margin: auto;
     display: block;
+    background: black;
   }
   @font-face {
     font-family: 'Noteworthy';
@@ -13,7 +14,7 @@
     src: url('Chalkduster.ttf');
   }
 </style>
-<canvas id="gc"></canvas>
+<canvas id="gc" width="1000" height="600"></canvas>
 <script>
 function loadScript (dir, file) {
  var scr = document.createElement("script");
@@ -163,6 +164,9 @@ window.onload = function() {
   draw();
   // step();
   setInterval(step, 1000/60);
+  // window.addEventListener('keydown', function(){
+    // step();
+  // })
   window.addEventListener('keydown', driver.keydown.bind(driver));
   window.addEventListener('keyup', driver.keyup.bind(driver));
   CE.addEventListener('mousemove', driver.mousemove.bind(driver));

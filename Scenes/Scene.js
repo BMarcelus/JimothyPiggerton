@@ -49,6 +49,10 @@ class Scene {
   update(dt){
     this.handleHeldKeys(dt);
   }
+  updateTransitionColor() {
+    this.overlayColor = 'rgba(0,0,0,' + 
+          (this.transitionTimer*1.0/this.transitionDuration) + ')';
+  }
   updateTransition(dt){
     if(this.inTransition){
       if(this.transitionTimer > this.transitionDuration
@@ -60,8 +64,7 @@ class Scene {
           this.postTransitionCallback();
       } else {
         this.transitionTimer += this.transitionDirection*dt;
-        this.overlayColor = 'rgba(0,0,0,' + 
-          (this.transitionTimer*1.0/this.transitionDuration) + ')';
+        this.updateTransitionColor();
       }
     }
   }
@@ -106,6 +109,7 @@ class Scene {
     this.transitionTimer = (direction == 1) ? 0 : duration;
     this.transitionDirection = direction;
     this.postTransitionCallback = callback;
+    this.updateTransitionColor();
   }
   pressButton(){
     //called by keys, not mouse
