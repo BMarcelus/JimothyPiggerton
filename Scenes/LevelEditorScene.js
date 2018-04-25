@@ -1,7 +1,7 @@
 class LevelEditorScene extends Scene{
-  constructor() {
+  constructor(index) {
     super();
-    this.editLevel = 0;
+    this.editLevel = index;
     this.gui = [];
     this.world = new WorldDefault(48, 24);
     if(this.editLevel)
@@ -33,6 +33,7 @@ class LevelEditorScene extends Scene{
       '83': {down: this.cycleAbility.bind(this)},
       '73': {down: this.growi.bind(this)},
       '74': {down: this.growj.bind(this)},
+      '27': {down: this.backToSelect.bind(this)}
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
@@ -56,6 +57,11 @@ class LevelEditorScene extends Scene{
     }
     this.grid.push(newrow);
     this.world.h++;
+  }
+  backToSelect()
+  {
+    var newScene = new LevelEditorSelectScene();
+    this.driver.setScene(newScene);
   }
   cycleBlockBackwards() {
     var l = CELLMAP.length;

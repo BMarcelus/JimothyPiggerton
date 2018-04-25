@@ -17,7 +17,7 @@ class MenuScene extends Scene{
     this.buttons = getButtons(this.gui);
     this.keyMap = {
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) },
-      '69': { down: sceneTransition(this, LevelEditorScene) },
+      '69': { down: sceneTransition(this, LevelEditorSelectScene) },
       '79': { down: this.toggleDebug.bind(this) },
       '87': { down: this.navigateUI.bind(this,0)},    //W
       '65': { down: this.navigateUI.bind(this,1)},   //D

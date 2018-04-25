@@ -11,4 +11,5 @@ loadSequentially('Scenes/',
   "LevelEditorScene.js",
   "LevelSelectScene.js",
   "CreditsScene.js",
+  "LevelEditorSelectScene.js",
 ]);
