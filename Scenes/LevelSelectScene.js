@@ -3,6 +3,7 @@ class LevelSelectScene extends Scene{
     super(playIntro);
     this.keyMap = {
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
       '79': {down: this.toggleDebug.bind(this)},    //O->debug
       '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
 

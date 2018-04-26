@@ -2,7 +2,9 @@ class CreditsScene extends Scene{
   constructor(playIntro){
     super(playIntro);
     this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) },
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+
       '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
     }
     this.memberNames = ["Brian Dizon",

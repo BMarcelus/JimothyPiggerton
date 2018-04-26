@@ -44,7 +44,7 @@ class Scene {
     this.keyMap = [];
     this.gui = [];
     this.selectedButton = undefined;
-    this.buttons = undefined;
+    this.buttons = [];
     this.debug = false;
 
     this.inTransition = false;

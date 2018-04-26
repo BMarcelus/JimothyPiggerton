@@ -3,7 +3,9 @@ class PauseScene extends Scene {
     super();
     this.prevScene = prevScene;
     this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) },
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+
       '27': {down: this.safeButtonCall(this,this.unpause)},
       '79': {down: this.toggleDebug.bind(this)},
       '87': { down: this.navigateUI.bind(this,0)},    //W
