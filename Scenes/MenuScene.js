@@ -15,7 +15,8 @@ class MenuScene extends Scene{
     this.allowUIInput = true;
     this.addMainMenuGUI();
     this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) },
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
       '69': { down: sceneTransition(this, LevelEditorSelectScene) },
       '79': { down: this.toggleDebug.bind(this) },
       '87': { down: this.navigateUI.bind(this,0)},    //W
@@ -35,7 +36,7 @@ class MenuScene extends Scene{
   
   update(dt) {
     this.camera.x+=3;
-    this.updateTransition(dt);
+    super.update(dt);
   }
   draw(canvas) {
     this.background.draw(canvas, this.camera);

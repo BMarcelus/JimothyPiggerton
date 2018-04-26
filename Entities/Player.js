@@ -267,7 +267,7 @@ class Player extends Mover{
     if (enemy.killPlayer)
       this.die();
   }
-
+  
   
 }
 Player.controls = {
