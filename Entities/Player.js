@@ -278,6 +278,6 @@ Player.controls = {
     up: function() { this.shortJump(); this.eyeMovement.ty = 0; },
     held: function() { this.eyeMovement.ty = - 6; this.height += .5; this.width -= .5},
   },
-  down: {down: function() { this.crouch(); }, up: function() { this.uncrouch(); }},
+  down: {down: function() { this.crouch(); }, unheld: function() { this.uncrouch(); }},
   dash: { down: function() { this.dash(1-2*this.flipped); }},
 }

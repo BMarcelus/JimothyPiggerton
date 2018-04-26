@@ -100,6 +100,9 @@ class Scene {
       if(keys[k]&&keyMap[k].held) {
         keyMap[k].held(dt);
       }
+      if((!keys[k])&&keyMap[k].unheld) {
+        keyMap[k].unheld(dt);
+      }
     }
   }
   drawAllGUI(canvas){
