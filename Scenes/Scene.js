@@ -4,6 +4,12 @@ function sceneTransition(driver, scene) {
   };
   return func.bind(driver);
 }
+function sceneTransition(driver, scene, playIntro){
+  var func = function() {
+    this.driver.setScene(new scene(playIntro));
+  };
+  return func.bind(driver);
+}
 function loadTransitionScene(driver, nextScene, TransitionType, duration, direction) {
   //direction is 1 or -1.  1 is fade to black, -1 is fade from black
   var func = function () {
@@ -31,8 +37,10 @@ function drawGrid(canvas){
     canvas.stroke();
   }
 }
+
 class Scene {
-  constructor() {
+  constructor(playIntro) {
+    //playIntro is a boolean and does not need to be provided.  It defaults to false
     this.keyMap = [];
     this.gui = [];
     this.selectedButton = undefined;
@@ -45,6 +53,10 @@ class Scene {
     this.transitionDuration = 25;
     this.postTransitionCallback = undefined;
     this.transitionDirection = 1;
+    this.allowUIInput = true;
+    if(playIntro != undefined && playIntro){
+      this.startTransition(25,-1,undefined);
+    }
   }
   update(dt){
     this.handleHeldKeys(dt);
@@ -120,11 +132,37 @@ class Scene {
   }
   unpressButton(){
     //called by keystrokes, not mouse
-    this.allowUIInput = true;
     if(this.selectedButton.held){
       this.selectedButton.held = false;
       this.selectedButton.callback();
     }
+    if(!this.inTransition){
+      //If this button called a fade to black transition, do not allow UI inputs
+      this.allowUIInput = true;
+    }
+  }
+  safeButtonCall(){
+    //This is confusing, yes
+    //This function takes in any number of arguments
+    //safeButtonCall(this,function object,arg,arg,arg,arg...)
+    //This returns a new function that terminates if ui input is not allowed
+    //This should be used when binding a button call directly to a keypress
+    if(arguments.length < 2){
+      console.log("safeButtonCall() with less than 2 arguments");
+      return;
+    }
+    var self = arguments[0];
+    var callback = arguments[1];
+    var args = [];
+    for(var i = 2; i < arguments.length; i++){
+      args.push(arguments[i]);
+    }
+    var f = function(){
+      if(!this.allowUIInput)
+        return;
+      callback.apply(this,args);
+    };
+    return f.bind(this);
   }
   navigateUI(direction){
     if(this.selectedButton.buttonLinks[direction] == undefined || !this.allowUIInput)

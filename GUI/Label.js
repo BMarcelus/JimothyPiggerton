@@ -1,11 +1,12 @@
 class Label extends GUIElement{
   constructor(x,y,width,height,groupID
-    ,text,font,textColor){
+    ,text,font,textColor,textAlign){
     super(x,y,width,height,groupID);
     super.setOptions(false,true);
     this.text = text;
     this.font = font;
     this.textColor = textColor;
+    this.textAlign = textAlign;
   }
   update(dt){}
   draw(canvas){
@@ -15,8 +16,8 @@ class Label extends GUIElement{
   drawText(canvas,dim){
     canvas.font=this.font;
     canvas.fillStyle = this.textColor;
-    canvas.textAlign = 'center';
+    canvas.textAlign = this.textAlign;
     canvas.textBaseline='middle';
-    canvas.fillText(this.text,dim[0]+dim[2]/2,dim[1]+dim[3]/2,this.w*canvas.width*.8);
+    canvas.fillText(this.text,dim[0]+dim[2]/2,dim[1]+dim[3]/2,this.w*canvas.width*.9);
   }
 }

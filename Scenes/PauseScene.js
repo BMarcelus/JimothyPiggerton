@@ -4,7 +4,7 @@ class PauseScene extends Scene {
     this.prevScene = prevScene;
     this.keyMap = {
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) },
-      '27': {down: this.unpause.bind(this)},
+      '27': {down: this.safeButtonCall(this,this.unpause)},
       '79': {down: this.toggleDebug.bind(this)},
       '87': { down: this.navigateUI.bind(this,0)},    //W
       '65': { down: this.navigateUI.bind(this,1)},   //D
@@ -18,7 +18,6 @@ class PauseScene extends Scene {
     this.allowUIInput = true;
     this.selectedButton = undefined;
     this.addPauseMenuGUI();
-    this.buttons = getButtons(this.gui);
   }
   update(dt){
     this.updateTransition(dt);
@@ -28,15 +27,17 @@ class PauseScene extends Scene {
   }
   goToMainMenu(){
     this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,MenuScene));
+    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
   }
   goToLevelSelect(){
-    //this.allowUIInput = false;
-    this.startTransition(25,1,undefined)    //TBD when level select is created
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,LevelSelectScene,true));
   }
   restartLevel(){
     this.allowUIInput = false;
     this.prevScene.loadNewLevel();
+    if(this.prevScene instanceof PigFunScene)
+      this.prevScene.spawnPig();
     this.unpause();
   }
   draw(canvas) {
@@ -56,7 +57,7 @@ class PauseScene extends Scene {
 
     var dim = rectDimFromCenter(.5,.4,.2,.08);
     var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Paused",bigFont,textColor);
+      "Paused",bigFont,textColor,'center');
     this.gui.push(pauseLabel);
 
     dim = rectDimFromCenter(0.5,.55,0.2,.08);
@@ -86,5 +87,8 @@ class PauseScene extends Scene {
     levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
     restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
     mainMenuButton.setNeighbors([restartButton,undefined,resumeButton,undefined]);
+
+    this.buttons = getButtons(this.gui);
+
   }
 } 

@@ -1,6 +1,6 @@
 class MenuScene extends Scene{
-  constructor() {
-    super();
+  constructor(playIntro) {
+    super(playIntro);
     //I need a better way to do this
     // MAINMENU = 0;
     // OPTIONS = 1;
@@ -14,7 +14,6 @@ class MenuScene extends Scene{
     this.menuState = 0;
     this.allowUIInput = true;
     this.addMainMenuGUI();
-    this.buttons = getButtons(this.gui);
     this.keyMap = {
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) },
       '69': { down: sceneTransition(this, LevelEditorSelectScene) },
@@ -31,7 +30,7 @@ class MenuScene extends Scene{
     }
     this.background = new InfiniteBackground();
     this.camera = {x:0,y:0,dx:0,dy:0};
-    this.startTransition(25,-1,undefined);
+    this.allowUIInput = true;
   }
   
   update(dt) {
@@ -59,7 +58,7 @@ class MenuScene extends Scene{
 
     var dim = rectDimFromCenter(.5,.28,.58,.12);
     var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Jimothy Piggerton",bigFont,"white");
+      "Jimothy Piggerton",bigFont,"white",'center');
     this.gui.push(mainTitle);
 
     dim = rectDimFromCenter(.5,.48,.22,.1);
@@ -89,27 +88,31 @@ class MenuScene extends Scene{
 
     this.selectedButton = startButton;
     this.selectedButton.selected = true;
-  }
-  startGame(){
-    this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,PigFunScene));
-  }
-  goToLevelSelect(){
-    this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,LevelSelectScene));
-  }
-  goToOptions(){
+    this.buttons = getButtons(this.gui);
 
   }
-  goToCredits(){
+  startGame(){
+   
     this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,CreditsScene));
+    this.startTransition(25,1,sceneTransition(this,PigFunScene,true));
+  }
+  goToLevelSelect(){
+   
+    this.allowUIInput = false;
+    this.driver.setScene(new LevelSelectScene(false));
+
+  }
+  goToOptions(){
+    
+  } 
+  goToCredits(){
+   
+    this.allowUIInput = false;
+    this.driver.setScene(new CreditsScene(false));
   }
   
   
 }
-function someFunction(){
-  console.log("Button Pressed");
-}
+
 
 

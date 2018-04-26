@@ -48,7 +48,7 @@ function getPercentPoint(e){
   point.push(e.offsetY/e.path[0].height);
   return point;
 }
-function moveAllGUI(vx,vy){
+function moveAllGUI(vx,vy,guiList){
   for(var i = 0; i < guiList.length; i++){
     guiList[i].move(vx,vy);
   }
@@ -62,7 +62,7 @@ function getButtons(guiList){
   }
   return result;
 }
-function getGUIInGroup(n){
+function getGUIInGroup(n,guiList){
   var result = [];
   for(var i = 0; i < guiList.length; i++){
     if(guiList[i].groupID == n){

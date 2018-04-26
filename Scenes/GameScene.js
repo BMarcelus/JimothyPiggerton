@@ -1,7 +1,7 @@
 
 class GameScene extends Scene {
-  constructor(level, dontSpawnPig) {
-    super();
+  constructor(level, dontSpawnPig,playIntro) {
+    super(playIntro);
     this.dontSpawnPig=dontSpawnPig;
     this.player = new Player();
     this.entities = [];
