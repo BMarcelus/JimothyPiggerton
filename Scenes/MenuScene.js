@@ -36,7 +36,7 @@ class MenuScene extends Scene{
   
   update(dt) {
     this.camera.x+=3;
-    this.updateTransition(dt);
+    super.update(dt);
   }
   draw(canvas) {
     this.background.draw(canvas, this.camera);

@@ -193,7 +193,6 @@ class GameScene extends Scene {
     // this.detectLevelComplete();
     this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);
     // this.screenShakeLevel -= this.screenShakeLevel/10;
-    this.updateTransition(dt);
   }
   draw(canvas) {
     if(!this.canvas) {

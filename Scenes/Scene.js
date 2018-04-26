@@ -60,6 +60,7 @@ class Scene {
   }
   update(dt){
     this.handleHeldKeys(dt);
+    this.updateTransition(dt);
   }
   updateTransitionColor() {
     this.overlayColor = 'rgba(0,0,0,' + 

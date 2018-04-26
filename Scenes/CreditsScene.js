@@ -34,7 +34,7 @@ class CreditsScene extends Scene{
   }
 
   update(dt){
-    this.updateTransition(dt);
+    super.update(dt);
     this.updateCreditsLabels(dt);
   }
   draw(canvas){

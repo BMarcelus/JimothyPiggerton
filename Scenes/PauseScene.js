@@ -22,7 +22,7 @@ class PauseScene extends Scene {
     this.addPauseMenuGUI();
   }
   update(dt){
-    this.updateTransition(dt);
+    super.update(dt);
   }
   unpause() {
     this.driver.setScene(this.prevScene);

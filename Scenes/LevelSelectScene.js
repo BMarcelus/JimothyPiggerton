@@ -24,8 +24,7 @@ class LevelSelectScene extends Scene{
 
 
   update(dt){
-    this.handleHeldKeys(dt);
-    this.updateTransition(dt);
+    super.update(dt);
   }
   draw(canvas){
     canvas.fillStyle = 'gray';
