@@ -10,6 +10,7 @@ class PigBeginning extends Pig {
     this.xsight = 100;//line of sight
     this.ysight = 100;
     this.transition = 1;
+    this.animationState = 2;
   }
   update(dt, frameCount) 
   {  

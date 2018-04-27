@@ -15,8 +15,10 @@ class Byrd extends Enemy {
 
   }
   getHitByEntity(player) {
-		player.bounceOffEntity(this);
-		//this.h=this.h/2;
+    player.bounceOffEntity(this);
+    this.height/=4;
+    this.width*=.8;
+		// this.h=this.h/2;
 		// this.die();
 	}
   update(dt, frameCount) {

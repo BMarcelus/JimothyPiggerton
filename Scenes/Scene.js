@@ -69,12 +69,13 @@ class Scene {
   updateTransition(dt){
     if(this.inTransition){
       if(this.transitionTimer > this.transitionDuration
-        || this.transtionTimer < 0){
+        || this.transitionTimer < 0) {
         this.transitionTimer = (this.direction == 1) ? 0 : this.transitionDuration;
         this.inTransition = false;
         this.overlayColor = 'transparent';
-        if(this.postTransitionCallback != undefined)
+        if(this.postTransitionCallback != undefined) {
           this.postTransitionCallback();
+        }
       } else {
         this.transitionTimer += this.transitionDirection*dt;
         this.updateTransitionColor();
@@ -101,7 +102,7 @@ class Scene {
       if(keys[k]&&keyMap[k].held) {
         keyMap[k].held(dt);
       }
-      if((!keys[k])&&keyMap[k].unheld) {
+      if(keys[k]==false&&keyMap[k].unheld) {
         keyMap[k].unheld(dt);
       }
     }

@@ -38,36 +38,51 @@ class IntroScene extends GameScene{
     this.player.flipped = true;
     this.pig = new Pig(this.player.x+30, this.player.y);
     this.pig.speed=0;
-    this.butcher = new Butcher(this.player.x+300, this.player.y);
+    this.butcher = new Butcher(this.player.x+600, this.player.y);
     this.addEntity(this.butcher);
+    this.butcher.speed=0;    
     this.addEntity(this.pig);
     this.player.updateEye = function() {};
     this.pig.mx = 0;
     this.pig.bounceFrq = Math.PI/30;
-    this.totalTime = 300;
-    this.time = this.totalTime;
+    this.totalTime = 400;
+    this.time = this.totalTime+1000;
     this.player.resetControls = function() {};
     this.player.speed = 4;
     this.player._angle = Math.PI/10;
     this.player.eyeMovement.blink = 1;
     this.pig.animationState = 1;
+    this.startTransition(100, -1, function() {
+      this.time=this.totalTime;
+      this.butcher.speed = 3.9;
+    });
+    this.gen = this.test();
+    this.timeToWait=0;
+  }
+  *test() {
+    yield 0;
+    return 0;
   }
   update(dt, frameCount) {
     super.update(dt,frameCount);
+    if(this.timeToWait<=0) {
+      this.timeToWait = this.gen.next().value;
+      console.log(this.gen);
+    }
+    this.timeToWait--;
     this.time--;
     if(this.time<=0) {
       this.driver.setScene(new GameScene());      
     }
-    if(this.time == this.totalTime - 100) {
+    if(this.time == this.totalTime - 200) {
       this.player.flipped = false;
       this.player.jump(7);
       this.player._angle = 0;      
       this.player.eyeMovement.blink = 0;      
     }
-    if(this.time < this.totalTime - 130) {
+    if(this.time < this.totalTime - 230) {
       this.player.mx = 1;
       this.moveCamera = function() {};
     }
-    
   }
 }

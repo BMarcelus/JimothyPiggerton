@@ -8,6 +8,7 @@ addBlock({
     canvas.fillRect(x,y,width,height);
   },
   onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new PigBeginning(x + width/2,y + height));
+    game.pig = new PigBeginning(x + width/2,y + height);
+    game.addEntity(game.pig);
   },
 });

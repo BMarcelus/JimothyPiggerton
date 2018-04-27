@@ -3,7 +3,6 @@
     border: 1px solid black;
     margin: auto;
     display: block;
-    background: black;
   }
   @font-face {
     font-family: 'Noteworthy';
@@ -59,7 +58,7 @@ class MainDriver {
   constructor() {
     this.frameCount=0;
     this.keys = [];
-    this.scene = new MenuScene();
+    this.scene = new MenuScene(true);
     this.scene.driver = this;
     this.mouse = {x:0,y:0};
   }
@@ -124,13 +123,18 @@ class MainDriver {
     this.scene = scene;
   }
 }
-
+var CE = document.getElementById('gc');
+var canvas = CE.getContext('2d');
+canvas.fillStyle='black';
+canvas.fillRect(0, 0, CE.width, CE.height);
+canvas.fillStyle='white';
+canvas.font = '10px Arial';
+canvas.textAlign = 'center';
+canvas.fillText("LOADING", CE.width/2,CE.height/2);
 
 window.onload = function() {
-  var CE = document.getElementById('gc');
   CE.width = 1000;
   CE.height = 600;
-  var canvas = CE.getContext('2d');
   canvas.width = CE.width;
   canvas.height = CE.height;
   canvas.font = "30px Noteworthy";
@@ -150,7 +154,7 @@ window.onload = function() {
       FPScounter=0;
       lastFPSupdate = currentTime;
     }
-    dt = .8;    
+    dt = .8;   
     // dt = 1;
     driver.update(dt);
     // window.requestAnimationFrame(step);
