@@ -67,7 +67,6 @@ class IntroScene extends GameScene{
     super.update(dt,frameCount);
     if(this.timeToWait<=0) {
       this.timeToWait = this.gen.next().value;
-      console.log(this.gen);
     }
     this.timeToWait--;
     this.time--;
