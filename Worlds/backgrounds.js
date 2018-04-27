@@ -51,10 +51,16 @@ class InfiniteBackground extends Background {
     }
     canvas.translate(-camera.x/2,-camera.y);
     canvas.drawImage(this.background1,0+w*2*x11,-200);
-    canvas.drawImage(this.background1,w+x12*w*2,-200);
+    canvas.save();
+    canvas.translate(w+x12*w*2+3000/2,0);
+    canvas.scale(-1,1);
+    canvas.drawImage(this.background1,-3000/2,-200);
+    canvas.restore();
     canvas.translate(-camera.x/2,0);
     canvas.drawImage(this.background2,0+w*2*x1,-100);
-    canvas.drawImage(this.background2,w+x2*w*2,-100);
+    canvas.translate(w+x2*w*2+3000/2,0);
+    canvas.scale(-1,1);
+    canvas.drawImage(this.background2,-3000/2,-100);
 
     // canvas.drawImage(this.background2,-150+x1*w*2,-100);     
     // canvas.drawImage(this.background2,-150+w+x2*w*2,-100);     
