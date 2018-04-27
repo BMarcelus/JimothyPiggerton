@@ -14,7 +14,7 @@ class LevelEditorSelectScene extends Scene{
       '39': { down: this.navigateUI.bind(this,1)},  //right
       '40': { down: this.navigateUI.bind(this,2)},   //down
       '37': { down: this.navigateUI.bind(this,3)},   //left
-      '27': {down: this.backToMenu.bind(this)}
+      '27': {down: this.backToMenu.bind(this)}, //exscappe
     }
     this.allowUIInput = true;
     this.addLevelSelectGUI();
@@ -85,6 +85,8 @@ class LevelEditorSelectScene extends Scene{
     buttonList[0].selected = true;
   }
   loadGameLevel(index){
+    if (index == 24)
+      index = -1;
     var scene = new LevelEditorScene(index);
     //scene.editLevel = index;
     this.driver.setScene(scene);

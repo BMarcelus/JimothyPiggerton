@@ -8,9 +8,9 @@ class LevelSelectScene extends Scene{
       '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
 
       '87': { down: this.navigateUI.bind(this,0)},    //W
-      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '68': { down: this.navigateUI.bind(this,1)},    //D
       '83': { down: this.navigateUI.bind(this,2)},    //S
-      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '65': { down: this.navigateUI.bind(this,3)},   //A
 
       '38': { down: this.navigateUI.bind(this,0)},  //up
       '39': { down: this.navigateUI.bind(this,1)},  //right
@@ -70,10 +70,10 @@ class LevelSelectScene extends Scene{
       for(var j = 0; j < rowLength; j++){
         var neighbors = [undefined,undefined,undefined,undefined];
         if(i > 0){
-          neighbors[1] = buttonList[i-1+j*5];
+          neighbors[3] = buttonList[i-1+j*5];
         }
         if(i < rowLength-1){
-          neighbors[3] = buttonList[i+1+j*5];
+          neighbors[1] = buttonList[i+1+j*5];
         }
         if(j > 0){
           neighbors[0] = buttonList[i+(j-1)*5];
