@@ -1,8 +1,8 @@
 class Background {
   constructor(type) {
     this.type = type;    
-    this.background1 = this.createBackground(60, "#888", true);
-    this.background2 = this.createBackground(100, "#666", false);
+    this.background1 = this.createBackground(60, "#0b6623", true);
+    this.background2 = this.createBackground(100, "#0b6623", false);
     this.backgroundColor = "#87ceeb";
   }
   draw(canvas, camera, world) {
@@ -66,8 +66,95 @@ class InfiniteBackground extends Background {
     // canvas.drawImage(this.background2,-150+w+x2*w*2,-100);     
     canvas.restore();
   }
-}
+  drawInBounds(canvas,camera,y,height){
+    var scaleFactor = [.5,1];
+    //canvas width = 1000
+    //background1 width = 3000
+    //background2 width = 3000
+    var w = 3000*scaleFactor[0];        //Distance until teleport
+    var w2 = 6000*scaleFactor[0];       //distance until teleport
+    var x1 = Math.floor(camera.x/w/2)+1;       
+                                                  //why is it divided by 2?        
+    var x2 = Math.floor(camera.x/w/2);
+    var x11 = Math.floor(camera.x/w2/2-.5)+1;
+    var x12 = Math.floor(camera.x/w2/2);
+    canvas.save();
+    if(this.backgroundColor) {
+      canvas.fillStyle=this.backgroundColor;
+      canvas.fillRect(0,0,canvas.width,canvas.height);
+    }
+    canvas.scale(scaleFactor[0],scaleFactor[1]);
+    canvas.translate(-camera.x/2,camera.y);   //camera.y controls height displacement
+    //canvas.drawImage(this.background1,0+w*2*x11,-200);    //3000*2*(camera.x/6000/2 - 0.5) + 1
+    canvas.save();
+    canvas.translate(w+x12*w*2+w,0);           //3000 + camera.x/6000/2*3000*2 + 3000 /2
+    canvas.scale(-1,1);
+    //canvas.drawImage(this.background1,0,-200);
+    canvas.restore();
+    canvas.translate(-camera.x/2,0);
+    canvas.drawImage(this.background1,0+w*2*x1,-100);
+    canvas.translate(w+x2*w*2+w,0);
+    canvas.scale(-1,1);
+    canvas.drawImage(this.background2,0,-100);
 
+    // canvas.drawImage(this.background2,-150+x1*w*2,-100);     
+    // canvas.drawImage(this.background2,-150+w+x2*w*2,-100);     
+    canvas.restore();
+  }
+}
+class ScrollingBackgroundObject {
+  constructor(background,xScale,yScale,moveSpeed,initialX,yOffset,flipped,startActivated){
+    this.background = background;
+    this.activated = startActivated;
+    this.scaleFactor = [xScale,yScale];
+    this.maxSpeed = moveSpeed;
+    this.moveSpeed = (this.activated) ? this.maxSpeed : 0;
+    this.yOffset = yOffset;
+    this.flipped = flipped;
+    this.left = initialX*this.scaleFactor[0];     //the left bounds of the image
+    this.width = this.background.width*this.scaleFactor[0];
+    this.right = this.left + this.width; //The right bounds of the image
+    this.colorChangeDuration = 25;
+    this.colorTimer = (this.activated) ? 0 : this.colorChangeDuration ;
+  }
+  update(dt){
+    this.left -= this.moveSpeed*dt;
+    this.right = this.left+this.width;
+    if(this.right < 0){
+      this.left += this.width*2;
+    }
+    this.moveSpeed = (this.activated) ? this.maxSpeed : 0;
+    this.updateGrayscale(dt);
+  }
+  updateGrayscale(dt){
+    if(!this.activated){
+      this.colorTimer += dt;
+      if(this.colorTimer > this.colorChangeDuration){
+        this.colorTimer = this.colorChangeDuration;
+      }
+    } else {
+      this.colorTimer -= dt;
+      if(this.colorTimer < 0)
+        this.colorTimer = 0;
+    }
+  }
+ 
+  draw(canvas){
+    canvas.save();
+    canvas.filter = 'grayscale(' + (this.colorTimer/this.colorChangeDuration) + ')';
+    if(this.flipped){
+      canvas.translate(this.left+this.width,this.yOffset);
+      canvas.scale(-1,1);
+      canvas.scale(this.scaleFactor[0],this.scaleFactor[1]);
+      canvas.drawImage(this.background,0,0);
+    } else {
+      canvas.translate(this.left,this.yOffset);
+      canvas.scale(this.scaleFactor[0],this.scaleFactor[1]);
+      canvas.drawImage(this.background,0,0);
+    }
+    canvas.restore();
+  }
+}
 class SunEffect {
   constructor() {
     this.srcImage = createSunEffect();
@@ -111,10 +198,11 @@ function createHillBackground(w,c,e){
   image.width = 3000;
   image.height =  800;
   canvas.fillStyle = c;
-  var colors = ["#382", "#4a3"];
+
   var colorIndex = 0;
   var yy = 260+300;
-  canvas.fillStyle="#0b6623";
+  canvas.fillStyle = c;
+  //canvas.fillStyle="#0b6623";
   // canvas.fillRect(0,yy,image.width,yy);
   var r = Math.random()*200+100;
   for(var i=0;i<image.width;i+=r) {
@@ -148,6 +236,7 @@ function createForrestBackground(w,c,e) {
   image.height =  800;
   canvas.fillStyle = c;
   var colors = ["#382", "#4a3"];
+
   var colorIndex = 0;
   var yy = 260+300;
   canvas.fillStyle="#050";

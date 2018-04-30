@@ -82,6 +82,7 @@ class Scene {
       }
     }
   }
+  
   draw(canvas){}
   keydown(k) {
     var keyMap = this.keyMap;    
@@ -170,7 +171,7 @@ class Scene {
     return f.bind(this);
   }
   navigateUI(direction){
-    if(this.selectedButton.buttonLinks[direction] == undefined || !this.allowUIInput)
+    if(this.selectedButton == undefined || this.selectedButton.buttonLinks[direction] == undefined || !this.allowUIInput)
       return;
     this.selectedButton.selected = false;
     this.selectedButton.buttonLinks[direction].selected = true;

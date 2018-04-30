@@ -30,6 +30,7 @@ class MenuScene extends Scene{
 
     }
     this.background = new InfiniteBackground();
+   
     this.camera = {x:0,y:0,dx:0,dy:0};
     this.allowUIInput = true;
   }
@@ -37,9 +38,12 @@ class MenuScene extends Scene{
   update(dt) {
     this.camera.x+=3;
     super.update(dt);
+   
   }
   draw(canvas) {
-    this.background.draw(canvas, this.camera);
+    this.background.drawLayers(canvas, this.camera);
+
+    
     this.drawAllGUI(canvas);
     if(this.debug)
       drawGrid(canvas);

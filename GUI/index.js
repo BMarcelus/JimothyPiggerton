@@ -4,4 +4,6 @@ loadSequentially('GUI/',
   "Button.js",
   "TextButton.js",
   "Label.js",
+  "ColorLerpBox.js",
+  "ColoredBox.js",
 ]);

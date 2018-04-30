@@ -1,5 +1,6 @@
 class GUIElement{
   constructor(x,y,w,h,groupID){
+    this.originalDimension = [x,y,w,h];
     this.x = x;
     this.y = y;
     this.w = w;
@@ -27,8 +28,26 @@ class GUIElement{
     //returns pixel [x,y,width,height] for this button
     return [this.x*canvas.width, this.y*canvas.height, this.w*canvas.width, this.h*canvas.height];
   }
+  reset(){
+    this.x = this.originalDimension[0];
+    this.y = this.originalDimension[1];
+    this.w = this.originalDimension[2];
+    this.h = this.originalDimension[3];
+  }
   update(dt){}
   draw(canvas){}
+}
+function colorLerp(color1,color2,percent){
+  //colors must be passed as [r,g,b,a]
+  var result = color1.slice();
+  for(var i = 0; i < 4; i++){
+    result[i] = Math.round(result[i] + (color2[i]-color1[i])*percent);
+  }
+  return result;
+}
+function makeColorStr(colorArray){
+  return 'rgba('+colorArray[0]+','+colorArray[1]+','
+    +colorArray[2]+','+colorArray[3]+')';
 }
 function rectDimFromCenter(x,y,width,height){
   var result = [];
@@ -93,6 +112,8 @@ function handleMouseUp(e,buttonList){
   }
 }
 function handleMouseMove(self, e, buttonList){
+  if(buttonList == undefined)
+    return;
   for(var j = 0; j < buttonList.length; j++){
     if(buttonList[j].held)
       return; //If a button is currently being held (meaning this is a mouse drag
@@ -100,8 +121,9 @@ function handleMouseMove(self, e, buttonList){
   }
   for(var i = 0; i < buttonList.length; i++){
     var percentPoint = getPercentPoint(e);
-    if(buttonList[i].contains(percentPoint[0],percentPoint[1])){
-      self.selectedButton.selected = false;
+    if(buttonList[i].contains(percentPoint[0],percentPoint[1]) && buttonList[i].interactable){
+      if(self.selectedButton != undefined)
+        self.selectedButton.selected = false;
       buttonList[i].selected = true;
       self.selectedButton = buttonList[i];
       break;    //In case of overlapping buttons, exit loop after first contains
