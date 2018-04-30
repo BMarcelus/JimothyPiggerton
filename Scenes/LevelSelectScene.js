@@ -1,112 +1,305 @@
+//menustate constants
+var SELECTWORLD = 0;
+var SELECTLEVEL = 1;
+
+
 class LevelSelectScene extends Scene{
-  constructor(playIntro){
-    super(playIntro);
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-      '79': {down: this.toggleDebug.bind(this)},    //O->debug
-      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
+    constructor(playIntro){
+        super(playIntro);
+        this.keyMap = {
+          '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+          '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+          '79': {down: this.toggleDebug.bind(this)},    //O->debug
+          '27': {down: this.safeButtonCall(this,this.handleEscape)},   //esc
+    
+          '87': { down: this.navigateLevelSelect.bind(this,0)},    //W
+          '68': { down: this.navigateLevelSelect.bind(this,1)},    //D
+          '83': { down: this.navigateLevelSelect.bind(this,2)},    //S
+          '65': { down: this.navigateLevelSelect.bind(this,3)},   //A
+    
+          '38': { down: this.navigateLevelSelect.bind(this,0)},  //up
+          '39': { down: this.navigateLevelSelect.bind(this,1)},  //right
+          '40': { down: this.navigateLevelSelect.bind(this,2)},   //down
+          '37': { down: this.navigateLevelSelect.bind(this,3)},   //left
+        }
+        this.levelsInWorld = [10,10,10];     //numbers should match how many levels are in each world
+        this.menuState = SELECTWORLD;
+        this.worldSelected = 0;
+        this.levelIndex = 0;
+        this.worldButtons = [];
+        this.allowUIInput = true;
+        this.backWall = [];
+        this.addLevelSelectGUI();
+        this.backgroundList = [[],[],[]];  //list of lists
+                                                                //top to bottom
+                                                                //4 ScrollingBackgrounds each
+        this.createBackgrounds();
 
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-      '68': { down: this.navigateUI.bind(this,1)},    //D
-      '83': { down: this.navigateUI.bind(this,2)},    //S
-      '65': { down: this.navigateUI.bind(this,3)},   //A
 
-      '38': { down: this.navigateUI.bind(this,0)},  //up
-      '39': { down: this.navigateUI.bind(this,1)},  //right
-      '40': { down: this.navigateUI.bind(this,2)},   //down
-      '37': { down: this.navigateUI.bind(this,3)},   //left
+
     }
-    this.allowUIInput = true;
-    this.addLevelSelectGUI();
-  }
+
+
+    update(dt){
+      super.update(dt);
+      this.updateBackgrounds(dt);
+      this.levelNumLabel.text = this.levelIndex;
+    }
+    draw(canvas){
+      this.drawBackgrounds(canvas);
+      canvas.strokeStyle = 'black';
+      if(this.menuState == SELECTWORLD)
+        canvas.lineWidth = 3;
+      else if(this.menuState == SELECTLEVEL)
+        canvas.lineWidth = 10;
+      canvas.strokeRect(0,this.worldSelected*canvas.height/3,canvas.width,canvas.height/3);
+      this.drawAllGUI(canvas);
+      drawTransitionOverlay(this.overlayColor,canvas);
+      if(this.debug)
+        drawGrid(canvas);
 
 
 
-  update(dt){
-    super.update(dt);
-  }
-  draw(canvas){
-    canvas.fillStyle = 'gray';
-    canvas.fillRect(0,0,canvas.width,canvas.height);
-    this.drawAllGUI(canvas);
-    drawTransitionOverlay(this.overlayColor,canvas);
-    if(this.debug)
-      drawGrid(canvas);
-  }
-  addLevelSelectGUI(){
-    var titleFont = "60px Noteworthy";
-    var buttonFont = "30px Noteworthy";
-    var textColor = 'white';
-
-    var dim = rectDimFromCenter(.5,.15,.4,.2);
-    var levelSelectTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Select Level",titleFont,textColor,'center');
-    this.gui.push(levelSelectTitle);
-
-    dim = rectDimFromCenter(.63,.9,.1,.09);
-    var backButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToMainMenu.bind(this), "Back",buttonFont,textColor,'transparent',textColor,3);
-    this.gui.push(backButton);
-    //Hardcoded to 16:9 aspect ratio (in order to make squares)
-    var buttonWidth = 0.062;
-    var buttonGap = 0.07;
-    var square = [1,16/9];
-    var rowLength = 5;
-    var buttonList = [];
-    var origin = [0.5-buttonGap*(rowLength-1)/2,.30]; //top left of button grid
-
-    for(var i = 0; i < rowLength; i++){
-      for(var j = 0; j < rowLength; j++){
-        dim = rectDimFromCenter(origin[0]+buttonGap*i*square[0],origin[1]+buttonGap*j*square[1],
-          buttonWidth*square[0],buttonWidth*square[1]);
-        buttonList[i+j*5] = new TextButton(dim[0],dim[1],dim[2],dim[3],1,
-          this.loadGameLevel.bind(this,i+j*5),
-          ""+(i+1+j*5),buttonFont,textColor,'transparent',textColor,3);
-        this.gui.push(buttonList[i+j*5]);
+    }
+    updateBackgrounds(dt){
+      for(var i = 0; i < this.backWall.length; i++){
+        this.backWall[i].update(dt);
+      }
+      for(var i = 0; i < this.backgroundList.length; i++){
+        for(var j = 0; j < this.backgroundList[i].length; j++){
+          this.backgroundList[i][j].update(dt);
+        }
       }
     }
-    for(var i = 0; i < rowLength; i++){
-      for(var j = 0; j < rowLength; j++){
-        var neighbors = [undefined,undefined,undefined,undefined];
-        if(i > 0){
-          neighbors[3] = buttonList[i-1+j*5];
+    drawBackgrounds(canvas){
+      for(var i = 0; i < this.backWall.length; i++){
+        this.backWall[i].draw(canvas);
+      }
+      for(var i = 0; i < this.backgroundList.length; i++){
+        for(var j = 0; j < this.backgroundList[i].length; j++){
+          this.backgroundList[i][j].draw(canvas);
         }
-        if(i < rowLength-1){
-          neighbors[1] = buttonList[i+1+j*5];
-        }
-        if(j > 0){
-          neighbors[0] = buttonList[i+(j-1)*5];
-        }
-        if(j < rowLength-1){
-          neighbors[2] = buttonList[i+(j+1)*5];
-        }
-        if(j == rowLength-1){
-          neighbors[2] = backButton;
-        }
-        if(i == rowLength-1 && j == rowLength-1)
-          backButton.setNeighbors([buttonList[i+j*5],undefined,undefined,undefined]);
-        buttonList[i+j*5].setNeighbors(neighbors);
       }
     }
-    this.selectedButton = buttonList[0];
-    buttonList[0].selected = true;
+    createBackgrounds(){
+      var slowSpeed = 3;
+      var fastSpeed = 5;
+      /*
+      this.bg = createHillBackground(60, "#888", true);
+      this.newBackground1 = new ScrollingBackgroundObject(this.bg,.6,.5,3,0,-200,false);
+      this.newBackground2 = new ScrollingBackgroundObject(this.bg,.6,.5,3,this.bg.width,-200,true);
+  
+      this.otherbg = createHillBackground(100, "#666", false);
+      this.newBackground3 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,0,-100,false);
+      this.newBackground4 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,this.otherbg.width,-100,true);
+      */
+      var bgSprite1 = createHillBackground(60, "rgb(10,92,31)", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite1,.65,.35,slowSpeed,0,-80,false,true);
+      var bg2 = new ScrollingBackgroundObject(bgSprite1,.65,.35,slowSpeed,bgSprite1.width,-80,true,true);
+      this.backgroundList[0].push(bg1);
+      this.backgroundList[0].push(bg2);
+      
+      var bgSprite2 = createHillBackground(100, "rgb(11,102,35)", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite2,.65,.2,fastSpeed,0,37,false,true);
+      bg2 = new ScrollingBackgroundObject(bgSprite2,0.65,0.2,fastSpeed,bgSprite2.width,37,true,true);
+      this.backgroundList[0].push(bg1);
+      this.backgroundList[0].push(bg2);
 
-    this.buttons = getButtons(this.gui);
 
-  }
-  loadGameLevel(index){
-    //This calls a fade to black transition and then loads the level at the end of the transition
-    this.allowUIInput = false;
-    this.startTransition(25,1,function() {
-      var newScene = new GameScene();
-      newScene.loadNewLevel(index);
-      this.driver.setScene(newScene);
-    });
+      var bgSprite3 = createHillBackground(60, "rgb(187,154,57)", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite3,.65,.35,slowSpeed,0,120,false,false);
+      var bg2 = new ScrollingBackgroundObject(bgSprite3,.65,.35,slowSpeed,bgSprite3.width,120,true,false);
+      this.backgroundList[1].push(bg1);
+      this.backgroundList[1].push(bg2);
 
-  }
-  goToMainMenu(){
-    this.driver.setScene(new MenuScene(false));
-  }
+      var bgSprite4 = createHillBackground(100, "rgb(239,209,59)", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite4,.65,.2,fastSpeed,0,237,false,false);
+      bg2 = new ScrollingBackgroundObject(bgSprite4,0.65,0.2,fastSpeed,bgSprite4.width,237,true,false);
+      this.backgroundList[1].push(bg1);
+      this.backgroundList[1].push(bg2);
 
+      var bgSprite5 = createHillBackground(60, "rgb(187,154,57)", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite5,.65,.35,slowSpeed,0,320,false,false);
+      var bg2 = new ScrollingBackgroundObject(bgSprite5,.65,.35,slowSpeed,bgSprite5.width,320,true,false);
+      this.backgroundList[2].push(bg1);
+      this.backgroundList[2].push(bg2);
+
+      var bgSprite6 = createHillBackground(100, "rgb(239,209,59)", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite6,.65,.2,fastSpeed,0,437,false,false);
+      bg2 = new ScrollingBackgroundObject(bgSprite6,0.65,0.2,fastSpeed,bgSprite6.width,437,true,false);
+      this.backgroundList[2].push(bg1);
+      this.backgroundList[2].push(bg2);
+    }
+    addLevelSelectGUI(){
+      var bigFont = '40px Noteworthy';
+      var buttonFont = '30px Noteworthy';
+      var textColor = 'white';
+      //level select title
+      var dim = rectDimFromCenter(.5,.06,.3,.1);
+      var levelSelectTitle = new Label(dim[0],dim[1],dim[2],dim[3],3,
+        "Select Level",'50px Noteworthy',textColor,'middle');
+      this.gui.push(levelSelectTitle);
+      //Color lerp backgrounds
+      var world1Back = new ColorLerpBox(0,0,1,.333,3,[135,206,235,255],[128,128,128,255],25,true );
+      this.backWall.push(world1Back);
+
+      var world2Back = new ColorLerpBox(0,.3333,1,.333,3,[230,166,68,255],[128,128,128,255],25,false );
+      this.backWall.push(world2Back);
+
+      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[0,255,0,255],[128,128,128,255],25,false );
+      this.backWall.push(world3Back);
+
+      //World labels
+      dim = rectDimFromCenter(.1,.09,.2,.12);
+      var world1Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 1",bigFont,textColor,'middle');
+      this.gui.push(world1Label);
+
+      dim = rectDimFromCenter(.1,.09+.333,.2,.12);
+      var world2Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 2",bigFont,textColor,'middle');
+      this.gui.push(world2Label);
+
+      dim = rectDimFromCenter(.1,.09+.666,.2,.12);
+      var world3Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 3",bigFont,textColor,'middle');
+      this.gui.push(world3Label);
+
+      //World buttons (invisible but functional)
+      var world1Button = new Button(0,0,1,1/3,0,this.selectWorld.bind(this,0));
+      this.gui.push(world1Button);
+      this.worldButtons.push(world1Button);
+
+      var world2Button = new Button(0,.333,1,1/3,1,this.selectWorld.bind(this,1));
+      this.gui.push(world2Button);
+      this.worldButtons.push(world2Button);
+
+      var world3Button = new Button(0,.666,1,1/3,2,this.selectWorld.bind(this,2));
+      this.gui.push(world3Button);
+      this.worldButtons.push(world3Button);
+
+      world1Button.setNeighbors([world3Button,undefined,world2Button,undefined]);
+      world2Button.setNeighbors([world1Button,undefined,world3Button,undefined]);
+      world3Button.setNeighbors([world2Button,undefined,world1Button,undefined]);
+
+      //Select level UI
+      dim = rectDimFromCenter(.5,.5,.2,.1)
+      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px Noteworthy',textColor,'middle');
+      this.levelNumLabel.setVisibility(false);
+      this.gui.push(this.levelNumLabel);
+
+      dim = rectDimFromCenter(.5,.6,.18,.08);
+      this.startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
+      this.loadGameLevel.bind(this),"Start Level",buttonFont,textColor,'transparent',textColor,5);
+      this.startButton.setVisibility(false);
+      this.startButton.interactable = false;
+      this.gui.push(this.startButton);
+
+      
+
+      this.buttons = getButtons(this.gui);
+      this.selectedButton = world1Button;
+    }
+    updateWorldSelection(worldNumber){
+      this.worldSelected = worldNumber;
+      for(var i = 0; i < this.backWall.length; i++)
+        this.backWall[i].activated = false;
+      this.backWall[worldNumber].activated = true;
+      for(var i = 0; i < this.backgroundList.length;i++){
+        for(var j = 0; j < this.backgroundList[i].length;j++){
+          if(i == worldNumber)
+            this.backgroundList[i][j].activated = true;
+          else 
+            this.backgroundList[i][j].activated = false;
+        }
+      }
+    }
+    selectWorld(worldNumber){
+      this.worldSelected = worldNumber;
+      this.menuState = SELECTLEVEL;
+      this.selectedButton = this.startButton;
+      this.selectedButton.selected = true;
+      for(var i = 0; i < this.worldButtons.length; i++){
+        this.worldButtons[i].interactable = false;
+      }
+      var offSet = (this.worldSelected-1)/3;
+      var group4GUI = getGUIInGroup(4,this.gui);
+      for(var i = 0; i < group4GUI.length; i++){
+        group4GUI[i].interactable = true;
+        group4GUI[i].setVisibility(true);
+        group4GUI[i].y += offSet;
+      }
+    }
+    returnToWorldSelect(){
+      this.menuState = SELECTWORLD;
+      this.selectedButton = getGUIInGroup(this.worldSelected,this.gui)[0];
+      for(var i = 0; i < this.worldButtons.length; i++){
+        this.worldButtons[i].interactable = true;
+      }
+      var group4GUI = getGUIInGroup(4,this.gui);
+      for(var i = 0; i < group4GUI.length; i++){
+        group4GUI[i].interactable = false;
+        group4GUI[i].setVisibility(false);
+        group4GUI[i].reset();
+      }
+      this.levelIndex = 0;
+    }
+    loadGameLevel(){
+      //This calls a fade to black transition and then loads the level at the end of the transition
+      this.allowUIInput = false;
+      var levelToLoad = 0;
+      for(var i = 0; i < this.worldSelected; i++){
+        levelToLoad += this.levelsInWorld[i];       //sums # of levels in previous worlds
+      }
+      levelToLoad += this.levelIndex;     
+      this.startTransition(25,1,function() {
+        var newScene = new GameScene();
+        newScene.loadNewLevel(levelToLoad);
+        this.driver.setScene(newScene);
+      });
+    
+    }
+    handleEscape(){
+      if(this.menuState == SELECTWORLD){
+        this.driver.setScene(new MenuScene(false));
+      } else if(this.menuState == SELECTLEVEL){
+        this.returnToWorldSelect();
+      }
+    }
+    goToMainMenu(){
+      this.driver.setScene(new MenuScene(false));
+    }
+    mousemove(e, mouse) {
+      //Overload
+      if(!this.allowUIInput)
+        return;
+      if(this.menuState == SELECTWORLD){
+        var percentPoint = getPercentPoint(e);
+        var worldNumber = Math.floor(percentPoint[1]*3);        //spreads values 0 to .999 -> 0 to 2.999
+        var worldNumber = (worldNumber >= 3) ? 2 : worldNumber; //cap to 2 if too large
+        var worldNumber = (worldNumber < 0) ? 0 : worldNumber;  //cap to 0 if too small
+        this.updateWorldSelection(worldNumber);   
+      } 
+      handleMouseMove(this,e,this.buttons);
+    }
+    navigateLevelSelect(direction){
+      //Overload
+      if(!this.allowUIInput)
+        return;
+      if(this.menuState == SELECTWORLD){
+        this.navigateUI(direction);
+        this.updateWorldSelection(this.selectedButton.groupID);
+      } else if(this.menuState == SELECTLEVEL){
+        switch(direction){
+          case 1: //right
+            this.levelIndex++;
+            if(this.levelIndex >= this.levelsInWorld[this.worldSelected])
+              this.levelIndex = this.levelsInWorld[this.worldSelected];
+            return;
+          case 3: //left
+            this.levelIndex--;
+            if(this.levelIndex < 0)
+              this.levelIndex = 0;
+            return;
+        }
+
+      }
+    }
 }
