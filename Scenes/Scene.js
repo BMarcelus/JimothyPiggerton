@@ -85,26 +85,38 @@ class Scene {
   
   draw(canvas){}
   keydown(k) {
-    var keyMap = this.keyMap;    
-    if(keyMap[k]&&keyMap[k].down) {
-      keyMap[k].down();
+    var keyMap = this.keyMap;   
+    var map = this.keyMap[k];
+    if(!map)return;
+    // map.keyHeld = (map.keyHeld||0)+1;
+    map.keyHeld = true;
+    if(map.down) {
+      map.down();
     }
   }
   keyup(k) {
     var keyMap = this.keyMap;
-    if(keyMap[k]&&keyMap[k].up) {
-      keyMap[k].up();
+    var map = this.keyMap[k];
+    if(!map)return;
+    // map.keyHeld -= 1;
+    map.keyHeld = false;
+    if(map.up) {
+      map.up();
     }
   }
   handleHeldKeys(dt) {
     var keys = this.keys;
     var keyMap = this.keyMap;
     for(var k in keyMap) {
-      if(keys[k]&&keyMap[k].held) {
-        keyMap[k].held(dt);
+      var map = keyMap[k];
+      if(keys[k]&&map.held) {
+        map.held(dt);
       }
-      if(keys[k]==false&&keyMap[k].unheld) {
-        keyMap[k].unheld(dt);
+      if(keys[k]==false&&map.unheld) {
+        map.unheld(dt);
+      }
+      if(map.noneheld&&!map.keyHeld) {
+        map.noneheld(dt);
       }
     }
   }

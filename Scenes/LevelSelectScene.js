@@ -118,13 +118,13 @@ class LevelSelectScene extends Scene{
       this.backgroundList[1].push(bg1);
       this.backgroundList[1].push(bg2);
 
-      var bgSprite5 = createHillBackground(60, "rgb(187,154,57)", false);
+      var bgSprite5 = createForrestBackground(60, "0b6623", false);
       var bg1 = new ScrollingBackgroundObject(bgSprite5,.65,.35,slowSpeed,0,320,false,false);
       var bg2 = new ScrollingBackgroundObject(bgSprite5,.65,.35,slowSpeed,bgSprite5.width,320,true,false);
       this.backgroundList[2].push(bg1);
       this.backgroundList[2].push(bg2);
 
-      var bgSprite6 = createHillBackground(100, "rgb(239,209,59)", false);
+      var bgSprite6 = createForrestBackground(100, "0b6623", false);
       bg1 = new ScrollingBackgroundObject(bgSprite6,.65,.2,fastSpeed,0,437,false,false);
       bg2 = new ScrollingBackgroundObject(bgSprite6,0.65,0.2,fastSpeed,bgSprite6.width,437,true,false);
       this.backgroundList[2].push(bg1);
@@ -146,7 +146,7 @@ class LevelSelectScene extends Scene{
       var world2Back = new ColorLerpBox(0,.3333,1,.333,3,[230,166,68,255],[128,128,128,255],25,false );
       this.backWall.push(world2Back);
 
-      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[0,255,0,255],[128,128,128,255],25,false );
+      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[135,206,235,255],[128,128,128,255],25,false );
       this.backWall.push(world3Back);
 
       //World labels
