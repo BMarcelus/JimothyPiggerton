@@ -73,6 +73,7 @@ var touchButtons = [
   },
 ];
 var touchButtonMap = {};
+var touchOn = false;
 class MainDriver {
   constructor(canvas) {
     this.canvas=canvas;
@@ -94,17 +95,21 @@ class MainDriver {
   draw(canvas) {
     canvas.clearRect(0,0,canvas.width,canvas.height);
     this.scene.draw(canvas);
-    var W = canvas.width;
-    var H = canvas.height;
-    for(var i=0;i<touchButtons.length;i+=1) {
-      var btn = touchButtons[i];
-      var x = btn.x*W;
-      var y = btn.y*H;
-      var w = btn.w*W;
-      var h = btn.h*H;
-      canvas.fillStyle='rgba(0,0,0,.5)';
-      if(btn.held) canvas.fillStyle='rgba(255,0,0,.6)';
-      canvas.fillRect(x,y,w,h);
+    if(touchOn) {
+      var W = canvas.width;
+      var H = canvas.height;
+      canvas.save();    
+      for(var i=0;i<touchButtons.length;i+=1) {
+        var btn = touchButtons[i];
+        var x = btn.x*W;
+        var y = btn.y*H;
+        var w = btn.w*W;
+        var h = btn.h*H;
+        canvas.fillStyle='rgba(0,0,0,.5)';
+        if(btn.held) canvas.fillStyle='rgba(255,0,0,.6)';
+        canvas.fillRect(x,y,w,h);
+      }
+      canvas.restore();
     }
   }
   jankyTouch(e) {
@@ -136,6 +141,7 @@ class MainDriver {
     touchButtonMap[id] = 0;    
   }
   touchstart(e) {
+    touchOn = true;
     if(this.scene.startGame)this.scene.startGame();
     if(this.scene.time)this.scene.time=0;
     var touch = e.changedTouches[0];
