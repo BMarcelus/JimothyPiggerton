@@ -40,12 +40,16 @@ class LevelEditorScene extends Scene{
       '83': {down: this.zoomOut.bind(this)},
       '73': {down: this.growi.bind(this)},
       '74': {down: this.growj.bind(this)},
-      '27': {down: this.backToSelect.bind(this)}
+      '27': {down: this.backToSelect.bind(this)},
+      '88': {down: this.openBlockSelect.bind(this)},
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
     this.currentBlock = 1;
     this.playerAbility = [0,0];
+  }
+  openBlockSelect() {
+    this.driver.setScene(new PauseScene(this));
   }
   zoomIn() {
     this.zoom += .1;
@@ -239,10 +243,14 @@ class LevelEditorScene extends Scene{
     var camera = this.camera;
     var world1 = this.world;
     camera.offset = {x: canvas.width/2, y: canvas.height/2};
-    if(camera.x/this.zoom<canvas.width/2)camera.x = this.zoom*canvas.width/2;
-    if(camera.x/this.zoom>world1.w*world1.s-canvas.width/2) camera.x = this.zoom*(world1.w*world1.s-canvas.width/2);
-    if(camera.y/this.zoom>world1.h*world1.s-canvas.height/2+canvas.height/5)camera.y = this.zoom*(world1.h*world1.s-canvas.height/2+canvas.height/5);
-    if(camera.y/this.zoom<canvas.height/2)camera.y = this.zoom*canvas.height/2;  
+    var xmin = this.zoom*canvas.width/2;
+    var xmax = this.zoom*(world1.w*world1.s-canvas.width/2);
+    var ymin = this.zoom*canvas.height/2;
+    var ymax = this.zoom*(world1.h*world1.s-canvas.height/2+canvas.height/5);
+    if(camera.x<xmin) camera.x = xmin;
+    if(camera.x>xmax) camera.x = xmax;
+    if(camera.y>ymax)camera.y = ymax;
+    if(camera.y<ymin)camera.y = ymin;  
     var camera = this.camera;
     canvas.save();
     canvas.translate(canvas.width/2,canvas.height/2);  

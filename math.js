@@ -114,6 +114,10 @@ function rectangleCollision(rect1, rect2) {
     }
 }
 
+function pointInRect(x,y, rect) {
+  return x >= rect.x && x <= rect.x+rect.w && y >= rect.y && y <= rect.y+rect.h;
+}
+
 function rectangleCollisionAtTopOfEnemy(rect1, rect2) {
   if(rect1.y + rect1.h == 0) {
     return true;

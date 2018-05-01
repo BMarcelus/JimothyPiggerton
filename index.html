@@ -1,4 +1,8 @@
 <style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
   canvas {
     border: 1px solid black;
     margin: auto;
@@ -17,7 +21,7 @@
 <script>
 function loadScript (dir, file) {
  var scr = document.createElement("script");
- scr.src = dir + file;
+ scr.src = dir + file + '?4';
  document.body.appendChild(scr);
  return scr;
 }
@@ -54,8 +58,24 @@ loadSequentially("./",[
 <script src="./GUI/index.js"></script>
 <script>
 var movementKeys = [32,37,38,39,40];
+var touchButtons = [
+  {
+    x: 0, y: .6, w: .2, h: .4,
+    key: 65,
+  },
+  {
+    x: .21, y: .6, w: .2, h: .4,
+    key: 68,
+  },
+  {
+    x: .8, y: .6, w: .15, h: .4,
+    key: 32,
+  },
+];
+var touchButtonMap = {};
 class MainDriver {
-  constructor() {
+  constructor(canvas) {
+    this.canvas=canvas;
     this.frameCount=0;
     this.keys = [];
     this.scene = new MenuScene(true);
@@ -74,17 +94,110 @@ class MainDriver {
   draw(canvas) {
     canvas.clearRect(0,0,canvas.width,canvas.height);
     this.scene.draw(canvas);
+    var W = canvas.width;
+    var H = canvas.height;
+    for(var i=0;i<touchButtons.length;i+=1) {
+      var btn = touchButtons[i];
+      var x = btn.x*W;
+      var y = btn.y*H;
+      var w = btn.w*W;
+      var h = btn.h*H;
+      canvas.fillStyle='rgba(0,0,0,.5)';
+      if(btn.held) canvas.fillStyle='rgba(255,0,0,.6)';
+      canvas.fillRect(x,y,w,h);
+    }
+  }
+  jankyTouch(e) {
+    var x = e.changedTouches[0].pageX;
+    var y = e.changedTouches[0].pageY;
+    // this.scene.mousedown(e, {x,y});
+    // this.keydown({keyCode: 32});
+    if(this.scene.startGame)this.scene.startGame();
+    if(this.scene.time)this.scene.time=0;
+    else {
+      var player = this.scene.player;
+      if(x>700) this.keydown({keyCode :68});
+      else this.keyup({keyCode: 68});
+      if(x<300) this.keydown({keyCode :65});
+      else this.keyup({keyCode :65});        
+      if(y<200)this.scene.keydown(32);
+    }
+    // this.scene.keydown(32);
+    e.preventDefault();
+  }
+  enterTouchButton(btn, id) {
+    btn.held = id;
+    this.keydown({keyCode: btn.key});
+    touchButtonMap[id] = btn;    
+  }
+  leaveTouchButton(btn, id) {
+    btn.held = 0;
+    this.keyup({keyCode: btn.key});
+    touchButtonMap[id] = 0;    
   }
   touchstart(e) {
-    // var x = e.changedTouches[0].pageX;
-    // var y = e.changedTouches[0].pageY;
-    // this.keydown({keyCode: 32});
-    this.scene.keydown(32);
+    if(this.scene.startGame)this.scene.startGame();
+    if(this.scene.time)this.scene.time=0;
+    var touch = e.changedTouches[0];
+    var x = touch.pageX;
+    var y = touch.pageY;
+    var W = this.canvas.width;
+    var H = this.canvas.height;
+    x = x/W;
+    y = y/H;
+    for(var i=0;i<touchButtons.length;i++) {
+      var btn = touchButtons[i];
+      if(pointInRect(x,y,btn)) {
+        this.enterTouchButton(btn, touch.identifier);
+      }
+    }
+    e.preventDefault();
+  }
+  touchmove(e) {
+    var touch = e.changedTouches[0];
+    var x = touch.pageX;
+    var y = touch.pageY;
+    var W = this.canvas.width;
+    var H = this.canvas.height;
+    x = x/W;
+    y = y/H;
+    var cbtn = touchButtonMap[touch.identifier];
+    if(cbtn) {
+      if(!pointInRect(x,y,cbtn)) {
+        this.leaveTouchButton(cbtn, touch.identifier);
+      }
+    }
+    for(var i=0;i<touchButtons.length;i++) {
+      var btn = touchButtons[i];
+      if(pointInRect(x,y,btn)) {
+        this.enterTouchButton(btn, touch.identifier);
+      }
+    }
+  }
+  touchend(e) {
+    var touch = e.changedTouches[0];
+    var x = touch.pageX;
+    var y = touch.pageY;
+    var W = this.canvas.width;
+    var H = this.canvas.height;
+    
+    x = x/W;
+    y = y/H;
+    var cbtn = touchButtonMap[touch.identifier];
+    if(cbtn) {
+      this.leaveTouchButton(cbtn, touch.identifier);
+    }
+    // for(var i=0;i<touchButtons.length;i++) {
+    //   var btn = touchButtons[i];
+    //   if(pointInRect(x,y,btn)) {
+    //     this.leaveTouchButton(btn, touch.identifier);
+    //   }
+    // }
   }
   keydown(e) {
     var keys = this.keys;
     var k = e.keyCode;
-    if(movementKeys.includes(k)) {
+    if(movementKeys.includes(k)&&e.preventDefault) {
       e.preventDefault();
     }
     if(keys[k])return;
@@ -138,7 +251,7 @@ window.onload = function() {
   canvas.width = CE.width;
   canvas.height = CE.height;
   canvas.font = "30px Noteworthy";
-  var driver = new MainDriver();
+  var driver = new MainDriver(canvas);
   var lastTime = Date.now();
   var FPScounter = 0;
   var currentFPS = 0;
@@ -176,6 +289,9 @@ window.onload = function() {
   CE.addEventListener('mousemove', driver.mousemove.bind(driver));
   CE.addEventListener('mouseup', driver.mouseup.bind(driver));
   CE.addEventListener('mousedown', driver.mousedown.bind(driver));
-  window.addEventListener('touchstart', driver.touchstart.bind(driver));
+  CE.addEventListener('touchstart', driver.touchstart.bind(driver));
+  CE.addEventListener('touchmove', driver.touchmove.bind(driver));
+  CE.addEventListener('touchend', driver.touchend.bind(driver));
+  CE.addEventListener('touchcancel', driver.touchend.bind(driver));
 }
 </script>
