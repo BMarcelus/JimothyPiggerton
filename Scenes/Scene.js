@@ -61,6 +61,7 @@ class Scene {
   update(dt){
     this.handleHeldKeys(dt);
     this.updateTransition(dt);
+    this.updateAllGUI(dt);
   }
   updateTransitionColor() {
     this.overlayColor = 'rgba(0,0,0,' + 
@@ -183,7 +184,8 @@ class Scene {
     return f.bind(this);
   }
   navigateUI(direction){
-    if(this.selectedButton == undefined || this.selectedButton.buttonLinks[direction] == undefined || !this.allowUIInput)
+    if(this.selectedButton == undefined || this.selectedButton.buttonLinks[direction] == undefined 
+      || !this.allowUIInput || !this.selectedButton.buttonLinks[direction].selectable)
       return;
     this.selectedButton.selected = false;
     this.selectedButton.buttonLinks[direction].selected = true;

@@ -5,7 +5,8 @@ class GUIElement{
     this.y = y;
     this.w = w;
     this.h = h;
-    this.interactable = true; //Can this element be moused over/used/clicked?       
+    this.interactable = true; //Can this element be moused over/used/clicked?     
+    this.selectable = true;  
     this.groupID = groupID;   //for ease of grouping UI elements (eg: 0 is main menu UI elements, 1 is level select elements etc)
     this.visible = true;      //should this be drawn? 
   }
@@ -20,9 +21,10 @@ class GUIElement{
   setVisibility(x){
     this.visible = x;
   }
-  setOptions(interactable, visible){
+  setOptions(interactable, selectable, visible){
     this.interactable = interactable;
     this.visible = visible;
+    this.selectable = selectable;
   }
   getPixelDimensions(canvas){
     //returns pixel [x,y,width,height] for this button
@@ -121,7 +123,7 @@ function handleMouseMove(self, e, buttonList){
   }
   for(var i = 0; i < buttonList.length; i++){
     var percentPoint = getPercentPoint(e);
-    if(buttonList[i].contains(percentPoint[0],percentPoint[1]) && buttonList[i].interactable){
+    if(buttonList[i].contains(percentPoint[0],percentPoint[1]) && buttonList[i].selectable){
       if(self.selectedButton != undefined)
         self.selectedButton.selected = false;
       buttonList[i].selected = true;

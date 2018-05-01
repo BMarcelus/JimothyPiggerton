@@ -6,4 +6,5 @@ loadSequentially('GUI/',
   "Label.js",
   "ColorLerpBox.js",
   "ColoredBox.js",
+  "ArrowSelector.js",
 ]);

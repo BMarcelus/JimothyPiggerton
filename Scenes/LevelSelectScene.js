@@ -27,6 +27,7 @@ class LevelSelectScene extends Scene{
         this.worldSelected = 0;
         this.levelIndex = 0;
         this.worldButtons = [];
+        this.worldLabels = [];
         this.allowUIInput = true;
         this.backWall = [];
         this.addLevelSelectGUI();
@@ -93,40 +94,41 @@ class LevelSelectScene extends Scene{
       this.newBackground3 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,0,-100,false);
       this.newBackground4 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,this.otherbg.width,-100,true);
       */
-      var bgSprite1 = createHillBackground(60, "rgb(10,92,31)", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite1,.65,.35,slowSpeed,0,-80,false,true);
-      var bg2 = new ScrollingBackgroundObject(bgSprite1,.65,.35,slowSpeed,bgSprite1.width,-80,true,true);
+      var xScale = 0.55;
+      var bgSprite1 = createHillBackground(6000, "rgb(10,92,31)", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,0,-80,false,true);
+      var bg2 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,bgSprite1.width,-80,true,true);
       this.backgroundList[0].push(bg1);
       this.backgroundList[0].push(bg2);
       
-      var bgSprite2 = createHillBackground(100, "rgb(11,102,35)", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite2,.65,.2,fastSpeed,0,37,false,true);
-      bg2 = new ScrollingBackgroundObject(bgSprite2,0.65,0.2,fastSpeed,bgSprite2.width,37,true,true);
+      var bgSprite2 = createHillBackground(6000, "rgb(11,102,35)", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite2,xScale,.2,fastSpeed,0,37,false,true);
+      bg2 = new ScrollingBackgroundObject(bgSprite2,xScale,0.2,fastSpeed,bgSprite2.width,37,true,true);
       this.backgroundList[0].push(bg1);
       this.backgroundList[0].push(bg2);
 
-
-      var bgSprite3 = createHillBackground(60, "rgb(187,154,57)", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite3,.65,.35,slowSpeed,0,120,false,false);
-      var bg2 = new ScrollingBackgroundObject(bgSprite3,.65,.35,slowSpeed,bgSprite3.width,120,true,false);
+      xScale = 0.7;
+      var bgSprite3 = createHillBackground(6000, "rgb(187,154,57)", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,0,120,false,false);
+      var bg2 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,bgSprite3.width,120,true,false);
       this.backgroundList[1].push(bg1);
       this.backgroundList[1].push(bg2);
 
-      var bgSprite4 = createHillBackground(100, "rgb(239,209,59)", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite4,.65,.2,fastSpeed,0,237,false,false);
-      bg2 = new ScrollingBackgroundObject(bgSprite4,0.65,0.2,fastSpeed,bgSprite4.width,237,true,false);
+      var bgSprite4 = createHillBackground(6000, "rgb(239,209,59)", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite4,xScale,.2,fastSpeed,0,237,false,false);
+      bg2 = new ScrollingBackgroundObject(bgSprite4,xScale,0.2,fastSpeed,bgSprite4.width,237,true,false);
       this.backgroundList[1].push(bg1);
       this.backgroundList[1].push(bg2);
 
       var bgSprite5 = createForrestBackground(60, "0b6623", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite5,.65,.35,slowSpeed,0,320,false,false);
-      var bg2 = new ScrollingBackgroundObject(bgSprite5,.65,.35,slowSpeed,bgSprite5.width,320,true,false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,0,320,false,false);
+      var bg2 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,bgSprite5.width,320,true,false);
       this.backgroundList[2].push(bg1);
       this.backgroundList[2].push(bg2);
 
       var bgSprite6 = createForrestBackground(100, "0b6623", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite6,.65,.2,fastSpeed,0,437,false,false);
-      bg2 = new ScrollingBackgroundObject(bgSprite6,0.65,0.2,fastSpeed,bgSprite6.width,437,true,false);
+      bg1 = new ScrollingBackgroundObject(bgSprite6,xScale,.2,fastSpeed,0,437,false,false);
+      bg2 = new ScrollingBackgroundObject(bgSprite6,xScale,0.2,fastSpeed,bgSprite6.width,437,true,false);
       this.backgroundList[2].push(bg1);
       this.backgroundList[2].push(bg2);
     }
@@ -152,15 +154,21 @@ class LevelSelectScene extends Scene{
       //World labels
       dim = rectDimFromCenter(.1,.09,.2,.12);
       var world1Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 1",bigFont,textColor,'middle');
+      world1Label.setVisibility(true);
       this.gui.push(world1Label);
+      this.worldLabels.push(world1Label);
 
       dim = rectDimFromCenter(.1,.09+.333,.2,.12);
       var world2Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 2",bigFont,textColor,'middle');
+      world2Label.setVisibility(false);
       this.gui.push(world2Label);
+      this.worldLabels.push(world2Label);
 
       dim = rectDimFromCenter(.1,.09+.666,.2,.12);
       var world3Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 3",bigFont,textColor,'middle');
+      world3Label.setVisibility(false);
       this.gui.push(world3Label);
+      this.worldLabels.push(world3Label);
 
       //World buttons (invisible but functional)
       var world1Button = new Button(0,0,1,1/3,0,this.selectWorld.bind(this,0));
@@ -192,15 +200,28 @@ class LevelSelectScene extends Scene{
       this.startButton.interactable = false;
       this.gui.push(this.startButton);
 
-      
+      dim = rectDimFromCenter(.6,.492,.05,.08);
+      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevel.bind(this),.05,.015,'white','black',5,false);
+      this.rightArrow.selectable = false;
+      this.rightArrow.setVisibility(false);
+      this.gui.push(this.rightArrow);
+
+      dim = rectDimFromCenter(.4,.492,.05,.08);
+      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevel.bind(this),.05,.015,'white','black',5,true);
+      this.leftArrow.selectable = false;
+      this.leftArrow.setVisibility(false);
+      this.gui.push(this.leftArrow);
 
       this.buttons = getButtons(this.gui);
       this.selectedButton = world1Button;
     }
     updateWorldSelection(worldNumber){
       this.worldSelected = worldNumber;
-      for(var i = 0; i < this.backWall.length; i++)
+      for(var i = 0; i < this.backWall.length; i++){
         this.backWall[i].activated = false;
+        this.worldLabels[i].setVisibility(false);
+      }
+      this.worldLabels[worldNumber].setVisibility(true);
       this.backWall[worldNumber].activated = true;
       for(var i = 0; i < this.backgroundList.length;i++){
         for(var j = 0; j < this.backgroundList[i].length;j++){
@@ -217,27 +238,37 @@ class LevelSelectScene extends Scene{
       this.selectedButton = this.startButton;
       this.selectedButton.selected = true;
       for(var i = 0; i < this.worldButtons.length; i++){
-        this.worldButtons[i].interactable = false;
+        this.worldButtons[i].setOptions(false,false,false);
       }
       var offSet = (this.worldSelected-1)/3;
       var group4GUI = getGUIInGroup(4,this.gui);
       for(var i = 0; i < group4GUI.length; i++){
-        group4GUI[i].interactable = true;
-        group4GUI[i].setVisibility(true);
+        group4GUI[i].setOptions(true,true,true);
         group4GUI[i].y += offSet;
       }
+      var group5GUI = getGUIInGroup(5,this.gui);
+      for(var i = 0; i < group5GUI.length; i++){
+        group5GUI[i].setOptions(true,false,true);
+        group5GUI[i].y += offSet;
+      }
+      this.leftArrow.setVisibility(false);
+
     }
     returnToWorldSelect(){
       this.menuState = SELECTWORLD;
       this.selectedButton = getGUIInGroup(this.worldSelected,this.gui)[0];
       for(var i = 0; i < this.worldButtons.length; i++){
-        this.worldButtons[i].interactable = true;
+        this.worldButtons[i].setOptions(true,true,true);
       }
       var group4GUI = getGUIInGroup(4,this.gui);
       for(var i = 0; i < group4GUI.length; i++){
-        group4GUI[i].interactable = false;
-        group4GUI[i].setVisibility(false);
+        group4GUI[i].setOptions(false,false,false);
         group4GUI[i].reset();
+      }
+      var group5GUI = getGUIInGroup(5,this.gui);
+      for(var i = 0; i < group5GUI.length; i++){
+        group5GUI[i].setOptions(false,false,false);
+        group5GUI[i].reset();
       }
       this.levelIndex = 0;
     }
@@ -289,17 +320,31 @@ class LevelSelectScene extends Scene{
       } else if(this.menuState == SELECTLEVEL){
         switch(direction){
           case 1: //right
-            this.levelIndex++;
-            if(this.levelIndex >= this.levelsInWorld[this.worldSelected])
-              this.levelIndex = this.levelsInWorld[this.worldSelected];
+            this.rightArrow.callback();
+            //callback is incrementLevel+move
             return;
           case 3: //left
-            this.levelIndex--;
-            if(this.levelIndex < 0)
-              this.levelIndex = 0;
+            this.leftArrow.callback();
+            //callback is decrementLevel+move
             return;
         }
 
+      }
+    }
+    incrementLevel(){
+      this.levelIndex++;
+      this.leftArrow.setVisibility(true);
+      if(this.levelIndex >= this.levelsInWorld[this.worldSelected]){
+        this.rightArrow.setVisibility(false);
+        this.levelIndex = this.levelsInWorld[this.worldSelected]; 
+      }
+    }
+    decrementLevel(){
+      this.levelIndex--;
+      this.rightArrow.setVisibility(true);
+      if(this.levelIndex <= 0){
+        this.leftArrow.setVisibility(false);
+        this.levelIndex = 0;
       }
     }
 }

@@ -132,6 +132,24 @@ function distanceBetweenEntities(a,b) {
   var r = Math.sqrt(dx*dx+dy*dy);
   return r;
 }
+function circleMove(direction,distance){
+  return [circleMoveX(direction,distance),circleMoveY(direction,distance)];
+}
+function circleMoveX(direction,distance){
+  return Math.cos(direction)*distance;
+}
+function circleMoveY(direction,distance){
+  return Math.sin(direction)*distance;
+}
+function toDegrees(rad){
+  return rad * (180 / Math.PI);
+}
+function toRadians(deg){
+  return deg * (Math.PI / 180);
+}
+function pointAdd(pointA,pointB){
+  return [pointA[0]+pointB[0],pointA[1]+pointB[1]];
+}
 // class Random {
 //   constructor(seed) {
 //     this.seed = seed % 2147483647;
