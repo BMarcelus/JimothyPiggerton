@@ -14,7 +14,8 @@ class Cloud {
     }
     this.x+=this.vx;
     this.y+=this.vy;
-    var val = Math.floor(200+50 * this.life/this.maxlife);
+    var val = Math.floor(100+155 * this.life/this.maxlife);
+    // var val = *this.life/this.maxlife;
     this.color = "rgb("+val+","+val+","+val+")";
   }
   draw(canvas) {
@@ -25,8 +26,15 @@ class Cloud {
     var h = w;
     canvas.translate(this.x,this.y);
     var d = w/5;
-    canvas.fillRect(-w/2+d,-h,w-d*2,h);
-    canvas.fillRect(-w/2,-h+d,w,h-d*2);
+    if(this.life<5) {
+      canvas.fillRect(-w/2+d,-h,w-d*2,h/4);
+      canvas.fillRect(-w/2+d,-h/4,w-d*2,h/4);
+      canvas.fillRect(-w/2,-h+d,w/4,h-d*2);
+      canvas.fillRect(w/4,-h+d,w/4,h-d*2);
+    } else {
+      canvas.fillRect(-w/2+d,-h,w-d*2,h);
+      canvas.fillRect(-w/2,-h+d,w,h-d*2);      
+    }
     canvas.restore();
   }
 }
