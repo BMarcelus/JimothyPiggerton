@@ -2,11 +2,12 @@ class Label extends GUIElement{
   constructor(x,y,width,height,groupID
     ,text,font,textColor,textAlign){
     super(x,y,width,height,groupID);
-    super.setOptions(false,true);
+    super.setOptions(false,true,true);
     this.text = text;
     this.font = font;
     this.textColor = textColor;
     this.textAlign = textAlign;
+    this.visible = true;
   }
   update(dt){}
   draw(canvas){

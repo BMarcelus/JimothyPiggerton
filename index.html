@@ -144,61 +144,68 @@ class MainDriver {
     touchOn = true;
     if(this.scene.startGame)this.scene.startGame();
     if(this.scene.time)this.scene.time=0;
-    var touch = e.changedTouches[0];
-    var x = touch.pageX;
-    var y = touch.pageY;
-    var W = this.canvas.width;
-    var H = this.canvas.height;
-    x = x/W;
-    y = y/H;
-    for(var i=0;i<touchButtons.length;i++) {
-      var btn = touchButtons[i];
-      if(pointInRect(x,y,btn)) {
-        this.enterTouchButton(btn, touch.identifier);
+    var touches = e.changedTouches;
+    e.preventDefault();    
+    for(var i=0;i<touches.length;i++) {
+      var touch = e.changedTouches[i];
+      var x = touch.pageX;
+      var y = touch.pageY;
+      var W = this.canvas.width;
+      var H = this.canvas.height;
+      x = x/W;
+      y = y/H;
+      for(var i=0;i<touchButtons.length;i++) {
+        var btn = touchButtons[i];
+        if(pointInRect(x,y,btn)) {
+          this.enterTouchButton(btn, touch.identifier);
+        }
       }
     }
-    e.preventDefault();
   }
   touchmove(e) {
-    var touch = e.changedTouches[0];
-    var x = touch.pageX;
-    var y = touch.pageY;
-    var W = this.canvas.width;
-    var H = this.canvas.height;
-    x = x/W;
-    y = y/H;
-    var cbtn = touchButtonMap[touch.identifier];
-    if(cbtn) {
-      if(!pointInRect(x,y,cbtn)) {
-        this.leaveTouchButton(cbtn, touch.identifier);
+    for(var i=0;i<e.changedTouches.length;i+=1) {
+      var touch = e.changedTouches[i];
+      var x = touch.pageX;
+      var y = touch.pageY;
+      var W = this.canvas.width;
+      var H = this.canvas.height;
+      x = x/W;
+      y = y/H;
+      var cbtn = touchButtonMap[touch.identifier];
+      if(cbtn) {
+        if(!pointInRect(x,y,cbtn)) {
+          this.leaveTouchButton(cbtn, touch.identifier);
+        }
       }
-    }
-    for(var i=0;i<touchButtons.length;i++) {
-      var btn = touchButtons[i];
-      if(pointInRect(x,y,btn)) {
-        this.enterTouchButton(btn, touch.identifier);
+      for(var i=0;i<touchButtons.length;i++) {
+        var btn = touchButtons[i];
+        if(pointInRect(x,y,btn)) {
+          this.enterTouchButton(btn, touch.identifier);
+        }
       }
     }
   }
   touchend(e) {
-    var touch = e.changedTouches[0];
-    var x = touch.pageX;
-    var y = touch.pageY;
-    var W = this.canvas.width;
-    var H = this.canvas.height;
-    
-    x = x/W;
-    y = y/H;
-    var cbtn = touchButtonMap[touch.identifier];
-    if(cbtn) {
-      this.leaveTouchButton(cbtn, touch.identifier);
+    for(var i=0;i<e.changedTouches.length;i+=1) {
+      var touch = e.changedTouches[i];
+      var x = touch.pageX;
+      var y = touch.pageY;
+      var W = this.canvas.width;
+      var H = this.canvas.height;
+      
+      x = x/W;
+      y = y/H;
+      var cbtn = touchButtonMap[touch.identifier];
+      if(cbtn) {
+        this.leaveTouchButton(cbtn, touch.identifier);
+      }
+      // for(var i=0;i<touchButtons.length;i++) {
+      //   var btn = touchButtons[i];
+      //   if(pointInRect(x,y,btn)) {
+      //     this.leaveTouchButton(btn, touch.identifier);
+      //   }
+      // }
     }
-    // for(var i=0;i<touchButtons.length;i++) {
-    //   var btn = touchButtons[i];
-    //   if(pointInRect(x,y,btn)) {
-    //     this.leaveTouchButton(btn, touch.identifier);
-    //   }
-    // }
   }
   keydown(e) {
     var keys = this.keys;

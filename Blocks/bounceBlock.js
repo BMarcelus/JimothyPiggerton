@@ -24,8 +24,11 @@ addBlock({
     if(entity.x>cellPos.x+cellPos.w/2 && entity.vx<=0) {
       entity.vy=-10;
       entity.vx = 20;
-      entity.y-=1;      
+      entity.y-=1;
     }
+
+    entity.spinning=true;
+    entity.angle += Math.PI;
     // entity.jumpCount = 0;
     // entity.jump();
     // entity.width+=10;

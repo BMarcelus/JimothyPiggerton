@@ -16,9 +16,17 @@ addBlock({
     canvas.stroke();
   },
   entityCollision: function(entity, pos, dx, dy, cellPos) {
+    // if(!entity.grounded)entity.dash(1-2*entity.flipped);
    if(entity.vy>0) {
      entity.vy=-10;
-     entity.vx = 20*(1-2*(entity.vx<0));
+     entity.y-=1;
+     entity.vx = 20*(1-2*entity.flipped);
    }
+   return false;
+    // var time = Date.now();
+    // if(entity.boostCollision > time-100)return false;
+    // entity.boostCollision = time;
+    // entity.dash(1-2*entity.flipped);
+    // return false;
   },
 });
