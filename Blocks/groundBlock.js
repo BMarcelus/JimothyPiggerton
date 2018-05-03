@@ -29,6 +29,8 @@ addBlock({
           var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
           canvas.fillRect(xx+x,yy+y,ww,hh);
         }
+        if(!world)
+          return;
         if(!world.getCell(i,j-1).groundBlock) {
           canvas.fillStyle=color3;
           canvas.fillRect(x,y,w,s/8);

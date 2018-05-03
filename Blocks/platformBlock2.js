@@ -33,6 +33,8 @@ addBlock({
     // if(world.getCell(i,j+1).id!=this.id) {
       canvas.strokeRect(x,y+h,w,0);
     // }
+    if(!world)
+      return;
     if(world.getCell(i+1,j).id!=this.id) {
       canvas.strokeRect(x+w,y,0,h);
     }

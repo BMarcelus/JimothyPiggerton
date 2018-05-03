@@ -2,7 +2,6 @@ class LevelEditorScene extends Scene{
   constructor(index) {
     super();
     this.editLevel = index;
-    this.gui = [];
     this.zoom = 1;
     var grid;
     if(this.editLevel)
@@ -44,10 +43,13 @@ class LevelEditorScene extends Scene{
       '88': {down: this.openBlockSelect.bind(this)},
       '66': {down: this.resetCameraPosition.bind(this)},
     }
+    this.bottomBarHeight = 0.2;
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
     this.currentBlock = 1;
     this.playerAbility = [0,0];
+    this.buttonGrid = Array(7);
+    this.addLevelEditorGUI();
   }
   resetCameraPosition() {
     this.camera.x=0;
@@ -206,33 +208,40 @@ class LevelEditorScene extends Scene{
     // this.grid[y][x] = (t+1)%3;
     // this.grid[y][x] = this.currentBlock;
     // this.world.forceRedraw();
-    this.clickDragPivot.x = mouse.x/this.zoom;
-    this.clickDragPivot.y = mouse.y/this.zoom;
+    if(mouse.y/this.zoom > this.bottomBarHeight){
+      this.clickDragPivot.x = mouse.x/this.zoom;
+      this.clickDragPivot.y = mouse.y/this.zoom;
+    }
+    super.mousedown(e,mouse);
   }
   mouseup(e, mouse) {
-    var camera = this.camera;    
-    var wx = mouse.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
-    var wy = mouse.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
-    var x1 = Math.floor(wx/this.world.s);
-    var y1 = Math.floor(wy/this.world.s);
+    if(mouse.y/this.zoom > this.bottomBarHeight){
+      var camera = this.camera;    
+      var wx = mouse.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
+      var wy = mouse.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
+      var x1 = Math.floor(wx/this.world.s);
+      var y1 = Math.floor(wy/this.world.s);
 
-    wx = this.clickDragPivot.x + (camera.x - camera.offset.x)/this.zoom;
-    wy = this.clickDragPivot.y + (camera.y - camera.offset.y)/this.zoom;
-    var x2 = Math.floor(wx/this.world.s);
-    var y2 = Math.floor(wy/this.world.s);
+      wx = this.clickDragPivot.x + (camera.x - camera.offset.x)/this.zoom;
+      wy = this.clickDragPivot.y + (camera.y - camera.offset.y)/this.zoom;
+      var x2 = Math.floor(wx/this.world.s);
+      var y2 = Math.floor(wy/this.world.s);
 
-    var dx = (1 - 2 * (x2<x1));
-    var dy = (1 - 2 * (y2<y1));
-    for(var i = x1; i != x2+dx; i+= dx) {
-      for(var j=y1; j!=y2+dy; j+=dy) {
-        if(this.world.oob(i, j))continue;
-        this.grid[j][i] = this.currentBlock;
-        //var t = this.grid[j][i];
-        //this.grid[j][i] = (t+1)%3;
+      var dx = (1 - 2 * (x2<x1));
+      var dy = (1 - 2 * (y2<y1));
+      for(var i = x1; i != x2+dx; i+= dx) {
+        for(var j=y1; j!=y2+dy; j+=dy) {
+          if(this.world.oob(i, j))continue;
+          this.grid[j][i] = this.currentBlock;
+          //var t = this.grid[j][i];
+          //this.grid[j][i] = (t+1)%3;
+        }
       }
+      this.world.forceRedraw();
+      this.save();
     }
-    this.world.forceRedraw();
-    this.save();
+    super.mouseup(e,mouse);
+    console.log(this.currentBlock);
   }
   // mouseheld(mouse) {
 
@@ -244,6 +253,43 @@ class LevelEditorScene extends Scene{
   //     this.mouseheld(mouse);
   //   }
   // }
+  update(dt){
+    super.update(dt);
+  }
+  addLevelEditorGUI(){
+    this.buildButtonGrid();
+   
+
+
+
+
+
+    this.buttons = getButtons(this.gui);
+  }
+  buildButtonGrid(){
+    var rowLength = 7;
+    var rowCount = 2;
+    var dim = [];
+    var buttonGridRegionWidth = 0.7;
+    var buttonGridRegionHeight = 0.2
+    var origin = [.05,.85];
+    for(var i = 0; i < rowCount; i++){
+      this.buttonGrid[i] = [];
+      for(var j = 0; j < rowLength; j++){
+        dim = rectDimFromCenter(origin[0]+j/rowLength*buttonGridRegionWidth,
+          origin[1]+i/rowCount*buttonGridRegionHeight,1/rowLength*buttonGridRegionWidth-.02,1/rowCount*buttonGridRegionHeight-.02);
+        var button = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
+          undefined,i*rowLength+j);
+        button.callback = this.selectBlock.bind(this,button);
+        this.buttonGrid[i].push(button);
+        this.gui.push(button);
+      }
+    }
+  }
+  selectBlock(button){
+    this.currentBlock = button.blockID;
+  }
+
   draw(canvas) {
     var camera = this.camera;
     var world1 = this.world;
@@ -273,11 +319,12 @@ class LevelEditorScene extends Scene{
     canvas.rect(0, canvas.height - canvas.height/5, canvas.width, canvas.height/5);
     canvas.fill();
     canvas.stroke();
+    
     canvas.fillStyle='#000';
-    canvas.fillText("'A' - [" + CELLMAP[this.currentBlock].name + "]", canvas.width/5, canvas.height/1.1);
-    canvas.fillText("'E' - [Wall Jump: " + this.playerAbility[0] + "   Double Jump: " + this.playerAbility[1]+ "]", canvas.width/1.5, canvas.height/1.1);
-
-
+    canvas.fillText("'A' - [" + CELLMAP[this.currentBlock].name + "]", canvas.width/5, canvas.height/1.1-100);
+    canvas.fillText("'E' - [Wall Jump: " + this.playerAbility[0] + "   Double Jump: " + this.playerAbility[1]+ "]", canvas.width/1.5, canvas.height/1.1-100);
+    
+    this.drawAllGUI(canvas);
     if(mouse.held) {
       canvas.strokeStyle = "rgba(0,100,0,1)";
       canvas.fillStyle = "rgba(0,255,0,.5)";

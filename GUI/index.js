@@ -8,4 +8,5 @@ loadSequentially('GUI/',
   "ColorLerpBox.js",
   "ColoredBox.js",
   "ArrowSelector.js",
+  "BlockButton.js",
 ]);
