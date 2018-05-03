@@ -8,6 +8,8 @@ addBlock({
         var color1 = "#732";
         var color2 = "#843";
         var color3 = "#090";
+        // var color1 = "#7c4a0c";
+        // var color2 = "#965c15";
         // color1 = "#555";
         // color2 = "#777";
         // color3 = "#000";

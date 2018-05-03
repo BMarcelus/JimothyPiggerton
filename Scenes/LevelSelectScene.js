@@ -54,13 +54,22 @@ class LevelSelectScene extends Scene{
       else if(this.menuState == SELECTLEVEL)
         canvas.lineWidth = 10;
       canvas.strokeRect(0,this.worldSelected*canvas.height/3,canvas.width,canvas.height/3);
+      this.drawGrayScale();
       this.drawAllGUI(canvas);
       drawTransitionOverlay(this.overlayColor,canvas);
       if(this.debug)
         drawGrid(canvas);
-
-
-
+    }
+    drawGrayScale() {
+      canvas.save();      
+      canvas.globalCompositeOperation='hue';    
+      canvas.fillStyle = 'white';        
+      for(var i=0;i<3;i+=1) {
+        var obj = this.backgroundList[i][0];
+        canvas.globalAlpha = obj.colorTimer/obj.colorChangeDuration;
+        canvas.fillRect(0,i*canvas.height/3,canvas.width,canvas.height/3);
+      }
+      canvas.restore();      
     }
     updateBackgrounds(dt){
       for(var i = 0; i < this.backWall.length; i++){
@@ -233,6 +242,7 @@ class LevelSelectScene extends Scene{
       }
     }
     selectWorld(worldNumber){
+      return;
       this.worldSelected = worldNumber;
       this.menuState = SELECTLEVEL;
       this.selectedButton = this.startButton;
@@ -304,6 +314,7 @@ class LevelSelectScene extends Scene{
       if(this.menuState == SELECTWORLD){
         var percentPoint = getPercentPoint(e);
         var worldNumber = Math.floor(percentPoint[1]*3);        //spreads values 0 to .999 -> 0 to 2.999
+        if(!worldNumber&&worldNumber!=0)return;
         var worldNumber = (worldNumber >= 3) ? 2 : worldNumber; //cap to 2 if too large
         var worldNumber = (worldNumber < 0) ? 0 : worldNumber;  //cap to 0 if too small
         this.updateWorldSelection(worldNumber);   

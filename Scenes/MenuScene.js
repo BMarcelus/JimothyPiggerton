@@ -86,10 +86,10 @@ class MenuScene extends Scene{
       "Credits",buttonFont,"white","transparent","white",5,.08);
     this.gui.push(creditsButton);
 
-    startButton.setNeighbors([creditsButton,undefined,levelSelectButton,undefined]);
+    startButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
     levelSelectButton.setNeighbors([startButton,undefined,optionsButton,undefined]);
     optionsButton.setNeighbors([levelSelectButton,undefined,creditsButton,undefined]);
-    creditsButton.setNeighbors([optionsButton,undefined,startButton,undefined]);
+    creditsButton.setNeighbors([optionsButton,undefined,undefined,undefined]);
 
     this.selectedButton = startButton;
     this.selectedButton.selected = true;

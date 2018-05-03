@@ -21,7 +21,7 @@ class DoinkPad {
     draw(canvas) {
     var r = this.r;
     r += Math.cos(this.bounceAnimation*Math.PI/5)*10;
-    canvas.fillStyle="#d3ba61";
+    canvas.fillStyle="#ffee5e";
     // canvas.arc(this.x,this.y-Math.cos(this.bounceAnimation*Math.PI/10)*10,r,0,Math.PI*2);
     var bounce = Math.cos(this.bounceAnimation*Math.PI/10);
     var pinch = this.w/10;
@@ -32,7 +32,7 @@ class DoinkPad {
     canvas.lineTo(this.x+this.w,this.y);
     canvas.lineTo(this.x-this.w,this.y);
     canvas.fill();
-    canvas.fillStyle = "#aa9855";
+    canvas.fillStyle = "#d1be55";
     canvas.beginPath();
     canvas.moveTo(this.x-this.w+pinch, this.y-this.h-5*bounce);
     canvas.quadraticCurveTo(this.x-this.w,this.y,this.x+this.w,this.y);

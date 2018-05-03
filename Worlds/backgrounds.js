@@ -141,7 +141,7 @@ class ScrollingBackgroundObject {
  
   draw(canvas){
     canvas.save();
-    canvas.filter = 'grayscale(' + (this.colorTimer/this.colorChangeDuration) + ')';
+    // canvas.filter = 'grayscale(' + (this.colorTimer/this.colorChangeDuration) + ')';
     if(this.flipped){
       canvas.translate(this.left+this.width,this.yOffset);
       canvas.scale(-1,1);

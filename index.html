@@ -21,7 +21,7 @@
 <script>
 function loadScript (dir, file) {
  var scr = document.createElement("script");
- scr.src = dir + file + '?23';
+ scr.src = dir + file + '?32';
  document.body.appendChild(scr);
  return scr;
 }
@@ -175,6 +175,8 @@ class MainDriver {
       var H = this.canvas.height;
       x = x/W;
       y = y/H;
+      e.percentPoint = [x,y];      
+      this.scene.mousemove(e, this.mouse);    
       var cbtn = touchButtonMap[touch.identifier];
       if(cbtn) {
         if(!pointInRect(x,y,cbtn)) {
@@ -311,9 +313,9 @@ window.onload = function() {
   // })
   window.addEventListener('keydown', driver.keydown.bind(driver));
   window.addEventListener('keyup', driver.keyup.bind(driver));
-  CE.addEventListener('mousemove', driver.mousemove.bind(driver));
-  CE.addEventListener('mouseup', driver.mouseup.bind(driver));
-  CE.addEventListener('mousedown', driver.mousedown.bind(driver));
+  window.addEventListener('mousemove', driver.mousemove.bind(driver));
+  window.addEventListener('mouseup', driver.mouseup.bind(driver));
+  window.addEventListener('mousedown', driver.mousedown.bind(driver));
   CE.addEventListener('touchstart', driver.touchstart.bind(driver));
   CE.addEventListener('touchmove', driver.touchmove.bind(driver));
   CE.addEventListener('touchend', driver.touchend.bind(driver));
