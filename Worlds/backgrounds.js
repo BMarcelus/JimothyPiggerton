@@ -1,8 +1,8 @@
 class Background {
   constructor(type) {
     this.type = type;    
-    this.background1 = this.createBackground(3000, "#0b6623", true);
-    this.background2 = this.createBackground(3000, "#0b6623", false);
+    this.background1 = this.createBackground(60, "#0b6623", true);
+    this.background2 = this.createBackground(100, "#0b6623", false);
     this.backgroundColor = "#87ceeb";
   }
   draw(canvas, camera, world) {
@@ -195,7 +195,7 @@ function createSunEffect() {
 function createHillBackground(w,c,e){
   var image = document.createElement('canvas');
   var canvas = image.getContext('2d');
-  image.width = w;
+  image.width = 3000;
   image.height =  800;
   canvas.fillStyle = c;
 
@@ -241,6 +241,7 @@ function createForrestBackground(w,c,e) {
   var yy = 260+300;
   canvas.fillStyle="#050";
   canvas.fillRect(0,yy,image.width,yy);
+  w=60;
   for(var i=0;i<image.width;i+=w) {
     if(Math.random()>.5)continue;
     var h = 300; 

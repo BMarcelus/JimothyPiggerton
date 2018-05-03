@@ -64,6 +64,7 @@ function getPercentPoint(e){
   //eg: if there was a smaller canvas in the game, clicking on that
   //would yield the percent point within that smaller canvas.
   //Currently this should never happen.
+  if(e.percentPoint) return e.percentPoint;
   var point = [];
   point.push(e.offsetX/e.path[0].width);
   point.push(e.offsetY/e.path[0].height);
@@ -93,8 +94,8 @@ function getGUIInGroup(n,guiList){
   return result;
 }
 function handleMouseDown(e,buttonList){
+  var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
-    var percentPoint = getPercentPoint(e);
     if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
         && buttonList[i].interactable){
       buttonList[i].held = true;
@@ -102,8 +103,8 @@ function handleMouseDown(e,buttonList){
   }
 }
 function handleMouseUp(e,buttonList){
+  var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
-    var percentPoint = getPercentPoint(e);
     if(buttonList[i].contains(percentPoint[0],percentPoint[1])
         && buttonList[i].interactable && buttonList[i].held){
       buttonList[i].held = false;
@@ -121,8 +122,8 @@ function handleMouseMove(self, e, buttonList){
       return; //If a button is currently being held (meaning this is a mouse drag
               //that was initiated on a valid button), bail out
   }
+  var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
-    var percentPoint = getPercentPoint(e);
     if(buttonList[i].contains(percentPoint[0],percentPoint[1]) && buttonList[i].selectable){
       if(self.selectedButton != undefined)
         self.selectedButton.selected = false;

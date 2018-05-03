@@ -21,7 +21,7 @@
 <script>
 function loadScript (dir, file) {
  var scr = document.createElement("script");
- scr.src = dir + file + '?4';
+ scr.src = dir + file + '?23';
  document.body.appendChild(scr);
  return scr;
 }
@@ -68,7 +68,7 @@ var touchButtons = [
     key: 68,
   },
   {
-    x: .8, y: .6, w: .15, h: .4,
+    x: .75, y: .6, w: .2, h: .4,
     key: 32,
   },
 ];
@@ -142,8 +142,8 @@ class MainDriver {
   }
   touchstart(e) {
     touchOn = true;
-    if(this.scene.startGame)this.scene.startGame();
-    if(this.scene.time)this.scene.time=0;
+    // if(this.scene.startGame)this.scene.startGame();
+    // if(this.scene.time)this.scene.time=0;
     var touches = e.changedTouches;
     e.preventDefault();    
     for(var i=0;i<touches.length;i++) {
@@ -152,8 +152,12 @@ class MainDriver {
       var y = touch.pageY;
       var W = this.canvas.width;
       var H = this.canvas.height;
+      this.mouse.x=x;
+      this.mouse.y=y;
       x = x/W;
       y = y/H;
+      e.percentPoint = [x,y];
+      this.scene.mousedown(e, this.mouse);     
       for(var i=0;i<touchButtons.length;i++) {
         var btn = touchButtons[i];
         if(pointInRect(x,y,btn)) {
@@ -195,6 +199,8 @@ class MainDriver {
       
       x = x/W;
       y = y/H;
+      e.percentPoint = [x,y];      
+      this.scene.mouseup(e, this.mouse);           
       var cbtn = touchButtonMap[touch.identifier];
       if(cbtn) {
         this.leaveTouchButton(cbtn, touch.identifier);
@@ -259,10 +265,16 @@ canvas.textAlign = 'center';
 canvas.fillText("LOADING", CE.width/2,CE.height/2);
 
 window.onload = function() {
-  CE.width = 1000;
-  CE.height = 600;
+  // CE.width = window.innerWidth;
+  // CE.height = window.innerHeight;
   canvas.width = CE.width;
   canvas.height = CE.height;
+  // window.addEventListener('resize', function(e) {
+  //   CE.width = window.innerWidth;
+  //   CE.height = window.innerHeight;
+  //   canvas.width = CE.width;
+  //   canvas.height = CE.height;
+  // })
   canvas.font = "30px Noteworthy";
   var driver = new MainDriver(canvas);
   var lastTime = Date.now();
