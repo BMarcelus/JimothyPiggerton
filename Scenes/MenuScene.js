@@ -66,24 +66,24 @@ class MenuScene extends Scene{
       "Jimothy Piggerton",bigFont,"white",'center');
     this.gui.push(mainTitle);
 
-    dim = rectDimFromCenter(.5,.48,.22,.1);
-    var startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
-      "Start Game",buttonFont,"white","transparent","white",5);
+    dim = rectDimFromCenter(.5,.48,.18,.1);
+    var startButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
+      "Start Game",buttonFont,"white","transparent","white",5,.08);
     this.gui.push(startButton);
 
-    dim = rectDimFromCenter(.5,.60,.22,.1);
-    var levelSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
-      "Level Select",buttonFont,"white","transparent","white",5);
+    dim = rectDimFromCenter(.5,.60,.18,.1);
+    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
+      "Level Select",buttonFont,"white","transparent","white",5,.08);
     this.gui.push(levelSelectButton);
 
-    dim = rectDimFromCenter(.5,.72,.22,.1);
-    var optionsButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
-      "Options",buttonFont,"white","transparent","white",5);
+    dim = rectDimFromCenter(.5,.72,.18,.1);
+    var optionsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
+      "Options",buttonFont,"white","transparent","white",5,.08);
     this.gui.push(optionsButton);
 
-    dim = rectDimFromCenter(.5,.84,.22,.1);
-    var creditsButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
-      "Credits",buttonFont,"white","transparent","white",5);
+    dim = rectDimFromCenter(.5,.84,.18,.1);
+    var creditsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
+      "Credits",buttonFont,"white","transparent","white",5,.08);
     this.gui.push(creditsButton);
 
     startButton.setNeighbors([creditsButton,undefined,levelSelectButton,undefined]);

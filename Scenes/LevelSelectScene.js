@@ -44,7 +44,7 @@ class LevelSelectScene extends Scene{
     update(dt){
       super.update(dt);
       this.updateBackgrounds(dt);
-      this.levelNumLabel.text = this.levelIndex;
+      this.levelNumLabel.text = this.levelIndex+1;
     }
     draw(canvas){
       this.drawBackgrounds(canvas);
@@ -201,13 +201,13 @@ class LevelSelectScene extends Scene{
       this.gui.push(this.startButton);
 
       dim = rectDimFromCenter(.6,.492,.05,.08);
-      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevel.bind(this),.05,.015,'white','black',5,false);
+      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevel.bind(this),.05,.4,'white','black',5,false);
       this.rightArrow.selectable = false;
       this.rightArrow.setVisibility(false);
       this.gui.push(this.rightArrow);
 
       dim = rectDimFromCenter(.4,.492,.05,.08);
-      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevel.bind(this),.05,.015,'white','black',5,true);
+      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevel.bind(this),.05,.4,'white','black',5,true);
       this.leftArrow.selectable = false;
       this.leftArrow.setVisibility(false);
       this.gui.push(this.leftArrow);
@@ -334,9 +334,9 @@ class LevelSelectScene extends Scene{
     incrementLevel(){
       this.levelIndex++;
       this.leftArrow.setVisibility(true);
-      if(this.levelIndex >= this.levelsInWorld[this.worldSelected]){
+      if(this.levelIndex >= this.levelsInWorld[this.worldSelected]-1){
         this.rightArrow.setVisibility(false);
-        this.levelIndex = this.levelsInWorld[this.worldSelected]; 
+        this.levelIndex = this.levelsInWorld[this.worldSelected]-1; 
       }
     }
     decrementLevel(){

@@ -17,7 +17,7 @@ class ArrowSelector extends Button{
     }.bind(this);
   }
   update(dt){
-    this.moveToPosition(this.originalDimension[0]);
+    this.moveToPosition(dt,this.originalDimension[0]);
   }
   draw(canvas){
     canvas.fillStyle = this.fillColor;
@@ -57,8 +57,9 @@ class ArrowSelector extends Button{
     }
     return [right-left,bottom-top];
   }
-  moveToPosition(destX){
-    this.x = linearMove(this.x,destX,this.moveSpeed);
+  moveToPosition(dt,destX){
+    var toMove = dt * (destX-this.x)*this.moveSpeed;
+    this.x += toMove;
   }
   
 }
