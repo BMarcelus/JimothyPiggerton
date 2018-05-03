@@ -242,7 +242,6 @@ class LevelSelectScene extends Scene{
       }
     }
     selectWorld(worldNumber){
-      return;
       this.worldSelected = worldNumber;
       this.menuState = SELECTLEVEL;
       this.selectedButton = this.startButton;
