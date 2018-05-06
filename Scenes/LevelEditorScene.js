@@ -46,7 +46,7 @@ class LevelEditorScene extends Scene{
 
       '82': {down: this.gridScrollUp.bind(this)},     //R
       '70': {down: this.gridScrollDown.bind(this)},   //F
-      '69': {down: this.selectAir.bind(this)},        //E
+      '68': {down: this.selectAir.bind(this)},        //D
       '72': {down: this.toggleCommandList.bind(this)},//H
 
       '49': {down: this.selectFromQuickSelect.bind(this,0)},   //1
@@ -413,7 +413,6 @@ class LevelEditorScene extends Scene{
     var wy = this.mousePoint.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
     var x = Math.floor(wx/this.world.s);
     var y = Math.floor(wy/this.world.s);
-    console.log(x + ',' + y);
     this.currentBlock = this.grid[y][x];
   
   }
@@ -488,7 +487,7 @@ class LevelEditorScene extends Scene{
         "[F] - Scroll Black Select Down",
         "[D] - Select Erase (Air)",
         "[1/2/3/4] - Quick select",
-        "[K] - Text Level",
+        "[K] - Test Level",
         "[B] - Reset Camera",
         "[I] - Grow I",
         "[J] - Grow J",
