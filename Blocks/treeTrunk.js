@@ -29,7 +29,8 @@ addBlock({
           var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
           canvas.fillRect(xx+x,yy+y,ww,hh);
       }
-
+      if(!world)
+        return;
       if(world.getCell(i,j-1).id!=this.id&&world.getCell(i,j-1).id!=this.id+1) {
         canvas.strokeRect(x,y,w,0);
        }

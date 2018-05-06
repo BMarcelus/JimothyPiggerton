@@ -24,7 +24,8 @@ addBlock({
       var he = h;
       var xe = x;
       var ye = y;
-      
+      if(!world)
+        return;
       if(world.getCell(i,j-1).id!=this.id&&world.getCell(i,j-1).id!=this.id-1) {
         he /= 2;
         ye += he;
