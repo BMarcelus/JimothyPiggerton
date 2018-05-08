@@ -16,4 +16,6 @@ loadSequentially('Entities/',
   "PigBeginning.js",
   "Apple.js",
   "Collectable.js",
+  "WorldText.js",
+  "TriggerZone.js",
 ]);

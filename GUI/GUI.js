@@ -84,11 +84,11 @@ function getButtons(guiList){
   }
   return result;
 }
-function pointContainsGUI(guiList){
+function pointContainsGUI(percentPoint,guiList){
   //returns UI at point or undefined if none
   for(var i = 0; i < guiList.length; i++){
-    if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
-        && buttonList[i].interactable){
+    if(guiList[i].contains(percentPoint[0],percentPoint[1]) 
+        && guiList[i].interactable){
       return true;
     }
   }

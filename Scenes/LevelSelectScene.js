@@ -148,7 +148,7 @@ class LevelSelectScene extends Scene{
       //level select title
       var dim = rectDimFromCenter(.5,.06,.3,.1);
       var levelSelectTitle = new Label(dim[0],dim[1],dim[2],dim[3],3,
-        "Select Level",'50px Noteworthy',textColor,'middle');
+        "Select Level",'50px Noteworthy',textColor,'center');
       this.gui.push(levelSelectTitle);
       //Color lerp backgrounds
       var world1Back = new ColorLerpBox(0,0,1,.333,3,[135,206,235,255],[128,128,128,255],25,true );
@@ -162,33 +162,33 @@ class LevelSelectScene extends Scene{
 
       //World labels
       dim = rectDimFromCenter(.1,.09,.2,.12);
-      var world1Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 1",bigFont,textColor,'middle');
+      var world1Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 1",bigFont,textColor,'center');
       world1Label.setVisibility(true);
       this.gui.push(world1Label);
       this.worldLabels.push(world1Label);
 
       dim = rectDimFromCenter(.1,.09+.333,.2,.12);
-      var world2Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 2",bigFont,textColor,'middle');
+      var world2Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 2",bigFont,textColor,'center');
       world2Label.setVisibility(false);
       this.gui.push(world2Label);
       this.worldLabels.push(world2Label);
 
       dim = rectDimFromCenter(.1,.09+.666,.2,.12);
-      var world3Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 3",bigFont,textColor,'middle');
+      var world3Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 3",bigFont,textColor,'center');
       world3Label.setVisibility(false);
       this.gui.push(world3Label);
       this.worldLabels.push(world3Label);
 
       //World buttons (invisible but functional)
-      var world1Button = new Button(0,0,1,1/3,0,this.selectWorld.bind(this,0));
+      var world1Button = new Button(0,0,1,1/3,0,this.handleWorldClick.bind(this,0));
       this.gui.push(world1Button);
       this.worldButtons.push(world1Button);
 
-      var world2Button = new Button(0,.333,1,1/3,1,this.selectWorld.bind(this,1));
+      var world2Button = new Button(0,.333,1,1/3,1,this.handleWorldClick.bind(this,1));
       this.gui.push(world2Button);
       this.worldButtons.push(world2Button);
 
-      var world3Button = new Button(0,.666,1,1/3,2,this.selectWorld.bind(this,2));
+      var world3Button = new Button(0,.666,1,1/3,2,this.handleWorldClick.bind(this,2));
       this.gui.push(world3Button);
       this.worldButtons.push(world3Button);
 
@@ -198,7 +198,7 @@ class LevelSelectScene extends Scene{
 
       //Select level UI
       dim = rectDimFromCenter(.5,.5,.2,.1)
-      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px Noteworthy',textColor,'middle');
+      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px Noteworthy',textColor,'center');
       this.levelNumLabel.setVisibility(false);
       this.gui.push(this.levelNumLabel);
 
@@ -241,13 +241,23 @@ class LevelSelectScene extends Scene{
         }
       }
     }
+    handleWorldClick(worldNumber){
+      if(this.menuState == SELECTWORLD){
+        this.selectWorld(worldNumber);
+      } else if(this.menuState == SELECTLEVEL){
+        if(worldNumber != this.worldSelected){
+          this.returnToWorldSelect();  
+          this.updateWorldSelection(worldNumber);    
+        }     
+      }
+    }
     selectWorld(worldNumber){
       this.worldSelected = worldNumber;
       this.menuState = SELECTLEVEL;
       this.selectedButton = this.startButton;
       this.selectedButton.selected = true;
       for(var i = 0; i < this.worldButtons.length; i++){
-        this.worldButtons[i].setOptions(false,false,false);
+        this.worldButtons[i].setOptions(true,false,false);
       }
       var offSet = (this.worldSelected-1)/3;
       var group4GUI = getGUIInGroup(4,this.gui);
@@ -263,6 +273,7 @@ class LevelSelectScene extends Scene{
       this.leftArrow.setVisibility(false);
 
     }
+    
     returnToWorldSelect(){
       this.menuState = SELECTWORLD;
       this.selectedButton = getGUIInGroup(this.worldSelected,this.gui)[0];
@@ -281,6 +292,7 @@ class LevelSelectScene extends Scene{
       }
       this.levelIndex = 0;
     }
+    
     loadGameLevel(){
       //This calls a fade to black transition and then loads the level at the end of the transition
       this.allowUIInput = false;

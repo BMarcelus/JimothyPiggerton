@@ -58,7 +58,7 @@ class GameScene extends Scene {
     // this.addEntity(new Enemy(300,100));
     this.screenShakeLevel=0;
     this.deaths = 0;
-
+    
     this.moveCamera();
   }
   addEntity(entity) {
@@ -251,7 +251,7 @@ class GameScene extends Scene {
     this.camera.r=r;
     // canvas.rotate(r);
   }
-
+  
   collidesWithPlayer(entity) {
     var h1 = entity.getHitBox();	// Perforamnce effeciency issue
     var playerBox = this.player.getHitBox();

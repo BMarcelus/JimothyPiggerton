@@ -49,11 +49,20 @@ class LevelEditorScene extends Scene{
       '68': {down: this.selectAir.bind(this)},        //D
       '72': {down: this.toggleCommandList.bind(this)},//H
 
-      '49': {down: this.selectFromQuickSelect.bind(this,0)},   //1
-      '50': {down: this.selectFromQuickSelect.bind(this,1)},   //2
-      '51': {down: this.selectFromQuickSelect.bind(this,2)},   //3
-      '52': {down: this.selectFromQuickSelect.bind(this,3)},   //4
+      '90': {down: this.selectFromQuickSelect.bind(this,0)},   //Z
+      '88': {down: this.selectFromQuickSelect.bind(this,1)},   //X
+      '67': {down: this.selectFromQuickSelect.bind(this,2)},   //C
+      '86': {down: this.selectFromQuickSelect.bind(this,3)},   //V
+      
+      '49': {down: this.selectFromBar.bind(this,0)},            //1
+      '50': {down: this.selectFromBar.bind(this,1)},            //2
+      '51': {down: this.selectFromBar.bind(this,2)},            //3
+      '52': {down: this.selectFromBar.bind(this,3)},            //4
+      '53': {down: this.selectFromBar.bind(this,4)},            //5
+      '54': {down: this.selectFromBar.bind(this,5)},            //6
+      '55': {down: this.selectFromBar.bind(this,6)},            //7
 
+      
     }
     this.bottomBarHeight = 0.2;
     this.showCommands = false;
@@ -225,14 +234,19 @@ class LevelEditorScene extends Scene{
     // this.grid[y][x] = (t+1)%3;
     // this.grid[y][x] = this.currentBlock;
     // this.world.forceRedraw(); 
-    
-    this.clickDragPivot.x = mouse.x/this.zoom;
-    this.clickDragPivot.y = mouse.y/this.zoom;
+    var onGUI = pointContainsGUI(getPercentPoint(e),this.gui);
+    if(!onGUI&&canvas.height-mouse.y> this.bottomBarHeight*canvas.height){
+      this.clickDragPivot = {x:0,y:0};
+      this.clickDragPivot.x = mouse.x/this.zoom;
+      this.clickDragPivot.y = mouse.y/this.zoom;
+    } else {
+      this.clickDragPivot = undefined;
+    }
     super.mousedown(e,mouse);
   }
   mouseup(e, mouse) {
 
-    if(canvas.height-mouse.y> this.bottomBarHeight*canvas.height){
+    if(canvas.height-mouse.y> this.bottomBarHeight*canvas.height && this.clickDragPivot != undefined){
       var camera = this.camera;    
       var wx = mouse.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
       var wy = mouse.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
@@ -294,6 +308,9 @@ class LevelEditorScene extends Scene{
     var buttonGridRegionWidth = 0.7;
     var buttonGridRegionHeight = 0.2
     var origin = [.05,.85];
+    var labelOffset = {x:0.043,y:0.036};
+    var labelFont = '20px Noteworthy';
+    var labelColor = 'black';
     for(var i = 0; i < this.rowCount; i++){
       this.buttonGrid[i] = [];
       for(var j = 0; j < this.rowLength; j++){
@@ -304,6 +321,11 @@ class LevelEditorScene extends Scene{
         button.callback = this.selectBlock.bind(this,button);
         this.buttonGrid[i].push(button);
         this.gui.push(button);
+
+        if(i==0 && j < this.rowLength){
+          var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,.05,.05,0,""+(j+1),labelFont,labelColor,'center');
+          this.gui.push(label);
+        }
       }
     }
   }
@@ -314,12 +336,18 @@ class LevelEditorScene extends Scene{
     var origin = {x:0.78,y:.85};
     var buttonWidth = 0.08;
     var buttonHeight = 0.09;
+
+    var labelOffset = {x:0.043,y:0.045};
+    var labelFont = '20px Noteworthy';
+    var labelColor = 'black';
     dim = rectDimFromCenter(origin.x,origin.y,buttonWidth,buttonHeight);
     var button1 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
       undefined,0);
     button1.callback = this.quickSelectClick.bind(this,button1); 
     this.quickSelect.push(button1); 
     this.gui.push(button1);
+    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'Z',labelFont,labelColor,'center');
+    this.gui.push(label);    
 
     dim = rectDimFromCenter(origin.x+buttonWidth,origin.y,buttonWidth,buttonHeight);
     var button2 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
@@ -327,6 +355,8 @@ class LevelEditorScene extends Scene{
     button2.callback = this.quickSelectClick.bind(this,button2);  
     this.quickSelect.push(button2); 
     this.gui.push(button2);
+    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'X',labelFont,labelColor,'center');
+    this.gui.push(label);
 
     dim = rectDimFromCenter(origin.x,origin.y+buttonHeight,buttonWidth,buttonHeight);
     var button3 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
@@ -334,6 +364,8 @@ class LevelEditorScene extends Scene{
     button3.callback = this.quickSelectClick.bind(this,button3); 
     this.quickSelect.push(button3);  
     this.gui.push(button3);
+    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'C',labelFont,labelColor,'center');
+    this.gui.push(label);
 
     dim = rectDimFromCenter(origin.x+buttonWidth,origin.y+buttonHeight,buttonWidth,buttonHeight);
     var button4 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
@@ -341,6 +373,8 @@ class LevelEditorScene extends Scene{
     button4.callback = this.quickSelectClick.bind(this,button4); 
     this.quickSelect.push(button4);  
     this.gui.push(button4);
+    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'V',labelFont,labelColor,'center');
+    this.gui.push(label);
 
     dim = rectDimFromCenter(0.945,0.94,.06,.08);
     var resetBackWall = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','black',5);
@@ -358,6 +392,9 @@ class LevelEditorScene extends Scene{
   }
   selectFromQuickSelect(quickSlotIndex){
     this.currentBlock = this.quickSelect[quickSlotIndex].blockID;
+  }
+  selectFromBar(index){
+    this.currentBlock = this.buttonGrid[0][index].blockID;
   }
   selectBlock(button){
     this.currentBlock = button.blockID;
@@ -485,6 +522,8 @@ class LevelEditorScene extends Scene{
         "[A] - Block Picker",
         "[R] - Scroll Block Select Up",
         "[F] - Scroll Black Select Down",
+        "[T] - Zoom In",
+        "[G] - Zoom Out",
         "[D] - Select Erase (Air)",
         "[1/2/3/4] - Quick select",
         "[K] - Test Level",
@@ -508,7 +547,7 @@ class LevelEditorScene extends Scene{
     canvas.textAlign = 'center';
     this.drawAllGUI(canvas);
     this.drawBlockAtCursor(canvas);
-    if(mouse.held) {
+    if(mouse.held && this.clickDragPivot != undefined) {
       canvas.strokeStyle = "rgba(0,100,0,1)";
       canvas.fillStyle = "rgba(0,255,0,.5)";
       canvas.beginPath();
