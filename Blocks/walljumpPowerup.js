@@ -4,12 +4,8 @@ addBlock({
   name: "WallJump",
   hide: true,
   ignoreCollisions: true,
-  draw: function(canvas, x,y,width,height, world,ii,jj) {
-    var w= width;
-    var h=height;
-    canvas.fillStyle = 'rgba(50,0,50,.5)';
-    canvas.fillRect(x,y,width,height);
-  },
+  draw: drawEntity,
+  drawer: new doubleJump(),
   //entityCollision: function(entity, pos, dx, dy, cellPos) {
  //   entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
 //    entity.game.world.forceRedraw();
