@@ -431,8 +431,11 @@ class LevelEditorScene extends Scene{
     var offset = {x: 20, y: 20};
     var width = 30;
     var height = 30;
+    var world = {
+      getCell: function() {return true}
+    };
     if(this.currentBlock < CELLMAP.length && this.currentBlock > 0 && CELLMAP[this.currentBlock].draw)
-      CELLMAP[this.currentBlock].draw(canvas,this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height,0,0,0);
+      CELLMAP[this.currentBlock].draw(canvas,this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height,world,0,0);
     canvas.strokeStyle = 'black';
     canvas.lineWidth = 3;
     canvas.strokeRect(this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height);

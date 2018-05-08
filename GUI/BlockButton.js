@@ -2,7 +2,9 @@ class BlockButton extends Button{
   constructor(x,y,w,h,groupID,callback,blockID){
     super(x,y,w,h,groupID,callback);
     this.blockID = blockID;
-    this.world = 0;
+    this.world = {
+      getCell: function() {return true;},
+    };
     this.i = 0;
     this.j = 0;
   }
