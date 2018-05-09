@@ -150,6 +150,11 @@ function toRadians(deg){
 function pointAdd(pointA,pointB){
   return [pointA[0]+pointB[0],pointA[1]+pointB[1]];
 }
+function constrain(value,min,max){
+  value = (value > max) ? max : value;
+  value = (value < min) ? min : value;
+  return value;
+}
 // class Random {
 //   constructor(seed) {
 //     this.seed = seed % 2147483647;

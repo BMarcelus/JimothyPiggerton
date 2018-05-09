@@ -108,7 +108,8 @@ class MenuScene extends Scene{
 
   }
   goToOptions(){
-    
+    this.allowUIInput = false;
+    this.driver.setScene(new OptionScene(false));
   } 
   goToCredits(){
    

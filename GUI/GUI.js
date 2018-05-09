@@ -64,7 +64,7 @@ function getPercentPoint(e){
   //eg: if there was a smaller canvas in the game, clicking on that
   //would yield the percent point within that smaller canvas.
   //Currently this should never happen.
-  if(e.percentPoint) return e.percentPoint;
+  if(e.percentPoint) return e.percentPoint; 
   var point = [];
   point.push(e.offsetX/e.path[0].width);
   point.push(e.offsetY/e.path[0].height);

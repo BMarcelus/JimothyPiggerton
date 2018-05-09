@@ -57,6 +57,7 @@ class Scene {
     if(playIntro != undefined && playIntro){
       this.startTransition(25,-1,undefined);
     }
+    this.mouse = {x:-1,y:-1};
   }
   update(dt){
     this.handleHeldKeys(dt);
@@ -130,7 +131,7 @@ class Scene {
   }
   updateAllGUI(dt){
     for(var i = 0; i < this.gui.length; i++){
-      this.gui[i].update(dt);
+      this.gui[i].update(dt,this.mouse);
     }
   }
   startTransition(duration,direction,callback){
@@ -195,19 +196,28 @@ class Scene {
     this.debug = !this.debug;
   }
   mousedown(e, mouse) {
+    this.updateMousePosition(e);
     if(!this.allowUIInput)
       return;
     handleMouseDown(e,this.buttons);
   }
   mouseup(e, mouse) {
+    this.updateMousePosition(e);
     if(!this.allowUIInput)
       return;
     handleMouseUp(e,this.buttons);
   }
   mousemove(e, mouse) {
+    this.updateMousePosition(e);
     if(!this.allowUIInput)
       return;
     handleMouseMove(this,e,this.buttons);
   }
-  
+  updateMousePosition(e){
+    var percentPoint = getPercentPoint(e);
+    if(isNaN(percentPoint[0]) || isNaN(percentPoint[1])) return;
+    this.mouse = {x:percentPoint[0],y:percentPoint[1]};
+    this.mouse.x = constrain(this.mouse.x,0,1); 
+    this.mouse.y = constrain(this.mouse.y,0,1)
+  }
 }

@@ -9,5 +9,5 @@ loadSequentially('GUI/',
   "ColoredBox.js",
   "ArrowSelector.js",
   "BlockButton.js",
-
+  "Slider.js",
 ]);
