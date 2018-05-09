@@ -148,6 +148,7 @@ class GameScene extends Scene {
     //this.addEntity(new Byrd(100,400));
     this.world.loadWorld(this);
     this.entities.push(this.player);
+    this.initializeLevel(level);
     // this.behinds.forEach(function (e){
     //   entities.unshift(e);
     // });
@@ -164,6 +165,18 @@ class GameScene extends Scene {
     // this.addEntity(new Enemy(300,100));  
     this.playLevelIntro();
     this.levelCompleted = false;
+    /*
+    var text = new WorldText(800,600,300,"TEXT HERE",'60px Noteworthy',[0,0,0,0],[0,0,0,1],
+      100,false)
+    this.entities.push(text);
+    var trigger = new TriggerZone(800,700,100,100,this.player,text.appear.bind(text),undefined,text.disappear.bind(text),true);
+    this.entities.push(trigger);
+    */
+  }
+  initializeLevel(level){
+    if(level.init){
+      level.init(this);
+    }
   }
   respawn() {
     this.deaths++;
