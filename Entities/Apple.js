@@ -15,21 +15,25 @@ class Apple extends Mover {
         this.hit = false;
     }
     update(dt, frameCount) {    
-		var doinkBox = this.getHitBox();
-		var playerBox = this.game.player.getHitBox();
-		if(!this.hit&&rectangleCollision(doinkBox, playerBox) == true) {
-			if(this.playerCollision(this.game.player) == true) {
-				 this.getHitByEntity(this.game.player);
-			}
-		}
-        if(rectangleCollision(doinkBox, this.game.pig.getHitBox()) == true) {
+		  var doinkBox = this.getHitBox();
+      var playerBox = this.game.player.getHitBox();
+      if(!this.hit&&rectangleCollision(doinkBox, playerBox)) {
+        if(this.playerCollision(this.game.player)) {
+          this.getHitByEntity(this.game.player);
+          setTimeout(() => {
+            this.y = this.startY;
+            this.hit = false;
             this.grav = 0;
-            this.y -= 5000;
-            this.game.pig.apples++;
-		}
-        super.update(dt, frameCount);
-
-       // if (this.bounceAnimation > 0)this.bounceAnimation-=1;
+          }, 1000);
+        }
+      }
+      if(this.game.pig&&rectangleCollision(doinkBox, this.game.pig.getHitBox())) {
+          this.grav = 0;
+          this.y -= 5000;
+          this.game.pig.apples++;
+      }
+      super.update(dt, frameCount);
+      // if (this.bounceAnimation > 0)this.bounceAnimation-=1;
 	}
 
     getHitByEntity(player) {

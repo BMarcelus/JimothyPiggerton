@@ -1,3 +1,4 @@
+var TheByrd;
 class Byrd extends Enemy {
   constructor(x,y) {
     super(x,y);
@@ -8,8 +9,16 @@ class Byrd extends Enemy {
     this.killPlayer = false;
     this.startY= y;
     this.isByrd = true;
-    this.color1 = "#555";
-    this.color2 = "#333";
+    // this.color1 = "#612a99";
+    // this.color2 = "#1e045b";
+    this.color1 = "#200089";
+    this.color2 = "#000";
+    this.color3 = '#ca87fd';
+    this.eyeColor = "#fff";
+    this.beakColor = "#f7ff8c";
+    // this.beakColor = "#000";
+    
+    TheByrd = this;
   }
   die() {
 
@@ -38,20 +47,25 @@ class Byrd extends Enemy {
     canvas.fillRect(-w/2,-h,w,h);
     canvas.fillStyle=this.color2;    
     canvas.fillRect(-w/2,-h,w/4,h);
+    canvas.fillStyle=this.color3;
+    canvas.fillRect(-w/10,-h*.9,w/8,h/10);
     this.drawWings(canvas,w,h);    
     this.drawFace(canvas,w,h);
   }
   drawFace(canvas,w,h) {
-    canvas.fillStyle = "#000";
+    canvas.fillStyle = this.eyeColor;
+    canvas.fillRect(25,-h*.95,7,5);
+    // canvas.fillText('^', 25,-h*.95+h*.4);
+    canvas.fillStyle = this.beakColor;
     // canvas.fillRect(12,-h*.7,30,15);
     canvas.beginPath();
     canvas.moveTo(22,-h*.9);
     canvas.lineTo(22+30,-h*.9+15/2);
     canvas.lineTo(22,-h*.9+15);
     canvas.fill();
-    canvas.fillStyle = "#000";
+    canvas.fillStyle = this.eyeColor;
+    // canvas.fillText('^', 10,-h*.95+h*.4);
     canvas.fillRect(10,-h*.95,7,5);
-    canvas.fillRect(25,-h*.95,7,5);
     // canvas.lineWidth=4;
     // canvas.lineCap = 'round';
     // canvas.moveTo(3,-h*.8);
