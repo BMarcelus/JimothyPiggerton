@@ -39,7 +39,7 @@ class LevelEditorScene extends Scene{
       '71': {down: this.zoomOut.bind(this)},            //G
       '73': {down: this.growi.bind(this)},              //I
       '74': {down: this.growj.bind(this)},              //J
-      '27': {down: this.backToSelect.bind(this)},       //Escape
+      //'27': {down: this.backToSelect.bind(this)},       //Escape
       '88': {down: this.openBlockSelect.bind(this)},    //X
       '66': {down: this.resetCameraPosition.bind(this)},//B
       '65': {down: this.pickBlockFromLevel.bind(this)}, //A

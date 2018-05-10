@@ -105,7 +105,7 @@ class Woof extends Enemy {
           {
             return entity.toZero();
           }
-          else if (entity.transition == 60)
+          else if (entity.transition == 30)
           {
             entity.mx *= -1; // turning around in confusion
           }
@@ -171,7 +171,7 @@ class Woof extends Enemy {
 
   toThree()
   {
-    this.transition = 120;
+    this.transition = 60;
     this.mx = -1 * Math.sign(this.mx);//prep for next animation
     this.speed = 1;
     return 3;
