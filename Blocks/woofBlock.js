@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
   //Woof Block
   id: BLOCKS.length,
   name: "Woof",
@@ -10,4 +10,4 @@ addBlock({
   onload: function(game, x,y,width,height, world,ii,jj) {
     game.addEntity(new Woof(x + width/2,y + height));
   },
-});
+}});

@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
   name: "Boost",
   solid: false,
   id: BLOCKS.length,
@@ -29,4 +29,4 @@ addBlock({
     // entity.dash(1-2*entity.flipped);
     // return false;
   },
-});
+}});

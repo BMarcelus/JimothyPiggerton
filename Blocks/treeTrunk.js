@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
     name: "treeTrunk",
     solid: false,
     groundBlock: false,
@@ -50,4 +50,4 @@ addBlock({
       }
       return false;
     },
-});
+}});

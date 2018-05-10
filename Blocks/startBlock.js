@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
   //Start Block
   id: BLOCKS.length,
   name: "Start",
@@ -11,4 +11,4 @@ addBlock({
     game.player.x = x + width/2;
     game.player.y = y + height;
   },
-});
+}});

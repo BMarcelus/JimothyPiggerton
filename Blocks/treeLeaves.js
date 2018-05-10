@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
     name: "treeLeaves",
     solid: false,
     groundBlock: false,
@@ -89,4 +89,4 @@ addBlock({
       }
       return false;
     },
-});
+}});

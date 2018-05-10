@@ -1,13 +1,17 @@
 var AUDIOCONTEXT;
-if('webkitAudioContext' in window) {
-  AUDIOCONTEXT = new webkitAudioContext();
-} else {
-  AUDIOCONTEXT = new AudioContext();
+var DESTINATION;
+function initializeSound() {
+  // console.log('a');
+  if('webkitAudioContext' in window) {
+    AUDIOCONTEXT = new webkitAudioContext();
+  } else {
+    AUDIOCONTEXT = new AudioContext();
+  }
+  var GAIN = AUDIOCONTEXT.createGain();
+  GAIN.gain.setValueAtTime(.5, 0);
+  GAIN.connect(AUDIOCONTEXT.destination);
+  DESTINATION = GAIN;
 }
-var GAIN = AUDIOCONTEXT.createGain();
-GAIN.gain.setValueAtTime(.5, 0);
-GAIN.connect(AUDIOCONTEXT.destination);
-var DESTINATION = GAIN;
 // var DESTINATION = AUDIOCONTEXT.destination;
 class SoundEffect {
   constructor(rate, frq, vol, len, inBetweens, type) {
@@ -19,8 +23,9 @@ class SoundEffect {
     this.length = this.sampleRate*len;
   }
   play(entity) {
+    if(!DESTINATION)return;
     var volume = 1;
-    if(!entity.player) {
+    if(entity&&!entity.player) {
       var d = distanceBetweenEntities(entity, entity.game.player);
       // console.log(d);
       volume = 1/(d/50+1);

@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
     name: "treeApple",
     solid: false,
     groundBlock: false,
@@ -93,4 +93,4 @@ addBlock({
       world.getCell(ii,jj).id = 19;
       game.addEntity(new Apple(x + width/2,y + height));
   },
-});
+}});

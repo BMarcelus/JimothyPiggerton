@@ -83,6 +83,13 @@ class MainDriver {
     this.scene = new MenuScene(true);
     this.scene.driver = this;
     this.mouse = {x:0,y:0};
+    this.soundsInitialized = false;
+  }
+  userGesture() {
+    if(!this.soundsInitialized) {
+      initializeSound();
+      this.soundsInitialized = true;
+    }
   }
   update(dt) {
     this.frameCount+=dt;
@@ -142,6 +149,7 @@ class MainDriver {
     touchButtonMap[id] = 0;    
   }
   touchstart(e) {
+    this.userGesture();
     touchOn = true;
     // if(this.scene.startGame)this.scene.startGame();
     // if(this.scene.time)this.scene.time=0;
@@ -217,6 +225,7 @@ class MainDriver {
     }
   }
   keydown(e) {
+    this.userGesture();
     var keys = this.keys;
     var k = e.keyCode;
     if(movementKeys.includes(k)&&e.preventDefault) {
@@ -234,6 +243,7 @@ class MainDriver {
     keys[k] = false;
   }
   mousedown(e) {
+    this.userGesture();
     var boundingClientRect = e.target.getBoundingClientRect();
     this.mouse.x = e.clientX-boundingClientRect.left;
     this.mouse.y = e.clientY-boundingClientRect.top;
@@ -267,7 +277,12 @@ canvas.font = '10px Arial';
 canvas.textAlign = 'center';
 canvas.fillText("LOADING", CE.width/2,CE.height/2);
 
+var CELLMAP;
+var MAIN;
+
 window.onload = function() {
+  CELLMAP = createBlocks();  
+  // initializeSound();
   // CE.width = window.innerWidth;
   // CE.height = window.innerHeight;
   canvas.width = CE.width;
@@ -280,6 +295,7 @@ window.onload = function() {
   // })
   canvas.font = "30px Noteworthy";
   var driver = new MainDriver(canvas);
+  var MAIN = driver;
   var lastTime = Date.now();
   var FPScounter = 0;
   var currentFPS = 0;

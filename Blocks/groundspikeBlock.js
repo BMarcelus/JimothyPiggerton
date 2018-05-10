@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
       //Spike floor
       id: BLOCKS.length,
       name: "Ground Spike",
@@ -17,4 +17,4 @@ addBlock({
         if(entity.player && dy>0) entity.die();
         return true;
       }
-});
+}});

@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
   //Byrd Block
   id: BLOCKS.length,
   name: "collectable",
@@ -11,4 +11,4 @@ addBlock({
   onload: function(game, x,y,width,height, world,ii,jj) {
     game.addEntity(new Collectable(x + width/2,y + height/2));
   },
-});
+}});

@@ -1,4 +1,4 @@
-var BLOCKS = [{name:"Air", id: 0, ignoreCollisions: true},];
+var BLOCKS = [function() { return {name:"Air", id: 0, ignoreCollisions: true}},];
 
 function drawEntity(canvas, x,y,width,height, world,ii,jj) {
   canvas.fillStyle = 'rgba(50,0,50,.5)';
@@ -14,5 +14,11 @@ function addBlock(b) {
 }
 
 function createBlocks() {
-  return BLOCKS;
+  var map = [];
+  for(var i=0;i<BLOCKS.length; i+= 1) {
+    var block = BLOCKS[i]();
+    block.id = i;
+    map[i] = block;
+  }
+  return map;
 }

@@ -43,6 +43,8 @@ class OptionScene extends Scene{
     this.driver.setScene(new MenuScene(false));
   }
   setVolume(slider){
-    this.settings.volume = slider.value
+    this.settings.volume = slider.value;
+    DESTINATION.gain.setValueAtTime(slider.value, 0);
+    SOUNDMAP.jump2.play();
   }
 }

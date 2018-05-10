@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
       //Spike
       id: BLOCKS.length,
       name: "Spike",
@@ -30,4 +30,4 @@ addBlock({
         if(entity.player) entity.die();
         return true;
       }
-});
+}});

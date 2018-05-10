@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
   //End Block
   id: BLOCKS.length,
   name: "WallJump",
@@ -13,4 +13,4 @@ addBlock({
   onload: function(game, x,y,width,height, world,ii,jj) {
     game.addEntity(new wallJump(x + width/2,y + height));
   },
-});
+}});

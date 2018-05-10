@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
     name: "Platform",
     solid: true,
     groundBlock: false,
@@ -48,4 +48,4 @@ addBlock({
       }
       return false;
     },
-});
+}});

@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
   id: BLOCKS.length,
   name: "Pig",
   hide: true,   
@@ -10,4 +10,4 @@ addBlock({
     game.pig = new PigBeginning(x + width/2,y + height);
     game.addEntity(game.pig);
   },
-});
+}});

@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
   //End Block
   id: BLOCKS.length,
   name: "End",
@@ -16,4 +16,4 @@ addBlock({
     }
     return false;
   }
-});
+}});

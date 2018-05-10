@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
   name: "Kaizo",
   solid: false,
   id: BLOCKS.length,
@@ -17,4 +17,4 @@ addBlock({
       //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = this.id;
     }
   },
-});
+}});

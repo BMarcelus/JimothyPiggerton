@@ -1,4 +1,4 @@
-addBlock({
+addBlock(function() { return {
     //Ground
       id: BLOCKS.length,
       name: "Ground",
@@ -46,4 +46,4 @@ addBlock({
           canvas.strokeRect(x,y,0,h);
         }
       }
-});
+}});
