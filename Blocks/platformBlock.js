@@ -42,7 +42,7 @@ addBlock(function() { return {
         canvas.strokeRect(x,y,0,h);
       }
     },
-    entityCollision: function(entity, pos, dx, dy, cellPos) {
+    isColliding: function(entity, pos, dx, dy, cellPos) {
       if(dy>0&&entity.y<=cellPos.y) {
         return true;
       }

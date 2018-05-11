@@ -136,9 +136,11 @@ class World {
       var p = this.pointToMatrix(x1,y1);
       // var type = this.pointCollides(x1,y1);
       var type = this.wallExists(p.x,p.y);
-      if(type == 1) return true;
-      if(!CELLMAP[type])continue;
-      if(CELLMAP[type].ignoreCollisions) continue;
+      // if(type == 1) return true;
+      var cell = CELLMAP[type];
+      if(!cell)continue;
+      if(cell.ignoreCollisions) continue;
+      // if(cell.groundBlock) return true;
       if(type != 0) types[type] = {x: x1, y: y1, p:p};
     }
     for(var i in types) {
@@ -155,9 +157,11 @@ class World {
   entityCollision(entity, type, pos,dx,dy) {
     var cell = CELLMAP[type];
     if(!cell)return false;
-    if(!cell.entityCollision)return true;
-    var cellPos = this.matrixToPoint(pos.p.x,pos.p.y);
-    return cell.entityCollision(entity, pos, dx,dy, cellPos);
+    var colliding = true;
+    var cellPos = this.matrixToPoint(pos.p.x,pos.p.y);    
+    if(cell.isColliding) colliding = cell.isColliding(entity,pos,dx,dy,cellPos);
+    if(colliding&&cell.entityCollision)cell.entityCollision(entity,pos,dx,dy,cellPos);        
+    return colliding && cell.solid;
   }
   drawBackground(canvas, camera) {
     this.background.draw(canvas, camera, this);
@@ -208,7 +212,6 @@ class WorldFromLevel extends World {
 
 // for(var index in CELLMAP)
 
-var CELLMAP = createBlocks();
 /*
 {
   // 'false': {},

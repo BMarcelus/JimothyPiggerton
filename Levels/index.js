@@ -1,4 +1,4 @@
-loadSequentially('Worlds/levels/',
+loadSequentially('Levels/',
 [
   "init.js",
   // "level1.js",
@@ -23,6 +23,7 @@ loadSequentially('Worlds/levels/',
   
   "level5.js",
   "HelltheThird.js",
+  "FloatingFeathers.js",
   // "levelx.js",
 ]
 );

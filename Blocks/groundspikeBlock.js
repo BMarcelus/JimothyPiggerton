@@ -16,5 +16,8 @@ addBlock(function() { return {
       entityCollision: function(entity, pos, dx, dy) {
         if(entity.player && dy>0) entity.die();
         return true;
+      },
+      isColliding: function(entity, pos,dx,dy,cellPos) {
+        return pos.y-entity.vy > cellPos.y + 1; 
       }
 }});

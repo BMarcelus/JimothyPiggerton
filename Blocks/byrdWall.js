@@ -1,6 +1,6 @@
 addBlock(function() { return {
   name: "ByrdWall",
-  solid: false,
+  solid: true,
   id: BLOCKS.length,
   hide: true,
   //ignoreCollisions: true,
@@ -10,7 +10,7 @@ addBlock(function() { return {
     canvas.fillStyle = 'rgba(50,50,0,.5)';
     canvas.fillRect(x,y,w,h);
   },
-  entityCollision: function(entity, pos, dx, dy, cellPos) {
+  isColliding: function(entity, pos, dx, dy, cellPos) {
     if(entity.isByrd||entity.isPig) {
       return true;
       //entity.mx = 2*(entity.x < this.x) - 1;
