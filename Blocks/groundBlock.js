@@ -47,3 +47,13 @@ addBlock(function() { return {
         }
       }
 }});
+
+/*
+(canvas, x,y,w,h, world,i,j) {
+    var v = Math.abs((i*j+t)%(255*2-1)-255);
+   	var c = 'rgb('+v+','+v+','+v+')';
+    canvas.fillStyle = c;
+    canvas.fillRect(x,y,w,h)
+    if(i==0&j==0) t+= 1;
+}
+*/

@@ -69,10 +69,54 @@ var touchButtons = [
     key: 68,
   },
   {
-    x: .75, y: .6, w: .2, h: .4,
+    x: .75, y: .5, w: .2, h: .24,
     key: 32,
   },
+  {
+    x: .75, y: .76, w: .2, h: .24,
+    key: 83,
+  },
 ];
+function pressed(b) {
+  return b.pressed || b===1;
+}
+function handleGamePad(player) {
+  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+  // if(gamepads2.length>0)
+  for(var i=0;i<gamepads.length;i++) {
+    var gp = gamepads[i];
+    if(!gp)continue;
+    if(gp.axes) {
+      var x = gp.axes[0];
+      var y = gp.axes[1];
+      if(x*x+y*y<.25) {
+        x=0;
+        y=0;
+      }
+      player.mx += x;
+      if(y>.8) {
+        player.crouch();        
+        this.heldDown = true;
+      } else if(this.heldDown){
+        player.uncrouch();
+        this.heldDown = false;
+      }
+    }
+    if(gp.buttons) {
+      if(pressed(gp.buttons[0])) {
+        if(!this.heldA) player.jump();
+        this.heldA = true;
+      } else if(this.heldA) {
+        player.shortJump();
+        this.heldA = false;
+      }
+      if(pressed(gp.buttons[1])) {
+        player.dash();
+      }
+    }
+  }
+}
+  
 var touchButtonMap = {};
 var touchOn = false;
 class MainDriver {
@@ -84,6 +128,10 @@ class MainDriver {
     this.scene.driver = this;
     this.mouse = {x:0,y:0};
     this.soundsInitialized = false;
+    this.timeoutes = [];
+  }
+  setTimeout(callback, frames) {
+    this.timeoutes.push({callback, frames});
   }
   userGesture() {
     if(!this.soundsInitialized) {
@@ -99,6 +147,14 @@ class MainDriver {
     
     this.scene.keys = this.keys;
     this.scene.update(dt, this.frameCount);
+    for(var i=0;i<this.timeoutes.length;i+=1) {
+      var t = this.timeoutes[i];
+      t.frames -= 1;
+      if(t.frames<=0) {
+        t.callback();
+        this.timeoutes.splice(i--, 1);
+      }
+    }
   }
   draw(canvas) {
     canvas.clearRect(0,0,canvas.width,canvas.height);
@@ -295,7 +351,7 @@ window.onload = function() {
   // })
   canvas.font = "30px Noteworthy";
   var driver = new MainDriver(canvas);
-  var MAIN = driver;
+  MAIN = driver;
   var lastTime = Date.now();
   var FPScounter = 0;
   var currentFPS = 0;

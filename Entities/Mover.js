@@ -330,6 +330,7 @@ class Mover {
     return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
   }
   dash(dir) {
+    if(dir==undefined) dir = 1-2*this.flipped;
     if (this.dashCount == 0)
     {
       // if(this.grounded || this.jumpCount < this.maxJumps)

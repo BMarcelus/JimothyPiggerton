@@ -268,6 +268,7 @@ class LevelEditorScene extends Scene{
           //this.grid[j][i] = (t+1)%3;
         }
       }
+      this.save();
       this.world.forceRedraw();
     }
     super.mouseup(e,mouse);
