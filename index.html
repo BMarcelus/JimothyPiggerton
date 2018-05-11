@@ -83,6 +83,8 @@ function pressed(b) {
 function handleGamePad(player) {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
   // if(gamepads2.length>0)
+  var driver = player.game.driver;
+  var controls = player.controls;
   for(var i=0;i<gamepads.length;i++) {
     var gp = gamepads[i];
     if(!gp)continue;
@@ -95,11 +97,11 @@ function handleGamePad(player) {
       }
       player.mx += x;
       if(y>.8) {
-        player.crouch();        
+        driver.keydown({keyCode: 83});
         this.heldDown = true;
       } else if(this.heldDown){
-        player.uncrouch();
         this.heldDown = false;
+        driver.keyup({keyCode: 83});
       }
     }
     if(gp.buttons) {

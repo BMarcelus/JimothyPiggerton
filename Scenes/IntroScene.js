@@ -34,6 +34,7 @@ class IntroScene extends GameScene{
     this.keyMap = {
       '27': {down: sceneTransition(this, GameScene)},
     }
+    this.gamePadOn = false;
     // this.player.x = 500;
     this.player.flipped = true;
     this.pig = new Pig(this.player.x+30, this.player.y);

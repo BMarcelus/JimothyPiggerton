@@ -8,6 +8,7 @@ class GameScene extends Scene {
     this.behinds=[];    
     this.addEntity(this.player);    
     var p1controls = connectControls(Player.controls, this.player);
+    this.gamePadOn = true;
     this.keyMap = {
       68: p1controls.right,
       87: p1controls.up,
@@ -187,7 +188,9 @@ class GameScene extends Scene {
     this.player.resetControls();
     var entities = this.entities;
     super.update(dt);
-    handleGamePad(this.player);
+    if(this.gamePadOn) {
+      handleGamePad(this.player);
+    }
     for(var i=0;i<entities.length;i+=1) {
       var entity = entities[i];
       entity.update(dt, frameCount);
