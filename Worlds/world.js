@@ -136,7 +136,7 @@ class World {
       var p = this.pointToMatrix(x1,y1);
       // var type = this.pointCollides(x1,y1);
       var type = this.wallExists(p.x,p.y);
-      // if(type == 1) return true;
+      if(type === true) return true;
       var cell = CELLMAP[type];
       if(!cell)continue;
       if(cell.ignoreCollisions) continue;
