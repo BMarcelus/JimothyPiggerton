@@ -7,6 +7,7 @@ function initializeSound() {
   } else {
     AUDIOCONTEXT = new AudioContext();
   }
+  AUDIOCONTEXT.resume();
   var GAIN = AUDIOCONTEXT.createGain();
   GAIN.gain.setValueAtTime(.5, 0);
   GAIN.connect(AUDIOCONTEXT.destination);

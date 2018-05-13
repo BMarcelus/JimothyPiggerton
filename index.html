@@ -141,6 +141,7 @@ class MainDriver {
       initializeSound();
       this.soundsInitialized = true;
     }
+    AUDIOCONTEXT.resume();    
   }
   update(dt) {
     this.frameCount+=dt;

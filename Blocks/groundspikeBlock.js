@@ -18,6 +18,7 @@ addBlock(function() { return {
         return true;
       },
       isColliding: function(entity, pos,dx,dy,cellPos) {
-        return pos.y-entity.vy > cellPos.y + 1; 
+        // return true;
+        return pos.y-dy > cellPos.y + 1; 
       }
 }});

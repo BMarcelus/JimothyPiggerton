@@ -101,13 +101,15 @@ class Woof extends Enemy {
           /*if ((dist > -entity.xsight && dist < entity.xsight  && ydist < 100 && ydist > -100)) {//in case we find the player again
             toOne()
           }*/
+          entity._angle = Math.cos(entity.transition*Math.PI/10)*Math.PI/20;          
           if (entity.transition <= 0) //otherwise
           {
             return entity.toZero();
           }
-          else if (entity.transition == 30)
+          else if (entity.transition%10==0)
           {
-            entity.mx *= -1; // turning around in confusion
+            // entity.mx *= -1; // turning around in confusion
+            entity.flipped = !entity.flipped;
           }
           entity.transition--;
           return this.index;
@@ -149,6 +151,7 @@ class Woof extends Enemy {
     this.transition = 0;
     this.mx = .5 * Math.sign(this.mx);
     this.speed = 3;
+    this._angle = 0;
     return 0;//back to wandering
   }
 
@@ -172,7 +175,7 @@ class Woof extends Enemy {
   toThree()
   {
     this.transition = 60;
-    this.mx = -1 * Math.sign(this.mx);//prep for next animation
+    this.mx = 0;//-1 * Math.sign(this.mx);//prep for next animation
     this.speed = 1;
     return 3;
   }
