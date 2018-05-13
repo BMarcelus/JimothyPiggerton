@@ -29,8 +29,8 @@ class SoundEffect {
     if(entity&&!entity.player) {
       var d = distanceBetweenEntities(entity, entity.game.player);
       // console.log(d);
-      volume = 1/(d/50+1);
-      // volume = .1;
+      // volume = 1/(d/50+1);
+      volume = .1;
       // volume = 0;
       // console.log(volume);
     }

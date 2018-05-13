@@ -134,18 +134,27 @@ class World {
       var x1 = points[i][0];
       var y1 = points[i][1];
       var p = this.pointToMatrix(x1,y1);
+      var cellPos = this.matrixToPoint(p.x,p.y);      
       // var type = this.pointCollides(x1,y1);
       var type = this.wallExists(p.x,p.y);
-      if(type === true) return true;
+      if(type === true) return cellPos;
       var cell = CELLMAP[type];
       if(!cell)continue;
       if(cell.ignoreCollisions) continue;
       // if(cell.groundBlock) return true;
-      if(type != 0) types[type] = {x: x1, y: y1, p:p};
+      var colliding = true;
+      var pos = {x: x1, y: y1, p: p};
+      if(cell.isColliding) colliding = cell.isColliding(entity,pos, dx,dy, cellPos);
+      if(colliding) {
+        if(cell.safe) return cellPos;
+        if(type != 0) types[type] = pos;
+      }
     }
     for(var i in types) {
-      if(this.entityCollision(entity, i, types[i], dx,dy)){
-        result = true;
+      var pos = types[i];
+      var col = this.entityCollision(entity, i, pos, dx,dy)
+      if(col){
+        result = col;
       }
     }
     return result;
@@ -161,7 +170,10 @@ class World {
     var cellPos = this.matrixToPoint(pos.p.x,pos.p.y);    
     if(cell.isColliding) colliding = cell.isColliding(entity,pos,dx,dy,cellPos);
     if(colliding&&cell.entityCollision)cell.entityCollision(entity,pos,dx,dy,cellPos);        
-    return colliding && cell.solid;
+    if(colliding && cell.solid) {
+      if(colliding.y) return colliding;
+      else return cellPos;
+    }
   }
   drawBackground(canvas, camera) {
     this.background.draw(canvas, camera, this);

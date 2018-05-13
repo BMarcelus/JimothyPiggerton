@@ -4,6 +4,7 @@ addBlock(function() { return {
       name: "Ground",
       solid: true,
       groundBlock: true,
+      safe: true,
       draw: function(canvas, x,y,w,h, world,i,j) {
         var color1 = "#732";
         var color2 = "#843";

@@ -160,12 +160,13 @@ class Mover {
       }
       this.wallcolliding=true;
     }
-    if(world.rectCollides(this.x-w/2,this.y-h+vy,w,h,this, 0,vy)) {
+    var yCol = world.rectCollides(this.x-w/2,this.y-h+vy,w,h,this, 0,vy);
+    if(yCol) {
       if(this.vy>0) {
-        this.groundCollide(Math.floor((this.y+vy)/world.s)*world.s);
+        this.groundCollide(Math.floor(yCol.y));        
         this.ceilingColliding=false;        
       } else {
-        this.y = (Math.floor((this.y+vy-h)/world.s+1)*world.s)+h;
+        this.y = yCol.y+h+world.s;
         // this.vy = 0;
         this.width+=-this.vy+3;
         this.height-=5;

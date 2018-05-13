@@ -30,7 +30,7 @@ addBlock(function() { return {
         if(entity.player) entity.die();
         return true;
       },
-      isColliding: function(entity, pos,dx,dy,cellPos) {
-        return pos.y-dy > cellPos.y + 1; 
-      }
+      // isColliding: function(entity, pos,dx,dy,cellPos) {
+      //   if (pos.y-dy >= cellPos.y + 1) return { y: cellPos.y + 1};
+      // }
 }});
