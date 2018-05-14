@@ -1,6 +1,6 @@
 class LevelEditorSelectScene extends Scene{
   constructor(){
-    super();
+    super(false);
     this.keyMap = {
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) },
       '79': {down: this.toggleDebug.bind(this)},
@@ -57,7 +57,8 @@ class LevelEditorSelectScene extends Scene{
           buttonWidth*square[0],buttonWidth*square[1]);
         buttonList[i+j*5] = new TextButton(dim[0],dim[1],dim[2],dim[3],1,
           //This calls a scene to black transition and then loads the level at the end of the transition
-          this.startTransition.bind(this,25,1,this.loadGameLevel.bind(this,i+j*5)),
+          // this.startTransition.bind(this,25,1,this.loadGameLevel.bind(this,i+j*5)),
+          this.loadGameLevel.bind(this, i+j*5),
 
           ""+(i+1+j*5),buttonFont,textColor,'transparent',textColor,3);
         this.gui.push(buttonList[i+j*5]);

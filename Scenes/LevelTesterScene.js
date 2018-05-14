@@ -1,8 +1,10 @@
 class LevelTesterScene extends GameScene {
   constructor(level, prevScene) {
-    super(level);
+    super(level, undefined, false);
     this.prevScene = prevScene;
     this.keyMap[27] = {down: this.back.bind(this)};
+    this.transitionDuration = 1;
+    this.updateTransition();
   }
   back() {
     this.driver.setScene(this.prevScene);

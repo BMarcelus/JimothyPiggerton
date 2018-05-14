@@ -128,13 +128,14 @@ class World {
   }
   rectCollides(x,y,w,h,entity, dx,dy) {
     var result = false;
-    var points = [[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+    var points = [[x,y],[x+w,y],[x,y+h],[x+w,y+h]];
     var types = {};
     for(var i in points) {
       var x1 = points[i][0];
       var y1 = points[i][1];
       var p = this.pointToMatrix(x1,y1);
       var cellPos = this.matrixToPoint(p.x,p.y);      
+      cellPos.i = i;
       // var type = this.pointCollides(x1,y1);
       var type = this.wallExists(p.x,p.y);
       if(type === true) return cellPos;
@@ -143,7 +144,7 @@ class World {
       if(cell.ignoreCollisions) continue;
       // if(cell.groundBlock) return true;
       var colliding = true;
-      var pos = {x: x1, y: y1, p: p};
+      var pos = {x: x1, y: y1, p: p, c: cellPos};
       if(cell.isColliding) colliding = cell.isColliding(entity,pos, dx,dy, cellPos);
       if(colliding) {
         if(cell.safe) return cellPos;
@@ -167,7 +168,7 @@ class World {
     var cell = CELLMAP[type];
     if(!cell)return false;
     var colliding = true;
-    var cellPos = this.matrixToPoint(pos.p.x,pos.p.y);    
+    var cellPos = pos.c;    
     if(cell.isColliding) colliding = cell.isColliding(entity,pos,dx,dy,cellPos);
     if(colliding&&cell.entityCollision)cell.entityCollision(entity,pos,dx,dy,cellPos);        
     if(colliding && cell.solid) {

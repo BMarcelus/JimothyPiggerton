@@ -140,13 +140,15 @@ class Mover {
     var h = this.h;
     var d = 0;//(1-2*this.flipped)*10;
     // this.ceilingColliding=false;    
-    if(!world.rectCollides(this.x-w/2+vx+d, this.y-h+1,w,h-2,this, d+vx,0)) {
+    var xCol = world.rectCollides(this.x-w/2+vx+d, this.y-h+1,w,h-2,this, d+vx,0)
+    if(!xCol) {
       this.x += vx;
       this.wallcolliding=false;
     } else {
-      if(this.vx>0) {
-        this.x = Math.floor((this.x+w/2+vx+d)/world.s)*world.s-w/2-1;
-      } else if(this.vx<0){
+      if(xCol.i%2===1) {
+        var c = Math.floor((this.x+w/2+vx+d)/world.s);
+        this.x = c*world.s-w/2-1;
+      } else {
         this.x = Math.floor((this.x-w/2+vx+d)/world.s+1)*world.s+w/2+1;
       }
       this.walldirection = (this.vx+d)>0;
@@ -160,6 +162,7 @@ class Mover {
       }
       this.wallcolliding=true;
     }
+    // return
     var yCol = world.rectCollides(this.x-w/2,this.y-h+vy,w,h,this, 0,vy);
     if(yCol) {
       if(this.vy>0) {
