@@ -11,9 +11,9 @@ class LevelEditorSelectScene extends Scene{
       '68': { down: this.navigateUI.bind(this,3)},    //A
 
       '38': { down: this.navigateUI.bind(this,0)},  //up
-      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '39': { down: this.navigateUI.bind(this,3)},  //right
       '40': { down: this.navigateUI.bind(this,2)},   //down
-      '37': { down: this.navigateUI.bind(this,3)},   //left
+      '37': { down: this.navigateUI.bind(this,1)},   //left
       '27': {down: this.backToMenu.bind(this)}, //exscappe
     }
     this.allowUIInput = true;
