@@ -154,7 +154,7 @@ class Scene {
     //called by keystrokes, not mouse
     if(this.selectedButton.held){
       this.selectedButton.held = false;
-      this.selectedButton.callback();
+      this.selectedButton.onRelease();
     }
     if(!this.inTransition){
       //If this button called a fade to black transition, do not allow UI inputs

@@ -1,7 +1,7 @@
 class TextButton extends Button{
-  constructor(x,y,w,h,groupID,callback,text,font, 
+  constructor(x,y,w,h,groupID,onRelease,text,font, 
     textColor,rectBackFillColor,rectOutlineColor, strokeWidth){
-    super(x,y,w,h,groupID,callback);
+    super(x,y,w,h,groupID,onRelease);
     this.text = text;
     this.font = font;
     //optional values below (transparent if not given)

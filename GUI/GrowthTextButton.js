@@ -1,7 +1,7 @@
 class GrowthTextButton extends TextButton{
-  constructor(x,y,w,h,groupID,callback,text,font, 
+  constructor(x,y,w,h,groupID,onRelease,text,font, 
     textColor,rectBackFillColor,rectOutlineColor, strokeWidth,growthAmount){
-      super(x,y,w,h,groupID,callback,text,font,textColor,rectBackFillColor,rectOutlineColor,strokeWidth);
+      super(x,y,w,h,groupID,onRelease,text,font,textColor,rectBackFillColor,rectOutlineColor,strokeWidth);
       this.growthMax = growthAmount;
       this.maxWidth = this.w+this.growthMax;
       this.growthSpeed = 0.2;

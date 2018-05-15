@@ -319,7 +319,7 @@ class LevelEditorScene extends Scene{
           origin[1]+i/this.rowCount*buttonGridRegionHeight,1/this.rowLength*buttonGridRegionWidth-.02,1/this.rowCount*buttonGridRegionHeight-.02);
         var button = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
           undefined,i*this.rowLength+j);
-        button.callback = this.selectBlock.bind(this,button);
+        button.onRelease = this.selectBlock.bind(this,button);
         this.buttonGrid[i].push(button);
         this.gui.push(button);
 
@@ -344,7 +344,7 @@ class LevelEditorScene extends Scene{
     dim = rectDimFromCenter(origin.x,origin.y,buttonWidth,buttonHeight);
     var button1 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
       undefined,0);
-    button1.callback = this.quickSelectClick.bind(this,button1); 
+    button1.onRelease = this.quickSelectClick.bind(this,button1); 
     this.quickSelect.push(button1); 
     this.gui.push(button1);
     var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'Z',labelFont,labelColor,'center');
@@ -353,7 +353,7 @@ class LevelEditorScene extends Scene{
     dim = rectDimFromCenter(origin.x+buttonWidth,origin.y,buttonWidth,buttonHeight);
     var button2 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
       undefined,0);
-    button2.callback = this.quickSelectClick.bind(this,button2);  
+    button2.onRelease = this.quickSelectClick.bind(this,button2);  
     this.quickSelect.push(button2); 
     this.gui.push(button2);
     var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'X',labelFont,labelColor,'center');
@@ -362,7 +362,7 @@ class LevelEditorScene extends Scene{
     dim = rectDimFromCenter(origin.x,origin.y+buttonHeight,buttonWidth,buttonHeight);
     var button3 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
       undefined,0);
-    button3.callback = this.quickSelectClick.bind(this,button3); 
+    button3.onRelease = this.quickSelectClick.bind(this,button3); 
     this.quickSelect.push(button3);  
     this.gui.push(button3);
     var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'C',labelFont,labelColor,'center');
@@ -371,7 +371,7 @@ class LevelEditorScene extends Scene{
     dim = rectDimFromCenter(origin.x+buttonWidth,origin.y+buttonHeight,buttonWidth,buttonHeight);
     var button4 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
       undefined,0);
-    button4.callback = this.quickSelectClick.bind(this,button4); 
+    button4.onRelease = this.quickSelectClick.bind(this,button4); 
     this.quickSelect.push(button4);  
     this.gui.push(button4);
     var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'V',labelFont,labelColor,'center');
@@ -454,6 +454,7 @@ class LevelEditorScene extends Scene{
     var wy = this.mousePoint.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
     var x = Math.floor(wx/this.world.s);
     var y = Math.floor(wy/this.world.s);
+    if(x > this.world.w || x < 0 || y > this.world.h || y < 0) return;  //bail if out of bounds
     this.currentBlock = this.grid[y][x];
   
   }

@@ -25,7 +25,10 @@ class LevelSelectScene extends Scene{
         this.levelsInWorld = [10,10,10];     //numbers should match how many levels are in each world
         this.menuState = SELECTWORLD;
         this.worldSelected = 0;
-        this.levelIndex = 0;
+        this.levelIndex = 0;    
+        this.buttonsInRow = 8;
+        this.buttonRow = [];
+
         this.worldButtons = [];
         this.worldLabels = [];
         this.allowUIInput = true;
@@ -44,7 +47,8 @@ class LevelSelectScene extends Scene{
     update(dt){
       super.update(dt);
       this.updateBackgrounds(dt);
-      this.levelNumLabel.text = this.levelIndex+1;
+      //this.levelNumLabel.text = this.levelIndex+1;
+      this.levelIndex = this.selectedButton.value;
     }
     draw(canvas){
       this.drawBackgrounds(canvas);
@@ -197,32 +201,64 @@ class LevelSelectScene extends Scene{
       world3Button.setNeighbors([world2Button,undefined,world1Button,undefined]);
 
       //Select level UI
+      /*
       dim = rectDimFromCenter(.5,.5,.2,.1)
       this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px Noteworthy',textColor,'center');
       this.levelNumLabel.setVisibility(false);
       this.gui.push(this.levelNumLabel);
-
+        
       dim = rectDimFromCenter(.5,.6,.18,.08);
       this.startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
       this.loadGameLevel.bind(this),"Start Level",buttonFont,textColor,'transparent',textColor,5);
       this.startButton.setVisibility(false);
       this.startButton.interactable = false;
       this.gui.push(this.startButton);
-
-      dim = rectDimFromCenter(.6,.492,.05,.08);
-      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevel.bind(this),.05,.4,'white','black',5,false);
+      */
+      this.buildButtonRow();
+      dim = rectDimFromCenter(.8,.542,.05,.08);
+      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevels.bind(this),.05,.4,'white','black',5,false);
       this.rightArrow.selectable = false;
       this.rightArrow.setVisibility(false);
       this.gui.push(this.rightArrow);
 
-      dim = rectDimFromCenter(.4,.492,.05,.08);
-      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevel.bind(this),.05,.4,'white','black',5,true);
+      dim = rectDimFromCenter(.2,.542,.05,.08);
+      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevels.bind(this),.05,.4,'white','black',5,true);
       this.leftArrow.selectable = false;
       this.leftArrow.setVisibility(false);
       this.gui.push(this.leftArrow);
 
       this.buttons = getButtons(this.gui);
       this.selectedButton = world1Button;
+    }
+    buildButtonRow(){
+      var regionWidth = 0.5;
+      var regionHeight = 0.12;
+      var square = [1,16/9];
+      var buttonWidth = .05*square[0];
+      var buttonHeight = .05*square[1];
+      var buttonGap = regionWidth/this.buttonsInRow;
+      var origin = {x:0.5-buttonGap*(this.buttonsInRow-1)/2,y:.55};
+      var dim = [];
+      for(var i = 0; i < this.buttonsInRow; i++){
+        dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);
+        var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
+          this.loadGameLevel.bind(this,i+1),""+(i+1),'40px Noteworthy','white',
+          'transparent','white',5);
+        /*
+        var outline = new ColoredBox(dim[0],dim[1],dim[2],dim[3],4,'transparent','white',3);
+        this.gui.push(outline);
+        outline.setOptions(false,false,false);
+        */
+        button.setOptions(false,false,false);
+        button.value = i;
+        this.gui.push(button);
+        this.buttonRow.push(button);
+      }
+      for(var i = 0; i < this.buttonRow.length; i++){
+        var left = (i == 0) ? undefined : this.buttonRow[i-1];
+        var right = (i == this.buttonRow.length-1) ? undefined : this.buttonRow[i+1];
+        this.buttonRow[i].setNeighbors([undefined,right,undefined,left]);
+      }
     }
     updateWorldSelection(worldNumber){
       this.worldSelected = worldNumber;
@@ -254,7 +290,7 @@ class LevelSelectScene extends Scene{
     selectWorld(worldNumber){
       this.worldSelected = worldNumber;
       this.menuState = SELECTLEVEL;
-      this.selectedButton = this.startButton;
+      this.selectedButton = this.buttonRow[0];
       this.selectedButton.selected = true;
       for(var i = 0; i < this.worldButtons.length; i++){
         this.worldButtons[i].setOptions(true,false,false);
@@ -270,12 +306,15 @@ class LevelSelectScene extends Scene{
         group5GUI[i].setOptions(true,false,true);
         group5GUI[i].y += offSet;
       }
-      this.leftArrow.setVisibility(false);
-
+      
+      this.leftArrow.setVisibility(true);
+      this.rightArrow.setVisibility(true);
+      this.levelIndex = 0;
     }
     
     returnToWorldSelect(){
       this.menuState = SELECTWORLD;
+      this.selectedButton.selected = false;
       this.selectedButton = getGUIInGroup(this.worldSelected,this.gui)[0];
       for(var i = 0; i < this.worldButtons.length; i++){
         this.worldButtons[i].setOptions(true,true,true);
@@ -291,6 +330,9 @@ class LevelSelectScene extends Scene{
         group5GUI[i].reset();
       }
       this.levelIndex = 0;
+      for(var i = 0; i < this.buttonRow.length; i++){
+        this.buttonRow[i].text = ''+(i+1);
+      }
     }
     
     loadGameLevel(){
@@ -340,33 +382,45 @@ class LevelSelectScene extends Scene{
         this.navigateUI(direction);
         this.updateWorldSelection(this.selectedButton.groupID);
       } else if(this.menuState == SELECTLEVEL){
+        
         switch(direction){
           case 1: //right
-            this.rightArrow.callback();
-            //callback is incrementLevel+move
-            return;
+            this.rightArrow.displaceArrow();
+            break;
           case 3: //left
-            this.leftArrow.callback();
-            //callback is decrementLevel+move
-            return;
+            this.leftArrow.displaceArrow();
+            break;
         }
+
+        if(direction == 1 && this.selectedButton == this.buttonRow[this.buttonsInRow-1]){
+          this.incrementLevels();
+        }
+        else if(direction == 3 && this.selectedButton == this.buttonRow[0]){
+          this.decrementLevels();
+        }
+        this.navigateUI(direction);
+        this.levelIndex = this.selectedButton.value;
 
       }
     }
-    incrementLevel(){
-      this.levelIndex++;
-      this.leftArrow.setVisibility(true);
-      if(this.levelIndex >= this.levelsInWorld[this.worldSelected]-1){
-        this.rightArrow.setVisibility(false);
-        this.levelIndex = this.levelsInWorld[this.worldSelected]-1; 
+    
+    incrementLevels(){
+      if(this.buttonRow[this.buttonsInRow-1].value
+        < this.levelsInWorld[this.worldSelected]-1){
+        for(var i = 0; i < this.buttonRow.length; i++){
+          this.buttonRow[i].value+= 1;
+          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
+        }
+        this.levelIndex = this.selectedButton.value;
       }
     }
-    decrementLevel(){
-      this.levelIndex--;
-      this.rightArrow.setVisibility(true);
-      if(this.levelIndex <= 0){
-        this.leftArrow.setVisibility(false);
-        this.levelIndex = 0;
+    decrementLevels(){
+      if(this.buttonRow[0].value > 0){
+        for(var i = 0; i < this.buttonRow.length; i++){
+          this.buttonRow[i].value-= 1;
+          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
+        }
+        this.levelIndex = this.selectedButton.value;
       }
     }
 }

@@ -1,8 +1,8 @@
 class OptionScene extends Scene{
   constructor(playLevelIntro){
     super(playLevelIntro);
-    this.settings = {
-      volume:1,
+    this.keyMap = {
+      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
     }
     this.background = new InfiniteBackground();
    
@@ -21,8 +21,9 @@ class OptionScene extends Scene{
   loadOptionGUI(){
     var dim = rectDimFromCenter(.5,.5,.2,.1);
     this.volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
-      0,undefined,0.03,1,'white','white','gray','black');
-    this.volumeSlider.callback = this.setVolume.bind(this,this.volumeSlider);
+      0,undefined,0.03,DESTINATION.gain.value,'white','white','gray','black');
+    this.volumeSlider.onRelease = this.playSliderSound.bind(this,this.volumeSlider); 
+    this.volumeSlider.onHold = this.setVolume.bind(this,this.volumeSlider);
     this.gui.push(this.volumeSlider);
 
     dim = rectDimFromCenter(.5,.35,.1,.1);
@@ -43,8 +44,9 @@ class OptionScene extends Scene{
     this.driver.setScene(new MenuScene(false));
   }
   setVolume(slider){
-    this.settings.volume = slider.value;
     DESTINATION.gain.setValueAtTime(slider.value, 0);
+  }
+  playSliderSound(slider){
     SOUNDMAP.jump2.play();
   }
 }

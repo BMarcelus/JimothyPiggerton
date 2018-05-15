@@ -109,6 +109,7 @@ function handleMouseDown(e,buttonList){
     if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
         && buttonList[i].interactable){
       buttonList[i].held = true;
+      if(buttonList[i].onClick) buttonList[i].onClick();
     }
   }
 }
@@ -118,7 +119,7 @@ function handleMouseUp(e,buttonList){
     if(buttonList[i].contains(percentPoint[0],percentPoint[1])
         && buttonList[i].interactable && buttonList[i].held){
       buttonList[i].held = false;
-      buttonList[i].callback();
+      if(buttonList[i].onRelease) buttonList[i].onRelease();
     } else {
       buttonList[i].held = false;
     }

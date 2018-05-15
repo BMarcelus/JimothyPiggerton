@@ -1,7 +1,7 @@
 class Slider extends Button{
-  constructor(x,y,w,h,groupID,callback,handleWidth,defaultValue,
+  constructor(x,y,w,h,groupID,onRelease,handleWidth,defaultValue,
     barColor,handleColor,handleHeldColor,handleOutlineColor,handleOutlineWeight){
-    super(x,y,w,h,groupID,callback);
+    super(x,y,w,h,groupID,onRelease);
     this.barColor = barColor;
     this.handleWidth = handleWidth;
     this.handleColor = handleColor;
@@ -38,7 +38,7 @@ class Slider extends Button{
     this.value = x;
     this.value = (this.value > 1) ? 1 : this.value;
     this.value = (this.value < 0) ? 0 : this.value;
-    if(this.callback) this.callback(this.value);
+    if(this.onHold) this.onHold(this.value);
   }
   contains(x,y){
     return x>= this.x+this.value*this.w-this.handleWidth/2 && x<=this.x+this.value*this.w+this.handleWidth/2 && y>=this.y && y<=this.y+this.h;

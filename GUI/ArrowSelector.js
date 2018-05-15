@@ -1,5 +1,5 @@
 class ArrowSelector extends Button{
-  constructor(x,y,w,h,groupID,callback,moveDistance,moveSpeed,fillColor,outlineColor,lineWidth,flipped){
+  constructor(x,y,w,h,groupID,onRelease,moveDistance,moveSpeed,fillColor,outlineColor,lineWidth,flipped){
     super(x,y,w,h,groupID,undefined);
     
     this.fillColor = fillColor;
@@ -8,12 +8,12 @@ class ArrowSelector extends Button{
     this.moveSpeed = moveSpeed;
     this.flipped = flipped;
     this.moveDistance = moveDistance;
-    this.callback = function(){
+    this.onRelease = function(){
       if(this.flipped)
         this.x = this.originalDimension[0]-this.moveDistance;
       else  
         this.x = this.originalDimension[0]+this.moveDistance;
-      callback();
+      onRelease();
     }.bind(this);
   }
   update(dt){
@@ -61,5 +61,10 @@ class ArrowSelector extends Button{
     var toMove = dt * (destX-this.x)*this.moveSpeed;
     this.x += toMove;
   }
-  
+  displaceArrow(){
+    if(this.flipped)
+        this.x = this.originalDimension[0]-this.moveDistance;
+      else  
+        this.x = this.originalDimension[0]+this.moveDistance;
+  }
 }

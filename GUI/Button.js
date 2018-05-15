@@ -1,7 +1,9 @@
 class Button extends GUIElement {
-  constructor(x,y,w,h,groupID,callback){
+  constructor(x,y,w,h,groupID,onRelease){
     super(x,y,w,h,groupID);
-    this.callback = callback;
+    this.onRelease = onRelease;
+    this.onPress = undefined;
+    this.onHold = undefined;
     this.held = false;
     this.selected = false;
     //buttonlinks can be filled in later 
@@ -11,7 +13,8 @@ class Button extends GUIElement {
     //buttonLinks[2] = DOWN
     //buttonLinks[3] = LEFT
     this.buttonLinks = Array(4).fill(undefined);
-    
+    this.value = undefined;   //value has no set type.
+                              //it is simply some variable that you want associated with the button
   }
   setNeighbors(buttonList){
     this.buttonLinks = buttonList;
