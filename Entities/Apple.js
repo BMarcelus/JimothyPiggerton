@@ -17,7 +17,7 @@ class Apple extends Mover {
     update(dt, frameCount) {    
 		  var doinkBox = this.getHitBox();
       var playerBox = this.game.player.getHitBox();
-      if(!this.hit&&rectangleCollision(doinkBox, playerBox)) {
+      if(!this.hit&&rectangleCollision(doinkBox, playerBox)&&this.game.player.vy>0) {
         if(this.playerCollision(this.game.player)) {
           this.getHitByEntity(this.game.player);
           setTimeout(() => {
@@ -40,7 +40,7 @@ class Apple extends Mover {
         //this.bounceAnimation = 20;
         // player.jumpCount--;
         // player.jump(5);
-        player.bounceOffEntity(this, 12);
+        player.bounceOffEntity(this, 15);
         this.grav = 1;
         this.hit=true;
       //player.apples++;

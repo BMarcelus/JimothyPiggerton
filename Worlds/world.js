@@ -128,7 +128,7 @@ class World {
   }
   rectCollides(x,y,w,h,entity, dx,dy) {
     var result = false;
-    var points = [[x,y],[x+w,y],[x,y+h],[x+w,y+h]];
+    var points = [[x,y],[x+w,y],[x,y+h],[x+w,y+h],[x+w/2,y+h],[x+w/2,y]];
     var types = {};
     for(var i in points) {
       var x1 = points[i][0];
@@ -147,6 +147,7 @@ class World {
       var pos = {x: x1, y: y1, p: p, c: cellPos};
       if(cell.isColliding) colliding = cell.isColliding(entity,pos, dx,dy, cellPos);
       if(colliding) {
+        if(colliding.x) cellPos = colliding;
         if(cell.safe) return cellPos;
         if(type != 0) types[type] = pos;
       }

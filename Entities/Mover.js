@@ -147,9 +147,12 @@ class Mover {
     } else {
       if(xCol.i%2===1) {
         var c = Math.floor((this.x+w/2+vx+d)/world.s);
-        this.x = c*world.s-w/2-1;
+        var cx = xCol.x;
+        this.x = cx-w/2-1;
       } else {
-        this.x = Math.floor((this.x-w/2+vx+d)/world.s+1)*world.s+w/2+1;
+        var c = Math.floor((this.x-w/2+vx+d)/world.s+1);
+        var cx = xCol.x+xCol.w;
+        this.x = cx+w/2+1;
       }
       this.walldirection = (this.vx+d)>0;
       // if(this.vx>0)this.vx = 1;
