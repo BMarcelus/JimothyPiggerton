@@ -345,8 +345,12 @@ class LevelSelectScene extends Scene{
       levelToLoad += this.levelIndex;     
       this.startTransition(25,1,function() {
         var newScene = new GameScene();
-        newScene.loadNewLevel(levelToLoad);
-        this.driver.setScene(newScene);
+        if(levelToLoad < newScene.levels.length){
+          newScene.loadNewLevel(levelToLoad);
+          this.driver.setScene(newScene);
+        } else {
+          this.allowUIInput = true;
+        }
       });
     
     }
