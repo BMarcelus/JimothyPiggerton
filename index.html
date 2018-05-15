@@ -79,7 +79,7 @@ var touchButtons = [
   },
 ];
 function pressed(b) {
-  return b.pressed || b===1;
+  return b && (b.pressed || b===1);
 }
 function handleGamePad(player) {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
