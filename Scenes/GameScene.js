@@ -76,6 +76,7 @@ class GameScene extends Scene {
   playLevelOutro(){
     this.startTransition(25, 1, function() { 
       this.loadNewLevel(this.levelIndex+1);
+      this.driver.setScene(new LevelIntroScene(this,true));
     });
   }
   pause() {

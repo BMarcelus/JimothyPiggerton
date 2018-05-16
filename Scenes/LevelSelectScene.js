@@ -347,12 +347,12 @@ class LevelSelectScene extends Scene{
         var newScene = new GameScene();
         if(levelToLoad < newScene.levels.length){
           newScene.loadNewLevel(levelToLoad);
-          this.driver.setScene(newScene);
+          this.driver.setScene(new LevelIntroScene(newScene,true));
         } else {
           this.allowUIInput = true;
         }
       });
-    
+      
     }
     handleEscape(){
       if(this.menuState == SELECTWORLD){
