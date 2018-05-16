@@ -1,7 +1,7 @@
 loadSequentially('Levels/',
 [
   "init.js",
-  // "level1.js",
+   "firstClimb1.js",
   // "level2.js",
   "simpleJumpLevel.js",
   "longJumpLevel.js",

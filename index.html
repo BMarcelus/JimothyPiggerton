@@ -79,16 +79,17 @@ var touchButtons = [
   },
 ];
 function pressed(b) {
-  return b && (b.pressed || b===1);
+  return b && (b==1 || b.pressed);
 }
 function handleGamePad(player) {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
   // if(gamepads2.length>0)
+  console.log(gamepads);
   var driver = player.game.driver;
   var controls = player.controls;
   for(var i=0;i<gamepads.length;i++) {
     var gp = gamepads[i];
-    if(!gp)continue;
+    if(!gp || gp.buttons.length <= 0)continue;
     if(gp.axes) {
       var x = gp.axes[0];
       var y = gp.axes[1];
@@ -106,6 +107,7 @@ function handleGamePad(player) {
       }
     }
     if(gp.buttons) {
+      
       if(pressed(gp.buttons[0])) {
         if(!this.heldA) player.jump();
         this.heldA = true;
