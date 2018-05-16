@@ -1,6 +1,6 @@
 class LevelEditorScene extends Scene{
   constructor(index) {
-    super();
+    super(false);
     this.editLevel = index;
     this.zoom = 1;
     var grid;
@@ -140,7 +140,9 @@ class LevelEditorScene extends Scene{
     for(var i = 0;i < this.grid.length;i++) {
       string += '[';
       for(var j=0;j<this.grid[i].length;j++) {
-        string += this.grid[i][j] + ',';
+        var s = this.grid[i][j];
+        if(s<10) s='0'+s;
+        string += s + ',';
       }
       string += '],\n'
     }
