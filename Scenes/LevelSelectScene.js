@@ -45,11 +45,11 @@ class LevelSelectScene extends Scene{
 
 
     update(dt){
+      console.log(this.levelIndex);
       super.update(dt);
       this.updateBackgrounds(dt);
-      //this.levelNumLabel.text = this.levelIndex+1;
-      this.levelIndex = this.selectedButton.value;
       if(this.menuState == SELECTLEVEL){
+        this.levelIndex = this.selectedButton.value;
         var absoluteLevelIndex = this.levelIndex;
         for(var i = 0; i < this.worldSelected; i++){
           absoluteLevelIndex += this.levelsInWorld[i];
@@ -306,6 +306,9 @@ class LevelSelectScene extends Scene{
       this.menuState = SELECTLEVEL;
       this.selectedButton = this.buttonRow[0];
       this.selectedButton.selected = true;
+      for(var i = 0; i < this.buttonRow.length; i++){
+        this.buttonRow[i].value = i;
+      }
       for(var i = 0; i < this.worldButtons.length; i++){
         this.worldButtons[i].setOptions(true,false,false);
       }
