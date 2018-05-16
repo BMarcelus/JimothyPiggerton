@@ -38,7 +38,7 @@ class LevelSelectScene extends Scene{
                                                                 //top to bottom
                                                                 //4 ScrollingBackgrounds each
         this.createBackgrounds();
-
+        this.levels = createLevels();
 
 
     }
@@ -49,6 +49,16 @@ class LevelSelectScene extends Scene{
       this.updateBackgrounds(dt);
       //this.levelNumLabel.text = this.levelIndex+1;
       this.levelIndex = this.selectedButton.value;
+      if(this.menuState == SELECTLEVEL){
+        var absoluteLevelIndex = this.levelIndex;
+        for(var i = 0; i < this.worldSelected; i++){
+          absoluteLevelIndex += this.levelsInWorld[i];
+        }
+        if(this.levels[absoluteLevelIndex])
+          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
+        else  
+          this.levelName.text = "";
+      }
     }
     draw(canvas){
       this.drawBackgrounds(canvas);
@@ -196,9 +206,9 @@ class LevelSelectScene extends Scene{
       this.gui.push(world3Button);
       this.worldButtons.push(world3Button);
 
-      world1Button.setNeighbors([world3Button,undefined,world2Button,undefined]);
+      world1Button.setNeighbors([undefined,undefined,world2Button,undefined]);
       world2Button.setNeighbors([world1Button,undefined,world3Button,undefined]);
-      world3Button.setNeighbors([world2Button,undefined,world1Button,undefined]);
+      world3Button.setNeighbors([world2Button,undefined,undefined,undefined]);
 
       //Select level UI
       /*
@@ -215,17 +225,21 @@ class LevelSelectScene extends Scene{
       this.gui.push(this.startButton);
       */
       this.buildButtonRow();
-      dim = rectDimFromCenter(.8,.542,.05,.08);
+      dim = rectDimFromCenter(.8,.532,.05,.08);
       this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevels.bind(this),.05,.4,'white','black',5,false);
       this.rightArrow.selectable = false;
       this.rightArrow.setVisibility(false);
       this.gui.push(this.rightArrow);
 
-      dim = rectDimFromCenter(.2,.542,.05,.08);
+      dim = rectDimFromCenter(.2,.532,.05,.08);
       this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevels.bind(this),.05,.4,'white','black',5,true);
       this.leftArrow.selectable = false;
       this.leftArrow.setVisibility(false);
       this.gui.push(this.leftArrow);
+
+      dim = rectDimFromCenter(.5,.62,.4,.1);
+      this.levelName = new Label(dim[0],dim[1],dim[2],dim[3],5,"",'30px Noteworthy','white','center');
+      this.gui.push(this.levelName);
 
       this.buttons = getButtons(this.gui);
       this.selectedButton = world1Button;
@@ -237,7 +251,7 @@ class LevelSelectScene extends Scene{
       var buttonWidth = .05*square[0];
       var buttonHeight = .05*square[1];
       var buttonGap = regionWidth/this.buttonsInRow;
-      var origin = {x:0.5-buttonGap*(this.buttonsInRow-1)/2,y:.55};
+      var origin = {x:0.5-buttonGap*(this.buttonsInRow-1)/2,y:.535};
       var dim = [];
       for(var i = 0; i < this.buttonsInRow; i++){
         dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);
@@ -310,6 +324,16 @@ class LevelSelectScene extends Scene{
       this.leftArrow.setVisibility(true);
       this.rightArrow.setVisibility(true);
       this.levelIndex = 0;
+      if(this.menuState == SELECTLEVEL){
+        var absoluteLevelIndex = this.levelIndex;
+        for(var i = 0; i < this.worldSelected; i++){
+          absoluteLevelIndex += this.levelsInWorld[i];
+        }
+        if(this.levels[absoluteLevelIndex])
+          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
+        else  
+          this.levelName.text = "";
+      }
     }
     
     returnToWorldSelect(){

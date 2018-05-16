@@ -274,8 +274,8 @@ Player.controls = {
   right: {down: function() {if (this.crouching) this.dash(1);}, held: function() { this.mx += 1; }},
   left: {down: function() {if (this.crouching) this.dash(-1);}, held: function() { this.mx -= 1; }},
   up: {
-    down: function() { this.jump(); },
-    up: function() { this.shortJump(); this.eyeMovement.ty = 0; },
+    down: function() { if(!this.dead)this.jump(); },
+    up: function() { if(!this.dead){this.shortJump(); this.eyeMovement.ty = 0;} },
     held: function() { this.eyeMovement.ty = - 6; this.height += .5; this.width -= .5},
   },
   down: {down: function() { this.crouch(); }, noneheld: function() { this.uncrouch(); }},

@@ -85,10 +85,10 @@ class PauseScene extends Scene {
     this.selectedButton = resumeButton;
     this.selectedButton.selected = true;
 
-    resumeButton.setNeighbors([mainMenuButton,undefined,levelSelectButton,undefined]);
+    resumeButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
     levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
     restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
-    mainMenuButton.setNeighbors([restartButton,undefined,resumeButton,undefined]);
+    mainMenuButton.setNeighbors([restartButton,undefined,undefined,undefined]);
 
     this.buttons = getButtons(this.gui);
 

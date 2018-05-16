@@ -22,13 +22,13 @@ class CreditsScene extends Scene{
     this.addCreditsGUI();
     this.nameLabels = getGUIInGroup(2,this.gui);
     this.roleLabels = getGUIInGroup(3,this.gui);
-    moveAllGUI(-.5,0,this.nameLabels);
-    moveAllGUI(.5,0,this.roleLabels);
+    moveAllGUI(-.7,0,this.nameLabels);
+    moveAllGUI(.7,0,this.roleLabels);
     this.creditsTimer = 0;
     this.initialDelay = 15;
     this.delayBetween = 8;
     this.labelVelocity = 0.08;
-    this.endDistanceFromCenter = -.1;   //distance around center where credit entries should go
+    this.endDistanceFromCenter = .03;   //distance around center where credit entries should go
                                         //Not actually accurate but decreasing this moves both sides closer
                                         //and increasing it moves them away from the center.
   }
