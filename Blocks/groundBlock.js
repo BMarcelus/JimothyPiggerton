@@ -9,6 +9,15 @@ addBlock(function() { return {
         var color1 = "#732";
         var color2 = "#843";
         var color3 = "#090";
+        var ri = Math.floor(i*i/2+i)
+        if(ri%j==1) {
+          color1="#6a2a1a";
+          color2="#7a3a2a";
+        }
+        if(ri%j==0) {
+          color1="#621";
+          color2="#732";
+        }
         // var color1 = "#7c4a0c";
         // var color2 = "#965c15";
         // color1 = "#555";
@@ -46,6 +55,15 @@ addBlock(function() { return {
         if(!world.getCell(i-1,j).groundBlock) {
           canvas.strokeRect(x,y,0,h);
         }
+        // canvas.save();
+        // canvas.globalCompositeOperation='color-dodge';
+        // var t=MAIN.frameCount;
+        // var n = i*i+j*j+t;
+        // var v = Math.abs((n)%(255*2-1)-255);
+        //  var c = 'rgba('+v+','+v+','+v+',0.5)';
+        // canvas.fillStyle = c;
+        // canvas.fillRect(x,y,w,h);
+        // canvas.restore();
       }
 }});
 

@@ -1,4 +1,4 @@
-var BLOCKS = [function() { return {name:"Air", id: 0, ignoreCollisions: true}},];
+var BLOCKS = [];
 
 function drawEntity(canvas, x,y,width,height, world,ii,jj) {
   canvas.fillStyle = 'rgba(50,0,50,.5)';

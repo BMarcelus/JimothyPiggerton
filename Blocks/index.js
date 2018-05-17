@@ -1,6 +1,7 @@
 loadSequentially('Blocks/',
 [
   "blockmanager.js",
+  "air.js",
   "groundBlock.js",
   "spikeBlock.js",
   "groundspikeBlock.js",
