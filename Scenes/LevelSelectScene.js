@@ -9,7 +9,6 @@ class LevelSelectScene extends Scene{
         this.keyMap = {
           '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
           '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-          '79': {down: this.toggleDebug.bind(this)},    //O->debug
           '27': {down: this.safeButtonCall(this,this.handleEscape)},   //esc
     
           '87': { down: this.navigateLevelSelect.bind(this,0)},    //W
@@ -45,7 +44,6 @@ class LevelSelectScene extends Scene{
 
 
     update(dt){
-      console.log(this.levelIndex);
       super.update(dt);
       this.updateBackgrounds(dt);
       if(this.menuState == SELECTLEVEL){
@@ -403,7 +401,7 @@ class LevelSelectScene extends Scene{
         var worldNumber = (worldNumber < 0) ? 0 : worldNumber;  //cap to 0 if too small
         this.updateWorldSelection(worldNumber);   
       } 
-      handleMouseMove(this,e,this.buttons);
+      GUIMouseMove(this,e,this.buttons);
     }
     navigateLevelSelect(direction){
       //Overload
@@ -443,6 +441,11 @@ class LevelSelectScene extends Scene{
           this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
         }
         this.levelIndex = this.selectedButton.value;
+        if(this.selectedButton != this.buttonRow[0]){
+          this.selectedButton.selected = false;
+          this.selectedButton = this.selectedButton.getNeighbor('left');
+          this.selectedButton.selected = true;
+        }
       }
     }
     decrementLevels(){
@@ -452,6 +455,11 @@ class LevelSelectScene extends Scene{
           this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
         }
         this.levelIndex = this.selectedButton.value;
+        if(this.selectedButton != this.buttonRow[this.buttonsInRow-1]){
+          this.selectedButton.selected = false;
+          this.selectedButton = this.selectedButton.getNeighbor('right');
+          this.selectedButton.selected = true;
+        }
       }
     }
 }

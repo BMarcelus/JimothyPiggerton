@@ -14,4 +14,9 @@ class ColoredBox extends GUIElement{
     canvas.fillRect(dim[0],dim[1],dim[2],dim[3]);
     canvas.strokeRect(dim[0],dim[1],dim[2],dim[3]);
   }
+  setOptions(interactable,selectable,visible){
+    //Interactable and selectable should never be true
+    //But calling setOptions with 3 parameters like buttons should be possible
+    super.setOptions(false,false,visible);
+  }
 }

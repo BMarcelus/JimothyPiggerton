@@ -68,6 +68,8 @@ function getPercentPoint(e){
   var point = [];
   point.push(e.offsetX/e.path[0].width);
   point.push(e.offsetY/e.path[0].height);
+  point[0] = constrain(point[0],0,1);
+  point[1] = constrain(point[1],0,1);
   return point;
 }
 function moveAllGUI(vx,vy,guiList){
@@ -103,7 +105,7 @@ function getGUIInGroup(n,guiList){
   }
   return result;
 }
-function handleMouseDown(e,buttonList){
+function GUIMouseDown(e,buttonList){
   var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
     if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
@@ -113,7 +115,7 @@ function handleMouseDown(e,buttonList){
     }
   }
 }
-function handleMouseUp(e,buttonList){
+function GUIMouseUp(e,buttonList){
   var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
     if(buttonList[i].contains(percentPoint[0],percentPoint[1])
@@ -125,7 +127,7 @@ function handleMouseUp(e,buttonList){
     }
   }
 }
-function handleMouseMove(self, e, buttonList){
+function GUIMouseMove(self, e, buttonList){
   if(buttonList == undefined)
     return;
   for(var j = 0; j < buttonList.length; j++){

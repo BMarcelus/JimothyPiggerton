@@ -18,7 +18,6 @@ class MenuScene extends Scene{
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
       '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
       '69': { down: sceneTransition(this, LevelEditorSelectScene) },
-      '79': { down: this.toggleDebug.bind(this) },
       '87': { down: this.navigateUI.bind(this,0)},    //W
       '65': { down: this.navigateUI.bind(this,1)},   //D
       '83': { down: this.navigateUI.bind(this,2)},    //S

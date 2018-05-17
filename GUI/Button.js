@@ -22,13 +22,13 @@ class Button extends GUIElement {
   getNeighbor(direction){
     switch(direction){
       case "up":
-        return buttonLinks[0];
+        return this.buttonLinks[0];
       case "right":
-        return buttonLinks[1];
+        return this.buttonLinks[1];
       case "down":
-        return buttonLinks[2];
+        return this.buttonLinks[2];
       case "left":
-        return buttonLinks[3];
+        return this.buttonLinks[3];
       default:
         console.log("getNeighbor()->Expected: [up,right,down,left]");
         console.log("               Received: " + direction);
