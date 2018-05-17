@@ -19,6 +19,16 @@ class Label extends GUIElement{
     canvas.fillStyle = this.textColor;
     canvas.textAlign = this.textAlign;
     canvas.textBaseline='middle';
-    canvas.fillText(this.text,dim[0]+dim[2]/2,dim[1]+dim[3]/2,this.w*canvas.width*.9);
+    switch(this.textAlign){
+      case 'left':
+        canvas.fillText(this.text,dim[0],dim[1]+dim[3]/2,this.w*canvas.width*.9);  
+        break;
+      case 'right':
+        canvas.fillText(this.text,dim[0]+dim[2],dim[1]+dim[3]/2,this.w*canvas.width*.9);  
+        break;
+      case 'center':
+        canvas.fillText(this.text,dim[0]+dim[2]/2,dim[1]+dim[3]/2,this.w*canvas.width*.9);  
+        break;
+    }
   }
 }

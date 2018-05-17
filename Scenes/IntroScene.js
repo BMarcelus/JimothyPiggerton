@@ -115,7 +115,7 @@ class IntroScene extends GameScene{
     this.timeToWait--;
     this.time--;
     if(this.time<=0) {
-      this.driver.setScene(new GameScene());      
+      this.driver.setScene(new LevelIntroScene(new GameScene(),true));
     }
     if(this.time == this.totalTime - 200) {
       this.player.flipped = false;
