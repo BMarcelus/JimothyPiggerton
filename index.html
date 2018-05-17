@@ -115,6 +115,8 @@ function handleGamePad(player) {
         x=0;
         y=0;
       }
+      if(x>0)x=1;
+      if(x<0)x=-1;
       player.mx += x;
       if(y>.8) {
         driver.keydown({keyCode: 83});
