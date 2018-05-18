@@ -126,6 +126,8 @@ class Player extends Mover{
     if(this.wallCollideTimer>0) {
       dy = 10;
       canvas.fillStyle="#c60";
+      canvas.lineWidth = 7;
+      // canvas.fillStyle="#fff";
       width += 5;
     }
     var a = Math.cos(Date.now()/300)*Math.PI/30+Math.PI/20+this.vy/30;
@@ -137,14 +139,21 @@ class Player extends Mover{
     canvas.quadraticCurveTo(-w/2, -width, -w/2-width,-width-dx-dy);
     canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
     // canvas.closePath();
-    canvas.fill();
+    if(this.wallCollideTimer>0) {
+      canvas.strokeStyle = "white";
+      canvas.stroke();
+    }  
+    canvas.fill();    
     canvas.fillStyle = '#a42';    
     canvas.beginPath();
     canvas.moveTo(-w/2, -1);
     canvas.quadraticCurveTo(-w/2-width, -width/2, -w/2-width,-width-dx);
     canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
-    canvas.fill();
-    
+    if(this.wallCollideTimer>0) {
+      canvas.strokeStyle = "white";
+      canvas.stroke();
+    }    
+    canvas.fill();    
     canvas.restore();
     
   }
@@ -186,8 +195,10 @@ class Player extends Mover{
     canvas.save();
     canvas.strokeStyle = "#000";
     canvas.lineWidth=7;
+    if(this.jumpCount<this.maxJumps&&this.jumpCount>0&&!(this.wallJumps&&this.wallCollideTimer>0)) canvas.strokeStyle="white";
     this.drawWings(canvas,w,h,1);    
-    this.drawWings(canvas,w,h);    
+    this.drawWings(canvas,w,h);  
+    canvas.strokeStyle = "#000";      
     canvas.strokeRect(-w/2-1,-h-1,w+2,h+2);
     // canvas.fillStyle = "#73d";
     canvas.fillStyle = "#666";    

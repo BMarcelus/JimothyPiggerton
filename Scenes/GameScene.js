@@ -64,19 +64,19 @@ class GameScene extends Scene {
   }
   addEntity(entity) {
     entity.game = this;
-    if(entity.behind) {
-      this.behinds.push(entity);
-    } else {
-      this.entities.push(entity);
-    }
+    this.entities.push(entity);
   }
   playLevelIntro(){
     this.startTransition(25,-1,undefined);
   }
   playLevelOutro(){
     this.startTransition(25, 1, function() { 
-      this.loadNewLevel(this.levelIndex+1);
-      this.driver.setScene(new LevelIntroScene(this,true));
+      if(this.levelIndex+1 >= this.levels.length) {
+        this.win();
+      } else {
+        this.loadNewLevel(this.levelIndex+1);
+        this.driver.setScene(new LevelIntroScene(this,true));
+      }
     });
   }
   pause() {
@@ -120,7 +120,7 @@ class GameScene extends Scene {
     }
   }
   levelComplete() {
-    if(!this.levelCompleted){
+    if(!this.levelCompleted) {
       this.levelCompleted = true;
       this.playLevelOutro();
     }

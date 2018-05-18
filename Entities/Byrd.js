@@ -6,6 +6,8 @@ class Byrd extends Enemy {
     this.h = 50;
     this.width = this.w;
     this.height = this.h;
+    this.width = this.w;
+    this.height = this.h;
     this.color="black";
     this.jumpPower = 10;
     this.killPlayer = false;

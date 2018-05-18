@@ -75,22 +75,33 @@ class LevelEditorScene extends Scene{
     this.rowCount = 2;
     this.buttonGrid = Array(this.rowLength);
     this.quickSelect = [];
+    this.resetCameraPosition();
     this.addLevelEditorGUI();
   }
   resetCameraPosition() {
-    this.camera.x=0;
-    this.camera.y=0;
+    this.camera.x=this.world.w*this.world.s/2*this.zoom;
+    this.camera.y=this.world.h*this.world.s/2*this.zoom;
   }
   openBlockSelect() {
     this.driver.setScene(new PauseScene(this));
   }
   zoomIn() {
     this.zoom += .1;
-    if(this.zoom>2)this.zoom=2;
+    if(this.zoom>2) {
+      this.zoom=2;
+      return;
+    }
+    this.camera.x += this.world.w*this.world.s*.1/2;
+    this.camera.y += this.world.h*this.world.s*.1/2;
   }
   zoomOut() {
     this.zoom -= .1;
-    if(this.zoom<.1)this.zoom=.1;
+    if(this.zoom<.1) {
+      this.zoom=.1;
+      return;
+    }
+    this.camera.x -= this.world.w*this.world.s*.1/2;    
+    this.camera.y -= this.world.h*this.world.s*.1/2;    
   }
   growi()
   {

@@ -3,6 +3,7 @@ addBlock(function() { return {
     solid: false,
     groundBlock: false,
     ignoreCollisions: true,
+    leaves: true,
     id: BLOCKS.length,
     draw: function(canvas, x,y,w,h, world,i,j) {
       //h*=.5;
@@ -27,18 +28,18 @@ addBlock(function() { return {
       var ye = y;
       if(!world)
         return;
-      if(world.getCell(i,j-1).id!=this.id&&world.getCell(i,j-1).id!=this.id-1) {
+      if(!world.getCell(i,j-1).leaves&&!world.getCell(i,j-1).trunk) {
         he /= 2;
         ye += he;
       }
-      if(world.getCell(i,j+1).id!=this.id) {
+      if(!world.getCell(i,j+1).leaves) {
         he /= 2;
       } 
-      if(world.getCell(i-1,j).id!=this.id&&world.getCell(i-1,j).id!=this.id-1) {
+      if(!world.getCell(i-1,j).leaves&&!world.getCell(i-1,j).trunk) {
         we /= 2;
         xe += we;
       }
-      if(world.getCell(i+1,j).id!=this.id&&world.getCell(i+1,j).id!=this.id-1) {
+      if(!world.getCell(i+1,j).leaves&&!world.getCell(i+1,j).trunk) {
         we /= 2;
       }
 
@@ -63,10 +64,10 @@ addBlock(function() { return {
 
 
         canvas.strokeStyle="#000";
-        if(world.getCell(i+1,j+1).id!=this.id-1) {
+        if(world.getCell(i+1,j+1).trunk) {
           canvas.strokeRect(x+w,y+h-he,0,he);
         }
-        if(world.getCell(i-1,j+1).id!=this.id-1) {
+        if(world.getCell(i-1,j+1).trunk) {
           canvas.strokeRect(x,y+h-he,0,he);
         } 
         */

@@ -3,6 +3,8 @@ class Woof extends Enemy {
     super(x,y);
     this.w = 50;
     this.h = 40;
+    this.width = this.w;
+    this.height = this.h;
     this.jumpPower = 7;
     this.killPlayer = true;
     this.startY= y;
@@ -149,6 +151,7 @@ class Woof extends Enemy {
   toZero()
   {
     this.transition = 0;
+    if(this.mx==0)this.mx = 1-2*this.flipped;
     this.mx = .5 * Math.sign(this.mx);
     this.speed = 3;
     this._angle = 0;

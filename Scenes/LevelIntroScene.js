@@ -11,9 +11,6 @@ class LevelIntroScene extends Scene{
     this.player.mx = 1;
     this.postMoveDuration = 15;
     this.postMoveTimer = 0;
-    for(var i = 0; i < this.nextScene.behinds.length; i++){
-      this.nextScene.entities.unshift(this.nextScene.behinds[i]);
-    }
     this.nextScene.behinds=[];
   }
   update(dt, frameCount){
