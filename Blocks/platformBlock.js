@@ -3,6 +3,7 @@ addBlock(function() { return {
     solid: true,
     groundBlock: false,
     safe: true,
+    platform: true,
     id: BLOCKS.length,
     draw: function(canvas, x,y,w,h, world,i,j) {
       h*=.5;
@@ -36,10 +37,10 @@ addBlock(function() { return {
       // }
       if(!world)
         return;
-      if(world.getCell(i+1,j).id!=this.id) {
+      if(!world.getCell(i+1,j).platform) {
         canvas.strokeRect(x+w,y,0,h);
       }
-      if(world.getCell(i-1,j).id!=this.id) {
+      if(!world.getCell(i-1,j).platform) {
         canvas.strokeRect(x,y,0,h);
       }
     },

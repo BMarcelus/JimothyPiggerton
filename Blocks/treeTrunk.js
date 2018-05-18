@@ -4,6 +4,7 @@ addBlock(function() { return {
     groundBlock: false,
     ignoreCollisions: true,
     id: BLOCKS.length,
+    trunk: true,
     draw: function(canvas, x,y,w,h, world,i,j) {
       //h*=.5;
       var color1 = "#754";
@@ -31,16 +32,16 @@ addBlock(function() { return {
       }
       if(!world)
         return;
-      if(world.getCell(i,j-1).id!=this.id&&world.getCell(i,j-1).id!=this.id+1) {
+      if(!world.getCell(i,j-1).trunk&&world.getCell(i,j-1).id!=this.id+1) {
         canvas.strokeRect(x,y,w,0);
        }
-      if(world.getCell(i,j+1).id!=this.id&&world.getCell(i,j+1).id!=this.id+1) {
+      if(!world.getCell(i,j+1).trunk&&world.getCell(i,j+1).id!=this.id+1) {
         canvas.strokeRect(x,y+h,w,0);
       }
-      if(world.getCell(i+1,j).id!=this.id&&!(world.getCell(i+1,j).id==this.id+1&&world.getCell(i,j+1).id!=this.id)) {
+      if(!world.getCell(i+1,j).trunk&&!(world.getCell(i+1,j).id==this.id+1&&world.getCell(i,j+1).id!=this.id)) {
         canvas.strokeRect(x+w,y,0,h);
       }
-      if(world.getCell(i-1,j).id!=this.id&&!(world.getCell(i-1,j).id==this.id+1&&world.getCell(i,j+1).id!=this.id)) {
+      if(!world.getCell(i-1,j).trunk&&!(world.getCell(i-1,j).id==this.id+1&&world.getCell(i,j+1).id!=this.id)) {
         canvas.strokeRect(x,y,0,h);
       }
     },

@@ -24,4 +24,5 @@ loadSequentially('Blocks/',
   "pigBlock.js",
   "treeApple.js",
   "collectableBlock.js",
+  "trunkBranch.js",
 ]);
