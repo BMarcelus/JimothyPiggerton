@@ -3,6 +3,16 @@ class OptionScene extends Scene{
     super(playLevelIntro);
     this.keyMap = {
       '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '83': { down: this.navigateUI.bind(this,2)},    //S
+      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '38': { down: this.navigateUI.bind(this,0)},  //up
+      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '40': { down: this.navigateUI.bind(this,2)},   //down
+      '37': { down: this.navigateUI.bind(this,3)},   //left
     }
     this.background = new InfiniteBackground();
    

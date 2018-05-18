@@ -199,19 +199,19 @@ class Scene {
     this.updateMousePosition(e);
     if(!this.allowUIInput)
       return;
-    handleMouseDown(e,this.buttons);
+    GUIMouseDown(e,this.buttons);
   }
   mouseup(e, mouse) {
     this.updateMousePosition(e);
     if(!this.allowUIInput)
       return;
-    handleMouseUp(e,this.buttons);
+    GUIMouseUp(e,this.buttons);
   }
   mousemove(e, mouse) {
     this.updateMousePosition(e);
     if(!this.allowUIInput)
       return;
-    handleMouseMove(this,e,this.buttons);
+    GUIMouseMove(this,e,this.buttons);
   }
   updateMousePosition(e){
     var percentPoint = getPercentPoint(e);

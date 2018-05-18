@@ -24,4 +24,9 @@ class ColorLerpBox extends GUIElement{
     canvas.fillStyle = makeColorStr(fillColor);
     canvas.fillRect(this.x*canvas.width,this.y*canvas.height,this.w*canvas.width,this.h*canvas.height);
   }
+  setOptions(interactable,selectable,visible){
+    //Interactable and selectable should never be true
+    //But calling setOptions with 3 parameters like buttons should be possible
+    super.setOptions(false,false,visible);
+  }
 }
