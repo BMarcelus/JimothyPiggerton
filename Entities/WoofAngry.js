@@ -119,13 +119,13 @@ class Woof extends Enemy {
       });
   }
 
-  playerCollision(player) {
-		if(player.y < this.y) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+  // playerCollision(player) {
+	// 	if(player.y < this.y) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// }
 
 
   onHitPlayer(player) {
@@ -139,7 +139,7 @@ class Woof extends Enemy {
 
   getHitByEntity(player) {
 		player.bounceOffEntity(this);
-    player.y -= 20;
+    // player.y -= 20;
     this.width+=20;
     this.height-=10;
     this.movementStun += 10;

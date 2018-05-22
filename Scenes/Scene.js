@@ -86,6 +86,11 @@ class Scene {
   }
   
   draw(canvas){}
+  unload() {
+    for(var i in this.keyMap) {
+      this.keyMap[i].keyHeld = false;
+    }
+  }
   keydown(k) {
     var keyMap = this.keyMap;   
     var map = this.keyMap[k];

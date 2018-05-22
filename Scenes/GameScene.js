@@ -8,6 +8,7 @@ class GameScene extends Scene {
     this.behinds=[];    
     this.addEntity(this.player);    
     var p1controls = connectControls(Player.controls, this.player);
+    this.p1controls = p1controls;
     this.gamePadOn = true;
     this.keyMap = {
       68: p1controls.right,

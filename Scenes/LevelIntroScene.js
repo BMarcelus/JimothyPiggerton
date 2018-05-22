@@ -6,6 +6,9 @@ class LevelIntroScene extends Scene{
     this.player = this.nextScene.player;
     this.originalPlayer = {x:this.player.x,y:this.player.y};
     this.player.x = -50;
+    this.player.uncrouch();
+    this.player.width = this.player.w;
+    this.player.height = this.player.h;
     this.player.y = this.originalPlayer.y;
     this.player.vx = this.player.speed/3;
     this.player.mx = 1;

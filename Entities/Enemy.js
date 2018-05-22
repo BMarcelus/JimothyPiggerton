@@ -9,11 +9,12 @@ class Enemy extends Mover {
 		this.speed = 3;
 		this.groundAccel = 5;
 		this.mx = 1;
-		this.killPlayer = true;
+    this.killPlayer = true;
+    this.isColliding = false;
 	}
 		 
 	playerCollision(player) {
-		if(player.vy > 0) {
+		if(player.vy > 0 && player.y<this.y) {
 			return true;
 		} else {
 			return false;
@@ -39,13 +40,18 @@ class Enemy extends Mover {
 		var enemyBox = this.getHitBox();	// Perforamnce effeciency issue
 		var playerBox = this.game.player.getHitBox();
 		if(rectangleCollision(enemyBox, playerBox) == true) {
-			if(this.playerCollision(this.game.player) == true) {
-				 this.getHitByEntity(this.game.player);
-			} else {
-				this.onHitPlayer(this.game.player);
-				this.game.player.getHitByEntity(this);
-			}
-		}
+      if(!this.isColliding) {
+        if(this.playerCollision(this.game.player) == true) {
+          this.getHitByEntity(this.game.player);
+          this.isColliding = true;
+        } else {
+          this.onHitPlayer(this.game.player);
+          this.game.player.getHitByEntity(this);
+        }
+      }
+		} else {
+      this.isColliding = false;
+    }
 	}       
 	draw(canvas) {
     super.draw(canvas);
