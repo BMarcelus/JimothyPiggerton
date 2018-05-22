@@ -1,12 +1,7 @@
 class MenuScene extends Scene{
   constructor(playIntro) {
     super(playIntro);
-    //I need a better way to do this
-    // MAINMENU = 0;
-    // OPTIONS = 1;
-    // CREDITS = 2;
-    // LEVELSELECT = 3;
-
+    
     //up    - 0
     //right - 1
     //down  - 2
