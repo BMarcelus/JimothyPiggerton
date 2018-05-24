@@ -30,6 +30,8 @@ addBlock(function() { return {
         canvas.fillStyle=color1;
         canvas.fillRect(x,y,w,h);
         canvas.strokeStyle="#000";
+        canvas.lineWidth = 1;
+        // console.log(canvas.lineWidth);
         var s = Math.max(w,h);
         // canvas.strokeRect(x,y,w,h);
         canvas.fillStyle=color2;
