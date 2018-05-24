@@ -140,8 +140,8 @@ class Player extends Mover{
     canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
     // canvas.closePath();
     if(this.wallCollideTimer>0) {
-      canvas.strokeStyle = "white";
-      canvas.stroke();
+      // canvas.strokeStyle = "white";
+      // canvas.stroke();
     }  
     canvas.fill();    
     canvas.fillStyle = '#a42';    
@@ -150,8 +150,8 @@ class Player extends Mover{
     canvas.quadraticCurveTo(-w/2-width, -width/2, -w/2-width,-width-dx);
     canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
     if(this.wallCollideTimer>0) {
-      canvas.strokeStyle = "white";
-      canvas.stroke();
+      // canvas.strokeStyle = "white";
+      // canvas.stroke();
     }    
     canvas.fill();    
     canvas.restore();
@@ -195,7 +195,9 @@ class Player extends Mover{
     canvas.save();
     canvas.strokeStyle = "#000";
     canvas.lineWidth=7;
-    if(this.jumpCount<this.maxJumps&&this.jumpCount>0&&!(this.wallJumps&&this.wallCollideTimer>0)) canvas.strokeStyle="white";
+    if(this.jumpCount<this.maxJumps&&this.jumpCount>0&&!(this.wallJumps&&this.wallCollideTimer>0)) {
+      // canvas.strokeStyle="white";
+    }
     this.drawWings(canvas,w,h,1);    
     this.drawWings(canvas,w,h);  
     canvas.strokeStyle = "#000";      

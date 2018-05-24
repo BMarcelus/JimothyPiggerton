@@ -6,7 +6,7 @@ class GameScene extends Scene {
     this.player = new Player();
     this.entities = [];
     this.behinds=[];    
-    this.addEntity(this.player);    
+    this.addEntity(this.player);
     var p1controls = connectControls(Player.controls, this.player);
     this.p1controls = p1controls;
     this.gamePadOn = true;
@@ -222,16 +222,17 @@ class GameScene extends Scene {
     canvas.clearRect(0,0,canvas.width,canvas.height);
     this.doScreenShake(canvas);    
     
+    
     // canvas.translate(-canvas.width/2,-canvas.height/2);      
+
+    // canvas.translate(canvas.width/2,canvas.height/2);  
+  
+    canvas.save();
     this.world.drawBackground(canvas, this.camera);    
     if(this.shouldFillAroundWorld) {
       this.fillAroundWorld(canvas);
     }
-    // canvas.translate(canvas.width/2,canvas.height/2);  
-  
-    canvas.save();
     canvas.translate(canvas.width/2,canvas.height/2);  
-    // canvas.scale(.5,.5);  
     canvas.rotate(camera.r);
     
     canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
