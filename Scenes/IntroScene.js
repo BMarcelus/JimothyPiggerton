@@ -107,6 +107,12 @@ class IntroScene extends GameScene{
     if(camera.y>world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h)camera.y = world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h;
     if(camera.y<canvas.height/2-canvas.height*this.upperLetterBox.h)camera.y = canvas.height/2-canvas.height*this.upperLetterBox.h;  
   }
+  followPlayer(){
+    this.moveCamera();
+  }
+  constrainCamera(x,y,w,h){
+    
+  }
   update(dt, frameCount) {
     super.update(dt,frameCount);
     if(this.timeToWait<=0) {
