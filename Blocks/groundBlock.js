@@ -5,7 +5,7 @@ addBlock(function() { return {
       solid: true,
       groundBlock: true,
       safe: true,
-      redraws: true,
+      // redraws: true,
       draw: function(canvas, x,y,w,h, world,i,j) {
         this.drawTypes[0](canvas,x,y,w,h,world,i,j);
       },
