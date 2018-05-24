@@ -277,4 +277,5 @@ class GameScene extends Scene {
     var playerBox = this.player.getHitBox();
 		return rectangleCollision(h1, playerBox);
   }
+  
 }
