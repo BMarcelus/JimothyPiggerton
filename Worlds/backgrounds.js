@@ -1,9 +1,9 @@
 class Background {
   constructor(type) {
     this.type = type;    
+    this.backgroundColor = "#87ceeb";    
     this.background1 = this.createBackground(60, "#0b6623", true);
     this.background2 = this.createBackground(100, "#0b6623", false);
-    this.backgroundColor = "#87ceeb";
     // this.backgroundColor = "#333";
   }
   draw(canvas, camera, world) {
@@ -29,6 +29,10 @@ class Background {
         break;
       case 1:
         return createForrestBackground(w,c,e);
+        break;
+      case 2:
+        this.backgroundColor = '#333';
+        return createSpikeBackground(w,'#111',e);
         break;
       default:
         return createHillBackground(w,c,e);

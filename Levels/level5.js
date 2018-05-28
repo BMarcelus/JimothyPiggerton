@@ -3,6 +3,7 @@ addLevel( function(nameSpace) {
     
     return {
       name: "double jump and wall jump",
+      worldType: 2,
       modifyPlayer: function(player) {PLAYER_ABILITIES[2](player); PLAYER_ABILITIES[1](player);},
       grid: [
           [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],

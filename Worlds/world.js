@@ -40,6 +40,7 @@ function randomizeWorld(world, width,height) {
 }
 class World {
   constructor(bgtype) {
+    this.worldtype = bgtype;
     this.background = new Background(bgtype);    
   }
   forceRedraw() {
@@ -200,7 +201,9 @@ class WorldDefault extends World {
 class WorldFromLevel extends World {
   constructor(level, index) {
     var backgroundType = 0;
-    if(index>2) backgroundType=1;
+    // if(index>2) backgroundType=1;
+    // if(index>3)backgroundType=2;
+    if(level.worldType) backgroundType = level.worldType;
     super(backgroundType);
     this.s = 40;
     var grid = level.grid;
