@@ -36,7 +36,8 @@ class GameScene extends Scene {
         }
       }.bind(this)},
     }
-    this.camera = {x:0,y:0,dx:0,dy:0};
+    this.camera = {x:0,y:0,dx:0,dy:0,speed:10};
+    
     // this.world = new World(200,50,50);
 
     this.inTransition = false;
@@ -61,7 +62,7 @@ class GameScene extends Scene {
     this.screenShakeLevel=0;
     this.deaths = 0;
     
-    this.moveCamera();
+    this.constrainCamera();
   }
   addEntity(entity) {
     entity.game = this;
@@ -83,7 +84,26 @@ class GameScene extends Scene {
   pause() {
     this.driver.setScene(new PauseScene(this));
   }
-  moveCamera() {
+  moveCamera(targetX,targetY) {
+    var target = {x:targetX,y:targetY};
+    var camera = this.camera;
+    var a = target.y-camera.y;
+    a = a*a;
+    var b = target.x-camera.x;
+    b = b*b;
+    var distance = Math.sqrt(a+b);
+    if(camera.speed >= distance){
+      camera.x = targetX;
+      camera.y = targetY;
+    }
+    var directionToPoint = Math.atan2(target.y-camera.y,target.x-camera.x);
+    var displace = circleMove(directionToPoint,camera.speed);
+    camera.x += circleMoveX(directionToPoint,camera.speed);
+    camera.y += circleMoveY(directionToPoint,camera.speed);
+
+    this.constrainCamera();
+  }
+  followPlayer(){
     var camera = this.camera;
     var player = this.player;
     var canvas = this.canvas;
@@ -108,13 +128,23 @@ class GameScene extends Scene {
     if(player.mx!=0) {
       // camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
     }
-    if(!canvas)return;
-    var world1 = this.world;
-    if(camera.x<canvas.width/2)camera.x = canvas.width/2;
-    if(camera.x>world1.w*world1.s-canvas.width/2) camera.x = world1.w*world1.s-canvas.width/2;
-    if(camera.y>world1.h*world1.s-canvas.height/2)camera.y = world1.h*world1.s-canvas.height/2;
-    if(camera.y<canvas.height/2)camera.y = canvas.height/2;    
+    this.constrainCamera();
   }
+  constrainCamera(x,y,w,h){
+    var camera = this.camera;
+    var canvas = this.canvas;
+    if(!canvas)return;
+      var world1 = this.world;
+    if(x == undefined || y == undefined || w == undefined || h == undefined){
+      camera.x = constrain(camera.x,canvas.width/2,world1.w*world1.s-canvas.width/2);
+      camera.y = constrain(camera.y,canvas.height/2,world1.h*world1.s-canvas.height/2);
+    } else {
+      camera.x = constrain(camera.x,x+canvas.width/2,x+w-canvas.width/2);
+      camera.y = constrain(camera.y,y+canvas.width/2,y+h-canvas.width/2);
+      this.constrainCamera();
+    }
+  }
+
   detectLevelComplete() {
     if(this.player.x/this.world.s >= this.world.w-2&&this.player.grounded) {
       this.loadNewLevel(this.levelIndex+1);
@@ -162,7 +192,8 @@ class GameScene extends Scene {
     this.level=level;
     this.camera.x=this.player.x;
     this.camera.y=this.player.y;
-    this.moveCamera();
+    this.constrainCamera();
+
     if(!this.dontSpawnPig)
       this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
     // this.addEntity(new Enemy(300,100));  
@@ -208,7 +239,10 @@ class GameScene extends Scene {
     // this.entities = this.entities.sort(function(a,b) {
     //   return -b.behind;
     // })
-    this.moveCamera();
+    this.followPlayer();
+
+    
+
     // this.detectLevelComplete();
     this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);
     // this.screenShakeLevel -= this.screenShakeLevel/10;
@@ -216,7 +250,7 @@ class GameScene extends Scene {
   draw(canvas) {
     if(!this.canvas) {
       this.canvas = canvas;
-      this.moveCamera();
+      this.constrainCamera();
     }
     var camera = this.camera;
     canvas.clearRect(0,0,canvas.width,canvas.height);
@@ -232,6 +266,7 @@ class GameScene extends Scene {
     if(this.shouldFillAroundWorld) {
       this.fillAroundWorld(canvas);
     }
+
     canvas.translate(canvas.width/2,canvas.height/2);  
     canvas.rotate(camera.r);
     
@@ -248,6 +283,7 @@ class GameScene extends Scene {
       canvas.fillText(this.level.name, 200, canvas.height-30);
     }
     drawTransitionOverlay(this.overlayColor,canvas);
+    
   }
 
   fillAroundWorld(canvas) {
