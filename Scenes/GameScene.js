@@ -72,6 +72,7 @@ class GameScene extends Scene {
     this.startTransition(25,-1,undefined);
   }
   playLevelOutro(){
+    if(this.pig)
     this.driver.setScene(new LevelCompleteScene(this, () => {
       // this.startTransition(25, 1, function() { 
         if(this.levelIndex+1 >= this.levels.length) {
@@ -82,6 +83,16 @@ class GameScene extends Scene {
         }
       // });
     }));
+    else {
+       this.startTransition(25, 1, function() { 
+        if(this.levelIndex+1 >= this.levels.length) {
+          this.win();
+        } else {
+          this.loadNewLevel(this.levelIndex+1);
+          this.driver.setScene(new LevelIntroScene(this,true));
+        }
+      });
+    }
   }
   pause() {
     this.driver.setScene(new PauseScene(this));

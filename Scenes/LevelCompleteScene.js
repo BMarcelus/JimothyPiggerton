@@ -57,8 +57,8 @@ class LevelCompleteScene extends Scene{
       e.update(dt,frameCount)
     });
     this.time += 1;
-    this.midPoint.y -= 1;
     this.midPoint.x += (this.camera.x - this.midPoint.x)*t*t;
+    this.midPoint.y += (this.camera.y - this.midPoint.y)*t*t;
     // this.midPoint.x += ;
     var angle = t*t * Math.PI*4 + Math.PI;
     // var rw = 20+t*100 - (2-t*t)*100;
