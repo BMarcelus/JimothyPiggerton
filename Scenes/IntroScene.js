@@ -59,12 +59,7 @@ class IntroScene extends GameScene{
       this.butcher.speed = 3.9;
     });
     this.makeLetterBox();
-    this.gen = this.test();
     this.timeToWait=0;
-  }
-  *test() {
-    yield 0;
-    return 0;
   }
   makeLetterBox(){
     var upperBoxHeight = 0.2;
@@ -115,9 +110,6 @@ class IntroScene extends GameScene{
   }
   update(dt, frameCount) {
     super.update(dt,frameCount);
-    if(this.timeToWait<=0) {
-      this.timeToWait = this.gen.next().value;
-    }
     this.timeToWait--;
     this.time--;
     if(this.time<=0) {
