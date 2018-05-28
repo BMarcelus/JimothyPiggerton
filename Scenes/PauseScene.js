@@ -18,7 +18,7 @@ class PauseScene extends Scene {
 
       '78': {down: function() {
         if(this.keys[67]) {
-          this.goToLevelEditor(prevScene.levelIndex);
+          this.goToLevelEditor(prevScene.levelIndex+1);
         }
       }.bind(this)},
     }

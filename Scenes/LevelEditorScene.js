@@ -22,6 +22,8 @@ class LevelEditorScene extends Scene{
     else {
       this.world = new WorldDefault(48, 24);      
       grid = this.load();
+      this.world.h = grid.length;
+      this.world.w = grid[0].length;
     }
     if(grid) {
       this.world.world = grid;
@@ -120,6 +122,10 @@ class LevelEditorScene extends Scene{
     }
     this.grid.push(newrow);
     this.world.h++;
+  }
+  shrinkj() {
+    this.grid.splice(this.grid.length-1,1);
+    this.world.h--;    
   }
   backToSelect()
   {

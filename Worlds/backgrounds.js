@@ -4,6 +4,7 @@ class Background {
     this.background1 = this.createBackground(60, "#0b6623", true);
     this.background2 = this.createBackground(100, "#0b6623", false);
     this.backgroundColor = "#87ceeb";
+    // this.backgroundColor = "#333";
   }
   draw(canvas, camera, world) {
     this.drawLayers(canvas, camera, world);
@@ -21,7 +22,7 @@ class Background {
     canvas.drawImage(this.background2,-150,-100); 
     canvas.restore();
   }
-  createBackground(w,c, e) {
+  createBackground(w,c,e) {
     switch(this.type) {
       case 0:
         return createHillBackground(w,c,e);
@@ -277,12 +278,39 @@ function createForrestBackground(w,c,e) {
   return image;
 }
 
+function createInterriorBackground(w,c,e) {
+  var image = document.createElement('canvas');
+  var canvas = image.getContext('2d');
+  image.width = 3000;
+  image.height =  800;
+  canvas.fillStyle = "#333";
+  canvas.fillRect(0,0,image.width,image.height);
+  canvas.save();
+  canvas.fillStyle="#fff";
+  // canvas.globalCompositeOperation = "destination-out";
+  var ww = image.width/50;
+  var hh = ww;
+  for(var i=ww;i<image.width;i+=ww*2) {
+    for(var j=1;j<10;j+=1) {
+      canvas.fillRect(i,j*hh*2,ww,hh);
+    }
+  }
+  canvas.restore();
+  if(e) {
+    canvas.globalCompositeOperation="source-atop";
+    canvas.fillStyle="rgba(1,1,1,.1)";
+    canvas.fillRect(0,0,image.width,image.height);
+  }
+  return image;
+}
+
 function createSpikeBackground(w,c) {
   var image = document.createElement('canvas');
   var canvas = image.getContext('2d');
   image.width = 3000;
   image.height =  1000;
   canvas.fillStyle = c;
+  // canvas.fillStyle = "#000";
   var y = 500;
   for(var i=0;i<image.width;i+=w) {
     var ww = w/3;

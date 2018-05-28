@@ -104,9 +104,10 @@ addBlock(function() { return {
         canvas.fillRect(x,y,w,h)
       },
       2: function(canvas, x,y,w,h, world,i,j) {
-        var color1 = "#0f0";
-        var color2 = "#00f";
-        var color3 = "#f00";
+        var color1 = "#666";
+        // var color2 = "rgba(150,150,150,.5)";
+        var color2 = '#777';
+        var color3 = "#aaa";
         var ri = Math.floor(i*i/2+i)
         // var color1 = "#7c4a0c";
         // var color2 = "#965c15";
@@ -119,16 +120,19 @@ addBlock(function() { return {
         var s = Math.max(w,h);
         // canvas.strokeRect(x,y,w,h);
         canvas.fillStyle=color2;
-        var ww = s/3;
+        var ww = s/2;
         var hh = ww;
         var spacing = 10;
-        for(var ii=0;ii<3;ii++) {
-          var r1 = psuedoRandom(x,y,ii,1);
-          var r2 = psuedoRandom(x,y,ii,2);
-          var xx = Math.floor(r1*(w-ww)/spacing) * spacing;
-          var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
-          canvas.fillRect(xx+x,yy+y,ww,hh);
-        }
+        // canvas.save();
+        // canvas.globalCompositeOperation='lighten';
+        // for(var ii=0;ii<3;ii++) {
+        //   var r1 = psuedoRandom(x,y,ii,1);
+        //   var r2 = psuedoRandom(x,y,ii,2);
+        //   var xx = Math.floor(r1*(w-ww)/spacing) * spacing;
+        //   var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
+        //   canvas.fillRect(xx+x,yy+y,ww,hh);
+        // }
+        // canvas.restore();
         if(!world)
           return;
         if(!world.getCell(i,j-1).groundBlock) {
