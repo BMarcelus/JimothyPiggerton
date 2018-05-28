@@ -72,14 +72,16 @@ class GameScene extends Scene {
     this.startTransition(25,-1,undefined);
   }
   playLevelOutro(){
-    this.startTransition(25, 1, function() { 
-      if(this.levelIndex+1 >= this.levels.length) {
-        this.win();
-      } else {
-        this.loadNewLevel(this.levelIndex+1);
-        this.driver.setScene(new LevelIntroScene(this,true));
-      }
-    });
+    this.driver.setScene(new LevelCompleteScene(this, () => {
+      // this.startTransition(25, 1, function() { 
+        if(this.levelIndex+1 >= this.levels.length) {
+          this.win();
+        } else {
+          this.loadNewLevel(this.levelIndex+1);
+          this.driver.setScene(new LevelIntroScene(this,true));
+        }
+      // });
+    }));
   }
   pause() {
     this.driver.setScene(new PauseScene(this));
@@ -194,8 +196,10 @@ class GameScene extends Scene {
     this.camera.y=this.player.y;
     this.constrainCamera();
 
-    if(!this.dontSpawnPig)
-      this.addEntity(new Pig(this.world.w*this.world.s-200,100));   
+    if(!this.dontSpawnPig) {
+      this.pig = new Pig(this.world.w*this.world.s-200,100);
+      this.addEntity(this.pig);
+    }
     // this.addEntity(new Enemy(300,100));  
     this.playLevelIntro();
     this.levelCompleted = false;
@@ -244,8 +248,11 @@ class GameScene extends Scene {
     
 
     // this.detectLevelComplete();
-    this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);
+    this.updateScreenShakeLevel();
     // this.screenShakeLevel -= this.screenShakeLevel/10;
+  }
+  updateScreenShakeLevel() {
+    this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);    
   }
   draw(canvas) {
     if(!this.canvas) {

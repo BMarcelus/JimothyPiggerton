@@ -75,9 +75,11 @@ class Mover {
     this.safeMove(this.vx*dt,this.vy*dt + this.grav * dt * dt /2);
     // staticWorldCollide(this);
     // safeMoveOnWorld(this,this.vx,this.vy);
-    var maxHeight = this.game.world.h*this.game.world.s+200;
-    if(this.y > maxHeight) {
-      this.groundCollide(maxHeight);
+    if(!this.ghostOn) {
+      var maxHeight = this.game.world.h*this.game.world.s+200;
+      if(this.y > maxHeight) {
+        this.groundCollide(maxHeight);
+      }
     }
     if(this.wallCollideTimer>0)this.wallCollideTimer-=1;
     if(this.vy>0) {
@@ -135,6 +137,11 @@ class Mover {
     }
   }
   safeMove(vx,vy) {
+    if(this.ghostOn) {
+      this.x += vx;
+      this.y += vy;
+      return;
+    }
     var world = this.game.world;
     var w = this.w;
     var h = this.h;
