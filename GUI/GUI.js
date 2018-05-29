@@ -48,8 +48,8 @@ function colorLerp(color1,color2,percent){
   return result;
 }
 function makeColorStr(colorArray){
-  return 'rgba('+colorArray[0]+','+colorArray[1]+','
-    +colorArray[2]+','+colorArray[3]+')';
+  return 'rgba('+Math.floor(colorArray[0])+','+Math.floor(colorArray[1])+','
+    +Math.floor(colorArray[2])+','+colorArray[3]+')';
 }
 function rectDimFromCenter(x,y,width,height){
   var result = [];
