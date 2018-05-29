@@ -126,6 +126,7 @@ class LevelCompleteScene extends Scene{
     this.prevScene.draw(canvas);
     canvas.restore();
     this.drawWithCamera(canvas);
+    drawTransitionOverlay(this.overlayColor,canvas);    
   }
   drawWithCamera(canvas) {
     var camera = this.prevScene.camera;
@@ -140,12 +141,14 @@ class LevelCompleteScene extends Scene{
     canvas.restore();
   }
   loadNextScene(){
-    this.update = super.update;    
-    this.startTransition(25, 1, function() {     
-      this.player.ghostOn = false;
-      this.pig.ghostOn = false;
-      this.driver.setScene(this.prevScene);
-      this.callback();
-    });
+    this.update = super.update;
+    setTimeout(() => {
+      this.startTransition(20, 1, function() {     
+        this.player.ghostOn = false;
+        this.pig.ghostOn = false;
+        this.driver.setScene(this.prevScene);
+        this.callback();
+      });
+    }, 300)
   }
 }

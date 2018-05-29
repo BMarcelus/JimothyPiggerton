@@ -22,7 +22,7 @@ class OptionScene extends Scene{
   update(dt){
     this.camera.x += 3;
     super.update(dt);
-    this.volumeLabel.text = ""+Math.floor(this.volumeSlider.value*100);
+    this.volumeLabel.text = "Volume: "+Math.floor(this.volumeSlider.value*100);
   }
   draw(canvas){
     this.background.drawLayers(canvas, this.camera);
@@ -36,9 +36,9 @@ class OptionScene extends Scene{
     this.volumeSlider.onHold = this.setVolume.bind(this,this.volumeSlider);
     this.gui.push(this.volumeSlider);
 
-    dim = rectDimFromCenter(.5,.35,.1,.1);
-    this.volumeLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      this.volumeSlider.value,'60px Noteworthy','white','center');
+    dim = rectDimFromCenter(0,.4,.25,.1);
+    this.volumeLabel = new Label(.4,dim[1],dim[2],dim[3],0,
+      this.volumeSlider.value,'35px Noteworthy','white','left');
     this.gui.push(this.volumeLabel);
 
     dim = rectDimFromCenter(.8,.9,.2,.1);
@@ -48,6 +48,11 @@ class OptionScene extends Scene{
     this.selectedButton = backButton;
     backButton.selected = true;
 
+    dim = rectDimFromCenter(.5,.15,.4,.2);
+    var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px Noteworthy','white','center');
+    this.gui.push(optionsLabel);
+
+    
     this.buttons = getButtons(this.gui);
   }
   goToMainMenu(){

@@ -13,6 +13,7 @@ class Powerup {
     this.startY = this.y;
     this.reset = this.reset.bind(this);
     this.on = true;
+    this.offset=0;
   }
   update(dt, frameCount) {
     if(!this.on)return;
@@ -22,11 +23,25 @@ class Powerup {
 		if(rectangleCollision(myBox, playerBox) == true) {
       this.die();
       this.onHitPlayer(player);
-		}
+    }
+    if(this.on) {
+      this.offset = Math.cos(frameCount*Math.PI/20)*2;
+    } else {
+      this.offset=0;
+    }
   }
   draw(canvas) {
+    canvas.save();
+    if(!this.on)canvas.globalAlpha = 0.5;
+    canvas.translate(this.x,this.y);
+    // canvas.translate(-this.w/2,-this.h/2);
+    canvas.translate(0,this.offset);
+    this.drawShape(canvas,this.w,this.h);
+    canvas.restore();
+  }
+  drawShape(canvas,w,h) {
     canvas.fillStyle = this.color;
-    canvas.fillRect(this.x-this.w/2, this.y-this.h, this.w, this.h);
+    canvas.fillRect(-w/2, -h, w, h);
   }
 
   onHitPlayer(player) {

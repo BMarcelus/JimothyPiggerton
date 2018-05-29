@@ -1,7 +1,7 @@
 
 class Pig extends Mover {
   constructor(x,y) {
-    x+=70;
+    // x+=70;
     super(x,y);
     this.color = "pink";
     // this.w = 27;
@@ -43,7 +43,9 @@ class Pig extends Mover {
     super.update(dt, frameCount);
     if(rectangleCollision(this.getHitBox(), this.game.player.getHitBox()) == true) {
 			this.playerCollision();
-		}
+    }
+    if(this.animationState == 0)
+    this.flipped = this.game.player.x < this.x;
   }
 
   playerCollision()

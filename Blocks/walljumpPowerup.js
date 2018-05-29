@@ -5,12 +5,12 @@ addBlock(function() { return {
   hide: true,
   ignoreCollisions: true,
   draw: drawEntity,
-  drawer: new doubleJump(),
+  drawer: new wallJump(),
   //entityCollision: function(entity, pos, dx, dy, cellPos) {
  //   entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
 //    entity.game.world.forceRedraw();
   //},
   onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new wallJump(x + width/2,y + height));
+    game.addEntity(new wallJump(x + width/2,y));
   },
 }});

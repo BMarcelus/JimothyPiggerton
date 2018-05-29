@@ -68,6 +68,11 @@ class GameScene extends Scene {
     entity.game = this;
     this.entities.push(entity);
   }
+  collidesWithPlayer(entity) {
+		var entityBox = entity.getHitBox();
+		var playerBox = this.player.getHitBox();
+		return rectangleCollision(entityBox, playerBox);
+  }
   playLevelIntro(){
     this.startTransition(25,-1,undefined);
   }
