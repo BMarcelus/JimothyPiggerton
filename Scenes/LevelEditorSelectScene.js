@@ -34,9 +34,12 @@ class LevelEditorSelectScene extends LevelSelectScene{
       super.loadGameLevel();
       return;
     }
-    if (index == 24)
-      index = -1;
-    var scene = new LevelEditorScene(index);
+    var absoluteLevelIndex = index;
+    for(var i = 0; i < this.worldSelected; i++){
+      absoluteLevelIndex += this.levelsInWorld[i];
+    } 
+    
+    var scene = new LevelEditorScene(absoluteLevelIndex);
     this.driver.setScene(scene);
   }
 }
