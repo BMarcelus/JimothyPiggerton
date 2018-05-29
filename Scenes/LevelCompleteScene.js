@@ -30,7 +30,7 @@ class LevelCompleteScene extends Scene{
   }
   update0(dt,frameCount) {
     super.update(dt,frameCount);
-    if(this.player.grounded) {
+    if(this.player.grounded||true) {
       this.update = this.update1;
       this.player.ghostOn = true;
       this.pig.ghostOn = true;

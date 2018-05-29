@@ -11,6 +11,8 @@ class PigBeginning extends Pig {
     this.ysight = 100;
     this.transition = 1;
     this.animationState = 2;
+    this.speed = 3;
+    this.groundAccel = 1;
   }
   update(dt, frameCount) 
   {  
