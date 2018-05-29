@@ -12,6 +12,7 @@ class Player extends Mover{
     this.color1 = "#666";
     this.color2 = "#222";
     this.jumpSoundType = SOUNDMAP.jump;
+    this.bouncedOffEntity = false;
   }
   die() {
     if(this.dead)return;
@@ -273,9 +274,13 @@ class Player extends Mover{
     // var jr = this.jumpRelease;
     var d = (amt || amt==0) ? amt : 20;
     this.jump(d);
+    this.bouncedOffEntity = true;
     // this.jumpRelease=jr;
   }
-
+  groundCollide(y, animationless) {
+    super.groundCollide(y,animationless);
+    this.bouncedOffEntity = false;
+  }  
   getHitByEntity(enemy) {
     if (enemy.killPlayer)
       this.die();
@@ -288,7 +293,7 @@ Player.controls = {
   left: {down: function() {if (this.crouching) this.dash(-1);}, held: function() { this.mx -= 1; }},
   up: {
     down: function() { if(!this.dead)this.jump(); },
-    up: function() { if(!this.dead){this.shortJump(); this.eyeMovement.ty = 0;} },
+    up: function() { if(!this.dead && !this.bouncedOffEntity){this.shortJump(); this.eyeMovement.ty = 0;} },
     held: function() { this.eyeMovement.ty = - 6; this.height += .5; this.width -= .5},
   },
   down: {down: function() { this.crouch(); }, noneheld: function() { this.uncrouch(); }},
