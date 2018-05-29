@@ -1,7 +1,7 @@
 
 class Pig extends Mover {
   constructor(x,y) {
-    x+=70;
+    // x+=70;
     super(x,y);
     this.color = "pink";
     // this.w = 27;

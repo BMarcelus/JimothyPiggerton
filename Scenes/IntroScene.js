@@ -38,7 +38,7 @@ class IntroScene extends GameScene{
     this.gamePadOn = false;
     // this.player.x = 500;
     this.player.flipped = true;
-    this.pig = new Pig(this.player.x+30, this.player.y);
+    this.pig = new Pig(this.player.x+100, this.player.y);
     this.pig.speed=0;
     this.butcher = new Butcher(this.player.x+600, this.player.y);
     this.addEntity(this.butcher);

@@ -9,6 +9,48 @@ class doubleJump extends Powerup {
     this.mx = 0;
     this.my = 0;
     this.power = 2;
+    this.color1= "#000";
+    this.angle = Math.PI/4;
+    this.offset = 0;
   }
-
+  update(dt,frameCount) {
+    super.update(dt,frameCount);
+    // this.angle = Math.cos(frameCount*Math.PI/20)*Math.PI/10;
+    if(this.on) {
+      this.offset = Math.cos(frameCount*Math.PI/20)*2;
+    } else {
+      this.offset=0;
+    }
+  }
+  drawShape(canvas,w,h) {
+    canvas.strokeStyle = '#fff';
+    canvas.lineWidth = 7;
+    w=w*2;
+    this.drawWings(canvas,w,h,1);
+    this.drawWings(canvas,w,h);
+  }
+  pathWingAtAngle(canvas, x,y,w,h, px,py, angle) {
+    var d = w/3;
+    canvas.save();
+    canvas.translate(x+px, y+py);
+    canvas.rotate(angle);
+    canvas.rect(-px,-py-10,w,h);
+    canvas.rect(-px*.8-d,-py,w*.8+d,h);
+    canvas.rect(-px*.5,-py+5,w*.5,h);
+    canvas.restore();
+  }
+  drawWings(canvas, w,h,s) {
+    var ww = w*.6;
+    var hh = h/4;
+    canvas.fillStyle = this.color1;
+    canvas.beginPath();
+    // canvas.rect(-w/2-ww/2,-h/2, ww,hh);
+    // canvas.rect(w/2,-h/2, ww,hh);
+    var angle = this.angle;
+    var y = -h*.4-angle*10;
+    // this.pathWingAtAngle(canvas, -w/2-ww/2,y, ww,hh, ww*.8, hh/2, angle);
+    this.pathWingAtAngle(canvas,-w/2+ww/2,y, ww,hh, ww*.2, hh/2, -angle);
+    if(s)canvas.stroke();
+    else canvas.fill();
+  }
 }

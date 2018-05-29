@@ -25,8 +25,17 @@ class Powerup {
 		}
   }
   draw(canvas) {
+    canvas.save();
+    if(!this.on)canvas.globalAlpha = 0.5;
+    canvas.translate(this.x,this.y);
+    // canvas.translate(-this.w/2,-this.h/2);
+    canvas.translate(0,this.offset);
+    this.drawShape(canvas,this.w,this.h);
+    canvas.restore();
+  }
+  drawShape(canvas,w,h) {
     canvas.fillStyle = this.color;
-    canvas.fillRect(this.x-this.w/2, this.y-this.h, this.w, this.h);
+    canvas.fillRect(-w/2, -h, w, h);
   }
 
   onHitPlayer(player) {

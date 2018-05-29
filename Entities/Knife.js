@@ -10,6 +10,7 @@ class Knife {
     this.killPlayer = true;
     this.da = -Math.PI/20;
     this.bouncable = false;    
+    this.flipped = this.vx>0;
   }
   die() {
     this.shouldDelete = true;
@@ -46,6 +47,7 @@ class Knife {
     canvas.translate(this.x,this.y);
     // canvas.fillStyle = 'red';
     // canvas.fillRect(-this.w/2,-this.h/2,this.w,this.h);
+    if(this.flipped)canvas.scale(-1,1);
     canvas.rotate(this.angle);
     this.drawKnife(canvas, this.w,this.h);
     canvas.restore();
@@ -64,8 +66,11 @@ class Knife {
     var handlew = 5;
     var handleh = 10;
     var holer = 3;
+    canvas.strokeStyle = "#000";
+    canvas.lineWidth = 7;
     canvas.save();
     canvas.translate(w/8,h/8);
+    // if(this.vx>0)
     // canvas.scale(-1,1);
     // canvas.rotate(-Math.PI/5);
     canvas.lineWidth = 3;    
