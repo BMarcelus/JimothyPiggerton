@@ -25,4 +25,6 @@ loadSequentially('Blocks/',
   "treeApple.js",
   "collectableBlock.js",
   "trunkBranch.js",
+  "pigFear.js",
+  "pigEnd.js",
 ]);
