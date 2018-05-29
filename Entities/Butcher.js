@@ -16,6 +16,9 @@ class Butcher extends Mover {
   }
   update(dt, frameCount) {
     super.update(dt, frameCount);
+    // if(Math.floor(frameCount/dt)%30==0) {
+      // this.game.addEntity(new Knife(this.x,this.y, -3, -3));
+    // }
     switch(this.state) {
       case 0:
         this.moveToPig();

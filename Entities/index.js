@@ -18,4 +18,5 @@ loadSequentially('Entities/',
   "Collectable.js",
   "WorldText.js",
   "TriggerZone.js",
+  "Knife.js",
 ]);
