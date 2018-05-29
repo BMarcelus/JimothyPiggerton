@@ -12,7 +12,7 @@ class Pig extends Mover {
     this.height = this.h;
     this.speed = 0;
     this.cloudParticlesOn=false;
-    this.mx = 1;
+    this.mx = -1;
     this.groundAccel=0;
     this.tx = x;
     this.ty = y;
