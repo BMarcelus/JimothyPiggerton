@@ -3,17 +3,13 @@ addBlock(function() { return {
   id: BLOCKS.length,
   name: "End",
   hide: true,
-  ignoreCollisions: false,
-  draw: function(canvas, x,y,width,height, world,ii,jj) {
-    var w= width;
-    var h=height;
-    canvas.fillStyle = 'rgba(100,0,0,.5)';
-    canvas.fillRect(x,y,width,height);
+  ignoreCollisions: true,
+  redraws: true,
+  drawer: new Pig(),
+  draw: drawEntity,
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.pig = new Pig(x + width/2,y + height);
+    game.addEntity(game.pig);
   },
-  entityCollision: function(entity, pos) {
-    if(entity.player && entity.grounded){
-      entity.game.levelComplete();
-    }
-    return false;
-  }
 }});
+

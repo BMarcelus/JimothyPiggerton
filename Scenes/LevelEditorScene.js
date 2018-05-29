@@ -4,27 +4,27 @@ class LevelEditorScene extends Scene{
     this.editLevel = index;
     this.zoom = 1;
     var grid;
-    if(this.editLevel)
+
+    switch (this.editLevel)
     {
-      if (this.editLevel == -1)
-      {
+      case -2:
+        this.world = new WorldDefault(48,24);
+        break;
+      case -1:
         var level = new PigFunScene();
-        this.world = new WorldFromLevel(level.levels[0]);        
-        // grid = level.levels[0].grid;
-      }
-      else
-      {
+        this.world = new WorldFromLevel(level.levels[0]);
+        break;
+      case 0:
+        this.world = new WorldDefault(48, 24);      
+        grid = this.load();
+        this.world.h = grid.length;
+        this.world.w = grid[0].length;
+        break;
+      default:
         var levels = createLevels();
         this.world = new WorldFromLevel(levels[this.editLevel-1]);
-        // grid = levels[this.editLevel].grid;        
-      }
     }
-    else {
-      this.world = new WorldDefault(48, 24);      
-      grid = this.load();
-      this.world.h = grid.length;
-      this.world.w = grid[0].length;
-    }
+      
     if(grid) {
       this.world.world = grid;
     }
@@ -168,8 +168,8 @@ class LevelEditorScene extends Scene{
   }
   save() {
 
-    if (this.editLevel)
-      return;
+    //if (this.editLevel)
+    //  return;
     var string = this.getLevelString();
     if(!localStorage||!localStorage.setItem)return;
     localStorage.setItem("currentLevel", string);

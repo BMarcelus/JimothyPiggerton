@@ -11,6 +11,10 @@ class PigBeginning extends Pig {
     this.ysight = 100;
     this.transition = 1;
     this.animationState = 2;
+    this.speed = 5;
+    this.groundAccel = 1;
+    this.isBeginning = true;
+    this.appleDict = [];
   }
   update(dt, frameCount) 
   {  
@@ -75,13 +79,24 @@ class PigBeginning extends Pig {
       });
 
       this.fsm.push({
-        name: "Charging", 
+        name: "Afraid", 
         index: 2,
         run: function(entity)
-        {
-          //console.log(this.wallcolliding);
-          
-          
+        { 
+          if (entity.appleDict.length > 0)
+          {
+            return entity.toThree;
+          }
+          return this.index;
+        },
+      });
+
+      this.fsm.push({
+        name: "HuntingApple", 
+        index: 3,
+        run: function(entity)
+        { 
+          entity.mx = 1 * (entity.appleDict[entity.appleDict.length-1]-entity.x < 0 ? -1 : 1);
           return this.index;
         },
       });
@@ -105,19 +120,43 @@ class PigBeginning extends Pig {
 
   toTwo()
   {
+    if (this.state == 3)
+      return this.toThree();;
     this.transition = 0;
-    this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//speed up for chase
-    this.speed = 10;
+    this.animationState = 0;
+    this.speed = 0;
+   // this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//speed up for chase
+    //this.speed = 10;
     return 2;//now we chasing
   }
 
   toThree()
   {
-    this.transition = 120;
-    this.mx = -1 * Math.sign(this.mx);//prep for next animation
-    this.speed = 1;
+    this.transition = 0;
+    this.animationState = 2;
+    this.speed = 3;
     return 3;
   }
 
+  eatApple(x)
+  {
+    this.appleDict.push(x);
+    this.state = this.toThree();
+  }
+
+  ateApple(x)
+  {
+    for (var i = this.appleDict.length - 1; i >= 0; i--)
+    {
+      if (this.appleDict[i] == x)
+      {
+        this.appleDict.splice(i,1);
+      }
+    }
+    if (this.appleDict.length == 0)
+    {
+      this.state = this.toOne();
+    }
+  }
 
 }

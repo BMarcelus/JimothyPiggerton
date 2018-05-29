@@ -208,10 +208,10 @@ class GameScene extends Scene {
     this.camera.y=this.player.y;
     this.constrainCamera();
 
-    if(!this.dontSpawnPig) {
-      this.pig = new Pig(this.world.w*this.world.s-200,100);
-      this.addEntity(this.pig);
-    }
+    //if(!this.dontSpawnPig) {
+    //  this.pig = new Pig(this.world.w*this.world.s-200,100);
+    //  this.addEntity(this.pig);
+    //}
     // this.addEntity(new Enemy(300,100));  
     this.playLevelIntro();
     this.levelCompleted = false;

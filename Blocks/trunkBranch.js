@@ -11,6 +11,8 @@ addBlock(function() { return {
     CELLMAP[9].draw(canvas,x,y, w, h, world, i,j);
   },
   isColliding: function(entity, pos, dx, dy, cellPos) {
+    if(entity.apple)
+      return false;
     if(dy>0&&entity.y<=cellPos.y) {
       return true;
     }

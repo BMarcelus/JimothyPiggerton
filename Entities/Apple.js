@@ -16,6 +16,7 @@ class Apple extends Mover {
       this.color4 = "#640";
       //this.behind = true;
       this.hit = false;
+      this.apple = true;
   }
   update(dt, frameCount) {    
     var doinkBox = this.getHitBox();
@@ -23,17 +24,21 @@ class Apple extends Mover {
     if(!this.hit&&rectangleCollision(doinkBox, playerBox)&&this.game.player.vy>0) {
       if(this.playerCollision(this.game.player)) {
         this.getHitByEntity(this.game.player);
-        setTimeout(() => {
-          this.y = this.startY;
-          this.hit = false;
-          this.grav = 0;
-        }, 1000);
+        if (!this.game.pig||!this.game.pig.isBeginning)
+        {
+          setTimeout(() => {
+            this.y = this.startY;
+            this.hit = false;
+            this.grav = 0;
+          }, 1000);
+        }
       }
     }
-    if(this.game.pig&&rectangleCollision(doinkBox, this.game.pig.getHitBox())) {
+    if(this.game.pig&&this.game.pig.isBeginning&&rectangleCollision(doinkBox, this.game.pig.getHitBox())) {
         this.grav = 0;
         this.y -= 5000;
         this.game.pig.apples++;
+        this.game.pig.ateApple(this.x);
     }
     super.update(dt, frameCount);
     // if (this.bounceAnimation > 0)this.bounceAnimation-=1;
@@ -47,6 +52,19 @@ class Apple extends Mover {
     this.grav = 1;
     this.hit=true;
     //player.apples++;
+    if (this.game.pig&& this.game.pig.isBeginning)
+    {
+      if (Math.abs(this.x-this.game.pig.x) < 500)
+        this.game.pig.eatApple(this.x);
+      else
+      {
+        setTimeout(() => {
+          this.y = this.startY;
+          this.hit = false;
+          this.grav = 0;
+        }, 1000);
+      }
+    }
 	}
 
   playerCollision(player) {
