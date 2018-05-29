@@ -7,11 +7,39 @@ class Knife {
     this.w = 30;
     this.h = 30;
     this.angle = 0;
+    this.killPlayer = true;
+    this.da = -Math.PI/20;
+    this.bouncable = false;    
+  }
+  die() {
+    this.shouldDelete = true;
   }
   update(dt,frameCount) {
     this.x += this.vx;
     this.y += this.vy;
-    this.angle -= Math.PI/20;
+    this.angle += this.da;
+    var world = this.game.world;
+    var h = this.getHitBox();
+    if(world.rectCollides(h.x, h.y, h.w, h.h, this, 0,0)) {
+      // this.die();
+      this.killPlayer = false;
+      this.vx=0;
+      this.vy=0;
+      this.da = 0;
+      setTimeout(() => this.die(), 1000);
+    }
+    if(this.game.collidesWithPlayer(this)) {
+      this.onCollision(this.game.player);
+    }
+  }
+  onCollision(player) {
+    if(this.bouncable&&(player.y<this.y||player.vy>0)) {
+      this.die();
+      player.bounceOffEntity(this);
+      // player.vy = -10;
+    } else {
+      this.game.player.getHitByEntity(this);
+    }
   }
   draw(canvas) {
     canvas.save();
@@ -21,6 +49,14 @@ class Knife {
     canvas.rotate(this.angle);
     this.drawKnife(canvas, this.w,this.h);
     canvas.restore();
+  }
+  getHitBox() {
+    return {
+      x: this.x - this.w/2,
+      y: this.y - this.h/2,
+      w: this.w,
+      h: this.h,
+    };
   }
   drawKnife(canvas,w,h) {
     var bladew = 18;

@@ -43,7 +43,9 @@ class Pig extends Mover {
     super.update(dt, frameCount);
     if(rectangleCollision(this.getHitBox(), this.game.player.getHitBox()) == true) {
 			this.playerCollision();
-		}
+    }
+    if(this.animationState == 0)
+    this.flipped = this.game.player.x < this.x;
   }
 
   playerCollision()

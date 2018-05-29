@@ -24,6 +24,7 @@ loadSequentially('Levels/',
   // "crescentDeth.js",
   
   "level5.js",
+  "knifeTest.js",
   // "HelltheThird.js",
   // "levelx.js",
 ]
