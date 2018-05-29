@@ -164,6 +164,7 @@ class GameScene extends Scene {
     }
   }
   levelComplete() {
+    if(this.player.dead)return;
     if(!this.levelCompleted) {
       this.levelCompleted = true;
       this.playLevelOutro();
