@@ -13,6 +13,7 @@ class Powerup {
     this.startY = this.y;
     this.reset = this.reset.bind(this);
     this.on = true;
+    this.offset=0;
   }
   update(dt, frameCount) {
     if(!this.on)return;
@@ -22,7 +23,12 @@ class Powerup {
 		if(rectangleCollision(myBox, playerBox) == true) {
       this.die();
       this.onHitPlayer(player);
-		}
+    }
+    if(this.on) {
+      this.offset = Math.cos(frameCount*Math.PI/20)*2;
+    } else {
+      this.offset=0;
+    }
   }
   draw(canvas) {
     canvas.save();

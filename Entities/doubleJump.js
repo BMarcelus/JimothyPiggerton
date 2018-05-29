@@ -11,16 +11,6 @@ class doubleJump extends Powerup {
     this.power = 2;
     this.color1= "#000";
     this.angle = Math.PI/4;
-    this.offset = 0;
-  }
-  update(dt,frameCount) {
-    super.update(dt,frameCount);
-    // this.angle = Math.cos(frameCount*Math.PI/20)*Math.PI/10;
-    if(this.on) {
-      this.offset = Math.cos(frameCount*Math.PI/20)*2;
-    } else {
-      this.offset=0;
-    }
   }
   drawShape(canvas,w,h) {
     canvas.strokeStyle = '#fff';
