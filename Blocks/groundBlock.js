@@ -95,7 +95,8 @@ addBlock(function() {
       canvas.fillRect(x,y,w,h)
     },
     concrete: function(canvas, x,y,w,h, world,i,j) {
-      var color1 = "#666";
+      // var color1 = "#666";
+      var color1 = "#000";
       // var color2 = "rgba(150,150,150,.5)";
       var color2 = '#777';
       var color3 = "#aaa";
@@ -107,7 +108,7 @@ addBlock(function() {
       // color3 = "#000";
       canvas.fillStyle=color1;
       canvas.fillRect(x,y,w,h);
-      canvas.strokeStyle="#000";
+      canvas.strokeStyle="#fff";
       var s = Math.max(w,h);
       // canvas.strokeRect(x,y,w,h);
       canvas.fillStyle=color2;

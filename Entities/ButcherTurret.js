@@ -30,7 +30,7 @@ class ButcherTurret {
   draw(canvas) {
     var t = this.shootTimer/this.shootSpeed;
     var s = 10+t*10;    
-    canvas.fillStyle = 'rgba(0,0,0,'+t+')';
+    canvas.fillStyle = 'rgba(255,0,0,'+t+')';
     canvas.fillRect(this.x-s,this.y-s,s*2,s*2);
     // canvas.save();
     // canvas.translate(this.x,this.y);

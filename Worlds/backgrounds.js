@@ -31,8 +31,8 @@ class Background {
         return createForrestBackground(w,c,e);
         break;
       case 2:
-        this.backgroundColor = '#333';
-        return createSpikeBackground(w,'#111',e);
+        this.backgroundColor = MAIN.makeGrd();
+        return createSpikeBackground(w,'#222',e);
         break;
       default:
         return createHillBackground(w,c,e);
@@ -315,15 +315,25 @@ function createSpikeBackground(w,c) {
   image.height =  1000;
   canvas.fillStyle = c;
   // canvas.fillStyle = "#000";
+  canvas.strokeStyle="#000";
+  canvas.lineWidth = 10;
   var y = 500;
   for(var i=0;i<image.width;i+=w) {
     var ww = w/3;
-    canvas.fillRect(i+w/2-ww/2, y, ww, 400);
+    // canvas.strokeRect(i+w/2-ww/2, y, ww, 400);
+    canvas.fillRect(i+w/2-ww/2, y, ww, 400);        
     canvas.beginPath();
     canvas.moveTo(i+w/2-ww, y);
     canvas.lineTo(i+w/2+ww, y);
     canvas.lineTo(i+w/2, y- ww*2);
-    canvas.fill();
+    canvas.closePath();
+    // canvas.stroke();
+    canvas.fill();    
+    canvas.save();
+    canvas.globalCompositeOperation = "source-atop";
+    canvas.fillStyle = "rgba(0,0,0,.2)";
+    canvas.fillRect(i+w/2-ww/2*2,y-ww*2,ww,400+ww*2);
+    canvas.restore();
   }
   return image;
 }

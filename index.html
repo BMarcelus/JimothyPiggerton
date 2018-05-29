@@ -353,6 +353,16 @@ class MainDriver {
     scene.driver = this;
     this.scene = scene;
   }
+  makeGrd() {
+    var gx = canvas.width/2;
+    var gy = canvas.height*2;
+    var r = canvas.height*2;
+    var grd=canvas.createRadialGradient(gx, gy, 0, gx, gy, r);
+    grd.addColorStop(0,"rgba(255,100,100,1)");
+    grd.addColorStop(1,"rgba(20,20,20,1)");
+    // grd.addColorStop(1,"rgba(20,50,100,1)");
+    return grd;
+  }
 }
 var CE = document.getElementById('gc');
 var canvas = CE.getContext('2d');

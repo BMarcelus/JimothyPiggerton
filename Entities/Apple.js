@@ -74,6 +74,11 @@ class Apple extends Mover {
     return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
   }
   drawShape(canvas,w,h) {
+    // canvas.strokeStyle = "#fff";
+    // canvas.lineWidth = 7;
+    // canvas.strokeRect(-w/2,-h,w,h);    
+    // canvas.strokeRect(-w*0.1,-h*1.3,w*0.2,h*0.3);
+    
     canvas.fillStyle = this.color1;
     canvas.fillRect(-w/2,-h,w,h);
     canvas.fillStyle = this.color2;
