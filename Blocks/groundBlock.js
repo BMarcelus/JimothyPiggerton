@@ -153,6 +153,8 @@ addBlock(function() {
     // redraws: true,
     draw: function(canvas, x,y,w,h, world,i,j) {
       var type = (world&&world.worldtype) || 0;
+      // type = 3;
+      // this.redraws = true;
       this.drawTypes[type](canvas,x,y,w,h,world,i,j);
       // if(type == 1) this.redraws = true;
       // else this.redraws = false;
@@ -161,6 +163,7 @@ addBlock(function() {
       0: drawTypes.grass,
       1: drawTypes.grass,
       2: drawTypes.concrete,
+      3: drawTypes.funTime,
     }
 }});
 

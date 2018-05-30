@@ -13,6 +13,7 @@ class Butcher extends Mover {
     this.mx=-1;
     this.speed = 4;
     this.state = 0;
+    this.knifeAngle = 0;
   }
   update(dt, frameCount) {
     super.update(dt, frameCount);
@@ -123,13 +124,14 @@ class Butcher extends Mover {
     this.drawEye(canvas, eyex-eyed,eyey,this.eyeMovement.w,eyh,0, Math.PI/20, this.eyeMovement.w*2, 6,"#000");
     this.drawEye(canvas, eyex,eyey,this.eyeMovement.w2,eyh2,3, -Math.PI/20, this.eyeMovement.w*2, 6, "#000");
     w=this.w;
-    this.drawKnife(canvas, w,h);
     
     canvas.translate(0,-h);
     var hatAngle = Math.abs(this.angle);
     if(hatAngle>Math.PI/4)hatAngle=Math.PI/4;
     canvas.rotate(-hatAngle);
     this.drawHat(canvas,w);
+    canvas.translate(0,h);
+    this.drawKnife(canvas, w,h);
     canvas.restore();    
   }
   drawEye(canvas, x,y,w,h, dx, browangle, broww, browh, browcolor) {
@@ -162,9 +164,9 @@ class Butcher extends Mover {
     var handleh = 10;
     var holer = 3;
     canvas.save();
-    canvas.translate(w/2,-h/3);
+    canvas.translate(w/2-this.knifeAngle*10,-h/3-this.knifeAngle*10);
     canvas.scale(-1,1);
-    canvas.rotate(-Math.PI/5);
+    canvas.rotate(-Math.PI/5+this.knifeAngle);
     canvas.lineWidth = 3;    
     canvas.beginPath();
     canvas.fillStyle = "#a33";

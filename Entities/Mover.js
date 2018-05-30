@@ -334,10 +334,18 @@ class Mover {
     }
   }
   crouch() {
+    if(!this.crouching) {
+      this.width = 50;
+      this.height = 10;
+    }
     this.crouching = true;
     if(!this.grounded&&this.vy>0) this.vy += 10;
   }
   uncrouch() {
+    if(this.crouching) {
+      this.height = 40;
+      this.width = 23;
+    }
     this.crouching = false;
   }
   getHitBox() {

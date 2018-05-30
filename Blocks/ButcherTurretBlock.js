@@ -7,6 +7,6 @@ addBlock(function() { return {
   drawer: new Enemy(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new ButcherTurret(x + width/2,y + height/2));
+    game.addEntity(new ButcherTurretPoint(x + width/2,y + height/2));
   },
 }});

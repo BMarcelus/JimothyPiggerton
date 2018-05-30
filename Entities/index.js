@@ -20,6 +20,7 @@ loadSequentially('Entities/',
   "TriggerZone.js",
   "Knife.js",
   "ButcherTurret.js",
+  "ButcherTurretPoint.js",
   "MovingWorldText.js",
   "SleepText.js",
 ]);
