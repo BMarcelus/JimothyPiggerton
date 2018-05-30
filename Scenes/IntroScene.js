@@ -60,6 +60,8 @@ class IntroScene extends GameScene{
     });
     this.makeLetterBox();
     this.timeToWait=0;
+    this.emitZ = true;
+    this.emissionDelay = 35;
   }
   makeLetterBox(){
     var upperBoxHeight = 0.2;
@@ -114,6 +116,23 @@ class IntroScene extends GameScene{
     this.time--;
     if(this.time<=0) {
       this.driver.setScene(new LevelIntroScene(new GameScene(),true));
+    }
+    if(this.time > this.totalTime-200){
+      if(this.time % this.emissionDelay == 0){
+        this.addEntity(new SleepText(this.player.x+this.player.w,this.player.y-this.player.h,20,2,-2,"Z",
+          "30", "Noteworthy",[255,255,255,1],[255,255,255,0],25,25,true));
+      }
+      
+    }
+    if(this.time > this.totalTime-150){
+      if(this.time % this.emissionDelay == 9){
+        this.addEntity(new SleepText(this.pig.x+this.pig.w,this.pig.y-this.pig.h,20,2,-2,"Z",
+          "30", "Noteworthy",[255,255,255,1],[255,255,255,0],25,25,true));
+      }
+    }
+    if(this.time == this.totalTime-160){
+      this.addEntity(new SleepText(this.pig.x+this.pig.w/2,this.pig.y-this.pig.h-70,80,0,0,"!?",
+          "65", "Noteworthy",[255,255,255,1],[255,255,255,0],20,30,true));
     }
     if(this.time == this.totalTime - 200) {
       this.player.flipped = false;
