@@ -24,8 +24,7 @@ class ButcherTurretPoint {
     var r = Math.sqrt(dx*dx+dy*dy);
     if(r<this.range) {
       this.inRange=true;
-      this.butcher.targetX = this.x;
-      this.butcher.targetY = this.y+30;
+      this.butcher.setTarget(this.x,this.y);
     }
     // if(!this.inRange)return;
     // if(this.shootTimer>this.shootSpeed) {

@@ -1,4 +1,4 @@
-class ButcherTurret {
+class KnifeTurret {
   constructor(x,y) {
     this.x=x;
     this.y=y;

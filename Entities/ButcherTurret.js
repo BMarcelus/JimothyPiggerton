@@ -58,6 +58,10 @@ class ButcherTurret extends Butcher{
       }
     }
   }
+  setTarget(x,y) {
+    this.targetX = x;
+    this.targetY = y + 30;
+  }
   draw(canvas) {
     var t = this.shootTimer/this.shootSpeed;
     var s = 10+t*10;    

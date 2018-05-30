@@ -146,6 +146,7 @@ class LevelCompleteScene extends Scene{
       this.startTransition(20, 1, function() {     
         this.player.ghostOn = false;
         this.pig.ghostOn = false;
+        tihs.player.flipped = false;
         this.driver.setScene(this.prevScene);
         this.callback();
       });
