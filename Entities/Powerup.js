@@ -46,6 +46,19 @@ class Powerup {
 
   onHitPlayer(player) {
     PLAYER_ABILITIES[this.power](player);
+    for(var i=0;i<10;i++) {
+      var x = this.x;// + (Math.random()*this.w-this.w/2)/2;
+      var y = this.y;// - (Math.random()*this.h)/4;
+      var w = 10;
+      var h = 10;
+      var vx = Math.random()*5-2;
+      var vy = Math.random()*5-2-10;
+      var color = this.color1;
+      // if(i>=num-8) color = "#222";
+      // if(i>=num-4) color = "#33d"
+      // if(i>=num-2) color = "#fff"; 
+      this.game.addEntity(new FallingParticle(x,y,w,h,vx,vy,30,color));
+    }
   }
 
   getHitBox() {
