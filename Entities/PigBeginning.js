@@ -8,7 +8,7 @@ class PigBeginning extends Pig {
     this.populateFsm();
     this.state = 0;//starting state
     this.xsight = 100;//line of sight
-    this.ysight = 100;
+    this.ysight = 200;
     this.transition = 1;
     this.animationState = 2;
     this.speed = 5;
@@ -39,6 +39,7 @@ class PigBeginning extends Pig {
         index: 0, // will have to change this to be fsm.length
         run: function(entity)
         {//this is what we want to run while in this state
+          //entity.mx = 1 * (entity.game.player.x-entity.x < 0 ? -1 : 1);
           if (entity.transition == 1)
             entity.toZero();
           else if (entity.transition > 1)
@@ -61,13 +62,14 @@ class PigBeginning extends Pig {
         name: "Waiting", 
         index: 1,
         run: function(entity){
+          entity.mx = 1 * (entity.game.player.x-entity.x < 0 ? -1 : 1);
           if (entity.vy == 0)
             entity.speed = 0;
           var dist = entity.game.player.x-entity.x;
           var ydist = entity.game.player.y-entity.y;
-          if (dist > -entity.xsight/1.5 && dist < entity.xsight/1.5 && ydist < 100 && entity.game.player.vy > 0)
+          if (dist > -entity.xsight*4 && dist < entity.xsight*4 && ydist < -15)// && entity.game.player.vy > 0)
           {
-            entity.speed = 3;
+            entity.speed = 3;//entity.game.player.speed;
             entity.jump();
           }
           if ((dist < -entity.xsight || dist > entity.xsight)) {//exit condition
@@ -105,7 +107,7 @@ class PigBeginning extends Pig {
   {
     this.transition = 0;
     this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);
-    this.speed = 3;
+    this.speed = this.game.player.speed;
     return 0;//back to wandering
   }
 

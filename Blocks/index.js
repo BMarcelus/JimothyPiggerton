@@ -28,4 +28,5 @@ loadSequentially('Blocks/',
   "pigFear.js",
   "pigEnd.js",
   "ButcherTurretBlock.js",
+  "trunkWall.js",
 ]);
