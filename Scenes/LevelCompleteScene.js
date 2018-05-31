@@ -88,6 +88,8 @@ class LevelCompleteScene extends Scene{
     this.pig.y += Math.sin(t*t*Math.PI*2) *1;
     if(this.time>this.maxTime) {
       this.prevScene.screenShakeLevel = 1; 
+      this.player.maxJumps = 1;
+      this.player.wallJumps=false;
       this.time = 0;
       this.maxTime = 100;     
       this.update = this.update3;
@@ -146,7 +148,7 @@ class LevelCompleteScene extends Scene{
       this.startTransition(20, 1, function() {     
         this.player.ghostOn = false;
         this.pig.ghostOn = false;
-        tihs.player.flipped = false;
+        this.player.flipped = false;
         this.driver.setScene(this.prevScene);
         this.callback();
       });
