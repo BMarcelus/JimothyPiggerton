@@ -26,4 +26,5 @@ loadSequentially('Entities/',
   "SleepText.js",
   "KingByrd.js",
   "KingByrdPoint.js",
+  "BigSaw.js",
 ]);

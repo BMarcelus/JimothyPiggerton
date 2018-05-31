@@ -31,4 +31,5 @@ loadSequentially('Blocks/',
   "trunkWall.js",
   "kingByrdBlock.js",
   "ButcherTurretBlock.js",
+  "bigSawSpawner.js",
 ]);
