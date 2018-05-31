@@ -23,4 +23,6 @@ loadSequentially('Entities/',
   "ButcherTurretPoint.js",
   "MovingWorldText.js",
   "SleepText.js",
+  "KingByrd.js",
+  "KingByrdPoint.js",
 ]);

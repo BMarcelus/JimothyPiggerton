@@ -1,5 +1,5 @@
 addBlock(function() { return {
-  name: "Platform",
+  name: "TrunkWall",
   solid: true,
   groundBlock: false,
   trunk: true,

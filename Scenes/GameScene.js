@@ -182,6 +182,7 @@ class GameScene extends Scene {
   loadNewLevel(index) {
     if(index<0)index=0;
     this.butcher = null;
+    this.kingByrd = null;
     var same = false;
     var entities = this.entities;
     if(index==undefined) {

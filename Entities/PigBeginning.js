@@ -63,14 +63,19 @@ class PigBeginning extends Pig {
         index: 1,
         run: function(entity){
           entity.mx = 1 * (entity.game.player.x-entity.x < 0 ? -1 : 1);
+          if (entity.transition > 0)
+          {
+            entity.transition --;
+          }
           if (entity.vy == 0)
             entity.speed = 0;
           var dist = entity.game.player.x-entity.x;
           var ydist = entity.game.player.y-entity.y;
-          if (dist > -entity.xsight*4 && dist < entity.xsight*4 && ydist < -15)// && entity.game.player.vy > 0)
+          if (dist > -entity.xsight*4 && dist < entity.xsight*4 && ydist < -15 && entity.transition == 0)// && entity.game.player.vy > 0)
           {
             entity.speed = 3;//entity.game.player.speed;
             entity.jump();
+            entity.transition = 10;
           }
           if ((dist < -entity.xsight || dist > entity.xsight)) {//exit condition
             return entity.toZero();
