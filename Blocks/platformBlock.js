@@ -6,6 +6,7 @@ addBlock(function() { return {
     platform: true,
     id: BLOCKS.length,
     draw: function(canvas, x,y,w,h, world,i,j) {
+      canvas.save();
       h*=.5;
       var color1 = "#754";
       var color2 = "#532";
@@ -15,6 +16,7 @@ addBlock(function() { return {
       canvas.fillStyle=color1;
       canvas.fillRect(x,y,w,h);
       canvas.strokeStyle="#000";
+      canvas.lineWidth = 2;
       var s = Math.max(w,h);
       // canvas.strokeRect(x,y,w,h);
       canvas.fillStyle=color2;
@@ -43,6 +45,7 @@ addBlock(function() { return {
       if(!world.getCell(i-1,j).platform) {
         canvas.strokeRect(x,y,0,h);
       }
+      canvas.restore();
     },
     isColliding: function(entity, pos, dx, dy, cellPos) {
       if(entity.apple)

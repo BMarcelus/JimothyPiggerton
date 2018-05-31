@@ -7,8 +7,10 @@ addBlock(function() { return {
     trunk: true,
     draw: function(canvas, x,y,w,h, world,i,j) {
       //h*=.5;
-      var color1 = "#754";
-      var color2 = "#532";
+      // var color1 = "#754";
+      // var color2 = "#532";
+      var color1 = "#6a5545";
+      var color2 = "#4a3525";
       // color1 = "#555";
       // color2 = "#777";
       // color3 = "#000";
@@ -30,6 +32,7 @@ addBlock(function() { return {
           var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
           canvas.fillRect(xx+x,yy+y,ww,hh);
       }
+      return;
       if(!world)
         return;
       if(!world.getCell(i,j-1).trunk&&world.getCell(i,j-1).id!=this.id+1) {

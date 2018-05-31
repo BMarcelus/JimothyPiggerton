@@ -23,7 +23,7 @@ class Mover {
     this.jumpCount = 0;
     this.dashCount = 0;
     this.angle = 0;
-    this.terminalVelocity = 20;
+    this.terminalVelocity = 15;
     this.mover = true;
     this.wallSlides = true;
     this.wallJumps = false;
