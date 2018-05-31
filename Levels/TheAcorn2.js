@@ -30,7 +30,13 @@ addLevel( function(nameSpace) {
         [01,01,01,01,01,01,01,01,01,01,01,01,01,03,03,03,03,03,18,18,27,18,18,18,18,00,18,18,18,18,18,27,18,00,00,00,00,00,02,18,18,18,01,01,01,01,01,01,],
         [01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,],
         [01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,],
-        ]
+        ],
+      init(gameScene){
+        var acornTutorial = new WorldText(1030,820,620,'ACORNS allow Jimothy to WALL JUMP','30px Noteworthy',[255,255,255,0],[255,255,255,1],25,false,'center');
+        var acornTrigger = new TriggerZone(830,720,420,200,gameScene.player,acornTutorial.appear.bind(acornTutorial),undefined,acornTutorial.disappear.bind(acornTutorial),false)
+        gameScene.entities.push(acornTutorial);
+        gameScene.entities.push(acornTrigger);
+      }
     };
 
   }

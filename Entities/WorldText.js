@@ -1,6 +1,6 @@
 class WorldText{
   constructor(x,y,w,text,font,inactiveColor,activeColor,
-    changeDuration,isVisible){
+    changeDuration,isVisible,textAlign){
     this.x = x;
     this.y = y;
     this.w = w;
@@ -11,6 +11,7 @@ class WorldText{
     this.changeDuration = changeDuration;
     this.colorTimer = (isVisible) ? this.changeDuration : 0;
     this.visible = isVisible || false;
+    this.textAlign = textAlign || "center";
   }
   update(dt){
     if(this.visible){
@@ -27,6 +28,7 @@ class WorldText{
     this.visible = x;
   }
   appear(){
+    console.log("text appear");
     this.visible = true;
   }
   disappear(){
@@ -34,13 +36,25 @@ class WorldText{
   }
   draw(canvas){
     canvas.save();
-    canvas.textAlign = 'center';
     var fillColor = colorLerp(this.inactiveColor,this.activeColor,this.colorTimer*1.0/this.changeDuration);
     canvas.globalAlpha = this.colorTimer*1.0/this.changeDuration;
     fillColor[3] = 1;
     canvas.fillStyle = makeColorStr(fillColor);
     canvas.font = this.font;
-    canvas.fillText(this.text,this.x,this.y,this.w);
+    canvas.textAlign = this.textAlign;
+    canvas.textBaseline='middle';
+    var dim = rectDimFromCenter(this.x,this.y,this.w,0);
+    switch(this.textAlign){
+      case 'left':
+        canvas.fillText(this.text,dim[0],dim[1]+dim[3]/2,this.w);  
+        break;
+      case 'right':
+        canvas.fillText(this.text,dim[0]+dim[2],dim[1]+dim[3]/2,this.w);  
+        break;
+      case 'center':
+        canvas.fillText(this.text,dim[0]+dim[2]/2,dim[1]+dim[3]/2,this.w);  
+        break;
+    }
     canvas.restore();
   }
 
