@@ -439,7 +439,7 @@ class LevelEditorScene extends Scene{
     }
   }
   gridScrollDown(){
-    if(this.buttonGrid[0][0].blockID <= this.rowLength*3-7){
+    if(this.buttonGrid[0][0].blockID <= CELLMAP.length-7){
       for(var i = 0; i < this.rowCount; i++){
         for(var j = 0; j < this.rowLength; j++){
           this.buttonGrid[i][j].blockID += this.rowLength;
