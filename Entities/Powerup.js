@@ -20,7 +20,7 @@ class Powerup {
     var myBox = this.getHitBox();	// Perforamnce effeciency issue
     var player = this.game.player;
 		var playerBox = player.getHitBox();
-		if(rectangleCollision(myBox, playerBox) == true) {
+		if(rectangleCollision(myBox, playerBox) && this.canBeCollected()) {
       this.die();
       this.onHitPlayer(player);
     }
@@ -29,6 +29,9 @@ class Powerup {
     } else {
       this.offset=0;
     }
+  }
+  canBeCollected() {
+    return true;
   }
   draw(canvas) {
     canvas.save();
