@@ -18,7 +18,7 @@ SOUNDMAP.pigrip =
 SOUNDMAP.bounce = new SoundSource("Bounce2.wav", 1);
 SOUNDMAP.throw = new SoundSource("Throw.wav");
 SOUNDMAP.uimove = new SoundSource("UI_Move2.wav");
-SOUNDMAP.uiselect = new SoundSource("UI_Select2.wav");
+SOUNDMAP.uiselect = new SoundSource("UI_Select3.wav");
 // SOUNDMAP.songtroll = new MusicSource("Beep.wav");
 SOUNDMAP.footstep = new PickAudio([
   new SoundSource("Steps1.wav"),
@@ -27,3 +27,4 @@ SOUNDMAP.footstep = new PickAudio([
   new SoundSource("Steps4.wav"),
   new SoundSource("Steps5.wav"),
 ])
+

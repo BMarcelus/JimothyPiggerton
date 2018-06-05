@@ -178,16 +178,19 @@ class SoundSource {
 
 class SoundTag {
   constructor(url, playbackRate, volume) {
-    url = "./SoundAssets/" + url;        
+    url = "./SoundAssets/" + url;
     this.url = url;
-    this.playbackRate = playbackRate;
-    this.volume = volume;
+    this.playbackRate = playbackRate || 1;
+    if(volume>1)volume=1;
+    this.volume = volume || 1;
     this.createAudio();
   }
   createAudio() {
     var audioElement = document.createElement("audio");
     audioElement.src = this.url;
     this.audioElement = audioElement;
+    audioElement.playbackRate = this.playbackRate;
+    audioElement.volume = this.volume;
   }
   play() {
     this.audioElement.play();
