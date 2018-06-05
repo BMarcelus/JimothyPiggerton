@@ -64,6 +64,9 @@ class Player extends Mover{
     }
     this.updateEye(dt, frameCount);
     super.update(dt, frameCount);
+    if(this.grounded && !this.wallcolliding && this.vx && this.mx && Math.floor(frameCount) % 10 == 0) {
+      SOUNDMAP.footstep.play();
+    }
   }
   // draw(canvas){
   //   super.draw(canvas);
@@ -273,8 +276,11 @@ class Player extends Mover{
     this.groundCollide(this.y, true);
     // var jr = this.jumpRelease;
     var d = (amt || amt==0) ? amt : 20;
-    this.jump(d);
+    this.jump(d, true);
+    // if(!this.bouncedOffEntity)
+    SOUNDMAP.bounce.play();
     this.bouncedOffEntity = true;
+    // if(this.vy<=0)
     // this.jumpRelease=jr;
   }
   groundCollide(y, animationless) {

@@ -27,6 +27,7 @@ class LevelCompleteScene extends Scene{
     this.butcher = new Butcher(0,0);
     this.butcher.ghostOn = true;
     this.butcher.state = -1;
+    SOUNDMAP.levelComplete.play();
   }
   update0(dt,frameCount) {
     super.update(dt,frameCount);
@@ -88,6 +89,7 @@ class LevelCompleteScene extends Scene{
     this.pig.y += Math.sin(t*t*Math.PI*2) *1;
     if(this.time>this.maxTime) {
       this.prevScene.screenShakeLevel = 1; 
+      SOUNDMAP.pigrip.play();
       this.player.maxJumps = 1;
       this.player.wallJumps=false;
       this.time = 0;

@@ -154,6 +154,7 @@ class Scene {
       return;
     this.selectedButton.held = true;
     this.allowUIInput = false;
+    SOUNDMAP.uiselect.play();    
   }
   unpressButton(){
     //called by keystrokes, not mouse
@@ -196,6 +197,7 @@ class Scene {
     this.selectedButton.selected = false;
     this.selectedButton.buttonLinks[direction].selected = true;
     this.selectedButton = this.selectedButton.buttonLinks[direction];
+    SOUNDMAP.uimove.play();
   }
   toggleDebug(){
     this.debug = !this.debug;

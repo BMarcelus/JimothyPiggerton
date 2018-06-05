@@ -71,6 +71,7 @@ class ButcherTurret extends Butcher{
     super.draw(canvas);
   }
   shoot() {
+    SOUNDMAP.throw.play();
     var player = this.game.player;
     var dx = player.x - this.x;
     var dy = player.y - this.y - player.h/2 + this.h/2;

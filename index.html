@@ -25,7 +25,7 @@
 <script>
 function loadScript (dir, file) {
  var scr = document.createElement("script");
- scr.src = dir + file + '?32';
+ scr.src = dir + file + '?' + Date.now();
  document.body.appendChild(scr);
  return scr;
 }

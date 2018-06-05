@@ -254,7 +254,7 @@ class Mover {
     canvas.fillStyle = this.color;    
     canvas.fillRect(-w/2,-h, w,h);
   }
-  jump(amt) {
+  jump(amt, noSound) {
     this.jumpRelease=false;    
     if(this.jumpSquating)return;
     // if(!this.grounded)return;
@@ -291,6 +291,7 @@ class Mover {
         this.width -= 10;
       }
       this.vy = -jumpPower;
+      if(!noSound)
       this.playJumpSound();
       if(this.jumpRelease) this.vy = this.vy * .65;
       if(this.cloudParticlesOn) {
@@ -304,13 +305,18 @@ class Mover {
     
   }
   playJumpSound() {
-    this.jumpSound = this.jumpSoundType.play(this);
+    var jumpSoundType = this.jumpSoundType;
+    if(this.jumpCount > 1) {
+      jumpSoundType = SOUNDMAP.doubleJump;
+    }
+    this.jumpSound = jumpSoundType.play(this);
   }
   wallJump() {
     this.jumpCount = 1;
     this.dashCount = 0;
     this.vy = -this.jumpPower;
-    this.playJumpSound();
+    // this.playJumpSound();
+    SOUNDMAP.wallJump.play();
     this.grounded = false;
     this.height += 10;
     this.width -= 10;
@@ -337,6 +343,7 @@ class Mover {
     if(!this.crouching) {
       this.width = 50;
       this.height = 10;
+      SOUNDMAP.crouch.play();
     }
     this.crouching = true;
     if(!this.grounded&&this.vy>0) this.vy += 10;
@@ -345,6 +352,7 @@ class Mover {
     if(this.crouching) {
       this.height = 40;
       this.width = 23;
+      SOUNDMAP.uncrouch.play();      
     }
     this.crouching = false;
   }

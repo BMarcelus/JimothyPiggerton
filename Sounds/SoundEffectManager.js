@@ -1,5 +1,6 @@
 var AUDIOCONTEXT;
 var DESTINATION;
+var BUFFERBUFFER = [];
 function initializeSound() {
   // console.log('a');
   if('webkitAudioContext' in window) {
@@ -12,6 +13,10 @@ function initializeSound() {
   GAIN.gain.setValueAtTime(.5, 0);
   GAIN.connect(AUDIOCONTEXT.destination);
   DESTINATION = GAIN;
+  for(var i in BUFFERBUFFER) {
+    BUFFERBUFFER[i].beginLoad();
+  }
+  BUFFERBUFFER = [];
 }
 // var DESTINATION = AUDIOCONTEXT.destination;
 class SoundEffect {
@@ -24,6 +29,7 @@ class SoundEffect {
     this.length = this.sampleRate*len;
   }
   play(entity) {
+    return;
     if(!DESTINATION)return;
     var volume = 1;
     if(entity&&!entity.player) {
@@ -81,5 +87,161 @@ class SoundEffect {
       }
       last = amplitude;
     }
+  }
+}
+// var OnFile = (window.location.protocol == "file:");
+// var webDomain = 'http://bmarcelus.github.io/JimothyPiggerton';
+function loadBuffer(url, callback) {
+  // Load buffer asynchronously
+  var request = new XMLHttpRequest();
+  // if(OnFile) url = webDomain + url;
+  // else url = '.' + url;
+  request.open("GET", url, true);
+  request.responseType = "arraybuffer";
+
+  var loader = this;
+
+  request.onload = function() {
+    // Asynchronously decode the audio file data in request.response
+    AUDIOCONTEXT.decodeAudioData(
+      request.response,
+      function(buffer) {
+        if (!buffer) {
+          alert('error decoding file data: ' + url);
+          return;
+        }
+        callback(buffer);
+      },
+      function(error) {
+        console.error('decodeAudioData error', error);
+      }
+    );
+  }
+
+  request.onerror = function() {
+    console.log("BufferLoader: XHR error");
+    console.log("Cannot load sounds from File system");
+  }
+
+  request.send();
+}
+
+class SoundSource {
+  constructor(url, playbackRate, volume) {
+    url = "./SoundAssets/" + url;    
+    this.url = url;
+    this.loaded = false;
+    this.playbackRate = playbackRate || 1;
+    this.volume = volume || 1;
+    this.loops=false;
+    BUFFERBUFFER.push(this);
+    this.lastSound = null;
+  }
+  beginLoad() {
+    loadBuffer(this.url, this.onloadBuffer.bind(this));
+  }
+  onloadBuffer(buffer) {
+    this.buffer=buffer;
+    this.loaded = true;
+  }
+  play() {
+    var audioContext= AUDIOCONTEXT;
+    var destination = DESTINATION;
+    var time = audioContext.currentTime;
+    var source = audioContext.createBufferSource();
+    source.buffer = this.buffer;
+    // source.playbackRate = 0.5;
+    // if(pitchShift != null) {
+    //   source.playbackRate.setValueAtTime(pitchShift, time)
+    //   // source.detune = pitchShift;
+    //   // source.detune.setValueAtTime(pitchShift*100, time);
+    // }
+    var r = 1;// + (Math.random()-0.5)/10;
+    source.playbackRate.setValueAtTime(this.playbackRate*r,time);
+    source.start(time);  
+    if(this.loops) source.loop = true;
+    var gain = audioContext.createGain();
+    gain.gain.setValueAtTime(this.volume, time);
+    gain.connect(destination);
+    source.connect(gain);    
+    source.stopSound = function() {
+      try {
+        this.disconnect(gain);
+      } catch(e) {
+        console.log(e);
+      }
+    };
+    this.lastSound = source;
+    return source;
+  }
+}
+
+class SoundTag {
+  constructor(url, playbackRate, volume) {
+    url = "./SoundAssets/" + url;        
+    this.url = url;
+    this.playbackRate = playbackRate;
+    this.volume = volume;
+    this.createAudio();
+  }
+  createAudio() {
+    var audioElement = document.createElement("audio");
+    audioElement.src = this.url;
+    this.audioElement = audioElement;
+  }
+  play() {
+    this.audioElement.play();
+    this.audioElement.currentTime = 0;
+    return this;
+  }
+  stopSound() {
+    this.audioElement.pause();
+  }
+}
+
+var OnFile = (window.location.protocol == "file:");
+if(OnFile) SoundSource = SoundTag;
+
+class MixAudio {
+  constructor(audios) {
+    this.audios = audios;
+  }
+  play() {
+    this.audios.forEach(a => a.play());
+  }
+}
+
+class PickAudio {
+  constructor(audios) {
+    this.audios = audios;
+  }
+  play() {
+    var i = Math.floor(Math.random()*this.audios.length);
+    return this.audios[i].play();
+  }
+}
+
+class MusicSource extends SoundSource {
+  constructor(...args) {
+    super(...args);
+    this.loops = true;
+  }
+  onloadBuffer(buffer) {
+    this.buffer=buffer;
+    this.loaded = true;
+    this.play();
+    // setInterval(() => {
+    //   this.setPitch();
+    // }, 4000)
+    this.setPitch();
+  }
+  setPitch() {
+    // var v = 1 + (Math.random()-0.5)/2;
+    var v = 1;
+    if(Math.random()>.5)v = 2;
+    this.lastSound.playbackRate.setValueAtTime(v, AUDIOCONTEXT.currentTime);
+    setTimeout(() => {
+      this.setPitch();
+    }, 4000/v);
   }
 }

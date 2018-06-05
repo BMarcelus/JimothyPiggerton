@@ -2,8 +2,8 @@ class Powerup {
   constructor(x,y) {
     this.x = x;
     this.y = y;
-    this.w = 50;
-    this.h = 50;
+    this.w = 70;
+    this.h = 70;
     this.color="black";
     this.jumpPower = 10;
     this.killPlayer = false;
@@ -49,6 +49,7 @@ class Powerup {
 
   onHitPlayer(player) {
     PLAYER_ABILITIES[this.power](player);
+    SOUNDMAP.powerup.play();
     for(var i=0;i<10;i++) {
       var x = this.x;// + (Math.random()*this.w-this.w/2)/2;
       var y = this.y;// - (Math.random()*this.h)/4;

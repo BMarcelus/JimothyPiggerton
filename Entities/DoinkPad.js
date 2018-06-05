@@ -10,12 +10,17 @@ class DoinkPad {
     }
     update() {    
 		var doinkBox = this.getHitBox();
-		var playerBox = this.game.player.getHitBox();
-		if(rectangleCollision(doinkBox, playerBox) == true) {
-			if(this.playerCollision(this.game.player) == true) {
-				 this.getHitByEntity(this.game.player);
-			}
-		}
+    var playerBox = this.game.player.getHitBox();
+    if(rectangleCollision(doinkBox, playerBox) == true) {
+      if(!this.isColliding) {
+        if(this.playerCollision(this.game.player) == true) {
+          this.getHitByEntity(this.game.player);
+          this.isColliding = true;
+        }
+      }
+    } else {
+      this.isColliding = false;
+    }
         if (this.bounceAnimation > 0)this.bounceAnimation-=1;
 	}
     draw(canvas) {

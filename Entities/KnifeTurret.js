@@ -63,6 +63,8 @@ class KnifeTurret {
     this.butcher.draw(canvas);
   }
   shoot() {
+    SOUNDMAP.throw.play();
+    
     var player = this.game.player;
     var speed = this.projectileSpeed
     var vx = this.dx*speed;
