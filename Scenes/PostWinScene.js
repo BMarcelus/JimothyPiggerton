@@ -26,7 +26,7 @@ class PostWinScene extends Scene{
     this.prevScene.draw(canvas);
     canvas.fillStyle="rgba(255,255,255,.7)"
     canvas.fillRect(0,0,canvas.width,canvas.height);
-    this.deathCount.text = this.prevScene.deaths;
+    this.deathCount.text = ""+this.prevScene.totalDeaths;
     this.drawAllGUI(canvas);
     if(this.debug)
       drawGrid(canvas);
