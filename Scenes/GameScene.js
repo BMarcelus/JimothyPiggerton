@@ -10,6 +10,7 @@ class GameScene extends Scene {
     var p1controls = connectControls(Player.controls, this.player);
     this.p1controls = p1controls;
     this.gamePadOn = true;
+    
     this.keyMap = {
       68: p1controls.right,
       87: p1controls.up,
