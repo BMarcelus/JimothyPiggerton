@@ -15,4 +15,5 @@ loadSequentially('Scenes/',
   "OptionScene.js",
   "LevelIntroScene.js",
   "LevelCompleteScene.js",
+  "PostWinScene.js",
 ]);

@@ -178,7 +178,7 @@ class GameScene extends Scene {
   }
   
   win() {
-    this.driver.setScene(new WinScene());    
+    this.driver.setScene(new PostWinScene(this));    
   }
   loadNewLevel(index) {
     if(index<0)index=0;
