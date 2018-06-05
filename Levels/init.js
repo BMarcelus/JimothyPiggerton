@@ -1,5 +1,5 @@
 var LEVEL_CREATION_FUNCTIONS = [];
-var PLAYER_ABILITIES = [function(player){},function(player) {player.wallJumps = true;}, function(player) {player.maxJumps = 2; player.jumpCount = 1;}];
+var PLAYER_ABILITIES = [function(player){},function(player) {player.wallJumps = true;}, function(player) {player.maxJumps = 2; player.jumpCount = 1; if(player.holdingJump && player.vy > 0) player.jump();}];
 
 function addLevel(func) {
   LEVEL_CREATION_FUNCTIONS.push(func);

@@ -13,6 +13,7 @@ class Player extends Mover{
     this.color2 = "#222";
     this.jumpSoundType = SOUNDMAP.jump;
     this.bouncedOffEntity = false;
+    this.holdingJump = false;
   }
   die() {
     if(this.dead)return;
@@ -298,9 +299,9 @@ Player.controls = {
   right: {down: function() {if (this.crouching) this.dash(1);}, held: function() { this.mx += 1; }},
   left: {down: function() {if (this.crouching) this.dash(-1);}, held: function() { this.mx -= 1; }},
   up: {
-    down: function() { if(!this.dead)this.jump(); },
-    up: function() { if(!this.dead && !this.bouncedOffEntity){this.shortJump(); this.eyeMovement.ty = 0;} },
-    held: function() { this.eyeMovement.ty = - 6; this.height += .5; this.width -= .5},
+    down: function() { this.holdingJump = true; if(!this.dead)this.jump(); },
+    up: function() { this.holdingJump = false; if(!this.dead && !this.bouncedOffEntity){this.shortJump(); this.eyeMovement.ty = 0;} },
+    held: function() { this.holdingJump = true; this.eyeMovement.ty = - 6; this.height += .5; this.width -= .5},
   },
   down: {down: function() { this.crouch(); }, noneheld: function() { this.uncrouch(); }},
   dash: { down: function() { this.dash(1-2*this.flipped); }},
