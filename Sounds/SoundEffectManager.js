@@ -1,6 +1,13 @@
 var AUDIOCONTEXT;
 var DESTINATION;
 var BUFFERBUFFER = [];
+var VOLUME = 1;
+function setVolume(val) {
+  if(val < 0) val = 0;
+  if(val > 1) val = 1;
+  VOLUME = val;
+  DESTINATION.gain.setValueAtTime(val, 0);  
+}
 function initializeSound() {
   // console.log('a');
   if('webkitAudioContext' in window) {
@@ -193,6 +200,7 @@ class SoundTag {
     audioElement.volume = this.volume;
   }
   play() {
+    this.audioElement.volume = this.volume * VOLUME;
     this.audioElement.play();
     this.audioElement.currentTime = 0;
     return this;
