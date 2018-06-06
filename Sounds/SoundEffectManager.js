@@ -266,6 +266,7 @@ class MusicSource extends SoundSource {
   constructor(...args) {
     super(...args);
     this.loops = true;
+    this.lastVolume = 1;
   }
   play() {
     if(this.lastSound)return this.lastSound;

@@ -258,7 +258,7 @@ class GameScene extends Scene {
     if(pig&&player) {
       var r = distanceBetweenEntities(pig, player);
       if(r<500) {
-        SOUNDMAP.music.setVolume(r/500);     
+        SOUNDMAP.music.lerpVolume(r/500);     
         if(r<100) {
           this.musicFaded = true;
           this.musicTime = this.music.getTime();
