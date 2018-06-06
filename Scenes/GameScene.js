@@ -143,8 +143,8 @@ class GameScene extends Scene {
     var d = 0;
     if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
     if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
-    if(camera.dy>60)camera.dy=60;
-    if(camera.dy>10) camera.y+=(camera.dy-10)/3;
+    if(camera.dy>30)camera.dy=30;
+    if(camera.dy>10) camera.y+=(camera.dy*2-10)/3;
     //make the camera point more towards the direction
     //that the player is moving in so they can see ahead
     if(player.mx!=0) {
