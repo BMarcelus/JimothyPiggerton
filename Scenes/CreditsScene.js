@@ -17,7 +17,7 @@ class CreditsScene extends Scene{
     this.memberRoles = ["js wizardry",
                         "Programming and Design",
                         "Programming",
-                        "Audio",
+                        "Music & Audio",
                         "Art",
                         "Programming",
                         "Programming"];

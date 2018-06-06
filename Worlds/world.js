@@ -139,7 +139,7 @@ class World {
       var cellPos = this.matrixToPoint(p.x,p.y);      
       cellPos.i = i;
       // var type = this.pointCollides(x1,y1);
-      var type = this.wallExists(p.x,p.y);
+      var type = this.getCellType(p.x,p.y);
       if(type === true) return cellPos;
       var cell = CELLMAP[type];
       if(!cell)continue;
@@ -182,7 +182,16 @@ class World {
   drawBackground(canvas, camera) {
     this.background.draw(canvas, camera, this);
   }
+  getCellType(x,y) {
+    if(y >= this.h) {
+      if(y>this.h + 1) return 2;
+      return 0;
+    }
+    if(this.oob(x,y))return true;
+    return this.world[y][x];
+  }
   getCell(x,y) {
+    if(y >= this.h) return CELLMAP[2];
     if(this.oob(x,y))return {};
     return CELLMAP[this.world[y][x]];
   }
@@ -203,6 +212,15 @@ class WorldFromLevel extends World {
     // if(index>2) backgroundType=1;
     // if(index>3)backgroundType=2;
     if(level.worldType) backgroundType = level.worldType;
+    var song = 0;
+    if(level.song!=undefined){
+      song = level.song;
+    }else {
+      song = (level.worldType == 2 ? 1:0);
+    }
+    SOUNDMAP.music.setSong(song);
+    // if(level.worldType == 2)SOUNDMAP.music.setSong(1);
+    // else SOUNDMAP.music.setSong(0);
     super(backgroundType);
     var grid = level.grid;
     //

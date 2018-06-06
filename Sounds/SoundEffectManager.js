@@ -151,8 +151,13 @@ class SoundSource {
     this.buffer=buffer;
     this.loaded = true;
   }
+  stopSound() {
+    if(!this.lastSound) return;
+    this.lastSound.stopSound();
+    this.lastSound = null;
+  }
   setVolume(v) {
-    this.lastVolume = v;    
+    this.lastVolume = v;
     v = v*this.volume;
     if(v<0)v=0;
     if(v>1)v=1;
@@ -161,6 +166,7 @@ class SoundSource {
   play() {
     var audioContext= AUDIOCONTEXT;
     var destination = DESTINATION;
+    if(!destination)return;
     var time = audioContext.currentTime;
     var source = audioContext.createBufferSource();
     source.buffer = this.buffer;
@@ -210,6 +216,7 @@ class SoundTag {
     this.setVolume(1);
   }
   play() {
+    if(!DESTINATION)return;    
     this.audioElement.play();
     this.audioElement.currentTime = 0;
     if(this.loops) this.audioElement.loop = true;        
@@ -274,6 +281,45 @@ class MusicSource extends SoundSource {
   }
   lerpVolume(v) {
     this.setVolume(this.lastVolume + (v-this.lastVolume) / 10);
+  }
+}
+
+class MusicHandler {
+  constructor(...args) {
+    this.songs = args;
+    this.setSong(0);
+  }
+  setSong(index) {
+    console.log(index);
+    var newSong = this.songs[index];
+    if(this.song == newSong) return;
+    newSong.play();
+    console.log(this.song);
+    if(this.song){
+      this.song.stopSound();
+    }
+    this.song = newSong;
+  }
+  play() {
+    if(this.song == undefined)return;
+    console.log(this.song);
+    this.song.stopSound();
+    return this.song.play();
+  }
+  lerpVolume(v) {
+    this.song.lerpVolume(v);
+  }
+  setVolume(v) {
+    this.song.setVolume(v);
+  }
+  getTime() {
+    return this.song.getTime();
+  }
+  pause() {
+    this.song.pause();
+  }
+  resume(k) {
+    this.song.resume(k);
   }
 }
 
