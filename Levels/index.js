@@ -11,6 +11,7 @@ loadSequentially('Levels/',
   // "Roundabout.js",
   
   "TheAcorn2.js",
+  "JungleGym.js",
   "level4.js",
   "wallJumpTest.js",
   "AcornTactics.js",
