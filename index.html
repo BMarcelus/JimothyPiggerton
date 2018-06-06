@@ -24,6 +24,7 @@
 <canvas id="gc" width="1000" height="600"></canvas>
 <script>
   var debug = 0;
+  var DEBUG = false;
   function debugLog(...args) {
     for(var i in args)
     debug = debug+','+args[i];
@@ -90,40 +91,34 @@ var touchButtons = [
 function pressed(b) {
   return b && (b==1 || b.pressed);
 }
-function handleGamePadMenu(driver) {
-  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-  for(var i=0;i<gamepads.length;i++) {
-    var gp = gamepads[i];
-    if(!gp || gp.buttons.length <= 0)continue;
-    if(gp.buttons) {
-      if(pressed(gp.buttons[0])) {
-        if(!this.heldA) driver.keydown({keyCode: 32});
-        this.heldA = true;
-      } else if(this.heldA) {
-        driver.keyup({keyCode: 32});        
-        this.heldA = false;
-      }
-    }
-  }
-}
-function handleGamePad(player) {
+function handleGamePad(driver) {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
   // if(gamepads2.length>0)
-  var driver = player.game.driver;
-  var controls = player.controls;
   for(var i=0;i<gamepads.length;i++) {
     var gp = gamepads[i];
     if(!gp || gp.buttons.length <= 0)continue;
     if(gp.axes) {
       var x = gp.axes[0];
       var y = gp.axes[1];
-      if(x*x+y*y<.25) {
-        x=0;
-        y=0;
+      if(Math.abs(x)<.25)x=0;
+      if(Math.abs(y)<.25)y=0;
+      // if(x>0)x=1;
+      // if(x<0)x=-1;
+      // player.mx += x;
+      if(x>0) {
+        this.heldRight=true;
+        driver.keydown({keyCode: 68});
+      } else if(this.heldRight) {
+        this.heldRight=false;        
+        driver.keyup({keyCode: 68});        
       }
-      if(x>0)x=1;
-      if(x<0)x=-1;
-      player.mx += x;
+      if(x<0) {
+        this.heldLeft=true;
+        driver.keydown({keyCode: 65});
+      } else if(this.heldLeft) {
+        this.heldLeft = false;
+        driver.keyup({keyCode: 65});        
+      }
       if(y>.8) {
         driver.keydown({keyCode: 83});
         this.heldDown = true;
@@ -131,20 +126,31 @@ function handleGamePad(player) {
         this.heldDown = false;
         driver.keyup({keyCode: 83});
       }
+      if(y<-.8) {
+        driver.keydown({keyCode: 87});
+        this.heldUp = true;
+      } else if(this.heldUp){
+        this.heldUp = false;
+        driver.keyup({keyCode: 87});
+      }
     }
     if(gp.buttons) {
       
       if(pressed(gp.buttons[0])) {
-        if(!this.heldA) player.jump();
+        // if(!this.heldA) player.jump();
         driver.keydown({keyCode: 32});
         this.heldA = true;
       } else if(this.heldA) {
-        player.shortJump();
+        // player.shortJump();
         driver.keyup({keyCode: 32});        
         this.heldA = false;
       }
       if(pressed(gp.buttons[1])) {
-        player.dash();
+        this.heldB = true;
+        driver.keydown({keyCode: 27});
+      } else if(this.heldB) {
+        this.heldB = false;
+        driver.keyup({keyCode: 27});
       }
     }
   }
@@ -179,7 +185,7 @@ class MainDriver {
     // var dt = time-this.lastTime;
     // this.lastTime=time;
 
-    handleGamePadMenu(this);
+    handleGamePad(this);
     this.scene.keys = this.keys;
     this.scene.update(dt, this.frameCount);
     for(var i=0;i<this.timeoutes.length;i+=1) {
