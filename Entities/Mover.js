@@ -27,7 +27,8 @@ class Mover {
     this.mover = true;
     this.wallSlides = true;
     this.wallJumps = false;
-    this.groundAccel = 3;
+    this.groundAccel = 2;
+    this.airAccel = 1.5;
     this.currentGroundAccel = this.groundAccel;
     this.diesToSpikes = false;
     this.spinning = false;
@@ -62,7 +63,7 @@ class Mover {
     } else {
       // this.vx += (this.mx*this.speed-this.vx)/3;     
       var ga = this.currentGroundAccel;
-      if(!this.grounded)ga = ga/2;
+      if(!this.grounded)ga = this.airAccel;
       var mx = this.mx;
       if(this.movementStun) mx =0;
       if(mx==0&&this.grounded)ga = 10;
@@ -75,6 +76,7 @@ class Mover {
     if(this.vy>tv)this.vy = tv;
     // this.x += this.vx;
     // this.y += this.vy;
+    // this.safeMove(this.vx*dt,(this.vy - this.grav * dt/2)*dt);    
     this.safeMove(this.vx*dt,this.vy*dt + this.grav * dt * dt /2);
     // staticWorldCollide(this);
     // safeMoveOnWorld(this,this.vx,this.vy);
@@ -360,10 +362,12 @@ class Mover {
     this.crouching = false;
   }
   getHitBox() {
-    return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
+    var w = this.width;
+    var h = this.height;
+    return {x:this.x-.5*w, y:this.y-h, w:w, h:h};
   }
   dash(dir) {
-    if(!DEBUG) return;
+    if(!DASHON) return;
     if(dir==undefined) dir = this.mx;
     if(!dir) dir = 1-2*this.flipped;
     if (this.dashCount == 0)

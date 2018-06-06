@@ -14,6 +14,7 @@ class Player extends Mover{
     this.jumpSoundType = SOUNDMAP.jump;
     this.bouncedOffEntity = false;
     this.holdingJump = false;
+    this.bounceTimer = 0;
   }
   die() {
     if(this.dead)return;
@@ -21,7 +22,8 @@ class Player extends Mover{
     this.dead=true;
     this.eyeMovement.x = -5;
     this.eyeMovement.y = 0;
-      this.game.screenShakeLevel += 1;            
+      this.game.screenShakeLevel += 1;   
+      this.game.frameStop = 10;         
       this.eyeMovement.blink = 0;
     this.animation = new Animation(4, function(dt, frameCount) {
       this.mx = 0;
@@ -58,7 +60,7 @@ class Player extends Mover{
     this.mx = 0;
   }
   update(dt, frameCount){
-    
+    if(this.bounceTimer>0)this.bounceTimer -= 1;
     if(this.animation) {
       this.animation.update(dt, frameCount);
       return;
@@ -275,6 +277,7 @@ class Player extends Mover{
   }
   bounceOffEntity(enemy, amt) {
     this.groundCollide(this.y, true);
+    this.bounceTimer = 10;
     // var jr = this.jumpRelease;
     var d = (amt || amt==0) ? amt : 20;
     this.jump(d, true);

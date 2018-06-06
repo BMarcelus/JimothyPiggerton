@@ -6,6 +6,11 @@ addBlock(function() { return {
       angle: 0,
       redraws: false,
       draw: function(canvas, x,y,w,h, world,i,j) {
+        if(world.getCell(i,j-1).trunk||world.getCell(i,j+1).trunk||world.getCell(i+1,j).trunk||world.getCell(i-1,j).trunk)
+        CELLMAP[18].draw(canvas,x,y,w,h,world,i,j);   
+        this.drawSpike(canvas,x,y,w,h,world,i,j);
+      },
+      drawSpike: function(canvas, x,y,w,h, world,i,j) {
         canvas.fillStyle="white";
         canvas.strokeStyle = "#000";
         canvas.save();

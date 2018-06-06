@@ -24,7 +24,8 @@
 <canvas id="gc" width="1000" height="600"></canvas>
 <script>
   var debug = 0;
-  var DEBUG = false;
+  var DEBUG = true;
+  var DASHON = false;
   function debugLog(...args) {
     for(var i in args)
     debug = debug+','+args[i];
@@ -168,6 +169,7 @@ class MainDriver {
     this.mouse = {x:0,y:0};
     this.soundsInitialized = false;
     this.timeoutes = [];
+    this.gamepadOn=true;
   }
   setTimeout(callback, frames) {
     this.timeoutes.push({callback, frames});
@@ -184,7 +186,7 @@ class MainDriver {
     // var time = Date.now();
     // var dt = time-this.lastTime;
     // this.lastTime=time;
-
+    if(this.gamepadOn)
     handleGamePad(this);
     this.scene.keys = this.keys;
     this.scene.update(dt, this.frameCount);

@@ -69,7 +69,7 @@ class Woof extends Enemy {
             entity.mx *= -1;
             entity.vy = -10;
             //entity.jump();
-            //entity.killPlayer = false;
+            entity.killPlayer = false;
             //entity.mx *= -1;
           }
           //if (entity.transition == 20)
@@ -86,7 +86,7 @@ class Woof extends Enemy {
             if (dist > -entity.xsight/2 && dist < entity.xsight/2 && entity.transition == 0)
             {
               entity.jump();
-              //entity.killPlayer = true;
+              entity.killPlayer = true;
             }
           }
           
@@ -119,16 +119,8 @@ class Woof extends Enemy {
       });
   }
 
-  // playerCollision(player) {
-	// 	if(player.y < this.y) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
-
-
   onHitPlayer(player) {
+    if(!this.killPlayer)return;
     this.y -= 5;
     //player.vy = -5;
     player.vx = (2*(this.mx >= 0)-1) * 20;
@@ -164,6 +156,8 @@ class Woof extends Enemy {
     this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//prepare for next state
     this.speed = 0;
     this.jump();//just a lil surprise animation
+    this.game.addEntity(new SleepText(this.x,this.y-this.h-70,80,0,-1,"!",
+    "45", "Noteworthy",[255,255,255,1],[250,40,40,0],10,10,true));
     return 1;//change state
   }
 

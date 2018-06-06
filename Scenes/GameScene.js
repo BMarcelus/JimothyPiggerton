@@ -25,12 +25,12 @@ class GameScene extends Scene {
       27: {down: this.pause.bind(this)},
       69: p1controls.dash,
       78: {down: function() {
-        if(this.keys[67]) {
+        if(this.keys[67] && DEBUG) {
           this.loadNewLevel(this.levelIndex+1);
         }
       }.bind(this)},
       66: {down: function() {
-        if(this.keys[67]) {
+        if(this.keys[67] && DEBUG) {
           this.loadNewLevel(this.levelIndex-1);
         }
       }.bind(this)},
@@ -143,8 +143,8 @@ class GameScene extends Scene {
     var d = 0;
     if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
     if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
-    if(camera.dy>60)camera.dy=60;
-    if(camera.dy>10) camera.y+=(camera.dy-10)/3;
+    if(camera.dy>30)camera.dy=30;
+    if(camera.dy>10) camera.y+=(camera.dy*2-10)/3;
     //make the camera point more towards the direction
     //that the player is moving in so they can see ahead
     if(player.mx!=0) {
@@ -184,6 +184,7 @@ class GameScene extends Scene {
     this.driver.setScene(new PostWinScene(this));    
   }
   loadNewLevel(index) {   
+    this.frameStop = 0;
     if(index<0)index=0;
     this.butcher = null;
     this.kingByrd = null;
@@ -257,7 +258,7 @@ class GameScene extends Scene {
     if(pig&&player) {
       var r = distanceBetweenEntities(pig, player);
       if(r<500) {
-        SOUNDMAP.music.setVolume(r/500);     
+        SOUNDMAP.music.lerpVolume(r/500);     
         if(r<100) {
           this.musicFaded = true;
           this.musicTime = this.music.getTime();
@@ -290,7 +291,9 @@ class GameScene extends Scene {
       // return;
       this.frameStop-=0.1;
       var t = this.frameStop;
-      dt = dt * (1 - 0.8 * t/5)
+      t=t/5;
+      if(t>1) t = 1;
+      dt = dt * (1 - 0.8 * t)
     }
     for(var i=0;i<entities.length;i+=1) {
       var entity = entities[i];
