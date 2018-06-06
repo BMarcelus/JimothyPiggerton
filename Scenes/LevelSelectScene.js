@@ -21,11 +21,18 @@ class LevelSelectScene extends Scene{
           '40': { down: this.navigateLevelSelect.bind(this,2)},   //down
           '37': { down: this.navigateLevelSelect.bind(this,3)},   //left
         }
-        this.levelsInWorld = [8,6,5];     //numbers should match how many levels are in each world
+        this.levels = createLevels();    
+
+        this.levelsInWorld = [0,0,0];     //numbers should match how many levels are in each world
+        for(var i = 0; i < this.levels.length; i += 1) {
+          var level = this.levels[i];
+          var worldType = level.worldType || 0;
+          this.levelsInWorld[worldType] += 1;
+        }
         this.menuState = SELECTWORLD;
         this.worldSelected = 0;
         this.levelIndex = 0;    
-        this.buttonsInRow = 4;
+        this.buttonsInRow = 6;
         this.buttonRow = [];
 
         this.worldButtons = [];
@@ -37,7 +44,6 @@ class LevelSelectScene extends Scene{
                                                                 //top to bottom
                                                                 //4 ScrollingBackgrounds each
         this.createBackgrounds();
-        this.levels = createLevels();
 
 
     }

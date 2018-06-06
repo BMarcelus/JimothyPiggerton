@@ -7,16 +7,17 @@ class FallingParticle {
     this.da = Math.PI/20;
     this.angle = 0;
   }
-  update() {
+  update(dt) {
+    dt = 1 + (dt/0.8-1) / 2;
     this.life--;
     if(this.life<=0) {
       this.shouldDelete = true;
       return;
     }
-    this.x+=this.vx;
-    this.y+=this.vy;
+    this.x+=this.vx*dt;
+    this.y+=this.vy*dt;
     this.angle += this.da;
-    this.vy += .5;
+    this.vy += .5*dt;
   }
   draw(canvas) {
     canvas.save();

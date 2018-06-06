@@ -23,7 +23,12 @@ class LevelCompleteScene extends Scene{
     this.update = this.update0;
     prevScene.screenShakeLevel = 0;
     this.keyMap = {
-      27: {down: this.loadNextScene.bind(this) },
+      27: {down: this.startExitTransition.bind(this) },
+      78: {down: function() {
+        if(this.keys[67] && DEBUG) {
+          this.loadNextScene();
+        }
+      }.bind(this)},
     };
     this.butcher = new Butcher(0,0);
     this.butcher.ghostOn = true;
@@ -50,7 +55,7 @@ class LevelCompleteScene extends Scene{
     this.prevLevelAlpha = 1 - t;
     if(this.time>=this.maxTime) {
       this.prevLevelAlpha = 0;
-      // this.loadNextScene();
+      // this.startExitTransition();
       this.time = 0;
       this.update = this.update2;
       return;
@@ -91,7 +96,7 @@ class LevelCompleteScene extends Scene{
     this.pig.y += Math.sin(t*t*Math.PI*2) *1;
     if(this.time>this.maxTime) {
       if(this.win) {
-        return this.loadNextScene();
+        return this.startExitTransition();
       }
       this.prevScene.screenShakeLevel = 1; 
       SOUNDMAP.pigrip.play();
@@ -116,7 +121,7 @@ class LevelCompleteScene extends Scene{
     this.prevScene.updateScreenShakeLevel();
     pig.x += (t*t)*20;
     if(this.time >= this.maxTime) {
-      this.loadNextScene();
+      this.startExitTransition();
     }
     player.eyeMovement.blink = -2 + 2*t;
     player.angle = t*Math.PI/5-Math.PI/5;
@@ -151,17 +156,18 @@ class LevelCompleteScene extends Scene{
     }
     canvas.restore();
   }
-  loadNextScene(){
+  startExitTransition(){
     this.update = super.update;
     setTimeout(() => {
-      this.startTransition(20, 1, function() {     
-        this.player.ghostOn = false;
-        this.pig.ghostOn = false;
-        this.player.flipped = false;
-        this.driver.setScene(this.prevScene);
-        this.callback();
-      });
+      this.startTransition(20, 1, this.loadNextScene);
     }, 300)
+  }
+  loadNextScene() {
+    this.player.ghostOn = false;
+    this.pig.ghostOn = false;
+    this.player.flipped = false;
+    this.driver.setScene(this.prevScene);
+    this.callback();
   }
   addAllGUI(){
     var bigFont = "60px Noteworthy";

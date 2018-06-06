@@ -17,9 +17,9 @@ function initializeSound() {
   }
   AUDIOCONTEXT.resume();
   var GAIN = AUDIOCONTEXT.createGain();
-  GAIN.gain.setValueAtTime(.5, 0);
   GAIN.connect(AUDIOCONTEXT.destination);
   DESTINATION = GAIN;
+  setVolume(0.5);
   for(var i in BUFFERBUFFER) {
     BUFFERBUFFER[i].beginLoad();
   }
@@ -36,7 +36,7 @@ class SoundEffect {
     this.length = this.sampleRate*len;
   }
   play(entity) {
-    return;
+    // return;
     if(!DESTINATION)return;
     var volume = 1;
     if(entity&&!entity.player) {
@@ -152,7 +152,8 @@ class SoundSource {
     this.loaded = true;
   }
   setVolume(v) {
-    v = v*VOLUME*this.volume;
+    this.lastVolume = v;    
+    v = v*this.volume;
     if(v<0)v=0;
     if(v>1)v=1;
     this.lastSound.myGain.gain.setValueAtTime(v, AUDIOCONTEXT.currentTime);
@@ -198,7 +199,6 @@ class SoundTag {
     url = "./SoundAssets/" + url;
     this.url = url;
     this.playbackRate = playbackRate || 1;
-    if(volume>1)volume=1;
     this.volume = volume || 1;
     this.createAudio();
   }
@@ -207,10 +207,9 @@ class SoundTag {
     audioElement.src = this.url;
     this.audioElement = audioElement;
     audioElement.playbackRate = this.playbackRate;
-    audioElement.volume = this.volume;
+    this.setVolume(1);
   }
   play() {
-    this.audioElement.volume = this.volume * VOLUME;
     this.audioElement.play();
     this.audioElement.currentTime = 0;
     if(this.loops) this.audioElement.loop = true;        
@@ -232,6 +231,7 @@ class SoundTag {
     return this.audioElement.currentTime;
   }
   setVolume(v) {
+    this.lastVolume = v;        
     v = v*VOLUME*this.volume;
     if(v<0)v=0;
     if(v>1)v=1;
@@ -270,6 +270,9 @@ class MusicSource extends SoundSource {
   play() {
     if(this.lastSound)return this.lastSound;
     return super.play();
+  }
+  lerpVolume(v) {
+    this.setVolume(this.lastVolume + (v-this.lastVolume) / 10);
   }
 }
 

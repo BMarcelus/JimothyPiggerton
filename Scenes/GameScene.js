@@ -25,12 +25,12 @@ class GameScene extends Scene {
       27: {down: this.pause.bind(this)},
       69: p1controls.dash,
       78: {down: function() {
-        if(this.keys[67]) {
+        if(this.keys[67] && DEBUG) {
           this.loadNewLevel(this.levelIndex+1);
         }
       }.bind(this)},
       66: {down: function() {
-        if(this.keys[67]) {
+        if(this.keys[67] && DEBUG) {
           this.loadNewLevel(this.levelIndex-1);
         }
       }.bind(this)},
@@ -184,6 +184,7 @@ class GameScene extends Scene {
     this.driver.setScene(new PostWinScene(this));    
   }
   loadNewLevel(index) {   
+    this.frameStop = 0;
     if(index<0)index=0;
     this.butcher = null;
     this.kingByrd = null;
@@ -290,7 +291,9 @@ class GameScene extends Scene {
       // return;
       this.frameStop-=0.1;
       var t = this.frameStop;
-      dt = dt * (1 - 0.8 * t/5)
+      t=t/5;
+      if(t>1) t = 1;
+      dt = dt * (1 - 0.8 * t)
     }
     for(var i=0;i<entities.length;i+=1) {
       var entity = entities[i];

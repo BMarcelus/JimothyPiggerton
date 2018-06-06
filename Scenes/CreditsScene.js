@@ -10,7 +10,7 @@ class CreditsScene extends Scene{
     this.memberNames = ["Brian Dizon",
                         "Christian Gramling",
                         "Kyle Wong",
-                        "Kristin",
+                        "Kristen Campbell",
                         "Taylor Poppoff",
                         "TJ Hanson",
                         "Muhammad Albayati",];

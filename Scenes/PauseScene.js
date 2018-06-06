@@ -28,6 +28,7 @@ class PauseScene extends Scene {
   }
   update(dt){
     super.update(dt);
+    SOUNDMAP.music.lerpVolume(0.2, 0.05);
   }
   unpause() {
     this.driver.setScene(this.prevScene);
