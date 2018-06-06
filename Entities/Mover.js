@@ -27,7 +27,7 @@ class Mover {
     this.mover = true;
     this.wallSlides = true;
     this.wallJumps = false;
-    this.groundAccel = 2;
+    this.groundAccel = 3;
     this.currentGroundAccel = this.groundAccel;
     this.diesToSpikes = false;
     this.spinning = false;

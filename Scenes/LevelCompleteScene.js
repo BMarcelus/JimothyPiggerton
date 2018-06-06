@@ -1,8 +1,9 @@
 class LevelCompleteScene extends Scene{
-  constructor(prevScene, callback){
+  constructor(prevScene, callback, win){
     super(false);
     this.prevScene = prevScene;
     this.callback = callback;
+    this.win = win;
     this.player = prevScene.player;
     this.pig = prevScene.pig;
     this.prevLevelAlpha = 1;
@@ -89,6 +90,9 @@ class LevelCompleteScene extends Scene{
     this.player.y += Math.sin(t*t*Math.PI*2) *1;
     this.pig.y += Math.sin(t*t*Math.PI*2) *1;
     if(this.time>this.maxTime) {
+      if(this.win) {
+        return this.loadNextScene();
+      }
       this.prevScene.screenShakeLevel = 1; 
       SOUNDMAP.pigrip.play();
       this.player.maxJumps = 1;

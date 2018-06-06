@@ -42,6 +42,7 @@ class World {
   constructor(bgtype) {
     this.worldtype = bgtype;
     this.background = new Background(bgtype);    
+    this.s = 40;
   }
   forceRedraw() {
     this.image = null;
@@ -192,8 +193,6 @@ class WorldDefault extends World {
     super();    
     this.w=w;
     this.h=h;
-    s = 40;    
-    this.s=s;
     this.world = makeWorld(w,h);
   }
 }
@@ -205,7 +204,6 @@ class WorldFromLevel extends World {
     // if(index>3)backgroundType=2;
     if(level.worldType) backgroundType = level.worldType;
     super(backgroundType);
-    this.s = 40;
     var grid = level.grid;
     //
     this.world = grid;

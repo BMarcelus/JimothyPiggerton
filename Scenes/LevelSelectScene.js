@@ -21,11 +21,11 @@ class LevelSelectScene extends Scene{
           '40': { down: this.navigateLevelSelect.bind(this,2)},   //down
           '37': { down: this.navigateLevelSelect.bind(this,3)},   //left
         }
-        this.levelsInWorld = [10,10,10];     //numbers should match how many levels are in each world
+        this.levelsInWorld = [8,6,5];     //numbers should match how many levels are in each world
         this.menuState = SELECTWORLD;
         this.worldSelected = 0;
         this.levelIndex = 0;    
-        this.buttonsInRow = 8;
+        this.buttonsInRow = 4;
         this.buttonRow = [];
 
         this.worldButtons = [];
@@ -129,25 +129,25 @@ class LevelSelectScene extends Scene{
       this.backgroundList[0].push(bg2);
 
       xScale = 0.7;
-      var bgSprite3 = createHillBackground(6000, "rgb(187,154,57)", false);
+      var bgSprite3 = createForrestBackground(60, "0b6623", false);
       var bg1 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,0,120,false,false);
       var bg2 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,bgSprite3.width,120,true,false);
       this.backgroundList[1].push(bg1);
       this.backgroundList[1].push(bg2);
 
-      var bgSprite4 = createHillBackground(6000, "rgb(239,209,59)", false);
+      var bgSprite4 = createForrestBackground(100, "0b6623", false);
       bg1 = new ScrollingBackgroundObject(bgSprite4,xScale,.2,fastSpeed,0,237,false,false);
       bg2 = new ScrollingBackgroundObject(bgSprite4,xScale,0.2,fastSpeed,bgSprite4.width,237,true,false);
       this.backgroundList[1].push(bg1);
       this.backgroundList[1].push(bg2);
 
-      var bgSprite5 = createForrestBackground(60, "0b6623", false);
+      var bgSprite5 = createSpikeBackground(60, "#222", false);
       var bg1 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,0,320,false,false);
       var bg2 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,bgSprite5.width,320,true,false);
       this.backgroundList[2].push(bg1);
       this.backgroundList[2].push(bg2);
 
-      var bgSprite6 = createForrestBackground(100, "0b6623", false);
+      var bgSprite6 = createSpikeBackground(100, "#222", false);
       bg1 = new ScrollingBackgroundObject(bgSprite6,xScale,.2,fastSpeed,0,437,false,false);
       bg2 = new ScrollingBackgroundObject(bgSprite6,xScale,0.2,fastSpeed,bgSprite6.width,437,true,false);
       this.backgroundList[2].push(bg1);
@@ -166,10 +166,10 @@ class LevelSelectScene extends Scene{
       var world1Back = new ColorLerpBox(0,0,1,.333,3,[135,206,235,255],[128,128,128,255],25,true );
       this.backWall.push(world1Back);
 
-      var world2Back = new ColorLerpBox(0,.3333,1,.333,3,[230,166,68,255],[128,128,128,255],25,false );
+      var world2Back = new ColorLerpBox(0,.3333,1,.333,3,[135,206,235,255],[128,128,128,255],25,false );
       this.backWall.push(world2Back);
 
-      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[135,206,235,255],[128,128,128,255],25,false );
+      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[130,56,48,255],[128,128,128,255],25,false );
       this.backWall.push(world3Back);
 
       //World labels

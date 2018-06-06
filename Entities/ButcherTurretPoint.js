@@ -5,7 +5,7 @@ class ButcherTurretPoint {
     this.w = 20;
     this.h=20;
     this.update = this.update1;
-    this.range = 200;
+    this.range = 300;
   }
   update1() {
     var butcher = this.game.butcher;
@@ -18,6 +18,7 @@ class ButcherTurretPoint {
     this.update=this.update2;
   }
   update2(dt,frameCount) {
+    return this.butcher.processPoint(this);
     var player = this.game.player;
     var dx = player.x - this.x;
     var dy = player.y - this.y - player.h/2;

@@ -198,6 +198,7 @@ class SoundTag {
     this.audioElement = audioElement;
     audioElement.playbackRate = this.playbackRate;
     audioElement.volume = this.volume;
+    if(this.loops) audioElement.loop = true;
   }
   play() {
     this.audioElement.volume = this.volume * VOLUME;
@@ -207,6 +208,12 @@ class SoundTag {
   }
   stopSound() {
     this.audioElement.pause();
+  }
+  pause() {
+    this.audioElement.pause();
+  }
+  resume() {
+    this.audioElement.play();
   }
 }
 
@@ -237,22 +244,29 @@ class MusicSource extends SoundSource {
     super(...args);
     this.loops = true;
   }
-  onloadBuffer(buffer) {
-    this.buffer=buffer;
-    this.loaded = true;
-    this.play();
-    // setInterval(() => {
-    //   this.setPitch();
-    // }, 4000)
-    this.setPitch();
-  }
-  setPitch() {
-    // var v = 1 + (Math.random()-0.5)/2;
-    var v = 1;
-    if(Math.random()>.5)v = 2;
-    this.lastSound.playbackRate.setValueAtTime(v, AUDIOCONTEXT.currentTime);
-    setTimeout(() => {
-      this.setPitch();
-    }, 4000/v);
-  }
 }
+
+// class MusicSource extends SoundSource {
+//   constructor(...args) {
+//     super(...args);
+//     this.loops = true;
+//   }
+//   onloadBuffer(buffer) {
+//     this.buffer=buffer;
+//     this.loaded = true;
+//     this.play();
+//     // setInterval(() => {
+//     //   this.setPitch();
+//     // }, 4000)
+//     this.setPitch();
+//   }
+//   setPitch() {
+//     // var v = 1 + (Math.random()-0.5)/2;
+//     var v = 1;
+//     if(Math.random()>.5)v = 2;
+//     this.lastSound.playbackRate.setValueAtTime(v, AUDIOCONTEXT.currentTime);
+//     setTimeout(() => {
+//       this.setPitch();
+//     }, 4000/v);
+//   }
+// }

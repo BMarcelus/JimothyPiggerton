@@ -10,7 +10,6 @@ class GameScene extends Scene {
     var p1controls = connectControls(Player.controls, this.player);
     this.p1controls = p1controls;
     this.gamePadOn = true;
-    
     this.keyMap = {
       68: p1controls.right,
       87: p1controls.up,
@@ -64,6 +63,7 @@ class GameScene extends Scene {
     this.totalDeaths = 0;
     this.levelDeaths = 0;
     this.constrainCamera();
+    this.frameStop = 0;
   }
   addEntity(entity) {
     entity.game = this;
@@ -78,6 +78,10 @@ class GameScene extends Scene {
     this.startTransition(25,-1,undefined);
   }
   playLevelOutro(){
+    var win = this.levelIndex+1>=this.levels.length;
+    if(this.music) {
+      // this.music.pause();
+    }
     if(this.pig)
     this.driver.setScene(new LevelCompleteScene(this, () => {
       // this.startTransition(25, 1, function() { 
@@ -88,7 +92,7 @@ class GameScene extends Scene {
           this.driver.setScene(new LevelIntroScene(this,true));
         }
       // });
-    }));
+    }, win));
     else {
        this.startTransition(25, 1, function() { 
         if(this.levelIndex+1 >= this.levels.length) {
@@ -180,7 +184,7 @@ class GameScene extends Scene {
   win() {
     this.driver.setScene(new PostWinScene(this));    
   }
-  loadNewLevel(index) {
+  loadNewLevel(index) {   
     if(index<0)index=0;
     this.butcher = null;
     this.kingByrd = null;
@@ -191,6 +195,10 @@ class GameScene extends Scene {
     } else {
       this.levelIndex = index;
       this.levelDeaths = 0;
+      if(this.music) {
+        this.music.resume();
+      }else
+      this.music = SOUNDMAP.music.play(); 
     }
     if(this.levelIndex>=this.levels.length) {
       this.win();
@@ -249,6 +257,12 @@ class GameScene extends Scene {
     super.update(dt);
     if(this.gamePadOn) {
       handleGamePad(this.player);
+    }
+    if(this.frameStop>0) {
+      this.frameStop -= 1;
+      this.followPlayer();   
+      this.updateScreenShakeLevel();         
+      return;
     }
     for(var i=0;i<entities.length;i+=1) {
       var entity = entities[i];
