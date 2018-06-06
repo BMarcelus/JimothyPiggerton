@@ -16,16 +16,17 @@ class ButcherTurret extends Butcher{
     this.min = null;
   }
   update(dt,frameCount) {
+    dt = dt/0.8;
     if(this.shootTimer>-20&&this.shootTimer<30) {
       var mx = this.targetX-this.x;
       var my = this.targetY-this.y;
-      this.x += mx /10;
-      this.y += my /10;
+      this.x += mx /10*dt;
+      this.y += my /10*dt;
       // this.x = linearMove(this.x,this.targetX,this.speed);
       // this.y = linearMove(this.y,this.targetY,this.speed);
       
       if(Math.abs(mx) + Math.abs(my) > 30) {
-        if(this.shootTimer<0)this.shootTimer+=1;
+        if(this.shootTimer<0)this.shootTimer+=dt;
         return;
       }
     }
@@ -50,7 +51,7 @@ class ButcherTurret extends Butcher{
     //   this.inRange=true;
     // }
     // if(!this.inRange)return;
-    this.shootTimer += 1;
+    this.shootTimer += dt;
     if(this.shootTimer>this.shootSpeed) {
       if(r>200||dy>-30) {
         this.shootTimer=0;

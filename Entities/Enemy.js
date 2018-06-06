@@ -14,7 +14,7 @@ class Enemy extends Mover {
 	}
 		 
 	playerCollision(player) {
-		if(player.vy > 0 && player.y<this.y) {
+		if(player.vy > 0 && player.y-player.vy<this.y ) {
 			return true;
 		} else {
 			return false;
@@ -28,7 +28,6 @@ class Enemy extends Mover {
 	}
 
 	onHitPlayer(player) {
-		
 	}
 
 
@@ -40,7 +39,7 @@ class Enemy extends Mover {
 		var enemyBox = this.getHitBox();	// Perforamnce effeciency issue
 		var playerBox = this.game.player.getHitBox();
 		if(rectangleCollision(enemyBox, playerBox) == true) {
-      if(!this.isColliding) {
+      if(!this.isColliding&&this.game.player.bounceTimer<=0) {
         if(this.playerCollision(this.game.player) == true) {
           this.getHitByEntity(this.game.player);
           this.isColliding = true;

@@ -16,9 +16,10 @@ class Knife {
     this.shouldDelete = true;
   }
   update(dt,frameCount) {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.angle += this.da;
+    dt = dt/0.8;
+    this.x += this.vx*dt;
+    this.y += this.vy*dt;
+    this.angle += this.da*dt;
     var world = this.game.world;
     var h = this.getHitBox();
     if(world.rectCollides(h.x, h.y, h.w, h.h, this, 0,0)) {

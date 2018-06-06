@@ -48,6 +48,14 @@ class OptionScene extends Scene{
     this.selectedButton = backButton;
     backButton.selected = true;
 
+    dim = rectDimFromCenter(.5,.7,.2,.1);
+    var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
+      MAIN.gamepadOn = !MAIN.gamepadOn;
+      gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
+    },"Gamepad On",'30px Noteworthy', 
+    'white','transparent','white', 5,.05);
+    this.gui.push(gamepadBtn);
+
     dim = rectDimFromCenter(.5,.15,.4,.2);
     var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px Noteworthy','white','center');
     this.gui.push(optionsLabel);
