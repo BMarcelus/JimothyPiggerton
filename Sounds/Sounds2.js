@@ -2,8 +2,10 @@ SOUNDMAP.crouch = new SoundSource("jumpSound1-1.m4a", 3);
 SOUNDMAP.land = new SoundSource("jumpSound1-2.m4a", 0.75);
 SOUNDMAP.jump = new SoundSource("crouch1-1.m4a", 3, 4);
 SOUNDMAP.wallJump = new SoundSource("crouch1-1.m4a", 2);
-SOUNDMAP.doubleJump = new SoundSource("jumpSound1-1.m4a", 5);
+// SOUNDMAP.doubleJump = new SoundSource("jumpSound1-1.m4a", 5);
+SOUNDMAP.doubleJump = new SoundSource("Double_Jump.wav", 1, 0.5);
 SOUNDMAP.powerup = new SoundSource("jumpSound1-2.m4a", 2);
+SOUNDMAP.powerup = new SoundSource("Swipe.wav", 1);
 
 SOUNDMAP.uncrouch = new SoundSource("crouch1-1.m4a", 4);
 // SOUNDMAP.playerDeath = new SoundSource("rip.m4a");
@@ -17,8 +19,8 @@ SOUNDMAP.pigrip =
 // ]);
 SOUNDMAP.bounce = new SoundSource("Bounce2.wav", 1);
 SOUNDMAP.throw = new SoundSource("Throw.wav");
-SOUNDMAP.uimove = new SoundSource("UI_Move2.wav");
-SOUNDMAP.uiselect = new SoundSource("UI_Select3.wav");
+SOUNDMAP.uimove = new SoundSource("UI_Move2.wav", null, 0.2);
+SOUNDMAP.uiselect = new SoundSource("UI_Select3.wav", null, 0.2);
 // SOUNDMAP.songtroll = new MusicSource("Beep.wav");
 SOUNDMAP.footstep = new PickAudio([
   new SoundSource("Steps1.wav"),
@@ -27,4 +29,7 @@ SOUNDMAP.footstep = new PickAudio([
   new SoundSource("Steps4.wav"),
   new SoundSource("Steps5.wav"),
 ])
+
+SOUNDMAP.music = new MusicSource("Hap_Yay.mp3", 1, 0.5);
+// SOUNDMAP.music = new MusicSource("Challenge2.mp3");
 

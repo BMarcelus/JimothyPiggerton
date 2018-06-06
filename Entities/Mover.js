@@ -27,7 +27,7 @@ class Mover {
     this.mover = true;
     this.wallSlides = true;
     this.wallJumps = false;
-    this.groundAccel = 2;
+    this.groundAccel = 3;
     this.currentGroundAccel = this.groundAccel;
     this.diesToSpikes = false;
     this.spinning = false;
@@ -69,7 +69,10 @@ class Mover {
       this.vx = linearMove(this.vx, mx*this.speed, ga*dt); 
     }
     this.vy += this.grav * dt;
-    if(this.vy>this.terminalVelocity)this.vy = this.terminalVelocity;
+    var tv = this.terminalVelocity;
+    if(this.crouching) tv = tv*1.4;
+    else if(this.jumpCount<this.maxJumps)tv *= 0.8;
+    if(this.vy>tv)this.vy = tv;
     // this.x += this.vx;
     // this.y += this.vy;
     this.safeMove(this.vx*dt,this.vy*dt + this.grav * dt * dt /2);
@@ -360,6 +363,7 @@ class Mover {
     return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
   }
   dash(dir) {
+    if(!DEBUG) return;
     if(dir==undefined) dir = this.mx;
     if(!dir) dir = 1-2*this.flipped;
     if (this.dashCount == 0)

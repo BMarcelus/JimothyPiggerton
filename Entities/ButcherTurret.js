@@ -1,7 +1,7 @@
 class ButcherTurret extends Butcher{
   constructor(x,y) {
     super(x,y);
-    this.shootSpeed = 50;
+    this.shootSpeed = 60;
     this.shootTimer = 0;
     this.projectileSpeed = 6;
     this.restrictDirection = false;
@@ -11,18 +11,32 @@ class ButcherTurret extends Butcher{
     this.targetX = x;
     this.targetY = y;
     this.butcher = this;
-    this.speed = 7;
+    this.speed = 9;
+    this.moveTimer = 0;
+    this.min = null;
   }
   update(dt,frameCount) {
-    if(this.shootTimer>-40) {
-      // this.x += (this.targetX - this.x) /20;
-      // this.y += (this.targetY - this.y) /20;
-      this.x = linearMove(this.x,this.targetX,this.speed);
-      this.y = linearMove(this.y,this.targetY,this.speed);
+    if(this.shootTimer>-20&&this.shootTimer<30) {
+      var mx = this.targetX-this.x;
+      var my = this.targetY-this.y;
+      this.x += mx /10;
+      this.y += my /10;
+      // this.x = linearMove(this.x,this.targetX,this.speed);
+      // this.y = linearMove(this.y,this.targetY,this.speed);
+      
+      if(Math.abs(mx) + Math.abs(my) > 30) {
+        if(this.shootTimer<0)this.shootTimer+=1;
+        return;
+      }
     }
     var player = this.game.player;
     var dx = player.x - this.x;
     var dy = player.y - this.y - player.h/2;
+    // if(this.shootTimer<20) 
+    {
+      this.dx = dx;
+      this.dy = dy;
+    }
     if(this.shootTimer>=0) {
     this.butcher.flipped = dx<0;
     }
@@ -38,8 +52,12 @@ class ButcherTurret extends Butcher{
     // if(!this.inRange)return;
     this.shootTimer += 1;
     if(this.shootTimer>this.shootSpeed) {
-      this.shootTimer=0;
-      this.shoot();
+      if(r>200||dy>-30) {
+        this.shootTimer=0;
+        this.shoot();
+      } else {
+        this.shootTimer = this.shootSpeed;
+      }
       // if(r>this.range) {
       //   this.inRange=false;
       // }
@@ -58,9 +76,23 @@ class ButcherTurret extends Butcher{
       }
     }
   }
+  processPoint(point) {
+    var x = point.x;
+    var y = point.y;
+    var player = this.game.player;
+    var dx = player.x - x;
+    var dy = player.y - y - player.h/2;
+    var r = Math.sqrt(dx*dx+dy*dy);
+    point.r = r;
+    if(!this.min || r < this.min.r-30) {
+      this.setTarget(x,y);
+      this.min = point;
+    }
+  }
   setTarget(x,y) {
+    y=y+30;
     this.targetX = x;
-    this.targetY = y + 30;
+    this.targetY = y;
   }
   draw(canvas) {
     var t = this.shootTimer/this.shootSpeed;
@@ -73,8 +105,10 @@ class ButcherTurret extends Butcher{
   shoot() {
     SOUNDMAP.throw.play();
     var player = this.game.player;
-    var dx = player.x - this.x;
-    var dy = player.y - this.y - player.h/2 + this.h/2;
+    // var dx = player.x - this.x;
+    // var dy = player.y - this.y - player.h/2 + this.h/2;
+    var dx = this.dx;
+    var dy = this.dy;
     if(this.restrictDirection) {
       if(Math.abs(dx)>Math.abs(dy)) dy = 0; else dx = 0;
       var r= Math.abs(dx+dy);

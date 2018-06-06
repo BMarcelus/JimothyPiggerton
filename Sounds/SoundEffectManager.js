@@ -1,6 +1,13 @@
 var AUDIOCONTEXT;
 var DESTINATION;
 var BUFFERBUFFER = [];
+var VOLUME = 1;
+function setVolume(val) {
+  if(val < 0) val = 0;
+  if(val > 1) val = 1;
+  VOLUME = val;
+  DESTINATION.gain.setValueAtTime(val, 0);  
+}
 function initializeSound() {
   // console.log('a');
   if('webkitAudioContext' in window) {
@@ -144,6 +151,12 @@ class SoundSource {
     this.buffer=buffer;
     this.loaded = true;
   }
+  setVolume(v) {
+    v = v*VOLUME*this.volume;
+    if(v<0)v=0;
+    if(v>1)v=1;
+    this.lastSound.myGain.gain.setValueAtTime(v, AUDIOCONTEXT.currentTime);
+  }
   play() {
     var audioContext= AUDIOCONTEXT;
     var destination = DESTINATION;
@@ -171,7 +184,11 @@ class SoundSource {
         console.log(e);
       }
     };
+    source.myGain = gain;
     this.lastSound = source;
+    source.getTime = function() {}
+    source.pause = function() {}
+    source.resume = function() {}
     return source;
   }
 }
@@ -193,17 +210,38 @@ class SoundTag {
     audioElement.volume = this.volume;
   }
   play() {
+    this.audioElement.volume = this.volume * VOLUME;
     this.audioElement.play();
     this.audioElement.currentTime = 0;
+    if(this.loops) this.audioElement.loop = true;        
     return this;
   }
   stopSound() {
     this.audioElement.pause();
   }
+  pause() {
+    this.audioElement.pause();
+  }
+  resume(time) {
+    this.audioElement.play();
+    if(time!=undefined) {
+      this.audioElement.currentTime = time;
+    }
+  }
+  getTime() {
+    return this.audioElement.currentTime;
+  }
+  setVolume(v) {
+    v = v*VOLUME*this.volume;
+    if(v<0)v=0;
+    if(v>1)v=1;
+    this.audioElement.volume = v;    
+  }
 }
 
 var OnFile = (window.location.protocol == "file:");
 if(OnFile) SoundSource = SoundTag;
+// SoundSource=SoundTag;
 
 class MixAudio {
   constructor(audios) {
@@ -229,22 +267,33 @@ class MusicSource extends SoundSource {
     super(...args);
     this.loops = true;
   }
-  onloadBuffer(buffer) {
-    this.buffer=buffer;
-    this.loaded = true;
-    this.play();
-    // setInterval(() => {
-    //   this.setPitch();
-    // }, 4000)
-    this.setPitch();
-  }
-  setPitch() {
-    // var v = 1 + (Math.random()-0.5)/2;
-    var v = 1;
-    if(Math.random()>.5)v = 2;
-    this.lastSound.playbackRate.setValueAtTime(v, AUDIOCONTEXT.currentTime);
-    setTimeout(() => {
-      this.setPitch();
-    }, 4000/v);
+  play() {
+    if(this.lastSound)return this.lastSound;
+    return super.play();
   }
 }
+
+// class MusicSource extends SoundSource {
+//   constructor(...args) {
+//     super(...args);
+//     this.loops = true;
+//   }
+//   onloadBuffer(buffer) {
+//     this.buffer=buffer;
+//     this.loaded = true;
+//     this.play();
+//     // setInterval(() => {
+//     //   this.setPitch();
+//     // }, 4000)
+//     this.setPitch();
+//   }
+//   setPitch() {
+//     // var v = 1 + (Math.random()-0.5)/2;
+//     var v = 1;
+//     if(Math.random()>.5)v = 2;
+//     this.lastSound.playbackRate.setValueAtTime(v, AUDIOCONTEXT.currentTime);
+//     setTimeout(() => {
+//       this.setPitch();
+//     }, 4000/v);
+//   }
+// }

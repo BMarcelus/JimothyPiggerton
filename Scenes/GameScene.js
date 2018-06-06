@@ -9,7 +9,6 @@ class GameScene extends Scene {
     this.addEntity(this.player);
     var p1controls = connectControls(Player.controls, this.player);
     this.p1controls = p1controls;
-    this.gamePadOn = true;
     this.keyMap = {
       68: p1controls.right,
       87: p1controls.up,
@@ -60,9 +59,10 @@ class GameScene extends Scene {
     // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
     // this.addEntity(new Enemy(300,100));
     this.screenShakeLevel=0;
-    this.deaths = 0;
-    
+    this.totalDeaths = 0;
+    this.levelDeaths = 0;
     this.constrainCamera();
+    this.frameStop = 0;
   }
   addEntity(entity) {
     entity.game = this;
@@ -77,6 +77,10 @@ class GameScene extends Scene {
     this.startTransition(25,-1,undefined);
   }
   playLevelOutro(){
+    var win = this.levelIndex+1>=this.levels.length;
+    if(this.music) {
+      // this.music.pause();
+    }
     if(this.pig)
     this.driver.setScene(new LevelCompleteScene(this, () => {
       // this.startTransition(25, 1, function() { 
@@ -87,7 +91,7 @@ class GameScene extends Scene {
           this.driver.setScene(new LevelIntroScene(this,true));
         }
       // });
-    }));
+    }, win));
     else {
        this.startTransition(25, 1, function() { 
         if(this.levelIndex+1 >= this.levels.length) {
@@ -177,9 +181,9 @@ class GameScene extends Scene {
   }
   
   win() {
-    this.driver.setScene(new WinScene());    
+    this.driver.setScene(new PostWinScene(this));    
   }
-  loadNewLevel(index) {
+  loadNewLevel(index) {   
     if(index<0)index=0;
     this.butcher = null;
     this.kingByrd = null;
@@ -189,6 +193,11 @@ class GameScene extends Scene {
       same=true;
     } else {
       this.levelIndex = index;
+      this.levelDeaths = 0;
+      if(this.music) {
+        this.music.resume();
+      } else
+      this.music = SOUNDMAP.music.play(); 
     }
     if(this.levelIndex>=this.levels.length) {
       this.win();
@@ -236,16 +245,52 @@ class GameScene extends Scene {
     }
   }
   respawn() {
-    this.deaths++;
+    this.totalDeaths++;
+    this.levelDeaths++;
     // console.log(this.deaths);
     this.loadNewLevel();
   }
+  musicFadeOnPig() {
+    var pig = this.pig;
+    var player = this.player;
+    if(!this.music) this.music = SOUNDMAP.music.play();
+    if(pig&&player) {
+      var r = distanceBetweenEntities(pig, player);
+      if(r<500) {
+        SOUNDMAP.music.setVolume(r/500);     
+        if(r<100) {
+          this.musicFaded = true;
+          this.musicTime = this.music.getTime();
+          this.music.pause();
+        } else {
+          if(this.musicFaded)
+          this.music.resume(this.musicTime);
+          this.musicFaded=false;          
+        }
+      } else {
+        if(this.music) {
+          if(this.musicFaded)
+          this.music.resume(this.musicTime);
+          this.musicFaded=false;          
+        }
+        this.musicTime = this.music.getTime();
+        SOUNDMAP.music.setVolume(1);
+      }
+    }
+  }
   update(dt, frameCount) {
+    this.musicFadeOnPig();
     this.player.resetControls();
     var entities = this.entities;
     super.update(dt);
-    if(this.gamePadOn) {
-      handleGamePad(this.player);
+    if(this.frameStop>0) {
+      // this.frameStop -= 1;
+      // this.followPlayer();   
+      // this.updateScreenShakeLevel();         
+      // return;
+      this.frameStop-=0.1;
+      var t = this.frameStop;
+      dt = dt * (1 - 0.8 * t/5)
     }
     for(var i=0;i<entities.length;i+=1) {
       var entity = entities[i];

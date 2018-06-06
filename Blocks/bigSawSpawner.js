@@ -8,6 +8,7 @@ addBlock(function() { return {
     solid: false,
     angle: 0,
     redraws: false,
+    hide: true,   
     drawer: new BigSaw(),
     draw: function(canvas, x,y,w,h, world,i,j) {
       canvas.fillStyle = 'green';

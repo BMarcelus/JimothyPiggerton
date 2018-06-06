@@ -35,6 +35,7 @@ class BigSaw extends Mover{
     canvas.save();
     canvas.translate(this.x,this.y);
     canvas.rotate(this.rotAngle);
+    canvas.lineWidth = 2;
     w=w*.9;
     h=h*.9;
     

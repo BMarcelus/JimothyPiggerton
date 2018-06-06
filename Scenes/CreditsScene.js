@@ -8,17 +8,19 @@ class CreditsScene extends Scene{
       '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
     }
     this.memberNames = ["Brian Dizon",
-                        "Kyle Wong",
-                        "Taylor Poppoff",
                         "Christian Gramling",
+                        "Kyle Wong",
+                        "Kristin",
+                        "Taylor Poppoff",
                         "TJ Hanson",
-                        "Muhammad Albayati"];
-    this.memberRoles = ["Team Lead/Programmer",
-                        "Programmer",
-                        "Artist",
-                        "Designer",
-                        "Programmer",
-                        "Programmer"];
+                        "Muhammad Albayati",];
+    this.memberRoles = ["js wizardry",
+                        "Programming and Design",
+                        "Programming",
+                        "Audio",
+                        "Art",
+                        "Programming",
+                        "Programming"];
     this.addCreditsGUI();
     this.nameLabels = getGUIInGroup(2,this.gui);
     this.roleLabels = getGUIInGroup(3,this.gui);

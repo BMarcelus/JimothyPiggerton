@@ -59,7 +59,7 @@ class OptionScene extends Scene{
     this.driver.setScene(new MenuScene(false));
   }
   setVolume(slider){
-    DESTINATION.gain.setValueAtTime(slider.value, 0);
+    setVolume(slider.value);
   }
   playSliderSound(slider){
     SOUNDMAP.jump2.play();

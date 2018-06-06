@@ -57,6 +57,7 @@ class PauseScene extends Scene {
     this.prevScene.draw(canvas);
     canvas.fillStyle="rgba(255,255,255,.7)"
     canvas.fillRect(0,0,canvas.width,canvas.height);
+    this.deathCount.text = ""+this.prevScene.levelDeaths;
     this.drawAllGUI(canvas);
     if(this.debug)
       drawGrid(canvas);
@@ -72,6 +73,16 @@ class PauseScene extends Scene {
     var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
       "Paused",bigFont,textColor,'center');
     this.gui.push(pauseLabel);
+
+    dim = rectDimFromCenter(.96,.95,.05,.08);
+    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "X", bigFont, textColor,'left');
+    this.gui.push(this.deathCount);
+
+    dim = rectDimFromCenter(.82,.96,.2,.08);
+    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "Deaths:", buttonFont,textColor,'right');
+    this.gui.push(deathLabel);
 
     dim = rectDimFromCenter(0.5,.55,0.2,.08);
     var resumeButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,

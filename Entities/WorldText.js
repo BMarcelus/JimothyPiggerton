@@ -28,7 +28,6 @@ class WorldText{
     this.visible = x;
   }
   appear(){
-    console.log("text appear");
     this.visible = true;
   }
   disappear(){

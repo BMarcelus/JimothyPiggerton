@@ -1,8 +1,9 @@
 class LevelCompleteScene extends Scene{
-  constructor(prevScene, callback){
+  constructor(prevScene, callback, win){
     super(false);
     this.prevScene = prevScene;
     this.callback = callback;
+    this.win = win;
     this.player = prevScene.player;
     this.pig = prevScene.pig;
     this.prevLevelAlpha = 1;
@@ -28,6 +29,7 @@ class LevelCompleteScene extends Scene{
     this.butcher.ghostOn = true;
     this.butcher.state = -1;
     SOUNDMAP.levelComplete.play();
+    this.addAllGUI();
   }
   update0(dt,frameCount) {
     super.update(dt,frameCount);
@@ -88,6 +90,9 @@ class LevelCompleteScene extends Scene{
     this.player.y += Math.sin(t*t*Math.PI*2) *1;
     this.pig.y += Math.sin(t*t*Math.PI*2) *1;
     if(this.time>this.maxTime) {
+      if(this.win) {
+        return this.loadNextScene();
+      }
       this.prevScene.screenShakeLevel = 1; 
       SOUNDMAP.pigrip.play();
       this.player.maxJumps = 1;
@@ -102,6 +107,7 @@ class LevelCompleteScene extends Scene{
   }
   update3(dt,frameCount) {
     super.update(dt,frameCount);
+    this.prevScene.musicFadeOnPig();
     this.time += 1;    
     var t = this.time/this.maxTime;
     var player = this.player;
@@ -130,6 +136,7 @@ class LevelCompleteScene extends Scene{
     this.prevScene.draw(canvas);
     canvas.restore();
     this.drawWithCamera(canvas);
+    this.drawAllGUI(canvas);
     drawTransitionOverlay(this.overlayColor,canvas);    
   }
   drawWithCamera(canvas) {
@@ -155,5 +162,20 @@ class LevelCompleteScene extends Scene{
         this.callback();
       });
     }, 300)
+  }
+  addAllGUI(){
+    var bigFont = "60px Noteworthy";
+    var buttonFont = "30px noteworthy";
+    var textColor = 'black';
+    var dim = rectDimFromCenter(.96,.95,.05,.08);
+    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      ""+this.prevScene.levelDeaths, bigFont, textColor,'left');
+    this.gui.push(this.deathCount);
+
+    dim = rectDimFromCenter(.82,.96,.2,.08);
+    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "Deaths in level:", buttonFont,textColor,'right');
+    this.gui.push(deathLabel);
+
   }
 }
