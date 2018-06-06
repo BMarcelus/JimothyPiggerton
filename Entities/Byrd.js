@@ -24,6 +24,9 @@ class Byrd extends Enemy {
     
     TheByrd = this;
   }
+  playJumpSound() {
+    
+  }
   die() {
 
   }
