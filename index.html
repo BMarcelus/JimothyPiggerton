@@ -23,6 +23,11 @@
 </style>
 <canvas id="gc" width="1000" height="600"></canvas>
 <script>
+  var debug = 0;
+  function debugLog(...args) {
+    for(var i in args)
+    debug = debug+','+args[i];
+  }
 function loadScript (dir, file) {
  var scr = document.createElement("script");
  scr.src = dir + file + '?' + Date.now();
@@ -253,8 +258,8 @@ class MainDriver {
       y = y/H;
       e.percentPoint = [x,y];
       this.scene.mousedown(e, this.mouse);     
-      for(var i=0;i<touchButtons.length;i++) {
-        var btn = touchButtons[i];
+      for(var j=0;j<touchButtons.length;j++) {
+        var btn = touchButtons[j];
         if(pointInRect(x,y,btn)) {
           this.enterTouchButton(btn, touch.identifier);
         }
@@ -278,8 +283,8 @@ class MainDriver {
           this.leaveTouchButton(cbtn, touch.identifier);
         }
       }
-      for(var i=0;i<touchButtons.length;i++) {
-        var btn = touchButtons[i];
+      for(var j=0;j<touchButtons.length;j++) {
+        var btn = touchButtons[j];
         if(pointInRect(x,y,btn)) {
           this.enterTouchButton(btn, touch.identifier);
         }
@@ -419,7 +424,8 @@ window.onload = function() {
   function draw() {
     driver.draw(canvas);
     canvas.fillStyle = "white";
-    canvas.fillText(currentFPS, 20,20);
+    canvas.textAlign = 'left';
+    canvas.fillText(debug, 40,40);
     window.requestAnimationFrame(draw);    
   }
   draw();

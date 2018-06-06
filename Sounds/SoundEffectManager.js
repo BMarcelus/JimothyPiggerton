@@ -151,6 +151,12 @@ class SoundSource {
     this.buffer=buffer;
     this.loaded = true;
   }
+  setVolume(v) {
+    v = v*VOLUME*this.volume;
+    if(v<0)v=0;
+    if(v>1)v=1;
+    this.lastSound.myGain.gain.setValueAtTime(v, AUDIOCONTEXT.currentTime);
+  }
   play() {
     var audioContext= AUDIOCONTEXT;
     var destination = DESTINATION;
@@ -178,7 +184,11 @@ class SoundSource {
         console.log(e);
       }
     };
+    source.myGain = gain;
     this.lastSound = source;
+    source.getTime = function() {}
+    source.pause = function() {}
+    source.resume = function() {}
     return source;
   }
 }
@@ -198,12 +208,12 @@ class SoundTag {
     this.audioElement = audioElement;
     audioElement.playbackRate = this.playbackRate;
     audioElement.volume = this.volume;
-    if(this.loops) audioElement.loop = true;
   }
   play() {
     this.audioElement.volume = this.volume * VOLUME;
     this.audioElement.play();
     this.audioElement.currentTime = 0;
+    if(this.loops) this.audioElement.loop = true;        
     return this;
   }
   stopSound() {
@@ -221,10 +231,17 @@ class SoundTag {
   getTime() {
     return this.audioElement.currentTime;
   }
+  setVolume(v) {
+    v = v*VOLUME*this.volume;
+    if(v<0)v=0;
+    if(v>1)v=1;
+    this.audioElement.volume = v;    
+  }
 }
 
 var OnFile = (window.location.protocol == "file:");
 if(OnFile) SoundSource = SoundTag;
+// SoundSource=SoundTag;
 
 class MixAudio {
   constructor(audios) {
@@ -250,11 +267,9 @@ class MusicSource extends SoundSource {
     super(...args);
     this.loops = true;
   }
-  setVolume(v) {
-    v = v*VOLUME*this.volume;
-    if(v<0)v=0;
-    if(v>1)v=1;
-    this.audioElement.volume = v;    
+  play() {
+    if(this.lastSound)return this.lastSound;
+    return super.play();
   }
 }
 

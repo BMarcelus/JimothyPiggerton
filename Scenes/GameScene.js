@@ -197,7 +197,7 @@ class GameScene extends Scene {
       this.levelDeaths = 0;
       if(this.music) {
         this.music.resume();
-      }else
+      } else
       this.music = SOUNDMAP.music.play(); 
     }
     if(this.levelIndex>=this.levels.length) {
@@ -254,6 +254,7 @@ class GameScene extends Scene {
   musicFadeOnPig() {
     var pig = this.pig;
     var player = this.player;
+    if(!this.music) this.music = SOUNDMAP.music.play();
     if(pig&&player) {
       var r = distanceBetweenEntities(pig, player);
       if(r<500) {
