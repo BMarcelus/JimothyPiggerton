@@ -251,7 +251,35 @@ class GameScene extends Scene {
     // console.log(this.deaths);
     this.loadNewLevel();
   }
+  musicFadeOnPig() {
+    var pig = this.pig;
+    var player = this.player;
+    if(pig&&player) {
+      var r = distanceBetweenEntities(pig, player);
+      if(r<500) {
+        SOUNDMAP.music.setVolume(r/500);     
+        if(r<100) {
+          this.musicFaded = true;
+          this.musicTime = this.music.getTime();
+          this.music.pause();
+        } else {
+          if(this.musicFaded)
+          this.music.resume(this.musicTime);
+          this.musicFaded=false;          
+        }
+      } else {
+        if(this.music) {
+          if(this.musicFaded)
+          this.music.resume(this.musicTime);
+          this.musicFaded=false;          
+        }
+        this.musicTime = this.music.getTime();
+        SOUNDMAP.music.setVolume(1);
+      }
+    }
+  }
   update(dt, frameCount) {
+    this.musicFadeOnPig();
     this.player.resetControls();
     var entities = this.entities;
     super.update(dt);
@@ -259,10 +287,13 @@ class GameScene extends Scene {
       handleGamePad(this.player);
     }
     if(this.frameStop>0) {
-      this.frameStop -= 1;
-      this.followPlayer();   
-      this.updateScreenShakeLevel();         
-      return;
+      // this.frameStop -= 1;
+      // this.followPlayer();   
+      // this.updateScreenShakeLevel();         
+      // return;
+      this.frameStop-=0.1;
+      var t = this.frameStop;
+      dt = dt * (1 - 0.8 * t/5)
     }
     for(var i=0;i<entities.length;i+=1) {
       var entity = entities[i];

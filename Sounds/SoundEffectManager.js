@@ -212,8 +212,14 @@ class SoundTag {
   pause() {
     this.audioElement.pause();
   }
-  resume() {
+  resume(time) {
     this.audioElement.play();
+    if(time!=undefined) {
+      this.audioElement.currentTime = time;
+    }
+  }
+  getTime() {
+    return this.audioElement.currentTime;
   }
 }
 
@@ -243,6 +249,12 @@ class MusicSource extends SoundSource {
   constructor(...args) {
     super(...args);
     this.loops = true;
+  }
+  setVolume(v) {
+    v = v*VOLUME*this.volume;
+    if(v<0)v=0;
+    if(v>1)v=1;
+    this.audioElement.volume = v;    
   }
 }
 

@@ -30,6 +30,6 @@ SOUNDMAP.footstep = new PickAudio([
   new SoundSource("Steps5.wav"),
 ])
 
-SOUNDMAP.music = new MusicSource("Happy_Days.wav", 1);
+SOUNDMAP.music = new MusicSource("Hap_Yay.mp3", 1, 0.5);
 // SOUNDMAP.music = new MusicSource("Challenge2.mp3");
 

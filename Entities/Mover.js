@@ -69,7 +69,10 @@ class Mover {
       this.vx = linearMove(this.vx, mx*this.speed, ga*dt); 
     }
     this.vy += this.grav * dt;
-    if(this.vy>this.terminalVelocity)this.vy = this.terminalVelocity;
+    var tv = this.terminalVelocity;
+    if(this.crouching) tv = tv*1.4;
+    else if(this.jumpCount<this.maxJumps)tv *= 0.8;
+    if(this.vy>tv)this.vy = tv;
     // this.x += this.vx;
     // this.y += this.vy;
     this.safeMove(this.vx*dt,this.vy*dt + this.grav * dt * dt /2);
