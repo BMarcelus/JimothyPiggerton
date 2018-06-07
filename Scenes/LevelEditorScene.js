@@ -132,6 +132,7 @@ class LevelEditorScene extends Scene{
     }
     this.grid.unshift(newrow);
     this.world.h++;
+    this.world.forceRedraw();
   }
   extendLeft() {
     for (var j = 0; j < this.grid.length; j++)
@@ -139,6 +140,8 @@ class LevelEditorScene extends Scene{
       this.grid[j].unshift(0);
     }
     this.world.w++;
+    this.world.forceRedraw();
+    
   }
   shrinkj() {
     this.grid.splice(this.grid.length-1,1);
