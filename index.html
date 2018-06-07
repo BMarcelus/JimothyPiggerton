@@ -16,10 +16,6 @@
     font-family: 'Noteworthy';
     src: url('Noteworthy-Bold.ttf');
   }
-  @font-face {
-    font-family: 'Chalkduster';
-    src: url('Chalkduster.ttf');
-  }
 </style>
 <canvas id="gc" width="1000" height="600"></canvas>
 <script>
@@ -433,7 +429,6 @@ window.onload = function() {
     driver.draw(canvas);
     canvas.fillStyle = "white";
     canvas.textAlign = 'left';
-    canvas.fillText(debug, 40,40);
     window.requestAnimationFrame(draw);    
   }
   draw();
