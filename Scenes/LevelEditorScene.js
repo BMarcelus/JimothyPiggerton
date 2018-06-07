@@ -107,6 +107,7 @@ class LevelEditorScene extends Scene{
   }
   growi()
   {
+    if(this.keys[16]) return this.extendLeft();
     for (var j = 0; j < this.grid.length; j++)
     {
       this.grid[j].push(0);
@@ -115,6 +116,7 @@ class LevelEditorScene extends Scene{
   }
   growj()
   {
+    if(this.keys[16]) return this.extendTop();
     var newrow = [];
     for (var j = 0; j < this.grid[0].length; j++)
     {
@@ -122,6 +124,21 @@ class LevelEditorScene extends Scene{
     }
     this.grid.push(newrow);
     this.world.h++;
+  }
+  extendTop() {
+    var newrow = [];
+    for (var j = 0; j < this.grid[0].length; j++) {
+      newrow.push(0);
+    }
+    this.grid.unshift(newrow);
+    this.world.h++;
+  }
+  extendLeft() {
+    for (var j = 0; j < this.grid.length; j++)
+    {
+      this.grid[j].unshift(0);
+    }
+    this.world.w++;
   }
   shrinkj() {
     this.grid.splice(this.grid.length-1,1);
