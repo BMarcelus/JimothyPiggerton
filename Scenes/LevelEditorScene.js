@@ -107,6 +107,7 @@ class LevelEditorScene extends Scene{
   }
   growi()
   {
+    if(this.keys[16]) return this.extendLeft();
     for (var j = 0; j < this.grid.length; j++)
     {
       this.grid[j].push(0);
@@ -115,6 +116,7 @@ class LevelEditorScene extends Scene{
   }
   growj()
   {
+    if(this.keys[16]) return this.extendTop();
     var newrow = [];
     for (var j = 0; j < this.grid[0].length; j++)
     {
@@ -122,6 +124,24 @@ class LevelEditorScene extends Scene{
     }
     this.grid.push(newrow);
     this.world.h++;
+  }
+  extendTop() {
+    var newrow = [];
+    for (var j = 0; j < this.grid[0].length; j++) {
+      newrow.push(0);
+    }
+    this.grid.unshift(newrow);
+    this.world.h++;
+    this.world.forceRedraw();
+  }
+  extendLeft() {
+    for (var j = 0; j < this.grid.length; j++)
+    {
+      this.grid[j].unshift(0);
+    }
+    this.world.w++;
+    this.world.forceRedraw();
+    
   }
   shrinkj() {
     this.grid.splice(this.grid.length-1,1);
@@ -240,7 +260,7 @@ class LevelEditorScene extends Scene{
     this.camera.x-=dx;
     this.camera.y-=dy;
     this.dragPivot.x += dx;
-    this.dragPivot.y += dy;  
+    this.dragPivot.y += dy; 
   }
   mousedown(e, mouse) {
     // var camera = this.camera;
@@ -459,6 +479,13 @@ class LevelEditorScene extends Scene{
     canvas.strokeStyle = 'black';
     canvas.lineWidth = 3;
     canvas.strokeRect(this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height);
+    if(this.driver.mouse.held) {
+      var w = Math.floor((this.clickDragPivot.x - this.driver.mouse.x)/this.zoom/this.world.s);
+      var h = Math.floor((this.clickDragPivot.y - this.driver.mouse.y)/this.zoom/this.world.s);
+      w = Math.abs(w);
+      h = Math.abs(h);
+      canvas.fillText(w+','+h, this.mousePoint.x + offset.x*3, this.mousePoint.y+offset.y*3);
+    }
   }
   selectAir(){
     this.currentBlock = 0;
