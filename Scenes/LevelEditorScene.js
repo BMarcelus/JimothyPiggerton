@@ -479,7 +479,7 @@ class LevelEditorScene extends Scene{
     canvas.strokeStyle = 'black';
     canvas.lineWidth = 3;
     canvas.strokeRect(this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height);
-    if(this.driver.mouse.held) {
+    if(this.driver.mouse.held && this.clickDragPivot) {
       var w = Math.floor((this.clickDragPivot.x - this.driver.mouse.x)/this.zoom/this.world.s);
       var h = Math.floor((this.clickDragPivot.y - this.driver.mouse.y)/this.zoom/this.world.s);
       w = Math.abs(w);
