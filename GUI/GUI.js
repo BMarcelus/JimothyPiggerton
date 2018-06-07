@@ -119,7 +119,6 @@ function GUIMouseDown(e,buttonList){
 function GUIMouseUp(e,buttonList){
   var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
-    console.log([buttonList[i],buttonList[i].interactable,buttonList[i].held,!buttonList[i].requireMouseInRegionOnRelease]);
     if(buttonList[i].interactable && buttonList[i].held && !buttonList[i].requireMouseInRegionOnRelease){
       buttonList[i].held = false;
       if(buttonList[i].onRelease) buttonList[i].onRelease();
