@@ -9,6 +9,7 @@ class GUIElement{
     this.selectable = true;  
     this.groupID = groupID;   //for ease of grouping UI elements (eg: 0 is main menu UI elements, 1 is level select elements etc)
     this.visible = true;      //should this be drawn? 
+
   }
   move(vx,vy){
     this.x += vx;
@@ -118,6 +119,12 @@ function GUIMouseDown(e,buttonList){
 function GUIMouseUp(e,buttonList){
   var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
+    console.log([buttonList[i],buttonList[i].interactable,buttonList[i].held,!buttonList[i].requireMouseInRegionOnRelease]);
+    if(buttonList[i].interactable && buttonList[i].held && !buttonList[i].requireMouseInRegionOnRelease){
+      buttonList[i].held = false;
+      if(buttonList[i].onRelease) buttonList[i].onRelease();
+      break;
+    }
     if(buttonList[i].contains(percentPoint[0],percentPoint[1])
         && buttonList[i].interactable && buttonList[i].held){
       buttonList[i].held = false;

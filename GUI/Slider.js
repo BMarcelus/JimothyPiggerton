@@ -10,6 +10,7 @@ class Slider extends Button{
     this.handleOutlineWeight = handleOutlineWeight || 0;
     this.value = defaultValue;
     this.selectable = false;
+    this.requireMouseInRegionOnRelease = false;
   }
   update(dt,percentPoint){
     if(this.held){
@@ -25,12 +26,17 @@ class Slider extends Button{
 
     canvas.fillStyle = (this.held) ? this.handleHeldColor : this.handleColor;
     canvas.strokeStyle = this.handleOutlineColor;
-    canvas.lineWidth = this.handleOutlineWidth;
+    canvas.lineWidth = this.handleOutlineWeight;
     dim = {x:0,y:0,w:0,h:0};
     dim.x = ((this.value * this.w)+this.x-this.handleWidth/2)*canvas.width;
     dim.y = this.y*canvas.height;
     dim.w = this.handleWidth*canvas.width;
     dim.h = this.h*canvas.height;
+    canvas.lineWidth = this.handleOutlineWeight*10;
+    if(this.selected){
+      canvas.lineWidth = 8;
+
+    }
     canvas.fillRect(dim.x,dim.y,dim.w,dim.h);
     canvas.strokeRect(dim.x,dim.y,dim.w,dim.h);
   }
