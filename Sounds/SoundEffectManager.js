@@ -9,7 +9,6 @@ function setVolume(val) {
   DESTINATION.gain.setValueAtTime(val, 0);  
 }
 function initializeSound() {
-  // console.log('a');
   if('webkitAudioContext' in window) {
     AUDIOCONTEXT = new webkitAudioContext();
   } else {
@@ -216,7 +215,7 @@ class SoundTag {
     this.setVolume(1);
   }
   play() {
-    if(!DESTINATION)return;    
+    if(!DESTINATION)return; 
     this.audioElement.play();
     this.audioElement.currentTime = 0;
     if(this.loops) this.audioElement.loop = true;        
@@ -290,11 +289,9 @@ class MusicHandler {
     this.setSong(0);
   }
   setSong(index) {
-    console.log(index);
     var newSong = this.songs[index];
     if(this.song == newSong) return;
     newSong.play();
-    console.log(this.song);
     if(this.song){
       this.song.stopSound();
     }
@@ -302,7 +299,6 @@ class MusicHandler {
   }
   play() {
     if(this.song == undefined)return;
-    console.log(this.song);
     this.song.stopSound();
     return this.song.play();
   }

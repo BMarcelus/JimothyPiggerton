@@ -174,14 +174,20 @@ class LevelCompleteScene extends Scene{
     var buttonFont = "30px noteworthy";
     var textColor = 'black';
     var dim = rectDimFromCenter(.96,.95,.05,.08);
-    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      ""+this.prevScene.levelDeaths, bigFont, textColor,'left');
-    this.gui.push(this.deathCount);
+    if(this.prevScene.levelDeaths > 0) {
+      this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
+        ""+this.prevScene.levelDeaths, bigFont, textColor,'left');
+      this.gui.push(this.deathCount);
 
-    dim = rectDimFromCenter(.82,.96,.2,.08);
-    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Deaths in level:", buttonFont,textColor,'right');
-    this.gui.push(deathLabel);
-
+      dim = rectDimFromCenter(.82,.96,.2,.08);
+      this.deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+        "Deaths in level:", buttonFont,textColor,'right');
+      this.gui.push(this.deathLabel);
+    } else {
+      dim = rectDimFromCenter(.82,.96,.2,.08);
+      this.perfectLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+        "Perfect Clear!", buttonFont,textColor,'right');
+      this.gui.push(this.perfectLabel);
+    }
   }
 }

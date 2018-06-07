@@ -196,7 +196,6 @@ class GameScene extends Scene {
       this.levelIndex = index;
       this.levelDeaths = 0;
       if(this.music) {
-        this.music.resume();
       } else
       this.music = SOUNDMAP.music.play(); 
     }
