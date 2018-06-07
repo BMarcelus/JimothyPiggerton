@@ -1,0 +1,1 @@
+WORLDTYPE = 1;

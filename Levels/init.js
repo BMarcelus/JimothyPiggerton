@@ -1,7 +1,10 @@
 var LEVEL_CREATION_FUNCTIONS = [];
 var PLAYER_ABILITIES = [function(player){},function(player) {player.wallJumps = true;}, function(player) {player.maxJumps = 2; player.jumpCount = 1;}];
 
+var WORLDTYPE = 0;
+
 function addLevel(func) {
+  func.worldType = WORLDTYPE;
   LEVEL_CREATION_FUNCTIONS.push(func);
 }
 
@@ -16,6 +19,7 @@ function createLevels() {
   for(var i = 0; i < LEVEL_CREATION_FUNCTIONS.length; i += 1) {
     var creator = LEVEL_CREATION_FUNCTIONS[i];
     var level = creator(nameSpace);
+    level.worldType = creator.worldType;
     levels.push(level);
   }
   return levels;
