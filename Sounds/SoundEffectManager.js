@@ -134,7 +134,7 @@ function loadBuffer(url, callback) {
 
 class SoundSource {
   constructor(url, playbackRate, volume) {
-    url = "./SoundAssets/" + url;    
+    url = SOUNDASSETS + url;    
     this.url = url;
     this.loaded = false;
     this.playbackRate = playbackRate || 1;
@@ -201,7 +201,7 @@ class SoundSource {
 
 class SoundTag {
   constructor(url, playbackRate, volume) {
-    url = "./SoundAssets/" + url;
+    url = SOUNDASSETS + url;
     this.url = url;
     this.playbackRate = playbackRate || 1;
     this.volume = volume || 1;

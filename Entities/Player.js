@@ -308,4 +308,4 @@ Player.controls = {
   },
   down: {down: function() { this.crouch(); }, noneheld: function() { this.uncrouch(); }},
   dash: { down: function() { this.dash(1-2*this.flipped); }},
-}
+};
