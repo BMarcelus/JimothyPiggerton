@@ -12,6 +12,7 @@ class Button extends GUIElement {
     //buttonLinks[1] = RIGHT
     //buttonLinks[2] = DOWN
     //buttonLinks[3] = LEFT
+    this.requireMouseInRegionOnRelease = true;
     this.buttonLinks = Array(4).fill(undefined);
     this.value = undefined;   //value has no set type.
                               //it is simply some variable that you want associated with the button
