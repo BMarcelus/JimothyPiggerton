@@ -5,7 +5,7 @@ loadSequentially('Levels/',
   "birdJump.js",
   "birdFlight.js",
   "birdSpikes.js",
-  "level3.js",
+  "birdTemple.js",
   "Bridge.js",
   "FeatherAdventure.js",
 
