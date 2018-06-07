@@ -67,8 +67,8 @@ function getPercentPoint(e){
   //Currently this should never happen.
   if(e.percentPoint) return e.percentPoint; 
   var point = [];
-  point.push(e.offsetX/e.target.width);
-  point.push(e.offsetY/e.target.height);
+  point.push(e.offsetX/e.target.offsetWidth);
+  point.push(e.offsetY/e.target.offsetHeight);
   point[0] = constrain(point[0],0,1);
   point[1] = constrain(point[1],0,1);
   return point;

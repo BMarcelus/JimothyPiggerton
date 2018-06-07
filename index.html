@@ -8,7 +8,7 @@
     border: 1px solid black;
     margin: auto;
     display: block;
-    /* height: 100%; */
+    height: 100%;
     /* width: 100%; */
     
   }
@@ -337,26 +337,27 @@ class MainDriver {
     this.scene.keyup(k);
     keys[k] = false;
   }
-  mousedown(e) {
-    this.userGesture();
+  setMousePos(e) {
     var boundingClientRect = e.target.getBoundingClientRect();
     this.mouse.x = e.clientX-boundingClientRect.left;
     this.mouse.y = e.clientY-boundingClientRect.top;
+    this.mouse.x *= canvas.width/e.target.offsetWidth;
+    this.mouse.y *= canvas.height/e.target.offsetHeight;
+  }
+  mousedown(e) {
+    this.userGesture();
+    this.setMousePos(e);
     this.mouse.held = true;
     this.scene.mousedown(e, this.mouse);
   }
   mouseup(e) {
-    var boundingClientRect = e.target.getBoundingClientRect();
-    this.mouse.x = e.clientX-boundingClientRect.left;
-    this.mouse.y = e.clientY-boundingClientRect.top;
+    this.setMousePos(e);
     this.mouse.held = false;
-    this.scene.mouseup(e, this.mouse);    
+    this.scene.mouseup(e, this.mouse);
   }
   mousemove(e) {
-    var boundingClientRect = e.target.getBoundingClientRect();
-    this.mouse.x = e.clientX-boundingClientRect.left;
-    this.mouse.y = e.clientY-boundingClientRect.top;
-    this.scene.mousemove(e, this.mouse);    
+    this.setMousePos(e);
+    this.scene.mousemove(e, this.mouse);
   }
   setScene(scene) {
     if(this.scene&&this.scene.unload)this.scene.unload();
@@ -446,5 +447,7 @@ window.onload = function() {
   CE.addEventListener('touchmove', driver.touchmove.bind(driver));
   CE.addEventListener('touchend', driver.touchend.bind(driver));
   CE.addEventListener('touchcancel', driver.touchend.bind(driver));
+
+  CE.addEventListener('mousedown', e => { console.log(e) })
 }
 </script>
