@@ -156,7 +156,7 @@ addBlock(function() {
       // type = 3;
       // this.redraws = true;
       this.drawTypes[type](canvas,x,y,w,h,world,i,j);
-      // if(type == 1) this.redraws = true;
+      // if(type == 3) this.redraws = true;
       // else this.redraws = false;
     },
     drawTypes: {
