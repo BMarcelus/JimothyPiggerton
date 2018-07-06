@@ -127,7 +127,10 @@ function GUIMouseUp(e,buttonList){
     if(buttonList[i].contains(percentPoint[0],percentPoint[1])
         && buttonList[i].interactable && buttonList[i].held){
       buttonList[i].held = false;
-      if(buttonList[i].onRelease) buttonList[i].onRelease();
+      if(buttonList[i].onRelease) {
+        buttonList[i].onRelease();
+        SOUNDMAP.uiselect.play();
+      }
     } else {
       buttonList[i].held = false;
     }
@@ -147,6 +150,7 @@ function GUIMouseMove(self, e, buttonList){
       if(self.selectedButton != undefined)
         self.selectedButton.selected = false;
       buttonList[i].selected = true;
+      if(self.selectedButton != buttonList[i]) SOUNDMAP.uimove.play();
       self.selectedButton = buttonList[i];
       break;    //In case of overlapping buttons, exit loop after first contains
     } 

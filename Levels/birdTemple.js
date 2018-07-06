@@ -2,7 +2,7 @@ addLevel( function(nameSpace) {
   with(nameSpace) {
     
     return {
-      name: "Entrance to the Temple",
+      name: "Temple Of the Feather",
       worldType: 0,
       grid: [
         [00,00,27,23,27,23,27,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,17,00,00,00,17,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,],

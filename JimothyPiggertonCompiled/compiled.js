@@ -1366,7 +1366,10 @@ function GUIMouseUp(e,buttonList){
     if(buttonList[i].contains(percentPoint[0],percentPoint[1])
         && buttonList[i].interactable && buttonList[i].held){
       buttonList[i].held = false;
-      if(buttonList[i].onRelease) buttonList[i].onRelease();
+      if(buttonList[i].onRelease) {
+        buttonList[i].onRelease();
+        SOUNDMAP.uiselect.play();
+      }
     } else {
       buttonList[i].held = false;
     }
@@ -1386,6 +1389,7 @@ function GUIMouseMove(self, e, buttonList){
       if(self.selectedButton != undefined)
         self.selectedButton.selected = false;
       buttonList[i].selected = true;
+      if(self.selectedButton != buttonList[i]) SOUNDMAP.uimove.play();
       self.selectedButton = buttonList[i];
       break;    //In case of overlapping buttons, exit loop after first contains
     } 
@@ -2138,7 +2142,7 @@ addLevel( function(nameSpace) {
   with(nameSpace) {
 
     return {
-      name: "JumpChallenges",
+      name: "Adventure Begins!",
       worldType: 0,
       grid: [
         [00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,],
@@ -4354,7 +4358,7 @@ class IntroScene extends GameScene{
   with(nameSpace) {
     
     return {
-      name: "Entrance to the Temple",
+      name: "Temple Of the Feather",
       worldType: 0,
       grid: [
         [00,00,27,23,27,23,27,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,17,00,00,00,17,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,],

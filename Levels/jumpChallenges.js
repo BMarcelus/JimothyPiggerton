@@ -2,7 +2,7 @@ addLevel( function(nameSpace) {
   with(nameSpace) {
 
     return {
-      name: "JumpChallenges",
+      name: "Adventure Begins!",
       worldType: 0,
       grid: [
         [00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,],
