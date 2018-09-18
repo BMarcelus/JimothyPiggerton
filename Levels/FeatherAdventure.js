@@ -2,7 +2,7 @@ addLevel( function(nameSpace) {
   with(nameSpace) {
 
     return {
-      name: "feather-adventure",
+      name: "Feather Adventure",
       worldType: 1,
       grid: 
       [

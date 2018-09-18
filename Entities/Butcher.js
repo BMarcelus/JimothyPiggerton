@@ -131,7 +131,9 @@ class Butcher extends Mover {
     canvas.rotate(-hatAngle);
     this.drawHat(canvas,w);
     canvas.translate(0,h);
-    this.drawKnife(canvas, w,h);
+    if(this.wielding) {
+      this.drawKnife(canvas, w,h);
+    }
     canvas.restore();    
   }
   drawEye(canvas, x,y,w,h, dx, browangle, broww, browh, browcolor) {

@@ -2,7 +2,7 @@ addLevel( function(nameSpace) {
   with(nameSpace) {
     
     return {
-      name: "double jump and wall jump",
+      name: "Double Jump and Wall Jump",
       worldType: 2,
       grid: [
         [01,00,00,00,00,00,00,01,01,00,00,00,00,00,00,00,01,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,01,],

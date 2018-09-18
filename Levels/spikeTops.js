@@ -2,7 +2,7 @@ addLevel( function(nameSpace) {
   with(nameSpace) {
 
     return {
-      name: "spiketops",
+      name: "Spiketops",
       worldType: 2,
       grid: 
       [

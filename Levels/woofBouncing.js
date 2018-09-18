@@ -2,7 +2,7 @@ addLevel( function(nameSpace) {
   with(nameSpace) {
 
     return {
-      name: "Woof-bouncing",
+      name: "Woof-Bouncing",
       worldType: 1,
       grid: [
         [01,01,00,00,00,00,00,00,00,00,00,18,18,18,18,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,01,01,],

@@ -14,8 +14,8 @@ class CreditsScene extends Scene{
                         "Taylor Poppoff",
                         "TJ Hanson",
                         "Muhammad Albayati",];
-    this.memberRoles = ["js wizardry",
-                        "Programming and Design",
+    this.memberRoles = ["Project Lead",
+                        "Programming & Design",
                         "Programming",
                         "Music & Audio",
                         "Art",

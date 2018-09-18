@@ -14,6 +14,7 @@ class ButcherTurret extends Butcher{
     this.speed = 9;
     this.moveTimer = 0;
     this.min = null;
+    this.wielding = true;
   }
   update(dt,frameCount) {
     dt = dt/0.8;

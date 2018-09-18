@@ -181,7 +181,7 @@ class LevelCompleteScene extends Scene{
 
       dim = rectDimFromCenter(.82,.96,.2,.08);
       this.deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-        "Deaths in level:", buttonFont,textColor,'right');
+        "Fails in level:", buttonFont,textColor,'right');
       this.gui.push(this.deathLabel);
     } else {
       dim = rectDimFromCenter(.82,.96,.2,.08);
