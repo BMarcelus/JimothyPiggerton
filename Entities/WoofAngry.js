@@ -157,7 +157,7 @@ class Woof extends Enemy {
     this.speed = 0;
     this.jump();//just a lil surprise animation
     this.game.addEntity(new SleepText(this.x,this.y-this.h-70,80,0,-1,"!",
-    "45", "Noteworthy",[255,255,255,1],[250,40,40,0],10,10,true));
+    "45", FONT,[255,255,255,1],[250,40,40,0],10,10,true));
     return 1;//change state
   }
 

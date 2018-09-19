@@ -83,8 +83,8 @@ class CreditsScene extends Scene{
   }
   addCreditsGUI(){
     var textColor = 'white';
-    var titleFont = '60px Noteworthy';
-    var creditsFont = '30px Noteworthy';
+    var titleFont = '60px ' + FONT;
+    var creditsFont = '30px ' + FONT;
     this.leftRefObject = new GUIElement(-0.5,0.5,0,0,0);
     this.rightRefObject = new GUIElement(1.5,0.5,0,0,0);
 

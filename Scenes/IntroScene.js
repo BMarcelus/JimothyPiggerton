@@ -120,19 +120,19 @@ class IntroScene extends GameScene{
     if(this.time > this.totalTime-200){
       if(this.time % this.emissionDelay == 0){
         this.addEntity(new SleepText(this.player.x+this.player.w,this.player.y-this.player.h,20,2,-2,"Z",
-          "30", "Noteworthy",[255,255,255,1],[255,255,255,0],25,25,true));
+          "30", FONT,[255,255,255,1],[255,255,255,0],25,25,true));
       }
       
     }
     if(this.time > this.totalTime-150){
       if(this.time % this.emissionDelay == 9){
         this.addEntity(new SleepText(this.pig.x+this.pig.w,this.pig.y-this.pig.h,20,2,-2,"Z",
-          "30", "Noteworthy",[255,255,255,1],[255,255,255,0],25,25,true));
+          "30", FONT,[255,255,255,1],[255,255,255,0],25,25,true));
       }
     }
     if(this.time == this.totalTime-160){
       this.addEntity(new SleepText(this.pig.x+this.pig.w/2,this.pig.y-this.pig.h-70,80,0,0,"!?",
-          "65", "Noteworthy",[255,255,255,1],[255,255,255,0],20,30,true));
+          "65", FONT,[255,255,255,1],[255,255,255,0],20,30,true));
     }
     if(this.time == this.totalTime - 200) {
       this.player.flipped = false;

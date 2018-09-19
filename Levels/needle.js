@@ -1,5 +1,5 @@
 addLevel( function(nameSpace) {
-  with(nameSpace) {
+  {
 
     return {
       name: "Thread the Needle",

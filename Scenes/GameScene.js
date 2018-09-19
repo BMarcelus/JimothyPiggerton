@@ -232,7 +232,7 @@ class GameScene extends Scene {
     this.playLevelIntro();
     this.levelCompleted = false;
     /*
-    var text = new WorldText(800,600,300,"TEXT HERE",'60px Noteworthy',[0,0,0,0],[0,0,0,1],
+    var text = new WorldText(800,600,300,"TEXT HERE",'60px ' + FONT,[0,0,0,0],[0,0,0,1],
       100,false)
     this.entities.push(text);
     var trigger = new TriggerZone(800,700,100,100,this.player,text.appear.bind(text),undefined,text.disappear.bind(text),true);
@@ -380,11 +380,4 @@ class GameScene extends Scene {
     this.camera.r=r;
     // canvas.rotate(r);
   }
-  
-  collidesWithPlayer(entity) {
-    var h1 = entity.getHitBox();	// Perforamnce effeciency issue
-    var playerBox = this.player.getHitBox();
-		return rectangleCollision(h1, playerBox);
-  }
-  
 }

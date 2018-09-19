@@ -1,5 +1,5 @@
 addLevel( function(nameSpace) {
-  with(nameSpace) {
+  {
     
     return {
       name: "Entrance to the Temple",

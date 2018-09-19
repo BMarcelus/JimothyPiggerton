@@ -1,5 +1,5 @@
 addLevel( function(nameSpace) {
-  with(nameSpace) {
+  {
     
     return {
       name: "Temple Of the Feather",
@@ -43,7 +43,7 @@ addLevel( function(nameSpace) {
         [00,00,27,00,00,00,00,00,00,27,00,00,00,00,00,00,27,00,00,00,00,27,00,00,00,00,27,00,00,00,27,00,00,27,00,00,00,00,27,00,00,00,00,27,00,00,00,00,00,27,00,00,00,00,27,00,01,01,01,01,01,01,01,01,01,01,],
         ],
         init(gameScene){
-          gameScene.addEntity(new WorldText(1240,300,600,'WINGS allow Jimothy to DOUBLE-JUMP','25px Noteworthy',[255,255,255,1],[255,255,255,1],1,true,'center'));
+          gameScene.addEntity(new WorldText(1240,300,600,'WINGS allow Jimothy to DOUBLE-JUMP','25px ' + FONT,[255,255,255,1],[255,255,255,1],1,true,'center'));
         }
   };
     

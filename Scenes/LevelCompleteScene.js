@@ -170,7 +170,7 @@ class LevelCompleteScene extends Scene{
     this.callback();
   }
   addAllGUI(){
-    var bigFont = "60px Noteworthy";
+    var bigFont = "60px " + FONT;
     var buttonFont = "30px noteworthy";
     var textColor = 'black';
     var dim = rectDimFromCenter(.96,.95,.05,.08);

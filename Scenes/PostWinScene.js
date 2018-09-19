@@ -33,7 +33,7 @@ class PostWinScene extends Scene{
     drawTransitionOverlay(this.overlayColor,canvas);
   }
   addAllGUI(){
-    var bigFont = "60px Noteworthy";
+    var bigFont = "60px " + FONT;
     var buttonFont = "30px noteworthy";
     var textColor = 'black';
     var buttonGap = 0.085;

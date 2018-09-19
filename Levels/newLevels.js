@@ -1,5 +1,5 @@
 addLevel( function(nameSpace) {
-  with(nameSpace) {
+  {
     
     return {
       name: "The Climb",
@@ -37,7 +37,7 @@ addLevel( function(nameSpace) {
 });
 
 addLevel( function(nameSpace) {
-  with(nameSpace) {
+  {
     
     return {
       name: "The Fall",

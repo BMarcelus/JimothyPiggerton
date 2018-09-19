@@ -42,7 +42,6 @@ class LevelEditorScene extends Scene{
       '73': {down: this.growi.bind(this)},              //I
       '74': {down: this.growj.bind(this)},              //J
       //'27': {down: this.backToSelect.bind(this)},       //Escape
-      '88': {down: this.openBlockSelect.bind(this)},    //X
       '66': {down: this.resetCameraPosition.bind(this)},//B
       '65': {down: this.pickBlockFromLevel.bind(this)}, //A
 
@@ -83,9 +82,6 @@ class LevelEditorScene extends Scene{
   resetCameraPosition() {
     this.camera.x=this.world.w*this.world.s/2*this.zoom;
     this.camera.y=this.world.h*this.world.s/2*this.zoom;
-  }
-  openBlockSelect() {
-    this.driver.setScene(new PauseScene(this));
   }
   zoomIn() {
     this.zoom += .1;
@@ -335,7 +331,7 @@ class LevelEditorScene extends Scene{
     this.buildQuickSelect();
 
     var dim = rectDimFromCenter(0.945,.75,.07,.08);
-    var saveButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.save.bind(this),'Save','30px Noteworthy','black','rgba(255,255,255,0.75)','black',5);
+    var saveButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.save.bind(this),'Save','30px ' + FONT,'black','rgba(255,255,255,0.75)','black',5);
     this.gui.push(saveButton);
 
 
@@ -349,7 +345,7 @@ class LevelEditorScene extends Scene{
     var buttonGridRegionHeight = 0.2
     var origin = [.05,.85];
     var labelOffset = {x:0.043,y:0.036};
-    var labelFont = '20px Noteworthy';
+    var labelFont = '20px ' + FONT;
     var labelColor = 'black';
     for(var i = 0; i < this.rowCount; i++){
       this.buttonGrid[i] = [];
@@ -378,7 +374,7 @@ class LevelEditorScene extends Scene{
     var buttonHeight = 0.09;
 
     var labelOffset = {x:0.043,y:0.045};
-    var labelFont = '20px Noteworthy';
+    var labelFont = '20px ' + FONT;
     var labelColor = 'black';
     dim = rectDimFromCenter(origin.x,origin.y,buttonWidth,buttonHeight);
     var button1 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
@@ -419,7 +415,7 @@ class LevelEditorScene extends Scene{
     dim = rectDimFromCenter(0.945,0.94,.06,.08);
     var resetBackWall = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','black',5);
     this.gui.push(resetBackWall);
-    var resetQuickSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.resetQuickSelect.bind(this),'X','30px Noteworthy','red','transparent','transparent','3');
+    var resetQuickSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.resetQuickSelect.bind(this),'X','30px ' + FONT,'red','transparent','transparent','3');
     this.gui.push(resetQuickSelectButton);
     
   }
@@ -560,7 +556,7 @@ class LevelEditorScene extends Scene{
       '69': {down: this.selectAir.bind(this)},        //D
       '72': {down: this.toggleCommandList.bind(this)},//H
   */
-    canvas.font = "20px Noteworthy";
+    canvas.font = "20px " + FONT;
     canvas.textAlign = 'left';
     if(this.showCommands){
       var origin = {x:0.02,y:0.1};

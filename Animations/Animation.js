@@ -1,4 +1,4 @@
-class Animation {
+class Animation2 {
   constructor(time, animate, callback) {
     this.time = time;
     this.animate = animate;

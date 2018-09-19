@@ -1,5 +1,5 @@
 addLevel( function(nameSpace) {
-  with(nameSpace) {
+  {
     
     return {
       name: "Floating Feathers",
@@ -45,7 +45,7 @@ addLevel( function(nameSpace) {
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ],
       init(gameScene){
-        gameScene.addEntity(new WorldText(450,680,600,"WINGS refresh Jimothy's DOUBLE-JUMP",'25px Noteworthy',[255,255,255,1],[255,255,255,1],1,true,'center'));
+        gameScene.addEntity(new WorldText(450,680,600,"WINGS refresh Jimothy's DOUBLE-JUMP",'25px ' + FONT,[255,255,255,1],[255,255,255,1],1,true,'center'));
       }
   };
     

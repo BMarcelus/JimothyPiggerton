@@ -1,3 +1,4 @@
+var FONT = "Handlee";
 var movementKeys = [32,37,38,39,40];
 var touchButtons = [];
 function setUpTouchBtns() {
@@ -98,7 +99,7 @@ class MainDriver {
     this.canvas=canvas;
     this.frameCount=0;
     this.keys = [];
-    this.scene = new MenuScene(true);
+    this.scene = new VgdcSplashScreen(true);
     this.scene.driver = this;
     this.mouse = {x:0,y:0};
     this.soundsInitialized = false;
@@ -332,7 +333,7 @@ window.onload = function() {
   //   canvas.width = CE.width;
   //   canvas.height = CE.height;
   // })
-  canvas.font = "30px Noteworthy";
+  canvas.font = "30px " + FONT;
   var driver = new MainDriver(canvas);
   MAIN = driver;
   var lastTime = Date.now();

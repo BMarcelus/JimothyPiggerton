@@ -1,3 +1,4 @@
+var FONT = "Handlee";
 function linearMove(a,b,s) {
   if(Math.abs(a-b)<=s)return b;
   if(a>b)return a-s;
@@ -224,7 +225,7 @@ function createLevels() {
 ********************************************************************************
 
 addLevel( function(nameSpace) {
-   {
+  {
 
     retun {
         name: "title",
@@ -1498,7 +1499,7 @@ class MainDriver {
     this.canvas=canvas;
     this.frameCount=0;
     this.keys = [];
-    this.scene = new MenuScene(true);
+    this.scene = new CoolmathSplashScreen(true);
     this.scene.driver = this;
     this.mouse = {x:0,y:0};
     this.soundsInitialized = false;
@@ -1732,7 +1733,7 @@ window.onload = function() {
   //   canvas.width = CE.width;
   //   canvas.height = CE.height;
   // })
-  canvas.font = "30px Noteworthy";
+  canvas.font = "30px " + FONT;
   var driver = new MainDriver(canvas);
   MAIN = driver;
   var lastTime = Date.now();
@@ -2139,45 +2140,45 @@ class MusicHandler {
 //   }
 // }
 addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "Adventure Begins!",
       worldType: 0,
       grid: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,19, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19, 0, 0,19,19,19,19,19,19,19,19,19,19, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19, 0, 0,19,19,19,19,19,19,19,19,19,19, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,18,19,19, 0, 0,19,19,18,18,19,18,18,19,19,19, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,18,18,19,19, 0, 0, 0,19,19,18,18,18,18,18,18,19, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,18,18,19,19,19, 0, 0, 0, 0, 9,23,23,18,18,18,19,19, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,18,18,19,19, 0, 0, 0, 0, 0,19,19,18,18,18,19,19,19, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,18,18,19, 0, 0, 0, 0, 0, 0,19,19,18,18,18,19,19, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 0, 0, 0, 1, 1, 0, 0, 0,19,18,18,18,19, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0,19,19,19,19,18,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 0, 0, 0, 1, 1, 0, 0, 0, 0,18,18, 1, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 1, 1,18, 0, 0, 2, 1, 1, 0, 0, 0, 0,18,18, 1, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,18, 0, 0, 2, 1, 1, 0, 0, 0, 0,18, 1, 1, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 2, 2, 1, 1, 0, 0, 0, 2, 1, 1, 1, 1, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,15, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 1, 1, 1, 1, 0, 5, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 4, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,0,0,0,0,0,19,19,19,19,19,19,19,19,19,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,0,0,19,19,19,19,19,19,19,19,19,19,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,0,0,19,19,19,19,19,19,19,19,19,19,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,18,19,19,0,0,19,19,18,18,19,18,18,19,19,19,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,18,18,19,19,0,0,0,19,19,18,18,18,18,18,18,19,0,],
+        [0,0,0,0,0,0,0,0,0,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,18,18,18,19,19,19,0,0,0,0,9,23,23,18,18,18,19,19,0,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,18,18,19,19,0,0,0,0,0,19,19,18,18,18,19,19,19,0,],
+        [0,0,0,0,0,0,0,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,19,0,0,0,0,0,0,19,19,18,18,18,19,19,0,0,],
+        [0,0,0,0,0,0,0,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,0,0,0,1,1,0,0,0,19,18,18,18,19,0,0,0,],
+        [0,0,0,0,0,0,0,19,19,19,19,18,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,0,0,0,1,1,0,0,0,0,18,18,1,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,19,19,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,9,1,1,18,0,0,2,1,1,0,0,0,0,18,18,1,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,18,0,0,2,1,1,0,0,0,0,18,1,1,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,2,2,1,1,0,0,0,2,1,1,1,1,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,18,0,0,1,1,0,0,0,0,0,0,0,15,0,0,0,0,2,1,1,1,1,1,1,1,1,0,2,2,2,1,1,1,1,0,5,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,18,1,1,1,1,0,0,0,0,0,0,1,1,1,0,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,4,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ],
       init(gameScene){
-        gameScene.entities.push(new WorldText(300,730,500,"[W] or [Space] to JUMP",'25px Noteworthy',[255,255,255,1],[255,255,255,1],
+        gameScene.entities.push(new WorldText(300,730,500,"[W] or [Space] to JUMP",'25px ' + FONT,[255,255,255,1],[255,255,255,1],
           1,true,'left'));
-        gameScene.entities.push(new WorldText(300,780,500,"[A] and [D] to MOVE",'25px Noteworthy',[255,255,255,1],[255,255,255,1],
+        gameScene.entities.push(new WorldText(300,780,500,"[A] and [D] to MOVE",'25px ' + FONT,[255,255,255,1],[255,255,255,1],
         1,true,'left'));
-        gameScene.entities.push(new WorldText(800,580,500,"Rescue Piggerton! ->",'40px Noteworthy',[255,255,255,1],[255,255,255,1],
+        gameScene.entities.push(new WorldText(800,580,500,"Rescue Piggerton! ->",'40px ' + FONT,[255,255,255,1],[255,255,255,1],
         1,true,'center'));
       }
       
@@ -2234,391 +2235,58 @@ class FallingParticle {
     canvas.fillRect(-w/2,-h/2,w,h);
     canvas.restore();
   }
-}
-class GameScene extends Scene {
-  constructor(level, dontSpawnPig,playIntro) {
+}class SplashScreenScene extends Scene {
+  constructor(playIntro, imageUrl, nextScene) {
     super(playIntro);
-    this.dontSpawnPig=dontSpawnPig;
-    this.player = new Player();
-    this.entities = [];
-    this.behinds=[];    
-    this.addEntity(this.player);
-    var p1controls = connectControls(Player.controls, this.player);
-    this.p1controls = p1controls;
+    this.splash = new Image();
+    this.nextScene = nextScene;
+    // this.splash.src = IMAGEASSETS + "CoolmathGames-800x600.jpg";
+    // this.splash.src = IMAGEASSETS + "CoolmathGames-640x480_no-URL.jpg";
+    this.splash.src = IMAGEASSETS + imageUrl;
+    this.splash.onload = this.start.bind(this);
+    this.running = false;
+    this.showTime = 500;
+    this.endingTime = 200;
+    this.iconScale = 0.8;
     this.keyMap = {
-      68: p1controls.right,
-      87: p1controls.up,
-      65: p1controls.left,
-      83: p1controls.down,
-
-      37: p1controls.left,
-      38: p1controls.up,
-      39: p1controls.right,
-      40: p1controls.down,
-
-      32: p1controls.up,
-
-      27: {down: this.pause.bind(this)},
-      69: p1controls.dash,
-      78: {down: function() {
-        if(this.keys[67] && DEBUG) {
-          this.loadNewLevel(this.levelIndex+1);
-        }
-      }.bind(this)},
-      66: {down: function() {
-        if(this.keys[67] && DEBUG) {
-          this.loadNewLevel(this.levelIndex-1);
-        }
-      }.bind(this)},
-    }
-    this.camera = {x:0,y:0,dx:0,dy:0,speed:10};
-    
-    // this.world = new World(200,50,50);
-
-    this.inTransition = false;
-    this.transitionDirection = -1;
-    this.overlayColor = "rgba(0,0,0,0)";
-    this.transitionTimer = 25.0;
-    this.transitionDuration = 25.0;
-
-    if(level) {
-      this.levels = [level];
-    } else {
-      this.levels = createLevels();
-    }
-    this.levelIndex = 0;
-    this.levelCompleted = false;
-    this.loadNewLevel(0);
-    this.shouldFillAroundWorld = true;    
-    // this.level = this.levels[0];
-    // this.world = new WorldFromLevel(this.level);
-    // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
-    // this.addEntity(new Enemy(300,100));
-    this.screenShakeLevel=0;
-    this.totalDeaths = 0;
-    this.levelDeaths = 0;
-    this.constrainCamera();
-    this.frameStop = 0;
-  }
-  addEntity(entity) {
-    entity.game = this;
-    this.entities.push(entity);
-  }
-  playLevelIntro(){
-    this.startTransition(25,-1,undefined);
-  }
-  playLevelOutro(){
-    var win = this.levelIndex+1>=this.levels.length;
-    if(this.music) {
-      // this.music.pause();
-    }
-    if(this.pig)
-    this.driver.setScene(new LevelCompleteScene(this, () => {
-      // this.startTransition(25, 1, function() { 
-        if(this.levelIndex+1 >= this.levels.length) {
-          this.win();
-        } else {
-          this.loadNewLevel(this.levelIndex+1);
-          this.driver.setScene(new LevelIntroScene(this,true));
-        }
-      // });
-    }, win));
-    else {
-       this.startTransition(25, 1, function() { 
-        if(this.levelIndex+1 >= this.levels.length) {
-          this.win();
-        } else {
-          this.loadNewLevel(this.levelIndex+1);
-          this.driver.setScene(new LevelIntroScene(this,true));
-        }
-      });
+      '27': {down: this.skip.bind(this)}
     }
   }
-  pause() {
-    this.driver.setScene(new PauseScene(this));
+  start() {
+    this.running = true;
+    this.startTransition(25, -1, () => {
+      setTimeout(() => {
+        this.startTransition(15, 1, () => {
+          this.running = false;
+          setTimeout(() => {
+            this.end();
+          }, this.endingTime);
+        })
+      }, this.showTime)
+    })
   }
-  moveCamera(targetX,targetY) {
-    var target = {x:targetX,y:targetY};
-    var camera = this.camera;
-    var a = target.y-camera.y;
-    a = a*a;
-    var b = target.x-camera.x;
-    b = b*b;
-    var distance = Math.sqrt(a+b);
-    if(camera.speed >= distance){
-      camera.x = targetX;
-      camera.y = targetY;
-    }
-    var directionToPoint = Math.atan2(target.y-camera.y,target.x-camera.x);
-    var displace = circleMove(directionToPoint,camera.speed);
-    camera.x += circleMoveX(directionToPoint,camera.speed);
-    camera.y += circleMoveY(directionToPoint,camera.speed);
-
-    this.constrainCamera();
+  skip() {
+    this.end();
   }
-  followPlayer(){
-    var camera = this.camera;
-    var player = this.player;
-    var canvas = this.canvas;
-    // if(player.mx) {
-      var cdx = (player.x-camera.x+camera.dx)/10;
-      if(Math.abs(cdx)>3)camera.x += cdx;
-      // camera.x += (player.x-camera.x+camera.dx)/10;
-    // }
-    // camera.x = linearMove(camera.x, (player.x + camera.dx), 5);    
-
-    // var cdy = (player.y-camera.x+camera.dy-30)/10;
-    // if(Math.abs(cdy)>3)camera.y += cdy;
-    camera.y += (player.y-camera.y-30)/30;
-    if(player.grounded) camera.y += (player.y-camera.y-30)/20;
-    var d = 0;
-    if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
-    if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
-    if(camera.dy>30)camera.dy=30;
-    if(camera.dy>10) camera.y+=(camera.dy*2-10)/3;
-    //make the camera point more towards the direction
-    //that the player is moving in so they can see ahead
-    if(player.mx!=0) {
-      // camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
-    }
-    this.constrainCamera();
+  end() {
+    this.driver.setScene(new this.nextScene(true));
   }
-  constrainCamera(x,y,w,h){
-    var camera = this.camera;
-    var canvas = this.canvas;
-    if(!canvas)return;
-      var world1 = this.world;
-    if(x == undefined || y == undefined || w == undefined || h == undefined){
-      camera.x = constrain(camera.x,canvas.width/2,world1.w*world1.s-canvas.width/2);
-      camera.y = constrain(camera.y,canvas.height/2,world1.h*world1.s-canvas.height/2);
-    } else {
-      camera.x = constrain(camera.x,x+canvas.width/2,x+w-canvas.width/2);
-      camera.y = constrain(camera.y,y+canvas.width/2,y+h-canvas.width/2);
-      this.constrainCamera();
-    }
-  }
-
-  detectLevelComplete() {
-    if(this.player.x/this.world.s >= this.world.w-2&&this.player.grounded) {
-      this.loadNewLevel(this.levelIndex+1);
-    }
-  }
-  levelComplete() {
-    if(this.player.dead)return;
-    if(!this.levelCompleted) {
-      this.levelCompleted = true;
-      this.playLevelOutro();
-    }
-  }
-  
-  win() {
-    this.driver.setScene(new PostWinScene(this));    
-  }
-  loadNewLevel(index) {   
-    this.frameStop = 0;
-    if(index<0)index=0;
-    this.butcher = null;
-    this.kingByrd = null;
-    var same = false;
-    var entities = this.entities;
-    if(index==undefined) {
-      same=true;
-    } else {
-      this.levelIndex = index;
-      this.levelDeaths = 0;
-      if(this.music) {
-      } else
-      this.music = SOUNDMAP.music.play(); 
-    }
-    if(this.levelIndex>=this.levels.length) {
-      this.win();
-      return;
-    }
-    var level = this.levels[this.levelIndex];
-    if(!same)
-      this.world = new WorldFromLevel(level, this.levelIndex);
-    this.player.reset();
-    this.entities = [];    
-    //this.addEntity(new Byrd(100,400));
-    this.world.loadWorld(this);
-    this.entities.push(this.player);
-    this.initializeLevel(level);
-    // this.behinds.forEach(function (e){
-    //   entities.unshift(e);
-    // });
-    // this.behinds=[];
-    if(level.modifyPlayer) {
-      level.modifyPlayer(this.player);
-    }
-    this.level=level;
-    this.camera.x=this.player.x;
-    this.camera.y=this.player.y;
-    this.constrainCamera();
-
-    //if(!this.dontSpawnPig) {
-    //  this.pig = new Pig(this.world.w*this.world.s-200,100);
-    //  this.addEntity(this.pig);
-    //}
-    // this.addEntity(new Enemy(300,100));  
-    this.playLevelIntro();
-    this.levelCompleted = false;
-    /*
-    var text = new WorldText(800,600,300,"TEXT HERE",'60px Noteworthy',[0,0,0,0],[0,0,0,1],
-      100,false)
-    this.entities.push(text);
-    var trigger = new TriggerZone(800,700,100,100,this.player,text.appear.bind(text),undefined,text.disappear.bind(text),true);
-    this.entities.push(trigger);
-    */
-  }
-  initializeLevel(level){
-    if(level.init){
-      level.init(this);
-    }
-  }
-  respawn() {
-    this.totalDeaths++;
-    this.levelDeaths++;
-    // console.log(this.deaths);
-    this.loadNewLevel();
-  }
-  musicFadeOnPig() {
-    var pig = this.pig;
-    var player = this.player;
-    if(!this.music) this.music = SOUNDMAP.music.play();
-    if(pig&&player) {
-      var r = distanceBetweenEntities(pig, player);
-      if(r<500) {
-        SOUNDMAP.music.lerpVolume(r/500);     
-        if(r<100) {
-          this.musicFaded = true;
-          this.musicTime = this.music.getTime();
-          this.music.pause();
-        } else {
-          if(this.musicFaded)
-          this.music.resume(this.musicTime);
-          this.musicFaded=false;          
-        }
-      } else {
-        if(this.music) {
-          if(this.musicFaded)
-          this.music.resume(this.musicTime);
-          this.musicFaded=false;          
-        }
-        this.musicTime = this.music.getTime();
-        SOUNDMAP.music.setVolume(1);
-      }
-    }
-  }
-  update(dt, frameCount) {
-    this.musicFadeOnPig();
-    this.player.resetControls();
-    var entities = this.entities;
-    super.update(dt);
-    if(this.frameStop>0) {
-      // this.frameStop -= 1;
-      // this.followPlayer();   
-      // this.updateScreenShakeLevel();         
-      // return;
-      this.frameStop-=0.1;
-      var t = this.frameStop;
-      t=t/5;
-      if(t>1) t = 1;
-      dt = dt * (1 - 0.8 * t)
-    }
-    for(var i=0;i<entities.length;i+=1) {
-      var entity = entities[i];
-      entity.update(dt, frameCount);
-      if(entity.shouldDelete) {
-        entities.splice(i--,1);
-      }
-    }
-    entities = this.entities;
-    this.behinds.forEach(function (e){
-      entities.unshift(e);
-    });
-    this.behinds=[];
-    // this.entities = this.entities.sort(function(a,b) {
-    //   return -b.behind;
-    // })
-    this.followPlayer();
-
-    
-
-    // this.detectLevelComplete();
-    this.updateScreenShakeLevel();
-    // this.screenShakeLevel -= this.screenShakeLevel/10;
-  }
-  updateScreenShakeLevel() {
-    this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);    
-  }
-  draw(canvas) {
-    if(!this.canvas) {
-      this.canvas = canvas;
-      this.constrainCamera();
-    }
-    var camera = this.camera;
-    canvas.clearRect(0,0,canvas.width,canvas.height);
-    this.doScreenShake(canvas);    
-    
-    
-    // canvas.translate(-canvas.width/2,-canvas.height/2);      
-
-    // canvas.translate(canvas.width/2,canvas.height/2);  
-  
-    canvas.save();
-    this.world.drawBackground(canvas, this.camera);    
-    if(this.shouldFillAroundWorld) {
-      this.fillAroundWorld(canvas);
-    }
-
-    canvas.translate(canvas.width/2,canvas.height/2);  
-    canvas.rotate(camera.r);
-    
-    canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
-    
-    this.world.draw(canvas);
-    for(var i=0;i<this.entities.length;i+=1) {
-      var entity = this.entities[i];
-      entity.draw(canvas);
-    }
-    canvas.restore();
-    if(this.level.name) {
-      canvas.fillStyle='#fff';
-      canvas.fillText(this.level.name, 200, canvas.height-30);
+  draw(canvas) { 
+    canvas.fillStyle = 'black';
+    canvas.fillRect(0,0,canvas.width,canvas.height);
+    if (this.running) {
+      var image = this.splash;
+      var w = canvas.height * image.width / image.height;
+      var h = canvas.height;
+      w *= this.iconScale;
+      h *= this.iconScale;
+      var x = canvas.width/2 - w/2;
+      var y = canvas.height/2 - h/2;
+      canvas.drawImage(image, x,y, w, h);
     }
     drawTransitionOverlay(this.overlayColor,canvas);
-    
   }
-
-  fillAroundWorld(canvas) {
-    if(this.world.image) {
-      var cameraOffsetY = canvas.height/2-Math.floor(this.camera.y);
-      canvas.fillStyle="black";          
-      canvas.fillRect(0,this.world.image.height+cameraOffsetY,this.world.image.width,1000);  
-      canvas.fillRect(0,-1000+cameraOffsetY,this.world.image.width,1000);    
-    }
-  }
-  doScreenShake(canvas) {
-    if(this.screenShakeLevel==0) {
-      return this.camera.r = 0;
-    }
-    var x = Math.cos(this.driver.frameCount*Math.PI/3)*this.screenShakeLevel*10;
-    var y = Math.sin(this.driver.frameCount*Math.PI/3)*this.screenShakeLevel*10;
-    var r = Math.cos(this.driver.frameCount*Math.PI/4)*this.screenShakeLevel*Math.PI/80;
-    // canvas.translate(x,y);
-    this.camera.x+=x;
-    this.camera.y+=y;
-    this.camera.r=r;
-    // canvas.rotate(r);
-  }
-  collidesWithPlayer(entity) {
-    var h1 = entity.getHitBox();	// Perforamnce effeciency issue
-    var playerBox = this.player.getHitBox();
-		return rectangleCollision(h1, playerBox);
-  }
-  
-}
-class Button extends GUIElement {
+}class Button extends GUIElement {
   constructor(x,y,w,h,groupID,onRelease){
     super(x,y,w,h,groupID);
     this.onRelease = onRelease;
@@ -2690,36 +2358,36 @@ SOUNDMAP.playerDeath = new SoundEffect(.03,
 SOUNDMAP.playerDeath = new SoundEffect(.04,
   [220,440,0,440,110,440,110,0,220,110,100,102,105,110,120,121],
   [.25, 0, 0, .25, .25, .5, .5, 0, .5],5,1, 'sawtooth');addLevel( function(nameSpace) {
-   {
+  {
     
     return {
       name: "Birds",
       worldType: 0,
       grid: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0,],
-        [ 0, 0,19,19,19, 0, 0,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,],
-        [19,19,19,19,19,19,19,19,19,19,19,19, 0, 0, 0,19,19, 0,19, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 1, 1, 1, 1, 1,],
-        [19,19,19,19,19,19,19,19,19,19,19,19, 0,19,19,19,19,19,19,19,19, 0, 0, 0,19,19,19,19,19,19,19,27,23, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 1, 1, 1, 1, 1,],
-        [19,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19, 0, 0,19,19,19,19,19,19,19,27,18,19, 0, 0, 0, 0, 0,14,17,15, 0, 1, 1, 1, 1, 1,],
-        [19,19,18,19,18,19,19,19,18,19,19, 0, 0,19,19,19,19,19,18,19,19,19, 0,19,19,19,19,19,19,15,18,27,19,19, 0, 0, 0, 0, 0, 0, 9, 9, 1, 1, 1, 1, 1, 1,],
-        [ 0,19,18,18,19,19,19,18,19,19, 0, 0, 0,19,18,19,18,18,19,19,19,19, 0,19,19,19,19,19,27,23,23,23,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,],
-        [ 0,19,19,19,18,19,19,19,19,19, 0, 0, 0,19,18,18,18,19,19,18,19,19, 0,19,19,18,18,19,27,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0,18,18,18,19,19, 0, 0, 0,19,19,19,19,18,19,18,17,19,19, 0, 0,19,19,18,18,27,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0,18,19,19,19, 0, 0, 0, 0,19,19,19,18,18,18,17,14, 0, 0, 0, 0, 0,19,19,27,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0,19,18,23,23,23, 9, 9, 9, 0, 0, 0,19,19,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0,19,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 4, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1,18,18,18, 0, 0, 0, 0, 0, 0,18,18,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1,18, 0, 0, 0, 0,15,18, 1, 1, 1, 1, 1,18,18, 0, 0, 0, 0, 0, 0,18,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,],
+        [0,0,19,19,19,0,0,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,],
+        [19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,19,19,0,19,0,0,0,0,0,0,0,0,19,19,19,19,19,0,0,0,0,0,0,0,0,17,0,0,1,1,1,1,1,],
+        [19,19,19,19,19,19,19,19,19,19,19,19,0,19,19,19,19,19,19,19,19,0,0,0,19,19,19,19,19,19,19,27,23,0,0,0,0,0,0,0,17,0,0,1,1,1,1,1,],
+        [19,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,19,19,19,19,19,19,19,27,18,19,0,0,0,0,0,14,17,15,0,1,1,1,1,1,],
+        [19,19,18,19,18,19,19,19,18,19,19,0,0,19,19,19,19,19,18,19,19,19,0,19,19,19,19,19,19,15,18,27,19,19,0,0,0,0,0,0,9,9,1,1,1,1,1,1,],
+        [0,19,18,18,19,19,19,18,19,19,0,0,0,19,18,19,18,18,19,19,19,19,0,19,19,19,19,19,27,23,23,23,19,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,],
+        [0,19,19,19,18,19,19,19,19,19,0,0,0,19,18,18,18,19,19,18,19,19,0,19,19,18,18,19,27,19,19,19,19,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,],
+        [0,0,0,0,18,18,18,19,19,0,0,0,19,19,19,19,18,19,18,17,19,19,0,0,19,19,18,18,27,18,18,19,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,],
+        [0,0,0,0,0,18,19,19,19,0,0,0,0,19,19,19,18,18,18,17,14,0,0,0,0,0,19,19,27,18,18,19,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,],
+        [0,0,0,0,0,18,18,0,0,0,0,0,0,0,0,19,18,23,23,23,9,9,9,0,0,0,19,19,18,18,19,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,18,18,0,0,0,0,0,0,0,0,19,18,18,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,18,18,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,18,18,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,],
+        [4,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,18,18,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,18,18,18,0,0,0,0,0,0,18,18,18,18,18,18,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,18,0,0,0,0,15,18,1,1,1,1,1,18,18,0,0,0,0,0,0,18,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
   };
     
@@ -3288,46 +2956,13 @@ class Mover {
       }
     }
   }
-}class PigFunScene extends GameScene{
-  constructor() {
-    super({
-      grid: [
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,0o0,19,19,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,19,23,23,23,19,19,19,18,18,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,21,19,19,19,19,18,18,18,18,18,19,19,19,19,0o0,0o0,0o0,0o0,0o0,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,18,18,18,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,18,19,19,0o0,0o0,19,19,19,19,19,19,19,18,18,18,23,23,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,18,18,18,23,23,23,9,9,19,18,19,19,19,19,0o0,18,18,18,18,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,22,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,18,19,19,19,19,18,19,19,19,19,19,18,18,18,19,0o0,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,18,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,23,23,23,23,18,18,19,19,19,19,19,18,18,19,18,19,19,18,18,18,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,19,18,19,19,18,18,19,19,19,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,19,21,0o0,19,19,18,18,18,18,19,19,18,18,18,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,19,18,18,18,19,19,19,0o0,0o0,19,19,19,19,19,19,0o0,0o0,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,21,19,19,19,19,19,19,19,19,0o0,19,19,18,18,18,19,19,0o0,19,19,19,18,18,18,19,19,18,18,18,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,18,18,19,19,0o0,19,19,19,19,19,19,19,19,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,18,19,19,19,19,19,19,0o0,0o0,19,18,18,18,0o0,19,0o0,0o0,19,19,19,18,18,19,0o0,18,18,18,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,23,23,23,23,23,19,19,19,0o0,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,18,18,18,18,19,19,0o0,19,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,0o0,0o0,0o0,19,18,18,19,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,19,18,18,18,18,19,0o0,19,19,19,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,0o0,19,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,18,23,23,23,9,0o0,19,0o0,0o0,0o1,0o1,18,18,0o0,0o0,0o0,0o0,0o0,9,23,23,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,19,19,18,18,19,19,0o0,19,19,19,18,19,18,19,18,19,19,19,19,18,19,19,18,19,19,19,19,19,0o0,19,19,18,19,19,19,18,19,19,19,19,19,0o0,0o0,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,18,19,21,0o0,0o0,0o0,0o0,0o1,0o1,0o1,18,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,19,18,18,19,19,0o0,0o0,19,21,18,18,18,18,18,19,19,19,19,19,18,19,18,18,18,19,0o0,0o0,0o0,0o0,19,19,18,19,19,19,18,19,19,19,0o0,0o1,0o0,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,19,19,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,18,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,18,18,19,0o0,0o0,0o0,19,19,19,18,18,18,18,18,19,19,19,19,18,18,18,23,23,23,23,23,9,0o0,0o0,19,18,18,19,18,18,18,18,19,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,19,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,18,18,0o0,0o1,0o0,0o0,0o0,0o0,19,19,23,23,23,18,19,19,0o0,19,18,18,18,18,19,19,19,0o0,0o0,0o0,0o0,19,19,18,18,18,18,18,19,19,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,0o0,0o1,9,9,9,9,9,23,23,23,18,18,19,19,0o0,0o0,18,18,18,18,19,19,0o0,0o0,0o0,0o0,0o0,9,23,23,23,18,18,18,19,0o0,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,18,18,18,0o0,19,0o0,0o0,0o0,18,18,19,19,0o0,24,0o0,0o0,0o0,0o0,0o0,21,19,18,18,18,0o0,21,0o0,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,0o0,21,0o0,0o0,0o0,18,18,19,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,23,23,9,0o0,0o0,0o0,0o1,0o1,0o1,],
-        [0o0,0o4,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,20,0o0,18,18,18,18,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o0,0o0,0o1,0o1,0o1,],
-        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,],
-        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,],
-        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,],
-        ]
-    },true);
-    this.gui = [];
+}class VgdcSplashScreen extends SplashScreenScene {
+  constructor(playsIntro) {
+    super(playsIntro, "vgdc.png", MenuScene);
+    this.endingTime = 400;
+    // this.showTime = 700;
+    this.iconScale = 0.6;
   }
-  win() {
-    this.driver.setScene(new IntroScene());    
-  }
-  // update(dt, frameCount) {
-  //   super.update(dt,frameCount);
-  // }
 }class TextButton extends Button{
   constructor(x,y,w,h,groupID,onRelease,text,font, 
     textColor,rectBackFillColor,rectOutlineColor, strokeWidth){
@@ -3406,36 +3041,36 @@ SOUNDMAP.challengeMusic = new MusicSource("Challenge2.mp3");
 SOUNDMAP.music = new MusicHandler(SOUNDMAP.hapMusic, SOUNDMAP.challengeMusic);
 
 addLevel( function(nameSpace) {
-   {
+  {
     
     return {
       name: "The Height",
       worldType: 0,
       grid: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27,27,27, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,27,23,23,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,23,18,18,27,18,18,23,27, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0,23,18, 9, 9,23, 9, 9,18,23, 0, 0,],
-        [ 4, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0,23,18,18,18,23,18,18,18,23, 0, 5,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 9,23,27,27,27,27,27,27,27,27,27,23, 9,],
-        [ 1, 1, 1, 1, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0,27,23,23,27,27,27,23,23,27, 0, 0,],
-        [ 1, 1, 1, 1, 1, 0, 0,15,17,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0,27,23,23,23,27,23,23,23,27, 0, 0,],
-        [ 1, 1, 1, 2, 1, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0,27, 0,15, 0, 0, 0,15, 0,27, 0, 0,],
-        [ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,23,23,23,27, 0, 0,],
-        [ 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0,15, 0, 0,15,15, 0,27, 0, 0,],
-        [ 1, 1, 1, 1, 1, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 2, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,23,23,23,27, 0, 0,],
-        [ 1, 1, 1, 1, 1,23, 9, 9,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0,27, 0,15,15,15, 0,15, 0,27, 0, 0,],
-        [ 1, 1, 1, 1, 1, 0, 0, 0,27, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0,27,27,27,27,27,27,27,27,27, 0, 0,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 2,27,27,23,23,27,23,23,27,27, 0, 0,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 2, 0, 0, 0, 2, 0, 0,27, 0, 0, 0, 0, 0, 0,27,27,27,18,18,27,18,18,27,27, 0, 0,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0,27, 0, 0, 2, 0,27, 0, 0, 2, 0, 0, 0, 0, 0,27, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 0, 0, 0, 0,27,27,27,18,18,27,18,18,27,27, 0, 0,],
-        [ 1, 1, 1, 1, 1, 0, 0, 0,27, 0, 0,27, 0,27, 0, 0,27, 0, 0, 0, 0, 0,27, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 2, 0, 0, 0,27,27,27,18,18,27,18,18,27,27, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 0, 0,27, 0, 0,27, 0,27, 0, 0,27, 0, 0, 2, 0, 0,27, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0,27, 0, 0, 0,27,27,27,18,18,27,18,18,27, 1, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 0, 0,27, 0, 0,27, 0,27, 0, 0,27, 0, 0,27, 0, 0,27, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0,27, 0, 0, 0,27,27,27,18,18,27,18,18,27, 1, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 0,27, 0, 0,27, 0,27, 0, 0,27, 0, 0,27, 0, 0,27, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0,27, 0, 0, 0,27,27,27,18,18,27,18, 1, 1, 1, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 0,27, 0, 0,27, 0,27, 0, 0,27, 0, 0,27, 0, 0,27, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0,27, 0, 0, 0,27,27,27,18,18,27,18, 1, 1, 1, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1,27, 0, 0,27, 0,27, 0, 0,27, 0, 0,27, 0, 0,27, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0,27, 0, 0, 0,27,27,27,18,18,27,18, 1, 1, 1, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,27, 0,27, 0, 0,27, 0, 0,27, 0, 0,27, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0,27, 0, 0, 0,27,27,27,18,18,27,18, 1, 1, 1, 0, 0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,27,27,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,23,23,27,23,23,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,23,18,18,27,18,18,23,27,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,23,18,9,9,23,9,9,18,23,0,0,],
+        [4,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,23,18,18,18,23,18,18,18,23,0,5,],
+        [1,1,1,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,9,23,27,27,27,27,27,27,27,27,27,23,9,],
+        [1,1,1,1,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,27,23,23,27,27,27,23,23,27,0,0,],
+        [1,1,1,1,1,0,0,15,17,14,0,0,0,0,0,0,0,0,0,0,0,0,17,14,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,27,23,23,23,27,23,23,23,27,0,0,],
+        [1,1,1,2,1,9,9,9,9,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,27,0,15,0,0,0,15,0,27,0,0,],
+        [1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,27,23,23,23,23,23,23,23,27,0,0,],
+        [1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,17,14,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,27,0,15,0,0,15,15,0,27,0,0,],
+        [1,1,1,1,1,2,0,0,2,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,2,0,0,0,0,0,0,0,27,23,23,23,23,23,23,23,27,0,0,],
+        [1,1,1,1,1,23,9,9,27,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,27,0,15,15,15,0,15,0,27,0,0,],
+        [1,1,1,1,1,0,0,0,27,0,0,0,0,2,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,27,27,27,27,27,27,27,27,27,0,0,],
+        [1,1,1,0,0,0,0,0,27,0,0,0,0,27,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,2,27,27,23,23,27,23,23,27,27,0,0,],
+        [1,1,1,0,0,0,0,0,27,0,0,0,0,27,0,0,0,0,0,0,0,0,27,0,2,0,0,0,2,0,0,27,0,0,0,0,0,0,27,27,27,18,18,27,18,18,27,27,0,0,],
+        [1,1,1,0,0,0,0,0,27,0,0,2,0,27,0,0,2,0,0,0,0,0,27,0,27,0,0,0,27,0,0,27,0,0,0,0,0,0,27,27,27,18,18,27,18,18,27,27,0,0,],
+        [1,1,1,1,1,0,0,0,27,0,0,27,0,27,0,0,27,0,0,0,0,0,27,0,27,0,0,0,27,0,0,27,0,0,2,0,0,0,27,27,27,18,18,27,18,18,27,27,0,0,],
+        [1,1,1,1,1,1,0,0,27,0,0,27,0,27,0,0,27,0,0,2,0,0,27,0,27,0,0,0,27,0,0,27,0,0,27,0,0,0,27,27,27,18,18,27,18,18,27,1,0,0,],
+        [1,1,1,1,1,1,0,0,27,0,0,27,0,27,0,0,27,0,0,27,0,0,27,0,27,0,0,0,27,0,0,27,0,0,27,0,0,0,27,27,27,18,18,27,18,18,27,1,0,0,],
+        [1,1,1,1,1,1,1,0,27,0,0,27,0,27,0,0,27,0,0,27,0,0,27,0,27,0,0,0,27,0,0,27,0,0,27,0,0,0,27,27,27,18,18,27,18,1,1,1,0,0,],
+        [1,1,1,1,1,1,1,0,27,0,0,27,0,27,0,0,27,0,0,27,0,0,27,0,27,0,0,0,27,0,0,27,0,0,27,0,0,0,27,27,27,18,18,27,18,1,1,1,0,0,],
+        [1,1,1,1,1,1,1,1,27,0,0,27,0,27,0,0,27,0,0,27,0,0,27,0,27,0,0,0,27,0,0,27,0,0,27,0,0,0,27,27,27,18,18,27,18,1,1,1,0,0,],
+        [1,1,1,1,1,1,1,1,1,0,0,27,0,27,0,0,27,0,0,27,0,0,27,0,27,0,0,0,27,0,0,27,0,0,27,0,0,0,27,27,27,18,18,27,18,1,1,1,0,0,],
         ]
   };
     
@@ -3792,126 +3427,11 @@ Player.controls = {
   down: {down: function() { this.crouch(); }, noneheld: function() { this.uncrouch(); }},
   dash: { down: function() { this.dash(1-2*this.flipped); }},
 };
-class MenuScene extends Scene{
-  constructor(playIntro) {
-    super(playIntro);
-    
-    //up    - 0
-    //right - 1
-    //down  - 2
-    //left  - 3
-    this.menuState = 0;
-    this.allowUIInput = true;
-    this.addMainMenuGUI();
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-      '69': { down: () => {if(DEBUG)this.driver.setScene(new LevelEditorSelectScene(false));} },
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-      '65': { down: this.navigateUI.bind(this,1)},   //D
-      '83': { down: this.navigateUI.bind(this,2)},    //S
-      '68': { down: this.navigateUI.bind(this,3)},    //A
-      '38': { down: this.navigateUI.bind(this,0)},  //up
-      '39': { down: this.navigateUI.bind(this,1)},  //right
-      '40': { down: this.navigateUI.bind(this,2)},   //down
-      '37': { down: this.navigateUI.bind(this,3)},   //left
-
-    }
-    this.background = new InfiniteBackground();
-   
-    this.camera = {x:0,y:0,dx:0,dy:0};
-    this.allowUIInput = true;
+class CoolmathSplashScreen extends SplashScreenScene {
+  constructor(playsIntro) {
+    super(playsIntro, "CoolmathGames-640x480_no-URL.jpg", VgdcSplashScreen);
   }
-  
-  update(dt) {
-    this.camera.x+=3;
-    super.update(dt);
-   
-  }
-  draw(canvas) {
-    this.background.drawLayers(canvas, this.camera);
-
-    
-    this.drawAllGUI(canvas);
-    if(this.debug)
-      drawGrid(canvas);
-    drawTransitionOverlay(this.overlayColor,canvas);
-  }
-  drawAllGUI(canvas){
-    for(var i = 0; i < this.gui.length; i++){
-      if(this.gui[i].visible){
-        this.gui[i].draw(canvas);
-      }
-    }
-  }
- 
-  addMainMenuGUI(){
-    var bigFont = "60px Noteworthy";
-    var buttonFont = "30px Noteworthy";
-
-    var dim = rectDimFromCenter(.5,.28,.58,.12);
-    var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Jimothy Piggerton",bigFont,"white",'center');
-    this.gui.push(mainTitle);
-
-    dim = rectDimFromCenter(.5,.48,.18,.1);
-    var startButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
-      "Start Game",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(startButton);
-
-    dim = rectDimFromCenter(.5,.60,.18,.1);
-    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
-      "Level Select",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(levelSelectButton);
-
-    dim = rectDimFromCenter(.5,.72,.18,.1);
-    var optionsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
-      "Options",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(optionsButton);
-
-    dim = rectDimFromCenter(.5,.84,.18,.1);
-    var creditsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
-      "Credits",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(creditsButton);
-
-    startButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
-    levelSelectButton.setNeighbors([startButton,undefined,optionsButton,undefined]);
-    optionsButton.setNeighbors([levelSelectButton,undefined,creditsButton,undefined]);
-    creditsButton.setNeighbors([optionsButton,undefined,undefined,undefined]);
-
-    this.selectedButton = startButton;
-    this.selectedButton.selected = true;
-    this.buttons = getButtons(this.gui);
-
-  }
-  startGame(){
-   
-    this.allowUIInput = false;
-    //this.driver.setScene(new PigFunScene());
-    this.startTransition(25,1,sceneTransition(this,IntroScene,true));
-  }
-  goToLevelSelect(){
-   
-    this.allowUIInput = false;
-    this.driver.setScene(new LevelSelectScene(false));
-
-  }
-  goToOptions(){
-    this.allowUIInput = false;
-    this.driver.setScene(new OptionScene(false));
-  } 
-  goToCredits(){
-   
-    this.allowUIInput = false;
-    this.driver.setScene(new CreditsScene(false));
-  }
-  
-  
-}
-
-
-
-class GrowthTextButton extends TextButton{
+}class GrowthTextButton extends TextButton{
   constructor(x,y,w,h,groupID,onRelease,text,font, 
     textColor,rectBackFillColor,rectOutlineColor, strokeWidth,growthAmount){
       super(x,y,w,h,groupID,onRelease,text,font,textColor,rectBackFillColor,rectOutlineColor,strokeWidth);
@@ -3943,36 +3463,36 @@ class GrowthTextButton extends TextButton{
     this.drawText(canvas,dim);
   }
 }addLevel( function(nameSpace) {
-   {
+  {
     
     return {
       name: "Entrance to the Temple",
       worldType: 0,
       grid: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27,27,27,27,27, 2, 0, 0, 0,27,27,27,27, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2,27,27,27, 2, 0, 0, 0, 0,27,27,27,27, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27, 2, 0, 0, 0, 0, 0, 0, 2,27, 2, 0, 0, 0, 0, 0,27,27,27,27, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27,27,27, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,27,23,23,27, 0,],
-        [ 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27,27,27,27,27, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,23, 0, 0,23, 0,],
-        [ 9,23,27,27,27,27,27,27,27,23, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,23,23,23,27,23,23,23, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,23, 0, 5,23, 0,],
-        [ 0, 0,27,27,23,27,23,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0,23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,23,27,27,27,27,23,],
-        [ 0, 0,27, 9, 9,27, 9, 9,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27, 2, 0, 0, 0, 0, 0, 0, 0, 0,23, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0,27,27,27,27, 0,],
-        [ 0, 0,27, 9, 9,27, 9, 9,27, 0, 0, 0, 0, 0, 0, 0, 0, 2,27,27,27, 2, 0, 0, 0, 0, 0, 9,23,27,23, 9, 0, 0, 0, 0, 0,17,14, 0, 0, 0, 0, 0, 0,27,27,27,27, 0,],
-        [ 0, 0,27, 9, 9,27, 9, 9,27, 0, 0, 0, 0, 0, 0, 0, 2,27,27,27,27,27, 2, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0,27,23,23,27, 0,],
-        [ 0, 0,27,23,23,27,23,23,27,14, 0, 0, 0, 0, 0, 0,27,27,27,27,27,27,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0,27, 0, 0,27, 0,],
-        [ 0,27,27,27,27,27,27,27,27,27,27, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0,27,18,27,27,27,27,27,18,27,23,27, 0, 0, 0, 0, 0, 0, 0,23, 0,17, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 2,27, 2, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0,27,18,18,27,27,27,18,18,27,18,23,27, 0, 0, 0, 0, 0, 0,23, 0,17, 0, 0, 0, 0, 0, 0,14,27,14, 0, 0, 0, 0, 0, 0,17, 0, 2,27,27,27, 2, 0, 0, 0, 0, 0, 0,],
-        [ 0,27,18,18,18,27,18,18,18,27,18,18,27, 0, 0, 0, 0, 9,23,27,23, 9, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0,17, 2,27,27,27,27,27, 2, 0, 0, 0, 0, 0,],
-        [ 0,27,18,18,18,18,18,18,18,27,18,18,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0,17,27,27,27,27,27,27,27, 0, 0, 0, 0, 0,],
-        [ 0,27,23,23,23,23,23,23,23,27,18,18,23,27, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,23,27, 0, 0, 0, 0, 0,],
-        [ 0,27,27,23,23,23,23,23,27,27,27,18,18,27, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,23,27, 0, 0, 0, 0, 0,],
-        [ 0, 0,27,27,23,23,23,27,27,27, 0,27,18,27, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27, 0,15, 0,15, 0,27, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0,27,27,23,27,27,27, 0, 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,23,27, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0,27,27,27,27,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0,15,15, 0,27, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0,27,23,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,23,27, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0,27,18,23,18,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27, 0,15,15,15, 0,27, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0,27,18,18,18,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,23,27, 0, 0, 0, 0, 0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,27,27,27,27,27,2,0,0,0,27,27,27,27,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,27,27,27,2,0,0,0,0,27,27,27,27,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,27,2,0,0,0,0,0,0,2,27,2,0,0,0,0,0,27,27,27,27,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,27,27,27,2,0,0,0,0,0,0,2,0,0,0,0,0,0,27,23,23,27,0,],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,27,27,27,27,27,2,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,23,0,],
+        [9,23,27,27,27,27,27,27,27,23,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,23,23,23,27,23,23,23,2,0,0,0,0,0,0,0,0,0,0,0,23,0,5,23,0,],
+        [0,0,27,27,23,27,23,27,27,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,27,27,27,27,23,],
+        [0,0,27,9,9,27,9,9,27,0,0,0,0,0,0,0,0,0,2,27,2,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,27,27,27,27,0,],
+        [0,0,27,9,9,27,9,9,27,0,0,0,0,0,0,0,0,2,27,27,27,2,0,0,0,0,0,9,23,27,23,9,0,0,0,0,0,17,14,0,0,0,0,0,0,27,27,27,27,0,],
+        [0,0,27,9,9,27,9,9,27,0,0,0,0,0,0,0,2,27,27,27,27,27,2,0,0,0,0,0,0,27,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,27,23,23,27,0,],
+        [0,0,27,23,23,27,23,23,27,14,0,0,0,0,0,0,27,27,27,27,27,27,27,0,0,0,0,0,0,27,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,27,0,0,27,0,],
+        [0,27,27,27,27,27,27,27,27,27,27,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,17,0,0,0,2,0,0,0,0,0,0,0,0,],
+        [0,27,18,27,27,27,27,27,18,27,23,27,0,0,0,0,0,0,0,23,0,17,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,17,0,0,2,27,2,0,0,0,0,0,0,0,],
+        [0,27,18,18,27,27,27,18,18,27,18,23,27,0,0,0,0,0,0,23,0,17,0,0,0,0,0,0,14,27,14,0,0,0,0,0,0,17,0,2,27,27,27,2,0,0,0,0,0,0,],
+        [0,27,18,18,18,27,18,18,18,27,18,18,27,0,0,0,0,9,23,27,23,9,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,17,2,27,27,27,27,27,2,0,0,0,0,0,],
+        [0,27,18,18,18,18,18,18,18,27,18,18,27,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,17,27,27,27,27,27,27,27,0,0,0,0,0,],
+        [0,27,23,23,23,23,23,23,23,27,18,18,23,27,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,23,23,23,23,23,27,0,0,0,0,0,],
+        [0,27,27,23,23,23,23,23,27,27,27,18,18,27,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,23,23,23,23,23,27,0,0,0,0,0,],
+        [0,0,27,27,23,23,23,27,27,27,0,27,18,27,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,0,15,0,15,0,27,0,0,0,0,0,],
+        [0,0,0,27,27,23,27,27,27,0,0,0,27,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,23,23,23,23,23,27,0,0,0,0,0,],
+        [0,0,0,27,27,27,27,27,27,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,0,0,15,15,0,27,0,0,0,0,0,],
+        [0,0,0,27,23,27,23,27,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,23,23,23,23,23,27,0,0,0,0,0,],
+        [0,0,0,27,18,23,18,27,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,0,15,15,15,0,27,0,0,0,0,0,],
+        [0,0,0,27,18,18,18,27,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,27,23,23,23,23,23,27,0,0,0,0,0,],
         ]
   };
     
@@ -4158,81 +3678,134 @@ class Pig extends Mover {
     canvas.restore();
   }
 }
-class IntroScene extends GameScene{
-  constructor() {
-    var w = 18;
-    var l = 19;
-    super({
-      grid: [
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,0,19,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,18,19,19,18,19,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [4,0,0,0,0,0,0,0,19,0,19,18,18,19,18,18,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,18,19,19,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,19,0,18,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [1,1,1,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [1,1,1,1,1,1,1,1,0,0,0,0,4,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        
-        ]
-    },true);
-    this.gui = [];
-    this.keyMap = {
-      '27': {down: sceneTransition(this, GameScene)},
-    }
-    this.gamePadOn = false;
-    // this.player.x = 500;
-    this.player.flipped = true;
-    this.pig = new Pig(this.player.x+100, this.player.y);
-    this.pig.speed=0;
-    this.butcher = new Butcher(this.player.x+600, this.player.y);
-    this.addEntity(this.butcher);
-    this.butcher.speed=0;    
-    this.addEntity(this.pig);
-    this.player.updateEye = function() {};
-    this.pig.mx = 0;
-    this.pig.bounceFrq = Math.PI/30;
-    this.totalTime = 400;
-    this.time = this.totalTime+1000;
-    this.player.resetControls = function() {};
-    this.player.speed = 4;
-    this.player._angle = Math.PI/10;
-    this.player.eyeMovement.blink = 1;
-    this.pig.animationState = 1;
-    this.startTransition(100, -1, function() {
-      this.time=this.totalTime;
-      this.butcher.speed = 3.9;
-    });
-    this.makeLetterBox();
-    this.timeToWait=0;
-    this.emitZ = true;
-    this.emissionDelay = 35;
-  }
-  makeLetterBox(){
-    var upperBoxHeight = 0.2;
-    var lowerBoxHeight = 0.2;
 
-    this.upperLetterBox = new ColoredBox(0,0,1,upperBoxHeight,0,'black','transparent',1);
-    this.lowerLetterBox = new ColoredBox(0,1-lowerBoxHeight,1,lowerBoxHeight,0,'black','transparent',1);
-    this.gui.push(this.upperLetterBox);
-    this.gui.push(this.lowerLetterBox);
+class GameScene extends Scene {
+  constructor(level, dontSpawnPig,playIntro) {
+    super(playIntro);
+    this.dontSpawnPig=dontSpawnPig;
+    this.player = new Player();
+    this.entities = [];
+    this.behinds=[];    
+    this.addEntity(this.player);
+    var p1controls = connectControls(Player.controls, this.player);
+    this.p1controls = p1controls;
+    this.keyMap = {
+      68: p1controls.right,
+      87: p1controls.up,
+      65: p1controls.left,
+      83: p1controls.down,
+
+      37: p1controls.left,
+      38: p1controls.up,
+      39: p1controls.right,
+      40: p1controls.down,
+
+      32: p1controls.up,
+
+      27: {down: this.pause.bind(this)},
+      69: p1controls.dash,
+      78: {down: function() {
+        if(this.keys[67] && DEBUG) {
+          this.loadNewLevel(this.levelIndex+1);
+        }
+      }.bind(this)},
+      66: {down: function() {
+        if(this.keys[67] && DEBUG) {
+          this.loadNewLevel(this.levelIndex-1);
+        }
+      }.bind(this)},
+    }
+    this.camera = {x:0,y:0,dx:0,dy:0,speed:10};
+    
+    // this.world = new World(200,50,50);
+
+    this.inTransition = false;
+    this.transitionDirection = -1;
+    this.overlayColor = "rgba(0,0,0,0)";
+    this.transitionTimer = 25.0;
+    this.transitionDuration = 25.0;
+
+    if(level) {
+      this.levels = [level];
+    } else {
+      this.levels = createLevels();
+    }
+    this.levelIndex = 0;
+    this.levelCompleted = false;
+    this.loadNewLevel(0);
+    this.shouldFillAroundWorld = true;    
+    // this.level = this.levels[0];
+    // this.world = new WorldFromLevel(this.level);
+    // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
+    // this.addEntity(new Enemy(300,100));
+    this.screenShakeLevel=0;
+    this.totalDeaths = 0;
+    this.levelDeaths = 0;
+    this.constrainCamera();
+    this.frameStop = 0;
   }
-  moveCamera(){
+  addEntity(entity) {
+    entity.game = this;
+    this.entities.push(entity);
+  }
+  collidesWithPlayer(entity) {
+		var entityBox = entity.getHitBox();
+		var playerBox = this.player.getHitBox();
+		return rectangleCollision(entityBox, playerBox);
+  }
+  playLevelIntro(){
+    this.startTransition(25,-1,undefined);
+  }
+  playLevelOutro(){
+    var win = this.levelIndex+1>=this.levels.length;
+    if(this.music) {
+      // this.music.pause();
+    }
+    if(this.pig)
+    this.driver.setScene(new LevelCompleteScene(this, () => {
+      // this.startTransition(25, 1, function() { 
+        if(this.levelIndex+1 >= this.levels.length) {
+          this.win();
+        } else {
+          this.loadNewLevel(this.levelIndex+1);
+          this.driver.setScene(new LevelIntroScene(this,true));
+        }
+      // });
+    }, win));
+    else {
+       this.startTransition(25, 1, function() { 
+        if(this.levelIndex+1 >= this.levels.length) {
+          this.win();
+        } else {
+          this.loadNewLevel(this.levelIndex+1);
+          this.driver.setScene(new LevelIntroScene(this,true));
+        }
+      });
+    }
+  }
+  pause() {
+    this.driver.setScene(new PauseScene(this));
+  }
+  moveCamera(targetX,targetY) {
+    var target = {x:targetX,y:targetY};
+    var camera = this.camera;
+    var a = target.y-camera.y;
+    a = a*a;
+    var b = target.x-camera.x;
+    b = b*b;
+    var distance = Math.sqrt(a+b);
+    if(camera.speed >= distance){
+      camera.x = targetX;
+      camera.y = targetY;
+    }
+    var directionToPoint = Math.atan2(target.y-camera.y,target.x-camera.x);
+    var displace = circleMove(directionToPoint,camera.speed);
+    camera.x += circleMoveX(directionToPoint,camera.speed);
+    camera.y += circleMoveY(directionToPoint,camera.speed);
+
+    this.constrainCamera();
+  }
+  followPlayer(){
     var camera = this.camera;
     var player = this.player;
     var canvas = this.canvas;
@@ -4250,67 +3823,246 @@ class IntroScene extends GameScene{
     var d = 0;
     if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
     if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
-    if(camera.dy>60)camera.dy=60;
-    if(camera.dy>10) camera.y+=(camera.dy-10)/3;
+    if(camera.dy>30)camera.dy=30;
+    if(camera.dy>10) camera.y+=(camera.dy*2-10)/3;
     //make the camera point more towards the direction
     //that the player is moving in so they can see ahead
     if(player.mx!=0) {
       // camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
     }
-    if(!canvas)return;
-    var world1 = this.world;
-    if(camera.x<canvas.width/2)camera.x = canvas.width/2;
-    if(camera.x>world1.w*world1.s-canvas.width/2) camera.x = world1.w*world1.s-canvas.width/2;
-    if(camera.y>world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h)camera.y = world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h;
-    if(camera.y<canvas.height/2-canvas.height*this.upperLetterBox.h)camera.y = canvas.height/2-canvas.height*this.upperLetterBox.h;  
-  }
-  followPlayer(){
-    this.moveCamera();
+    this.constrainCamera();
   }
   constrainCamera(x,y,w,h){
-    
+    var camera = this.camera;
+    var canvas = this.canvas;
+    if(!canvas)return;
+      var world1 = this.world;
+    if(x == undefined || y == undefined || w == undefined || h == undefined){
+      camera.x = constrain(camera.x,canvas.width/2,world1.w*world1.s-canvas.width/2);
+      camera.y = constrain(camera.y,canvas.height/2,world1.h*world1.s-canvas.height/2);
+    } else {
+      camera.x = constrain(camera.x,x+canvas.width/2,x+w-canvas.width/2);
+      camera.y = constrain(camera.y,y+canvas.width/2,y+h-canvas.width/2);
+      this.constrainCamera();
+    }
+  }
+
+  detectLevelComplete() {
+    if(this.player.x/this.world.s >= this.world.w-2&&this.player.grounded) {
+      this.loadNewLevel(this.levelIndex+1);
+    }
+  }
+  levelComplete() {
+    if(this.player.dead)return;
+    if(!this.levelCompleted) {
+      this.levelCompleted = true;
+      this.playLevelOutro();
+    }
+  }
+  
+  win() {
+    this.driver.setScene(new PostWinScene(this));    
+  }
+  loadNewLevel(index) {   
+    this.frameStop = 0;
+    if(index<0)index=0;
+    this.butcher = null;
+    this.kingByrd = null;
+    var same = false;
+    var entities = this.entities;
+    if(index==undefined) {
+      same=true;
+    } else {
+      this.levelIndex = index;
+      this.levelDeaths = 0;
+      if(this.music) {
+      } else
+      this.music = SOUNDMAP.music.play(); 
+    }
+    if(this.levelIndex>=this.levels.length) {
+      this.win();
+      return;
+    }
+    var level = this.levels[this.levelIndex];
+    if(!same)
+      this.world = new WorldFromLevel(level, this.levelIndex);
+    this.player.reset();
+    this.entities = [];    
+    //this.addEntity(new Byrd(100,400));
+    this.world.loadWorld(this);
+    this.entities.push(this.player);
+    this.initializeLevel(level);
+    // this.behinds.forEach(function (e){
+    //   entities.unshift(e);
+    // });
+    // this.behinds=[];
+    if(level.modifyPlayer) {
+      level.modifyPlayer(this.player);
+    }
+    this.level=level;
+    this.camera.x=this.player.x;
+    this.camera.y=this.player.y;
+    this.constrainCamera();
+
+    //if(!this.dontSpawnPig) {
+    //  this.pig = new Pig(this.world.w*this.world.s-200,100);
+    //  this.addEntity(this.pig);
+    //}
+    // this.addEntity(new Enemy(300,100));  
+    this.playLevelIntro();
+    this.levelCompleted = false;
+    /*
+    var text = new WorldText(800,600,300,"TEXT HERE",'60px ' + FONT,[0,0,0,0],[0,0,0,1],
+      100,false)
+    this.entities.push(text);
+    var trigger = new TriggerZone(800,700,100,100,this.player,text.appear.bind(text),undefined,text.disappear.bind(text),true);
+    this.entities.push(trigger);
+    */
+  }
+  initializeLevel(level){
+    if(level.init){
+      level.init(this);
+    }
+  }
+  respawn() {
+    this.totalDeaths++;
+    this.levelDeaths++;
+    // console.log(this.deaths);
+    this.loadNewLevel();
+  }
+  musicFadeOnPig() {
+    var pig = this.pig;
+    var player = this.player;
+    if(!this.music) this.music = SOUNDMAP.music.play();
+    if(pig&&player) {
+      var r = distanceBetweenEntities(pig, player);
+      if(r<500) {
+        SOUNDMAP.music.lerpVolume(r/500);     
+        if(r<100) {
+          this.musicFaded = true;
+          this.musicTime = this.music.getTime();
+          this.music.pause();
+        } else {
+          if(this.musicFaded)
+          this.music.resume(this.musicTime);
+          this.musicFaded=false;          
+        }
+      } else {
+        if(this.music) {
+          if(this.musicFaded)
+          this.music.resume(this.musicTime);
+          this.musicFaded=false;          
+        }
+        this.musicTime = this.music.getTime();
+        SOUNDMAP.music.setVolume(1);
+      }
+    }
   }
   update(dt, frameCount) {
-    super.update(dt,frameCount);
-    this.timeToWait--;
-    this.time--;
-    if(this.time<=0) {
-      this.driver.setScene(new LevelIntroScene(new GameScene(),true));
+    this.musicFadeOnPig();
+    this.player.resetControls();
+    var entities = this.entities;
+    super.update(dt);
+    if(this.frameStop>0) {
+      // this.frameStop -= 1;
+      // this.followPlayer();   
+      // this.updateScreenShakeLevel();         
+      // return;
+      this.frameStop-=0.1;
+      var t = this.frameStop;
+      t=t/5;
+      if(t>1) t = 1;
+      dt = dt * (1 - 0.8 * t)
     }
-    if(this.time > this.totalTime-200){
-      if(this.time % this.emissionDelay == 0){
-        this.addEntity(new SleepText(this.player.x+this.player.w,this.player.y-this.player.h,20,2,-2,"Z",
-          "30", "Noteworthy",[255,255,255,1],[255,255,255,0],25,25,true));
+    for(var i=0;i<entities.length;i+=1) {
+      var entity = entities[i];
+      entity.update(dt, frameCount);
+      if(entity.shouldDelete) {
+        entities.splice(i--,1);
       }
-      
     }
-    if(this.time > this.totalTime-150){
-      if(this.time % this.emissionDelay == 9){
-        this.addEntity(new SleepText(this.pig.x+this.pig.w,this.pig.y-this.pig.h,20,2,-2,"Z",
-          "30", "Noteworthy",[255,255,255,1],[255,255,255,0],25,25,true));
-      }
+    entities = this.entities;
+    this.behinds.forEach(function (e){
+      entities.unshift(e);
+    });
+    this.behinds=[];
+    // this.entities = this.entities.sort(function(a,b) {
+    //   return -b.behind;
+    // })
+    this.followPlayer();
+
+    
+
+    // this.detectLevelComplete();
+    this.updateScreenShakeLevel();
+    // this.screenShakeLevel -= this.screenShakeLevel/10;
+  }
+  updateScreenShakeLevel() {
+    this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);    
+  }
+  draw(canvas) {
+    if(!this.canvas) {
+      this.canvas = canvas;
+      this.constrainCamera();
     }
-    if(this.time == this.totalTime-160){
-      this.addEntity(new SleepText(this.pig.x+this.pig.w/2,this.pig.y-this.pig.h-70,80,0,0,"!?",
-          "65", "Noteworthy",[255,255,255,1],[255,255,255,0],20,30,true));
+    var camera = this.camera;
+    canvas.clearRect(0,0,canvas.width,canvas.height);
+    this.doScreenShake(canvas);    
+    
+    
+    // canvas.translate(-canvas.width/2,-canvas.height/2);      
+
+    // canvas.translate(canvas.width/2,canvas.height/2);  
+  
+    canvas.save();
+    this.world.drawBackground(canvas, this.camera);    
+    if(this.shouldFillAroundWorld) {
+      this.fillAroundWorld(canvas);
     }
-    if(this.time == this.totalTime - 200) {
-      this.player.flipped = false;
-      this.player.jump(7);
-      this.player._angle = 0;      
-      this.player.eyeMovement.blink = 0;      
+
+    canvas.translate(canvas.width/2,canvas.height/2);  
+    canvas.rotate(camera.r);
+    
+    canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
+    
+    this.world.draw(canvas);
+    for(var i=0;i<this.entities.length;i+=1) {
+      var entity = this.entities[i];
+      entity.draw(canvas);
     }
-    if(this.time < this.totalTime - 230) {
-      this.player.mx = 1;
-      this.moveCamera = function() {};
+    canvas.restore();
+    if(this.level.name) {
+      canvas.fillStyle='#fff';
+      canvas.fillText(this.level.name, 200, canvas.height-30);
     }
+    drawTransitionOverlay(this.overlayColor,canvas);
     
   }
-  draw(canvas){
-    super.draw(canvas);
-    this.drawAllGUI(canvas);
+
+  fillAroundWorld(canvas) {
+    if(this.world.image) {
+      var cameraOffsetY = canvas.height/2-Math.floor(this.camera.y);
+      canvas.fillStyle="black";          
+      canvas.fillRect(0,this.world.image.height+cameraOffsetY,this.world.image.width,1000);  
+      canvas.fillRect(0,-1000+cameraOffsetY,this.world.image.width,1000);    
+    }
   }
-}class Label extends GUIElement{
+  doScreenShake(canvas) {
+    if(this.screenShakeLevel==0) {
+      return this.camera.r = 0;
+    }
+    var x = Math.cos(this.driver.frameCount*Math.PI/3)*this.screenShakeLevel*10;
+    var y = Math.sin(this.driver.frameCount*Math.PI/3)*this.screenShakeLevel*10;
+    var r = Math.cos(this.driver.frameCount*Math.PI/4)*this.screenShakeLevel*Math.PI/80;
+    // canvas.translate(x,y);
+    this.camera.x+=x;
+    this.camera.y+=y;
+    this.camera.r=r;
+    // canvas.rotate(r);
+  }
+  
+}
+class Label extends GUIElement{
   constructor(x,y,width,height,groupID
     ,text,font,textColor,textAlign){
     super(x,y,width,height,groupID);
@@ -4349,51 +4101,51 @@ class IntroScene extends GameScene{
     super.setOptions(false,false,visible);
   }
 }addLevel( function(nameSpace) {
-   {
+  {
     
     return {
       name: "Temple Of the Feather",
       worldType: 0,
       grid: [
-        [ 0, 0,27,23,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0,27,23,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0,27,23,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-        [ 0, 0,27,23,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1,],
-        [ 0, 0,27,23,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1,],
-        [ 0, 0,27,23,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,],
-        [ 0, 0,27,23,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,27,27,27,27,],
-        [ 0, 0,27,27,27,27,27, 0, 0, 0, 0,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0,14, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27,27,27,],
-        [ 0, 0,27, 9, 9, 9,23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27,27,27,],
-        [ 0, 0,27, 0, 0, 0,23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0,14, 0, 0, 0, 0, 0, 0, 0,27,27,23,23,23,],
-        [ 0, 0,27,23,23,23,27,23, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 8, 0,17,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 9, 0, 0, 0,],
-        [ 0, 0,27,23,23,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,14, 0, 0, 0, 0,14, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,23, 0, 0, 0, 0,],
-        [ 0, 0,27, 9, 9, 9,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,23, 0, 0, 5, 0,],
-        [ 0, 0,27, 0,15, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,27,27,27,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,23,27,23,23,23,23,],
-        [ 0, 0,27,23,23,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,27, 0,23,27, 0,27, 0, 0,27,23,23,23,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14,27,27,23,27,27,],
-        [ 0, 0,23,23,23,23,23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,27, 0, 9,27,18,27, 0, 0,27,23,23,23,27, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,23,27,27,],
-        [ 4, 0,23,23,23,23,23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14,27,23,23,23,27,27, 0,27,18,27, 0,27,27,23,23,23,27, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27,27, 9,27,27,],
-        [23,23,27,23,23,23,27,23, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,23,23,27,27,27,18,27,27,27,23,23,23,27, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27,27, 9,27,27,],
-        [ 0, 0,27,23,23,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,23,23,23,23,18,23,23,23,23,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0,14, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27,27, 9,27,27,],
-        [ 0, 0, 0,27,23,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,18,18,18,18,18,18,18,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27,27, 0,27,27,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,18,18,18,18,18,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27,27, 0,27,27,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,18,18,18,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27,27, 1,27,27,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14, 0,27,27, 9,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0,14,17, 0, 0, 0,27, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0,27,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,23,27, 0,27,23,27, 0, 0, 0, 0, 0, 0, 0,14, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,27, 9, 0, 9,27, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14, 0, 0, 0,27, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0,27, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0,17, 0, 0, 2, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0,17, 0, 0, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 2, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 2, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 0, 0, 2, 0, 0, 0, 0,27, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 0, 0, 0, 0,27, 0, 0, 0, 0,27, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,27,23,27,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,27,23,27,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,27,23,27,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,],
+        [0,0,27,23,27,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,],
+        [0,0,27,23,27,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,],
+        [0,0,27,23,27,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,],
+        [0,0,27,23,27,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,1,27,27,27,27,],
+        [0,0,27,27,27,27,27,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,14,17,0,0,0,17,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,27,27,],
+        [0,0,27,9,9,9,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,27,27,],
+        [0,0,27,0,0,0,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,14,0,0,0,0,0,0,0,27,27,23,23,23,],
+        [0,0,27,23,23,23,27,23,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,8,0,17,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,27,9,0,0,0,],
+        [0,0,27,23,23,23,27,0,0,0,0,0,0,0,0,0,14,0,0,0,0,14,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,],
+        [0,0,27,9,9,9,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,5,0,],
+        [0,0,27,0,15,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,27,27,27,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,9,23,27,23,23,23,23,],
+        [0,0,27,23,23,23,27,0,0,0,0,0,0,0,0,0,0,0,0,27,23,23,23,23,27,0,23,27,0,27,0,0,27,23,23,23,23,27,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,14,27,27,23,27,27,],
+        [0,0,23,23,23,23,23,0,0,0,0,0,0,0,0,0,0,0,0,0,27,23,23,23,27,0,9,27,18,27,0,0,27,23,23,23,27,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,23,27,27,],
+        [4,0,23,23,23,23,23,0,0,0,0,0,0,0,0,0,0,0,0,14,27,23,23,23,27,27,0,27,18,27,0,27,27,23,23,23,27,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,27,9,27,27,],
+        [23,23,27,23,23,23,27,23,9,0,0,0,0,0,0,0,0,0,0,0,0,27,27,23,23,27,27,27,18,27,27,27,23,23,23,27,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,27,9,27,27,],
+        [0,0,27,23,23,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,23,23,23,23,18,23,23,23,23,27,27,0,0,0,0,0,0,0,0,0,17,17,0,0,14,0,0,0,0,0,0,0,0,17,0,0,0,27,27,9,27,27,],
+        [0,0,0,27,23,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,18,18,18,18,18,18,18,27,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,27,0,27,27,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,18,18,18,18,18,27,0,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,27,0,27,27,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,27,18,18,18,27,0,0,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,27,1,27,27,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,27,27,9,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,8,0,0,0,0,14,17,0,0,0,27,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,27,27,27,0,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,1,1,1,1,],
+        [0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,23,27,0,27,23,27,0,0,0,0,0,0,0,14,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,27,9,0,9,27,9,0,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,27,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,27,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,27,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,17,0,0,2,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,27,0,0,27,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,27,0,0,17,0,0,1,1,1,1,1,1,],
+        [0,0,2,0,0,0,0,0,0,27,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,27,0,0,0,27,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,2,0,0,0,0,27,0,0,0,0,0,1,1,1,1,1,1,],
+        [0,0,27,0,0,0,0,0,0,27,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,27,0,0,27,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,27,0,0,0,0,27,0,0,0,0,2,1,1,1,1,1,1,],
+        [0,0,27,0,0,0,0,0,0,27,0,0,0,0,0,0,27,0,0,0,0,2,0,0,0,0,27,0,0,0,27,0,0,27,0,0,0,0,2,0,0,0,0,27,0,0,0,0,0,27,0,0,0,0,27,0,0,0,2,1,1,1,1,1,1,1,],
+        [0,0,27,0,0,0,0,0,0,27,0,0,0,0,0,0,27,0,0,0,0,27,0,0,0,0,27,0,0,0,27,0,0,27,0,0,0,0,27,0,0,0,0,27,0,0,0,0,0,27,0,0,0,0,27,0,2,2,1,1,1,1,1,1,1,1,],
+        [0,0,27,0,0,0,0,0,0,27,0,0,0,0,0,0,27,0,0,0,0,27,0,0,0,0,27,0,0,0,27,0,0,27,0,0,0,0,27,0,0,0,0,27,0,0,0,0,0,27,0,0,0,0,27,0,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,27,0,0,0,0,0,0,27,0,0,0,0,0,0,27,0,0,0,0,27,0,0,0,0,27,0,0,0,27,0,0,27,0,0,0,0,27,0,0,0,0,27,0,0,0,0,0,27,0,0,0,0,27,0,1,1,1,1,1,1,1,1,1,1,],
         ],
         init(gameScene){
-          gameScene.addEntity(new WorldText(1240,300,600,'WINGS allow Jimothy to DOUBLE-JUMP','25px Noteworthy',[255,255,255,1],[255,255,255,1],1,true,'center'));
+          gameScene.addEntity(new WorldText(1240,300,600,'WINGS allow Jimothy to DOUBLE-JUMP','25px ' + FONT,[255,255,255,1],[255,255,255,1],1,true,'center'));
         }
   };
     
@@ -4471,125 +4223,47 @@ class Enemy extends Mover {
     // var box = this.getHitBox();
     // canvas.strokeRect(box.x,box.y,box.w,box.h);
   }
-}class PauseScene extends Scene {
-  constructor(prevScene) {
-    super();
-    this.prevScene = prevScene;
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-
-      '27': {down: this.safeButtonCall(this,this.unpause)}, //esc
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-      '65': { down: this.navigateUI.bind(this,1)},   //D
-      '83': { down: this.navigateUI.bind(this,2)},    //S
-      '68': { down: this.navigateUI.bind(this,3)},    //A
-      '38': { down: this.navigateUI.bind(this,0)},  //up
-      '39': { down: this.navigateUI.bind(this,1)},  //right
-      '40': { down: this.navigateUI.bind(this,2)},   //down
-      '37': { down: this.navigateUI.bind(this,3)},   //left
-
-      '78': {down: function() {
-        if(this.keys[67] && DEBUG) {
-          this.goToLevelEditor(prevScene.levelIndex+1);
-        }
-      }.bind(this)},
-    }
-    this.allowUIInput = true;
-    this.selectedButton = undefined;
-    this.addPauseMenuGUI();
+}class PigFunScene extends GameScene{
+  constructor() {
+    super({
+      grid: [
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,0o0,19,19,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,19,23,23,23,19,19,19,18,18,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,21,19,19,19,19,18,18,18,18,18,19,19,19,19,0o0,0o0,0o0,0o0,0o0,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,18,18,18,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,18,19,19,0o0,0o0,19,19,19,19,19,19,19,18,18,18,23,23,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,18,18,18,23,23,23,9,9,19,18,19,19,19,19,0o0,18,18,18,18,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,22,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,18,19,19,19,19,18,19,19,19,19,19,18,18,18,19,0o0,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,18,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,23,23,23,23,18,18,19,19,19,19,19,18,18,19,18,19,19,18,18,18,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,19,18,19,19,18,18,19,19,19,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,19,21,0o0,19,19,18,18,18,18,19,19,18,18,18,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,19,18,18,18,19,19,19,0o0,0o0,19,19,19,19,19,19,0o0,0o0,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,21,19,19,19,19,19,19,19,19,0o0,19,19,18,18,18,19,19,0o0,19,19,19,18,18,18,19,19,18,18,18,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,18,18,19,19,0o0,19,19,19,19,19,19,19,19,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,18,19,19,19,19,19,19,0o0,0o0,19,18,18,18,0o0,19,0o0,0o0,19,19,19,18,18,19,0o0,18,18,18,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,23,23,23,23,23,19,19,19,0o0,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,18,18,18,18,19,19,0o0,19,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,0o0,0o0,0o0,19,18,18,19,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,19,18,18,18,18,19,0o0,19,19,19,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,0o0,19,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,18,23,23,23,9,0o0,19,0o0,0o0,0o1,0o1,18,18,0o0,0o0,0o0,0o0,0o0,9,23,23,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,19,19,18,18,19,19,0o0,19,19,19,18,19,18,19,18,19,19,19,19,18,19,19,18,19,19,19,19,19,0o0,19,19,18,19,19,19,18,19,19,19,19,19,0o0,0o0,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,18,19,21,0o0,0o0,0o0,0o0,0o1,0o1,0o1,18,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,19,18,18,19,19,0o0,0o0,19,21,18,18,18,18,18,19,19,19,19,19,18,19,18,18,18,19,0o0,0o0,0o0,0o0,19,19,18,19,19,19,18,19,19,19,0o0,0o1,0o0,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,19,19,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,18,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,18,18,19,0o0,0o0,0o0,19,19,19,18,18,18,18,18,19,19,19,19,18,18,18,23,23,23,23,23,9,0o0,0o0,19,18,18,19,18,18,18,18,19,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,19,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,18,18,0o0,0o1,0o0,0o0,0o0,0o0,19,19,23,23,23,18,19,19,0o0,19,18,18,18,18,19,19,19,0o0,0o0,0o0,0o0,19,19,18,18,18,18,18,19,19,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,0o0,0o1,9,9,9,9,9,23,23,23,18,18,19,19,0o0,0o0,18,18,18,18,19,19,0o0,0o0,0o0,0o0,0o0,9,23,23,23,18,18,18,19,0o0,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,18,18,18,0o0,19,0o0,0o0,0o0,18,18,19,19,0o0,24,0o0,0o0,0o0,0o0,0o0,21,19,18,18,18,0o0,21,0o0,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,0o0,21,0o0,0o0,0o0,18,18,19,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,23,23,9,0o0,0o0,0o0,0o1,0o1,0o1,],
+        [0o0,0o4,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,20,0o0,18,18,18,18,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o0,0o0,0o1,0o1,0o1,],
+        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,],
+        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,],
+        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,],
+        ]
+    },true);
+    this.gui = [];
   }
-  update(dt){
-    super.update(dt);
-    SOUNDMAP.music.lerpVolume(0.2, 0.05);
+  win() {
+    this.driver.setScene(new IntroScene());    
   }
-  unpause() {
-    this.driver.setScene(this.prevScene);
-  }
-  goToMainMenu(){
-    this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
-  }
-  goToLevelSelect(){
-    this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,LevelSelectScene,true));
-  }
-  restartLevel(){
-    this.allowUIInput = false;
-    this.prevScene.loadNewLevel();
-    if(this.prevScene instanceof PigFunScene)
-      this.prevScene.spawnPig();
-    this.unpause();
-  }
-  goToLevelEditor(index){
-    if (index == 24)
-      index = -1;
-    var scene = new LevelEditorScene(index);
-    this.driver.setScene(scene);
-  }
-  draw(canvas) {
-    this.prevScene.draw(canvas);
-    canvas.fillStyle="rgba(255,255,255,.7)"
-    canvas.fillRect(0,0,canvas.width,canvas.height);
-    this.deathCount.text = ""+this.prevScene.levelDeaths;
-    this.drawAllGUI(canvas);
-    if(this.debug)
-      drawGrid(canvas);
-    drawTransitionOverlay(this.overlayColor,canvas);
-  }
-  addPauseMenuGUI(){
-    var bigFont = "60px Noteworthy";
-    var buttonFont = "30px noteworthy";
-    var textColor = 'black';
-    var buttonGap = 0.085;
-
-    var dim = rectDimFromCenter(.5,.4,.2,.08);
-    var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Paused",bigFont,textColor,'center');
-    this.gui.push(pauseLabel);
-
-    dim = rectDimFromCenter(.96,.95,.05,.08);
-    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "X", bigFont, textColor,'left');
-    this.gui.push(this.deathCount);
-
-    dim = rectDimFromCenter(.82,.96,.2,.08);
-    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Fails:", buttonFont,textColor,'right');
-    this.gui.push(deathLabel);
-
-    dim = rectDimFromCenter(0.5,.55,0.2,.08);
-    var resumeButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.unpause.bind(this),"Resume",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(resumeButton);
-
-    dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
-    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(levelSelectButton);
-
-    dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
-    var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(restartButton);
-    
-    dim = rectDimFromCenter(0.5,0.55+buttonGap*3,.2,.08);
-    var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(mainMenuButton);
-
-    this.selectedButton = resumeButton;
-    this.selectedButton.selected = true;
-
-    resumeButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
-    levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
-    restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
-    mainMenuButton.setNeighbors([restartButton,undefined,undefined,undefined]);
-
-    this.buttons = getButtons(this.gui);
-
-  }
-} class ColorLerpBox extends GUIElement{
+  // update(dt, frameCount) {
+  //   super.update(dt,frameCount);
+  // }
+}class ColorLerpBox extends GUIElement{
   constructor(x,y,w,h,groupID,activeColor, inactiveColor, changeDuration,startActivated){
     super(x,y,w,h,groupID);
     //Color is in format [r,g,b,a]
@@ -4621,51 +4295,51 @@ class Enemy extends Mover {
     super.setOptions(false,false,visible);
   }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "Bridge",
       worldType: 0,
       grid: 
       [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19, 0, 0, 0, 0,19,19,19,19,19,19, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,18,18, 2,19, 3, 0, 0, 0,19,19,19,19,19,19,19,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,19,19, 1, 0, 0, 0,19,19,18,18,19,19,19,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,18,18, 1, 0, 0, 0,19,19,19,18,19,18,19,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18, 1, 1, 0, 0, 0, 0, 0,19,18,19,19,19,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0,30, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 2, 0, 0,30, 0, 0, 2, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,18,18, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,18,18, 5,],
-        [ 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 1, 1,27,27,23,23,23,27,27, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,27,23,18,18,18,23,27,27, 1, 1, 1,],
-        [ 0, 0, 0, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,27,18,18,18,18,18,27,27, 1, 1, 1,],
-        [ 0, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,27,18,18,18,18,18,27,27, 1, 1, 1,],
-        [ 2, 1, 1,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,18,18,18,18,18,27,27, 1, 1, 1,],
-        [ 1, 1,27,27,18,18,18,18,18,27,18,18,18,18,18,18,18,18,27,18,18,18,18,18,27,18,18,18,18,18,18,27,18,18,18,18,18,18,18,27,18,18,27,18,18,18,18,18,27,27, 1, 1, 1,],
-        [ 1,27,27,27,18,18,18,18,18,27,18,18,18,18,18,18,18,27,27,27,18,18,18,18,27,18,18,18,18,18,18,27,18,18,18,18,18,18,18,27,18,18,27,18,18, 9,18,18,27,27, 1, 1, 1,],
-        [27,27,18,18,18,18,18,18,18,27,18,27,27,27,18,18,27, 0, 0, 0,27,18,18,27,27,27,18,18,18,18,27,27,27,18,18,18,18,18,27,27,27,18,27,18, 9, 0, 9,18,27,27, 1, 1, 1,],
-        [27,18,18,18, 9,18,18,18,18,27,27, 0, 0, 0,27,27, 0, 0, 8, 0, 0,27,27, 0, 0, 0,27,18,18,27, 0, 0, 0,27,18,18,18,27, 0, 0, 0,27,27,18, 0,15, 0,18,27,27, 1, 1, 1,],
-        [18,18,18, 9, 0, 9,18,18,18,27, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0,27,27, 0, 0, 8, 0, 0,27,27,27, 0, 0, 8, 0, 0,27, 9, 9, 9, 9, 9,27,27, 1, 1, 1,],
-        [18,18,18, 0, 8, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27, 1, 1, 1,],
-        [18,18,18, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27, 1, 1, 1,],
-        [18,18,18, 0, 4, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0,27,27, 1, 1, 1,],
-        [27,27,27,27,27,27,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0,14, 0, 0, 0,27,27, 1, 1, 1,],
-        [23,23,27,27,23,23,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0,27,27, 1, 1, 1,],
-        [23,23,27,27,23,23,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27, 1, 1, 1,],
-        [ 9, 9,27,27, 9, 9,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27, 1, 1, 1,],
-        [ 9, 9,27,27, 9, 9,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27, 1, 1, 1,],
-        [ 9, 9,27,27, 9, 9,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27, 1, 1, 1,],
-        [ 0, 0,27,27, 0, 0,27,27, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0,27,27, 1, 1, 1,],
-        [ 0, 0,27,27, 0, 0,27,27, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3,27,27, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 2,27, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 2, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 2, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 2, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,0,0,0,0,19,19,19,19,19,19,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,2,19,3,0,0,0,19,19,19,19,19,19,19,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,18,19,19,1,0,0,0,19,19,18,18,19,19,19,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,18,18,18,1,0,0,0,19,19,19,18,19,18,19,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,1,1,0,0,0,0,0,19,18,19,19,19,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,30,0,0,0,0,0,2,0,0,0,0,30,0,0,0,0,0,2,0,0,30,0,0,2,0,1,1,1,0,0,0,0,0,0,0,18,18,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,2,2,1,1,1,0,0,0,0,0,0,0,18,18,5,],
+        [0,0,0,30,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,2,2,1,1,27,27,23,23,23,27,27,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,27,23,18,18,18,23,27,27,1,1,1,],
+        [0,0,0,1,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,27,18,18,18,18,18,27,27,1,1,1,],
+        [0,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,27,18,18,18,18,18,27,27,1,1,1,],
+        [2,1,1,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,18,18,18,18,18,27,27,1,1,1,],
+        [1,1,27,27,18,18,18,18,18,27,18,18,18,18,18,18,18,18,27,18,18,18,18,18,27,18,18,18,18,18,18,27,18,18,18,18,18,18,18,27,18,18,27,18,18,18,18,18,27,27,1,1,1,],
+        [1,27,27,27,18,18,18,18,18,27,18,18,18,18,18,18,18,27,27,27,18,18,18,18,27,18,18,18,18,18,18,27,18,18,18,18,18,18,18,27,18,18,27,18,18,9,18,18,27,27,1,1,1,],
+        [27,27,18,18,18,18,18,18,18,27,18,27,27,27,18,18,27,0,0,0,27,18,18,27,27,27,18,18,18,18,27,27,27,18,18,18,18,18,27,27,27,18,27,18,9,0,9,18,27,27,1,1,1,],
+        [27,18,18,18,9,18,18,18,18,27,27,0,0,0,27,27,0,0,8,0,0,27,27,0,0,0,27,18,18,27,0,0,0,27,18,18,18,27,0,0,0,27,27,18,0,15,0,18,27,27,1,1,1,],
+        [18,18,18,9,0,9,18,18,18,27,0,0,8,0,0,0,0,0,0,0,0,0,0,0,8,0,0,27,27,0,0,8,0,0,27,27,27,0,0,8,0,0,27,9,9,9,9,9,27,27,1,1,1,],
+        [18,18,18,0,8,0,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,1,1,1,],
+        [18,18,18,0,0,0,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,1,1,1,],
+        [18,18,18,0,4,0,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,27,27,1,1,1,],
+        [27,27,27,27,27,27,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,14,0,0,0,27,27,1,1,1,],
+        [23,23,27,27,23,23,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,27,27,1,1,1,],
+        [23,23,27,27,23,23,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,1,1,1,],
+        [9,9,27,27,9,9,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,1,1,1,],
+        [9,9,27,27,9,9,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,1,1,1,],
+        [9,9,27,27,9,9,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,1,1,1,],
+        [0,0,27,27,0,0,27,27,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,27,27,1,1,1,],
+        [0,0,27,27,0,0,27,27,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,27,27,1,1,1,],
+        [1,1,1,1,1,1,1,1,0,0,0,0,0,2,0,0,0,2,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,2,27,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,0,0,2,0,0,2,0,0,0,2,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,2,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,0,0,2,0,0,2,0,0,0,2,0,2,0,0,0,2,0,0,2,0,0,2,0,0,2,0,0,0,0,0,0,0,0,0,2,2,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,0,0,2,0,0,2,0,0,0,2,0,2,0,0,0,2,0,0,2,0,0,2,0,0,2,0,0,0,0,2,0,0,0,0,2,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
     };
 
@@ -4792,23 +4466,126 @@ class Byrd extends Enemy {
     canvas.rect(-px*.5,-py+5,w*.5,h);
     canvas.restore();
   }
-}class WinScene extends Scene{
-  constructor() {
-    super();
-    this.gui = [];
+}class MenuScene extends Scene{
+  constructor(playIntro) {
+    super(playIntro);
+    
+    //up    - 0
+    //right - 1
+    //down  - 2
+    //left  - 3
+    this.menuState = 0;
+    this.allowUIInput = true;
+    this.addMainMenuGUI();
     this.keyMap = {
-      '32': {down: this.start.bind(this)}
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+      '69': { down: () => {if(DEBUG)this.driver.setScene(new LevelEditorSelectScene(false));} },
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '83': { down: this.navigateUI.bind(this,2)},    //S
+      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '38': { down: this.navigateUI.bind(this,0)},  //up
+      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '40': { down: this.navigateUI.bind(this,2)},   //down
+      '37': { down: this.navigateUI.bind(this,3)},   //left
+
     }
+    this.background = new InfiniteBackground();
+   
+    this.camera = {x:0,y:0,dx:0,dy:0};
+    this.allowUIInput = true;
   }
-  start() {
-    this.driver.setScene(new GameScene());
+  
+  update(dt) {
+    this.camera.x+=3;
+    super.update(dt);
+   
   }
   draw(canvas) {
-    canvas.fillStyle = 'black';
-    canvas.textAlign = 'center';
-    canvas.fillText('You Win! Press Space To Restart', canvas.width/2, canvas.height/2);
+    this.background.drawLayers(canvas, this.camera);
+
+    
+    this.drawAllGUI(canvas);
+    if(this.debug)
+      drawGrid(canvas);
+    drawTransitionOverlay(this.overlayColor,canvas);
   }
-}class ColoredBox extends GUIElement{
+  drawAllGUI(canvas){
+    for(var i = 0; i < this.gui.length; i++){
+      if(this.gui[i].visible){
+        this.gui[i].draw(canvas);
+      }
+    }
+  }
+ 
+  addMainMenuGUI(){
+    var bigFont = "60px " + FONT;
+    var buttonFont = "30px " + FONT;
+
+    var dim = rectDimFromCenter(.5,.28,.58,.12);
+    var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "Jimothy Piggerton",bigFont,"white",'center');
+    this.gui.push(mainTitle);
+
+    dim = rectDimFromCenter(.5,.48,.18,.1);
+    var startButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
+      "Start Game",buttonFont,"white","transparent","white",5,.08);
+    this.gui.push(startButton);
+
+    dim = rectDimFromCenter(.5,.60,.18,.1);
+    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
+      "Level Select",buttonFont,"white","transparent","white",5,.08);
+    this.gui.push(levelSelectButton);
+
+    dim = rectDimFromCenter(.5,.72,.18,.1);
+    var optionsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
+      "Options",buttonFont,"white","transparent","white",5,.08);
+    this.gui.push(optionsButton);
+
+    dim = rectDimFromCenter(.5,.84,.18,.1);
+    var creditsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
+      "Credits",buttonFont,"white","transparent","white",5,.08);
+    this.gui.push(creditsButton);
+
+    startButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
+    levelSelectButton.setNeighbors([startButton,undefined,optionsButton,undefined]);
+    optionsButton.setNeighbors([levelSelectButton,undefined,creditsButton,undefined]);
+    creditsButton.setNeighbors([optionsButton,undefined,undefined,undefined]);
+
+    this.selectedButton = startButton;
+    this.selectedButton.selected = true;
+    this.buttons = getButtons(this.gui);
+
+  }
+  startGame(){
+   
+    this.allowUIInput = false;
+    //this.driver.setScene(new PigFunScene());
+    this.startTransition(25,1,sceneTransition(this,IntroScene,true));
+  }
+  goToLevelSelect(){
+   
+    this.allowUIInput = false;
+    this.driver.setScene(new LevelSelectScene(false));
+
+  }
+  goToOptions(){
+    this.allowUIInput = false;
+    this.driver.setScene(new OptionScene(false));
+  } 
+  goToCredits(){
+   
+    this.allowUIInput = false;
+    this.driver.setScene(new CreditsScene(false));
+  }
+  
+  
+}
+
+
+
+class ColoredBox extends GUIElement{
   constructor(x,y,w,h,groupID,fillColor,outlineColor,lineWidth){
     super(x,y,w,h,groupID);
     this.fillColor = fillColor || 'transparent';
@@ -4830,45 +4607,45 @@ class Byrd extends Enemy {
     super.setOptions(false,false,visible);
   }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
-      name: "feather-adventure",
+      name: "Feather Adventure",
       worldType: 1,
       grid: 
       [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19, 0, 0, 0, 0, 0, 0,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19, 0, 0, 0, 0, 0,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,18,19,19, 0, 0, 0,19,19,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,27,19,19, 0, 0, 0,19,19,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,27,19,19, 0, 0, 0, 0,19,19,19,19,18,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,19,18,27,19,19, 0, 8, 0, 8,19,19,18,18,18,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18,19,19, 0, 8, 0,19,19,18, 2,18, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18,19,19, 0, 0, 0,19,19,18, 2,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 0,19, 0,18,27,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 0, 0, 0,18,27,18,14, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2,27,18, 0, 0, 0, 0, 0, 0, 8,18,27,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0,19,18,18,18,27,18, 0, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0,19,19,19,18,27,18, 8, 0, 0, 0, 0, 2, 2, 2,27,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 0,19,18,18,27,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 8, 0, 3, 3,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27, 2, 2, 2, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0,19,19, 0,19,19,19,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18,19,19, 0, 0, 0, 0, 0,18,27, 2, 2, 2, 0, 0,19,19,19,19,19,19,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18,19,19, 0, 0, 0, 0, 8,18,27,18,18,19, 0,19,19,18,19,19,19,19,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,19,19, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0,19,19,18,18,19,18,19,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2,27,18, 0, 0, 0, 0, 0, 2, 2, 2,27,18, 0, 0, 0,19,19,19,18,19,18,19,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,19,18,27,18, 8, 0, 0, 0, 0,19, 0,18,27,18, 0, 0, 0, 0,19,18,18,18,19,19,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,19,18,27,18, 0, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 0,18,19,19,19,19,27, 3, 3, 3, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3,27,27,27, 0, 0, 0,],
-        [ 0, 0, 0, 8, 0, 0, 0, 0, 0,19,18,27, 2, 2, 2, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 0,18,18, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,23,27, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 0, 0, 0,18,23,18, 0, 0, 0, 0, 0,18,18, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,23,18,23, 0, 0, 0,],
-        [ 4, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 0, 0, 0,18,23,18, 0, 0, 0, 0,18,18,18,18, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,23,18,23, 0, 5, 0,],
-        [ 1, 1, 1, 1, 0, 0, 0, 9, 9, 9,23,27,23, 9, 9, 9, 9, 9, 9, 9,23, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,18,18, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,19,19,19,0,0,0,0,0,0,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,19,19,19,19,0,0,0,0,0,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,],
+        [0,0,0,0,0,0,0,0,19,19,19,18,19,19,0,0,0,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,19,19,18,27,19,19,0,0,0,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,19,19,18,27,19,19,0,0,0,0,19,19,19,19,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,19,18,27,19,19,0,8,0,8,19,19,18,18,18,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,18,19,19,0,8,0,19,19,18,2,18,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,18,19,19,0,0,0,19,19,18,2,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,18,0,0,0,0,0,19,0,18,27,18,0,0,0,0,0,0,0,0,0,0,27,1,1,0,0,0,0,1,1,1,1,1,1,1,1,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,18,0,0,0,0,0,0,0,18,27,18,14,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,2,2,2,2,27,18,0,0,0,0,0,0,8,18,27,18,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,19,18,18,18,27,18,0,0,0,0,0,0,0,18,27,18,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,19,19,19,18,27,18,8,0,0,0,0,2,2,2,27,18,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,18,0,0,0,0,0,19,18,18,27,18,0,0,0,0,0,0,0,0,0,0,27,3,3,3,3,3,3,3,3,3,0,8,0,3,3,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,2,2,2,0,0,0,0,0,18,27,18,0,0,0,0,19,19,0,19,19,19,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,18,19,19,0,0,0,0,0,18,27,2,2,2,0,0,19,19,19,19,19,19,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,18,19,19,0,0,0,0,8,18,27,18,18,19,0,19,19,18,19,19,19,19,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,19,19,0,0,0,0,0,0,18,27,18,0,0,0,19,19,18,18,19,18,19,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,2,2,27,18,0,0,0,0,0,2,2,2,27,18,0,0,0,19,19,19,18,19,18,19,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,19,18,27,18,8,0,0,0,0,19,0,18,27,18,0,0,0,0,19,18,18,18,19,19,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,19,18,27,18,0,0,0,0,0,0,0,18,27,18,0,0,0,0,0,18,19,19,19,19,27,3,3,3,0,0,0,3,3,3,3,3,3,3,3,27,27,27,0,0,0,],
+        [0,0,0,8,0,0,0,0,0,19,18,27,2,2,2,0,0,0,0,0,18,27,18,0,0,0,0,0,18,18,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,23,27,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,18,27,18,0,0,0,0,0,0,0,18,23,18,0,0,0,0,0,18,18,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,18,23,0,0,0,],
+        [4,0,0,0,0,0,0,0,0,0,18,27,18,0,0,0,0,0,0,0,18,23,18,0,0,0,0,18,18,18,18,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,18,23,0,5,0,],
+        [1,1,1,1,0,0,0,9,9,9,23,27,23,9,9,9,9,9,9,9,23,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,0,0,0,0,18,18,18,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,18,18,18,18,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,18,18,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
     };
 
@@ -4969,19 +4746,157 @@ class Powerup {
     this.color = 'rgba(150,150,150,.5)';
     this.game.driver.setTimeout(this.reset, 60);
   }
-}class LevelTesterScene extends GameScene {
-  constructor(level, prevScene) {
-    super(level, undefined, false);
-    this.prevScene = prevScene;
-    this.keyMap[27] = {down: this.back.bind(this)};
-    this.transitionDuration = 1;
-    this.updateTransition();
+}class IntroScene extends GameScene{
+  constructor() {
+    var w = 18;
+    var l = 19;
+    super({
+      grid: [
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,0,19,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,18,19,19,18,19,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [4,0,0,0,0,0,0,0,19,0,19,18,18,19,18,18,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,18,19,19,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,19,0,18,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,0,0,0,0,4,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        
+        ]
+    },true);
+    this.gui = [];
+    this.keyMap = {
+      '27': {down: sceneTransition(this, GameScene)},
+    }
+    this.gamePadOn = false;
+    // this.player.x = 500;
+    this.player.flipped = true;
+    this.pig = new Pig(this.player.x+100, this.player.y);
+    this.pig.speed=0;
+    this.butcher = new Butcher(this.player.x+600, this.player.y);
+    this.addEntity(this.butcher);
+    this.butcher.speed=0;    
+    this.addEntity(this.pig);
+    this.player.updateEye = function() {};
+    this.pig.mx = 0;
+    this.pig.bounceFrq = Math.PI/30;
+    this.totalTime = 400;
+    this.time = this.totalTime+1000;
+    this.player.resetControls = function() {};
+    this.player.speed = 4;
+    this.player._angle = Math.PI/10;
+    this.player.eyeMovement.blink = 1;
+    this.pig.animationState = 1;
+    this.startTransition(100, -1, function() {
+      this.time=this.totalTime;
+      this.butcher.speed = 3.9;
+    });
+    this.makeLetterBox();
+    this.timeToWait=0;
+    this.emitZ = true;
+    this.emissionDelay = 35;
   }
-  back() {
-    this.driver.setScene(this.prevScene);
+  makeLetterBox(){
+    var upperBoxHeight = 0.2;
+    var lowerBoxHeight = 0.2;
+
+    this.upperLetterBox = new ColoredBox(0,0,1,upperBoxHeight,0,'black','transparent',1);
+    this.lowerLetterBox = new ColoredBox(0,1-lowerBoxHeight,1,lowerBoxHeight,0,'black','transparent',1);
+    this.gui.push(this.upperLetterBox);
+    this.gui.push(this.lowerLetterBox);
   }
-  win() {
-    this.back();
+  moveCamera(){
+    var camera = this.camera;
+    var player = this.player;
+    var canvas = this.canvas;
+    // if(player.mx) {
+      var cdx = (player.x-camera.x+camera.dx)/10;
+      if(Math.abs(cdx)>3)camera.x += cdx;
+      // camera.x += (player.x-camera.x+camera.dx)/10;
+    // }
+    // camera.x = linearMove(camera.x, (player.x + camera.dx), 5);    
+
+    // var cdy = (player.y-camera.x+camera.dy-30)/10;
+    // if(Math.abs(cdy)>3)camera.y += cdy;
+    camera.y += (player.y-camera.y-30)/30;
+    if(player.grounded) camera.y += (player.y-camera.y-30)/20;
+    var d = 0;
+    if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
+    if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
+    if(camera.dy>60)camera.dy=60;
+    if(camera.dy>10) camera.y+=(camera.dy-10)/3;
+    //make the camera point more towards the direction
+    //that the player is moving in so they can see ahead
+    if(player.mx!=0) {
+      // camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
+    }
+    if(!canvas)return;
+    var world1 = this.world;
+    if(camera.x<canvas.width/2)camera.x = canvas.width/2;
+    if(camera.x>world1.w*world1.s-canvas.width/2) camera.x = world1.w*world1.s-canvas.width/2;
+    if(camera.y>world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h)camera.y = world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h;
+    if(camera.y<canvas.height/2-canvas.height*this.upperLetterBox.h)camera.y = canvas.height/2-canvas.height*this.upperLetterBox.h;  
+  }
+  followPlayer(){
+    this.moveCamera();
+  }
+  constrainCamera(x,y,w,h){
+    
+  }
+  update(dt, frameCount) {
+    super.update(dt,frameCount);
+    this.timeToWait--;
+    this.time--;
+    if(this.time<=0) {
+      this.driver.setScene(new LevelIntroScene(new GameScene(),true));
+    }
+    if(this.time > this.totalTime-200){
+      if(this.time % this.emissionDelay == 0){
+        this.addEntity(new SleepText(this.player.x+this.player.w,this.player.y-this.player.h,20,2,-2,"Z",
+          "30", FONT,[255,255,255,1],[255,255,255,0],25,25,true));
+      }
+      
+    }
+    if(this.time > this.totalTime-150){
+      if(this.time % this.emissionDelay == 9){
+        this.addEntity(new SleepText(this.pig.x+this.pig.w,this.pig.y-this.pig.h,20,2,-2,"Z",
+          "30", FONT,[255,255,255,1],[255,255,255,0],25,25,true));
+      }
+    }
+    if(this.time == this.totalTime-160){
+      this.addEntity(new SleepText(this.pig.x+this.pig.w/2,this.pig.y-this.pig.h-70,80,0,0,"!?",
+          "65", FONT,[255,255,255,1],[255,255,255,0],20,30,true));
+    }
+    if(this.time == this.totalTime - 200) {
+      this.player.flipped = false;
+      this.player.jump(7);
+      this.player._angle = 0;      
+      this.player.eyeMovement.blink = 0;      
+    }
+    if(this.time < this.totalTime - 230) {
+      this.player.mx = 1;
+      this.moveCamera = function() {};
+    }
+    
+  }
+  draw(canvas){
+    super.draw(canvas);
+    this.drawAllGUI(canvas);
   }
 }class ArrowSelector extends Button{
   constructor(x,y,w,h,groupID,onRelease,moveDistance,moveSpeed,fillColor,outlineColor,lineWidth,flipped){
@@ -5118,614 +5033,125 @@ class doubleJump extends Powerup {
     if(s)canvas.stroke();
     else canvas.fill();
   }
-}class LevelEditorScene extends Scene{
-  constructor(index) {
-    super(false);
-    this.editLevel = index;
-    this.zoom = 1;
-    var grid;
-
-    switch (this.editLevel)
-    {
-      case -2:
-        this.world = new WorldDefault(48,24);
-        break;
-      case -1:
-        var level = new PigFunScene();
-        this.world = new WorldFromLevel(level.levels[0]);
-        break;
-      case 0:
-        this.world = new WorldDefault(48, 24);      
-        grid = this.load();
-        this.world.h = grid.length;
-        this.world.w = grid[0].length;
-        break;
-      default:
-        var levels = createLevels();
-        this.world = new WorldFromLevel(levels[this.editLevel-1]);
-    }
-      
-    if(grid) {
-      this.world.world = grid;
-    }
-    this.grid = this.world.world;
-    this.camera = {x:0,y:0, offset: {x: 0, y: 0}};
+}class PauseScene extends Scene {
+  constructor(prevScene) {
+    super();
+    this.prevScene = prevScene;
     this.keyMap = {
-      '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
-      '75': {down: this.runTest.bind(this)},    //K
-      '80': {down: this.printLevel.bind(this)},       //P
-      '83': {down: this.cycleBlockBackwards.bind(this)},//S
-      '87': {down: this.cycleBlock.bind(this)},         //W
-      '69': {down: this.cycleAbility.bind(this)},       //E
-      '84': {down: this.zoomIn.bind(this)},             //T
-      '71': {down: this.zoomOut.bind(this)},            //G
-      '73': {down: this.growi.bind(this)},              //I
-      '74': {down: this.growj.bind(this)},              //J
-      //'27': {down: this.backToSelect.bind(this)},       //Escape
-      '66': {down: this.resetCameraPosition.bind(this)},//B
-      '65': {down: this.pickBlockFromLevel.bind(this)}, //A
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
 
-      '82': {down: this.gridScrollUp.bind(this)},     //R
-      '70': {down: this.gridScrollDown.bind(this)},   //F
-      '68': {down: this.selectAir.bind(this)},        //D
-      '72': {down: this.toggleCommandList.bind(this)},//H
+      '27': {down: this.safeButtonCall(this,this.unpause)}, //esc
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '83': { down: this.navigateUI.bind(this,2)},    //S
+      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '38': { down: this.navigateUI.bind(this,0)},  //up
+      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '40': { down: this.navigateUI.bind(this,2)},   //down
+      '37': { down: this.navigateUI.bind(this,3)},   //left
 
-      '90': {down: this.selectFromQuickSelect.bind(this,0)},   //Z
-      '88': {down: this.selectFromQuickSelect.bind(this,1)},   //X
-      '67': {down: this.selectFromQuickSelect.bind(this,2)},   //C
-      '86': {down: this.selectFromQuickSelect.bind(this,3)},   //V
-      
-      '49': {down: this.selectFromBar.bind(this,0)},            //1
-      '50': {down: this.selectFromBar.bind(this,1)},            //2
-      '51': {down: this.selectFromBar.bind(this,2)},            //3
-      '52': {down: this.selectFromBar.bind(this,3)},            //4
-      '53': {down: this.selectFromBar.bind(this,4)},            //5
-      '54': {down: this.selectFromBar.bind(this,5)},            //6
-      '55': {down: this.selectFromBar.bind(this,6)},            //7
-
-      
-    }
-    this.bottomBarHeight = 0.2;
-    this.showCommands = false;
-    this.dragPivot = {x: 0, y: 0};
-    this.clickDragPivot = {x: 0, y: 0};
-    this.mousePoint = {x: 0, y: 0};
-    this.currentBlock = 1;
-    this.playerAbility = [0,0];
-    this.rowLength = 7;
-    this.rowCount = 2;
-    this.buttonGrid = Array(this.rowLength);
-    this.quickSelect = [];
-    this.resetCameraPosition();
-    this.addLevelEditorGUI();
-  }
-  resetCameraPosition() {
-    this.camera.x=this.world.w*this.world.s/2*this.zoom;
-    this.camera.y=this.world.h*this.world.s/2*this.zoom;
-  }
-  zoomIn() {
-    this.zoom += .1;
-    if(this.zoom>2) {
-      this.zoom=2;
-      return;
-    }
-    this.camera.x += this.world.w*this.world.s*.1/2;
-    this.camera.y += this.world.h*this.world.s*.1/2;
-  }
-  zoomOut() {
-    this.zoom -= .1;
-    if(this.zoom<.1) {
-      this.zoom=.1;
-      return;
-    }
-    this.camera.x -= this.world.w*this.world.s*.1/2;    
-    this.camera.y -= this.world.h*this.world.s*.1/2;    
-  }
-  growi()
-  {
-    if(this.keys[16]) return this.extendLeft();
-    for (var j = 0; j < this.grid.length; j++)
-    {
-      this.grid[j].push(0);
-    }
-    this.world.w++;
-  }
-  growj()
-  {
-    if(this.keys[16]) return this.extendTop();
-    var newrow = [];
-    for (var j = 0; j < this.grid[0].length; j++)
-    {
-      newrow.push(0);
-    }
-    this.grid.push(newrow);
-    this.world.h++;
-  }
-  extendTop() {
-    var newrow = [];
-    for (var j = 0; j < this.grid[0].length; j++) {
-      newrow.push(0);
-    }
-    this.grid.unshift(newrow);
-    this.world.h++;
-    this.world.forceRedraw();
-  }
-  extendLeft() {
-    for (var j = 0; j < this.grid.length; j++)
-    {
-      this.grid[j].unshift(0);
-    }
-    this.world.w++;
-    this.world.forceRedraw();
-    
-  }
-  shrinkj() {
-    this.grid.splice(this.grid.length-1,1);
-    this.world.h--;    
-  }
-  backToSelect()
-  {
-    var newScene = new LevelEditorSelectScene();
-    this.driver.setScene(newScene);
-  }
-  cycleBlockBackwards() {
-    var l = CELLMAP.length;
-    this.currentBlock = (this.currentBlock - 1 + l) % l;
-  }
-  cycleBlock() {
-    this.currentBlock = (this.currentBlock + 1) % CELLMAP.length;
-  }
-  cycleAbility() {
-    if (this.playerAbility[1] == 0)
-      this.playerAbility[1] = 1;
-    else
-    {
-      if (this.playerAbility[0] == 0)
-      {
-        this.playerAbility = [1,0];
-      }
-      else
-        this.playerAbility = [0,0];
-    }
-  }
-  getLevelString() {
-    var string = '[\n';
-    for(var i = 0;i < this.grid.length;i++) {
-      string += '[';
-      for(var j=0;j<this.grid[i].length;j++) {
-        var s = this.grid[i][j];
-        if(s<10) s='0'+s;
-        string += s + ',';
-      }
-      string += '],\n'
-    }
-    string += ']';
-    return string;
-  }
-  save() {
-
-    //if (this.editLevel)
-    //  return;
-    var string = this.getLevelString();
-    if(!localStorage||!localStorage.setItem)return;
-    localStorage.setItem("currentLevel", string);
-  }
-  load() {
-    if(!localStorage || !localStorage.getItem)return null;
-    var string = localStorage.getItem("currentLevel");
-    if(!string)return false;
-    var grid = [];
-    var currentRow;
-    var currentDigit = '';
-    var x = 0;
-    var y = 0;
-    for(var i = 1; i < string.length-1; i++) {
-      var char = string[i];
-      switch(char) {
-        case '[':
-          currentRow = [];
-          break;
-        case ']':
-          grid.push(currentRow);
-          break;
-        case ',':
-          if(currentDigit != '') {
-            var type = parseInt(currentDigit, 10);
-            if(!CELLMAP[type]) type = 0;
-            currentRow.push(type);
-            currentDigit = '';
-          }
-          break;
-        default:
-          currentDigit += char;
-      }
-    }
-    return grid;
-  }
-  printLevel() {
-    var string = this.getLevelString();
-    console.log(string);
-  }
-  getLevel() {
-    return {
-      name: 'test1',
-      abilities: this.playerAbility,
-      modifyPlayer: function(player) {
-        for (var i = 0; i < this.abilities.length; i++)
-        {
-          if (this.abilities[i] == 1)
-          {
-            PLAYER_ABILITIES[i+1](player);
-          }
+      '78': {down: function() {
+        if(this.keys[67] && DEBUG) {
+          this.goToLevelEditor(prevScene.levelIndex+1);
         }
-      },
-      grid: this.grid,
+      }.bind(this)},
     }
+    this.allowUIInput = true;
+    this.selectedButton = undefined;
+    this.addPauseMenuGUI();
   }
-  runTest() {
-    var testerScene = new LevelTesterScene(this.getLevel(), this);
-    this.driver.setScene(testerScene);
-  }
-  startDragging() {
-    this.dragPivot.x = this.driver.mouse.x;
-    this.dragPivot.y = this.driver.mouse.y;
-  }
-  drag() {
-    var dx = this.driver.mouse.x - this.dragPivot.x;
-    var dy = this.driver.mouse.y - this.dragPivot.y;
-    this.camera.x-=dx;
-    this.camera.y-=dy;
-    this.dragPivot.x += dx;
-    this.dragPivot.y += dy; 
-  }
-  mousedown(e, mouse) {
-    // var camera = this.camera;
-    // var wx = mouse.x + camera.x - camera.offset.x;
-    // var wy = mouse.y + camera.y - camera.offset.y;
-    // var x = Math.floor(wx/this.world.s);
-    // var y = Math.floor(wy/this.world.s);
-    // if(this.world.oob(x,y))return;
-    // var t = this.grid[y][x];
-    // this.grid[y][x] = (t+1)%3;
-    // this.grid[y][x] = this.currentBlock;
-    // this.world.forceRedraw(); 
-    var onGUI = pointContainsGUI(getPercentPoint(e),this.gui);
-    if(!onGUI&&canvas.height-mouse.y> this.bottomBarHeight*canvas.height){
-      this.clickDragPivot = {x:0,y:0};
-      this.clickDragPivot.x = mouse.x/this.zoom;
-      this.clickDragPivot.y = mouse.y/this.zoom;
-    } else {
-      this.clickDragPivot = undefined;
-    }
-    super.mousedown(e,mouse);
-  }
-  mouseup(e, mouse) {
-
-    if(canvas.height-mouse.y> this.bottomBarHeight*canvas.height && this.clickDragPivot != undefined){
-      var camera = this.camera;    
-      var wx = mouse.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
-      var wy = mouse.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
-      var x1 = Math.floor(wx/this.world.s);
-      var y1 = Math.floor(wy/this.world.s);
-
-      wx = this.clickDragPivot.x + (camera.x - camera.offset.x)/this.zoom;
-      wy = this.clickDragPivot.y + (camera.y - camera.offset.y)/this.zoom;
-      var x2 = Math.floor(wx/this.world.s);
-      var y2 = Math.floor(wy/this.world.s);
-
-      var dx = (1 - 2 * (x2<x1));
-      var dy = (1 - 2 * (y2<y1));
-      for(var i = x1; i != x2+dx; i+= dx) {
-        for(var j=y1; j!=y2+dy; j+=dy) {
-          if(this.world.oob(i, j))continue;
-          this.grid[j][i] = this.currentBlock;
-          //var t = this.grid[j][i];
-          //this.grid[j][i] = (t+1)%3;
-        }
-      }
-      this.save();
-      this.world.forceRedraw();
-    }
-    super.mouseup(e,mouse);
-  }
-  mousemove(e,mouse){
-    super.mousemove(e);
-    this.mousePoint.x = mouse.x;
-    this.mousePoint.y = mouse.y;
-  }
-  // mouseheld(mouse) {
-
-  // }
-  // update(dt) {
-  //   super.update(dt);
-  //   var mouse = this.driver.mouse;
-  //   if(mouse.held) {
-  //     this.mouseheld(mouse);
-  //   }
-  // }
   update(dt){
     super.update(dt);
+    SOUNDMAP.music.lerpVolume(0.2, 0.05);
   }
-  addLevelEditorGUI(){
-    this.buildButtonGrid();
-    this.buildQuickSelect();
-
-    var dim = rectDimFromCenter(0.945,.75,.07,.08);
-    var saveButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.save.bind(this),'Save','30px Noteworthy','black','rgba(255,255,255,0.75)','black',5);
-    this.gui.push(saveButton);
-
-
-
-    this.buttons = getButtons(this.gui);
+  unpause() {
+    this.driver.setScene(this.prevScene);
   }
-  buildButtonGrid(){
-    
-    var dim = [];
-    var buttonGridRegionWidth = 0.7;
-    var buttonGridRegionHeight = 0.2
-    var origin = [.05,.85];
-    var labelOffset = {x:0.043,y:0.036};
-    var labelFont = '20px Noteworthy';
-    var labelColor = 'black';
-    for(var i = 0; i < this.rowCount; i++){
-      this.buttonGrid[i] = [];
-      for(var j = 0; j < this.rowLength; j++){
-        dim = rectDimFromCenter(origin[0]+j/this.rowLength*buttonGridRegionWidth,
-          origin[1]+i/this.rowCount*buttonGridRegionHeight,1/this.rowLength*buttonGridRegionWidth-.02,1/this.rowCount*buttonGridRegionHeight-.02);
-        var button = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
-          undefined,i*this.rowLength+j);
-        button.onRelease = this.selectBlock.bind(this,button);
-        this.buttonGrid[i].push(button);
-        this.gui.push(button);
-
-        if(i==0 && j < this.rowLength){
-          var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,.05,.05,0,""+(j+1),labelFont,labelColor,'center');
-          this.gui.push(label);
-        }
-      }
-    }
+  goToMainMenu(){
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
   }
-  buildQuickSelect(){
-    var dim = [];
-    var regionWidth = 0.2;
-    var regionHeight = 0.2;
-    var origin = {x:0.78,y:.85};
-    var buttonWidth = 0.08;
-    var buttonHeight = 0.09;
-
-    var labelOffset = {x:0.043,y:0.045};
-    var labelFont = '20px Noteworthy';
-    var labelColor = 'black';
-    dim = rectDimFromCenter(origin.x,origin.y,buttonWidth,buttonHeight);
-    var button1 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
-      undefined,0);
-    button1.onRelease = this.quickSelectClick.bind(this,button1); 
-    this.quickSelect.push(button1); 
-    this.gui.push(button1);
-    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'Z',labelFont,labelColor,'center');
-    this.gui.push(label);    
-
-    dim = rectDimFromCenter(origin.x+buttonWidth,origin.y,buttonWidth,buttonHeight);
-    var button2 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
-      undefined,0);
-    button2.onRelease = this.quickSelectClick.bind(this,button2);  
-    this.quickSelect.push(button2); 
-    this.gui.push(button2);
-    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'X',labelFont,labelColor,'center');
-    this.gui.push(label);
-
-    dim = rectDimFromCenter(origin.x,origin.y+buttonHeight,buttonWidth,buttonHeight);
-    var button3 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
-      undefined,0);
-    button3.onRelease = this.quickSelectClick.bind(this,button3); 
-    this.quickSelect.push(button3);  
-    this.gui.push(button3);
-    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'C',labelFont,labelColor,'center');
-    this.gui.push(label);
-
-    dim = rectDimFromCenter(origin.x+buttonWidth,origin.y+buttonHeight,buttonWidth,buttonHeight);
-    var button4 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
-      undefined,0);
-    button4.onRelease = this.quickSelectClick.bind(this,button4); 
-    this.quickSelect.push(button4);  
-    this.gui.push(button4);
-    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'V',labelFont,labelColor,'center');
-    this.gui.push(label);
-
-    dim = rectDimFromCenter(0.945,0.94,.06,.08);
-    var resetBackWall = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','black',5);
-    this.gui.push(resetBackWall);
-    var resetQuickSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.resetQuickSelect.bind(this),'X','30px Noteworthy','red','transparent','transparent','3');
-    this.gui.push(resetQuickSelectButton);
-    
+  goToLevelSelect(){
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,LevelSelectScene,true));
   }
-  quickSelectClick(button){
-    if(button.blockID == 0){
-      button.blockID = this.currentBlock;
-    } else {
-      this.selectBlock(button);
-    }
+  restartLevel(){
+    this.allowUIInput = false;
+    this.prevScene.loadNewLevel();
+    if(this.prevScene instanceof PigFunScene)
+      this.prevScene.spawnPig();
+    this.unpause();
   }
-  selectFromQuickSelect(quickSlotIndex){
-    this.currentBlock = this.quickSelect[quickSlotIndex].blockID;
-  }
-  selectFromBar(index){
-    this.currentBlock = this.buttonGrid[0][index].blockID;
-  }
-  selectBlock(button){
-    this.currentBlock = button.blockID;
-    if(this.currentBlock >= CELLMAP.length-1)
-      this.currentBlock = CELLMAP.length-1;
-    if(this.currentBlock < 0){      
-      this.currentBlock = 0;
-    }
-  }
-  resetQuickSelect(){
-    for(var i = 0; i < this.quickSelect.length; i++){
-      this.quickSelect[i].blockID = 0;
-    }
-  }
-  gridScrollUp(){
-    if(this.buttonGrid[0][0].blockID >= this.rowLength){
-      for(var i = 0; i < this.rowCount; i++){
-        for(var j = 0; j < this.rowLength; j++){
-          this.buttonGrid[i][j].blockID -= this.rowLength;
-        }
-      }
-    }
-  }
-  gridScrollDown(){
-    if(this.buttonGrid[0][0].blockID <= CELLMAP.length-7){
-      for(var i = 0; i < this.rowCount; i++){
-        for(var j = 0; j < this.rowLength; j++){
-          this.buttonGrid[i][j].blockID += this.rowLength;
-        }
-      }
-    }
-  }
-  drawBlockAtCursor(canvas){
-    var offset = {x: 20, y: 20};
-    var width = 30;
-    var height = 30;
-    var world = {
-      getCell: function() {return true}
-    };
-    if(this.currentBlock < CELLMAP.length && this.currentBlock > 0 && CELLMAP[this.currentBlock].draw)
-      CELLMAP[this.currentBlock].draw(canvas,this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height,world,0,0);
-    canvas.strokeStyle = 'black';
-    canvas.lineWidth = 3;
-    canvas.strokeRect(this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height);
-    if(this.driver.mouse.held && this.clickDragPivot) {
-      var w = Math.floor((this.clickDragPivot.x - this.driver.mouse.x)/this.zoom/this.world.s);
-      var h = Math.floor((this.clickDragPivot.y - this.driver.mouse.y)/this.zoom/this.world.s);
-      w = Math.abs(w);
-      h = Math.abs(h);
-      canvas.fillText(w+','+h, this.mousePoint.x + offset.x*3, this.mousePoint.y+offset.y*3);
-    }
-  }
-  selectAir(){
-    this.currentBlock = 0;
-  }
-  toggleCommandList(){
-    this.showCommands = !this.showCommands;
-  }
-  pickBlockFromLevel(){
-
-    var camera = this.camera;    
-    var wx = this.mousePoint.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
-    var wy = this.mousePoint.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
-    var x = Math.floor(wx/this.world.s);
-    var y = Math.floor(wy/this.world.s);
-    if(x > this.world.w || x < 0 || y > this.world.h || y < 0) return;  //bail if out of bounds
-    this.currentBlock = this.grid[y][x];
-  
+  goToLevelEditor(index){
+    if (index == 24)
+      index = -1;
+    var scene = new LevelEditorScene(index);
+    this.driver.setScene(scene);
   }
   draw(canvas) {
-    var camera = this.camera;
-    var world1 = this.world;
-    camera.offset = {x: canvas.width/2, y: canvas.height/2};
-    var xmin = -canvas.width/2 + world1.s*this.zoom;
-    var xmax = canvas.width/2 + (world1.w-1)*world1.s*this.zoom;
-    var ymin = -canvas.height/2 + world1.s*this.zoom;
-    var ymax = canvas.height/2 + (world1.h-1)*world1.s*this.zoom;
-    if(camera.x<xmin) camera.x = xmin;
-    if(camera.x>xmax) camera.x = xmax;
-    if(camera.y>ymax)camera.y = ymax;
-    if(camera.y<ymin)camera.y = ymin;  
-    var camera = this.camera;
-    canvas.save();
-    canvas.translate(canvas.width/2,canvas.height/2);
-    canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
-    canvas.scale(this.zoom,this.zoom);
-    canvas.strokeStyle = 'black';
-    canvas.lineWidth = 10;
-    canvas.strokeRect(0,0,world1.w*world1.s,world1.h*world1.s);
-    this.world.draw(canvas,true);
-    canvas.restore();
-    var mouse = this.driver.mouse;
-
-    //canvas.fillStyle='#fff';
-    canvas.fillStyle = 'rgba(255,255,255,0.85)';
-
-    canvas.beginPath();
-    canvas.rect(0, canvas.height - canvas.height/5, canvas.width, canvas.height/5);
-    canvas.fill();
-    canvas.stroke();
-    
-    canvas.fillStyle='#000';
-    canvas.fillText("[" + CELLMAP[this.currentBlock].name + "]", canvas.width/5, canvas.height/1.1-100);
-    canvas.fillText("[Wall Jump: " + this.playerAbility[0] + "   Double Jump: " + this.playerAbility[1]+ "]", canvas.width/1.5, canvas.height/1.1-100);
-    
-  /*
-'32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
-      '75': {down: this.runTest.bind(this)},    //K
-      //'80': {down: this.printLevel.bind(this)},
-      '65': {down: this.cycleBlockBackwards.bind(this)},//S
-      '68': {down: this.cycleBlock.bind(this)},         //W
-      '69': {down: this.cycleAbility.bind(this)},       //E
-      '84': {down: this.zoomIn.bind(this)},             //T
-      '71': {down: this.zoomOut.bind(this)},            //G
-      '73': {down: this.growi.bind(this)},              //I
-      '74': {down: this.growj.bind(this)},              //J
-      '27': {down: this.backToSelect.bind(this)},       //Escape
-      '88': {down: this.openBlockSelect.bind(this)},    //X
-      '66': {down: this.resetCameraPosition.bind(this)},//B
-
-      '82': {down: this.gridScrollUp.bind(this)},     //R
-      '70': {down: this.gridScrollDown.bind(this)},   //F
-      '69': {down: this.selectAir.bind(this)},        //D
-      '72': {down: this.toggleCommandList.bind(this)},//H
-  */
-    canvas.font = "20px Noteworthy";
-    canvas.textAlign = 'left';
-    if(this.showCommands){
-      var origin = {x:0.02,y:0.1};
-      var gap = 0.04;
-      var text = [
-        "[H] - Toggle Command List",
-        "[W] - Cycle block forward",
-        "[S] - Cycle block backward",
-        "[E] - Cycle abilities",
-        "[A] - Block Picker",
-        "[R] - Scroll Block Select Up",
-        "[F] - Scroll Black Select Down",
-        "[T] - Zoom In",
-        "[G] - Zoom Out",
-        "[D] - Select Erase (Air)",
-        "[1/2/3/4] - Quick select",
-        "[K] - Test Level",
-        "[B] - Reset Camera",
-        "[I] - Grow I",
-        "[J] - Grow J",
-        "[P] - Print as String",
-
-      ];
-      for(var i = 0; i < text.length; i++){
-        canvas.fillStyle = 'rgba(255,255,255,0.75)';
-        canvas.fillRect(origin.x*canvas.width,
-          (origin.y+i*gap-gap/2)*canvas.height,300,gap*canvas.height);
-        canvas.fillStyle = 'black';
-        canvas.fillText(text[i],origin.x*canvas.width,
-          (origin.y+i*gap)*canvas.height,1600);
-      }
-    } else {
-      canvas.fillText("[H] - Help",canvas.width*0.02,canvas.height*0.1,1600);
-    }
-    canvas.textAlign = 'center';
+    this.prevScene.draw(canvas);
+    canvas.fillStyle="rgba(255,255,255,.7)"
+    canvas.fillRect(0,0,canvas.width,canvas.height);
+    this.deathCount.text = ""+this.prevScene.levelDeaths;
     this.drawAllGUI(canvas);
-    this.drawBlockAtCursor(canvas);
-    if(mouse.held && this.clickDragPivot != undefined) {
-      canvas.strokeStyle = "rgba(0,100,0,1)";
-      canvas.fillStyle = "rgba(0,255,0,.5)";
-      canvas.beginPath();
-      var tx = this.clickDragPivot.x*this.zoom;
-      var ty = this.clickDragPivot.y*this.zoom;
-      canvas.rect(tx, ty, -tx+mouse.x, -ty+mouse.y);
-      canvas.fill();
-      canvas.stroke();
-    }
+    if(this.debug)
+      drawGrid(canvas);
+    drawTransitionOverlay(this.overlayColor,canvas);
   }
-}class BlockButton extends Button{
+  addPauseMenuGUI(){
+    var bigFont = "60px " + FONT;
+    var buttonFont = "30px noteworthy";
+    var textColor = 'black';
+    var buttonGap = 0.085;
+
+    var dim = rectDimFromCenter(.5,.4,.2,.08);
+    var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "Paused",bigFont,textColor,'center');
+    this.gui.push(pauseLabel);
+
+    dim = rectDimFromCenter(.96,.95,.05,.08);
+    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "X", bigFont, textColor,'left');
+    this.gui.push(this.deathCount);
+
+    dim = rectDimFromCenter(.82,.96,.2,.08);
+    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "Fails:", buttonFont,textColor,'right');
+    this.gui.push(deathLabel);
+
+    dim = rectDimFromCenter(0.5,.55,0.2,.08);
+    var resumeButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+      this.unpause.bind(this),"Resume",buttonFont,textColor,'transparent',textColor,5,.08);
+    this.gui.push(resumeButton);
+
+    dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
+    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+      this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
+    this.gui.push(levelSelectButton);
+
+    dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
+    var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+      this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
+    this.gui.push(restartButton);
+    
+    dim = rectDimFromCenter(0.5,0.55+buttonGap*3,.2,.08);
+    var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+      this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
+    this.gui.push(mainMenuButton);
+
+    this.selectedButton = resumeButton;
+    this.selectedButton.selected = true;
+
+    resumeButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
+    levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
+    restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
+    mainMenuButton.setNeighbors([restartButton,undefined,undefined,undefined]);
+
+    this.buttons = getButtons(this.gui);
+
+  }
+} class BlockButton extends Button{
   constructor(x,y,w,h,groupID,onRelease,blockID){
     super(x,y,w,h,groupID,onRelease);
     this.blockID = blockID;
@@ -5752,36 +5178,36 @@ class doubleJump extends Powerup {
   }
   
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "Woof Pen",
       worldType: 1,
       grid: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,18,19,19,19,19,18,18,19,19,19,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,18,19,18,18,19,19,19,18,18,19,18,18,19,19, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0,19,19,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,19,18,19,19,19,18,19,19,19,18,18,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [19,19,19,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,18,19,19,19,19,18,18,18,19,18,19,19,18,18,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [19,19,18,18,19,19,18,19,19,19, 0, 0, 0, 0, 0, 0,19,19,19,19,18,18,19,19,19,19,19,19,18,18,18,18,19,18,18,18,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [19,19,19,18,18,19,18,18,18,19, 0, 0, 0, 0, 0, 0,19,19,19,19,19,18,19,19,18,19,19,19,18,18,18,19,19,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [19,19,19,19,18,18,18,18,19,19, 0, 0, 0, 0, 0, 0,19,19,18,18,18,18,19,18,19,19,19,18,18,18,19,19, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0,19,18,19,18,18,18,19,19, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,18,18,18,19,19,19,19,19,18,18,18, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0,19,19,18,18,18,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,18,19,19,18,19,18,18,27,18,18, 0, 0,18,18,18,18, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0,19,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,19,18,19,19,19,27,18,18, 0,18,18,18,18,18,16, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18,19,19, 0,19,27,23,23, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 5, 0, 0, 0,],
-        [ 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,19, 0, 0, 0,18,18,18, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,19, 0, 0,18,18,18,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 4, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,23,23,18,18, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,16, 0, 0, 0, 0, 0, 0,18,18,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,],
+        [0,0,0,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,18,19,19,19,19,18,18,19,19,19,18,18,19,0,0,0,0,0,0,0,0,],
+        [0,0,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,18,19,18,18,19,19,19,18,18,19,18,18,19,19,0,0,0,0,0,0,0,0,],
+        [0,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,18,19,19,19,18,19,19,19,18,18,18,18,19,0,0,0,0,0,0,0,0,0,],
+        [19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,19,19,19,19,19,19,18,19,19,19,19,18,18,18,19,18,19,19,18,18,19,19,19,0,0,0,0,0,0,0,0,0,],
+        [19,19,18,18,19,19,18,19,19,19,0,0,0,0,0,0,19,19,19,19,18,18,19,19,19,19,19,19,18,18,18,18,19,18,18,18,19,19,0,0,0,0,0,0,0,0,0,0,],
+        [19,19,19,18,18,19,18,18,18,19,0,0,0,0,0,0,19,19,19,19,19,18,19,19,18,19,19,19,18,18,18,19,19,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,],
+        [19,19,19,19,18,18,18,18,19,19,0,0,0,0,0,0,19,19,18,18,18,18,19,18,19,19,19,18,18,18,19,19,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,19,18,19,18,18,18,19,19,0,0,0,0,0,0,0,0,19,19,19,18,18,18,19,19,19,19,19,18,18,18,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,19,19,18,18,18,19,19,0,0,0,0,0,0,0,0,0,0,19,19,18,18,19,19,18,19,18,18,27,18,18,0,0,18,18,18,18,0,0,1,0,0,0,0,0,0,0,0,],
+        [0,0,0,19,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,19,18,19,19,19,27,18,18,0,18,18,18,18,18,16,0,1,1,0,0,0,0,0,0,0,],
+        [0,0,0,0,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,19,19,0,19,27,23,23,9,1,1,1,1,1,1,1,1,1,1,0,0,5,0,0,0,],
+        [0,0,0,0,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,19,0,0,0,18,18,18,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,19,0,0,18,18,18,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [4,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,9,23,23,18,18,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,9,9,9,0,0,0,0,0,0,0,0,0,0,0,0,18,18,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,0,0,16,0,0,0,0,0,0,18,18,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
     };
 
@@ -5847,476 +5273,22 @@ class wallJump extends Powerup {
   die() {
     this.shouldDelete = true;
   }
-}//menustate constants
-var SELECTWORLD = 0;
-var SELECTLEVEL = 1;
-
-
-class LevelSelectScene extends Scene{
-    constructor(playIntro){
-        super(playIntro);
-        this.keyMap = {
-          '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-          '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-          '27': {down: this.safeButtonCall(this,this.handleEscape)},   //esc
-    
-          '87': { down: this.navigateLevelSelect.bind(this,0)},    //W
-          '68': { down: this.navigateLevelSelect.bind(this,1)},    //D
-          '83': { down: this.navigateLevelSelect.bind(this,2)},    //S
-          '65': { down: this.navigateLevelSelect.bind(this,3)},   //A
-    
-          '38': { down: this.navigateLevelSelect.bind(this,0)},  //up
-          '39': { down: this.navigateLevelSelect.bind(this,1)},  //right
-          '40': { down: this.navigateLevelSelect.bind(this,2)},   //down
-          '37': { down: this.navigateLevelSelect.bind(this,3)},   //left
-        }
-        this.levels = createLevels();    
-
-        this.levelsInWorld = [0,0,0];     //numbers should match how many levels are in each world
-        for(var i = 0; i < this.levels.length; i += 1) {
-          var level = this.levels[i];
-          var worldType = level.worldType || 0;
-          this.levelsInWorld[worldType] += 1;
-        }
-        this.menuState = SELECTWORLD;
-        this.worldSelected = 0;
-        this.levelIndex = 0;    
-        this.buttonsInRow = 6;
-        this.buttonRow = [];
-
-        this.worldButtons = [];
-        this.worldLabels = [];
-        this.allowUIInput = true;
-        this.backWall = [];
-        this.addLevelSelectGUI();
-        this.backgroundList = [[],[],[]];  //list of lists
-                                                                //top to bottom
-                                                                //4 ScrollingBackgrounds each
-        this.createBackgrounds();
-
-
+}class WinScene extends Scene{
+  constructor() {
+    super();
+    this.gui = [];
+    this.keyMap = {
+      '32': {down: this.start.bind(this)}
     }
-
-
-    update(dt){
-      super.update(dt);
-      this.updateBackgrounds(dt);
-      if(this.menuState == SELECTLEVEL){
-        this.levelIndex = this.selectedButton.value;
-        var absoluteLevelIndex = this.levelIndex;
-        for(var i = 0; i < this.worldSelected; i++){
-          absoluteLevelIndex += this.levelsInWorld[i];
-        }
-        if(this.levels[absoluteLevelIndex])
-          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
-        else  
-          this.levelName.text = "";
-      }
-    }
-    draw(canvas){
-      this.drawBackgrounds(canvas);
-      canvas.strokeStyle = 'black';
-      if(this.menuState == SELECTWORLD)
-        canvas.lineWidth = 3;
-      else if(this.menuState == SELECTLEVEL)
-        canvas.lineWidth = 10;
-      canvas.strokeRect(0,this.worldSelected*canvas.height/3,canvas.width,canvas.height/3);
-      this.drawGrayScale();
-      this.drawAllGUI(canvas);
-      drawTransitionOverlay(this.overlayColor,canvas);
-      if(this.debug)
-        drawGrid(canvas);
-    }
-    drawGrayScale() {
-      canvas.save();      
-      canvas.globalCompositeOperation='hue';    
-      canvas.fillStyle = 'white';        
-      for(var i=0;i<3;i+=1) {
-        var obj = this.backgroundList[i][0];
-        canvas.globalAlpha = obj.colorTimer/obj.colorChangeDuration;
-        canvas.fillRect(0,i*canvas.height/3,canvas.width,canvas.height/3);
-      }
-      canvas.restore();      
-    }
-    updateBackgrounds(dt){
-      for(var i = 0; i < this.backWall.length; i++){
-        this.backWall[i].update(dt);
-      }
-      for(var i = 0; i < this.backgroundList.length; i++){
-        for(var j = 0; j < this.backgroundList[i].length; j++){
-          this.backgroundList[i][j].update(dt);
-        }
-      }
-    }
-    drawBackgrounds(canvas){
-      for(var i = 0; i < this.backWall.length; i++){
-        this.backWall[i].draw(canvas);
-      }
-      for(var i = 0; i < this.backgroundList.length; i++){
-        for(var j = 0; j < this.backgroundList[i].length; j++){
-          this.backgroundList[i][j].draw(canvas);
-        }
-      }
-    }
-    createBackgrounds(){
-      var slowSpeed = 3;
-      var fastSpeed = 5;
-      /*
-      this.bg = createHillBackground(60, "#888", true);
-      this.newBackground1 = new ScrollingBackgroundObject(this.bg,.6,.5,3,0,-200,false);
-      this.newBackground2 = new ScrollingBackgroundObject(this.bg,.6,.5,3,this.bg.width,-200,true);
-  
-      this.otherbg = createHillBackground(100, "#666", false);
-      this.newBackground3 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,0,-100,false);
-      this.newBackground4 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,this.otherbg.width,-100,true);
-      */
-      var xScale = 0.55;
-      var bgSprite1 = createHillBackground(6000, "rgb(10,92,31)", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,0,-80,false,true);
-      var bg2 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,bgSprite1.width,-80,true,true);
-      this.backgroundList[0].push(bg1);
-      this.backgroundList[0].push(bg2);
-      
-      var bgSprite2 = createHillBackground(6000, "rgb(11,102,35)", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite2,xScale,.2,fastSpeed,0,37,false,true);
-      bg2 = new ScrollingBackgroundObject(bgSprite2,xScale,0.2,fastSpeed,bgSprite2.width,37,true,true);
-      this.backgroundList[0].push(bg1);
-      this.backgroundList[0].push(bg2);
-
-      xScale = 0.7;
-      var bgSprite3 = createForrestBackground(60, "0b6623", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,0,120,false,false);
-      var bg2 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,bgSprite3.width,120,true,false);
-      this.backgroundList[1].push(bg1);
-      this.backgroundList[1].push(bg2);
-
-      var bgSprite4 = createForrestBackground(100, "0b6623", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite4,xScale,.2,fastSpeed,0,237,false,false);
-      bg2 = new ScrollingBackgroundObject(bgSprite4,xScale,0.2,fastSpeed,bgSprite4.width,237,true,false);
-      this.backgroundList[1].push(bg1);
-      this.backgroundList[1].push(bg2);
-
-      var bgSprite5 = createSpikeBackground(60, "#222", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,0,320,false,false);
-      var bg2 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,bgSprite5.width,320,true,false);
-      this.backgroundList[2].push(bg1);
-      this.backgroundList[2].push(bg2);
-
-      var bgSprite6 = createSpikeBackground(100, "#222", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite6,xScale,.2,fastSpeed,0,437,false,false);
-      bg2 = new ScrollingBackgroundObject(bgSprite6,xScale,0.2,fastSpeed,bgSprite6.width,437,true,false);
-      this.backgroundList[2].push(bg1);
-      this.backgroundList[2].push(bg2);
-    }
-    addLevelSelectGUI(){
-      var bigFont = '40px Noteworthy';
-      var buttonFont = '30px Noteworthy';
-      var textColor = 'white';
-      //level select title
-      var dim = rectDimFromCenter(.5,.06,.3,.1);
-      var levelSelectTitle = new Label(dim[0],dim[1],dim[2],dim[3],3,
-        "Select Level",'50px Noteworthy',textColor,'center');
-      this.gui.push(levelSelectTitle);
-      //Color lerp backgrounds
-      var world1Back = new ColorLerpBox(0,0,1,.333,3,[135,206,235,255],[128,128,128,255],25,true );
-      this.backWall.push(world1Back);
-
-      var world2Back = new ColorLerpBox(0,.3333,1,.333,3,[135,206,235,255],[128,128,128,255],25,false );
-      this.backWall.push(world2Back);
-
-      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[130,56,48,255],[128,128,128,255],25,false );
-      this.backWall.push(world3Back);
-
-      //World labels
-      dim = rectDimFromCenter(.1,.09,.2,.12);
-      var world1Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 1",bigFont,textColor,'center');
-      world1Label.setVisibility(true);
-      this.gui.push(world1Label);
-      this.worldLabels.push(world1Label);
-
-      dim = rectDimFromCenter(.1,.09+.333,.2,.12);
-      var world2Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 2",bigFont,textColor,'center');
-      world2Label.setVisibility(false);
-      this.gui.push(world2Label);
-      this.worldLabels.push(world2Label);
-
-      dim = rectDimFromCenter(.1,.09+.666,.2,.12);
-      var world3Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 3",bigFont,textColor,'center');
-      world3Label.setVisibility(false);
-      this.gui.push(world3Label);
-      this.worldLabels.push(world3Label);
-
-      //World buttons (invisible but functional)
-      var world1Button = new Button(0,0,1,1/3,0,this.handleWorldClick.bind(this,0));
-      this.gui.push(world1Button);
-      this.worldButtons.push(world1Button);
-
-      var world2Button = new Button(0,.333,1,1/3,1,this.handleWorldClick.bind(this,1));
-      this.gui.push(world2Button);
-      this.worldButtons.push(world2Button);
-
-      var world3Button = new Button(0,.666,1,1/3,2,this.handleWorldClick.bind(this,2));
-      this.gui.push(world3Button);
-      this.worldButtons.push(world3Button);
-
-      world1Button.setNeighbors([undefined,undefined,world2Button,undefined]);
-      world2Button.setNeighbors([world1Button,undefined,world3Button,undefined]);
-      world3Button.setNeighbors([world2Button,undefined,undefined,undefined]);
-
-      //Select level UI
-      /*
-      dim = rectDimFromCenter(.5,.5,.2,.1)
-      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px Noteworthy',textColor,'center');
-      this.levelNumLabel.setVisibility(false);
-      this.gui.push(this.levelNumLabel);
-        
-      dim = rectDimFromCenter(.5,.6,.18,.08);
-      this.startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
-      this.loadGameLevel.bind(this),"Start Level",buttonFont,textColor,'transparent',textColor,5);
-      this.startButton.setVisibility(false);
-      this.startButton.interactable = false;
-      this.gui.push(this.startButton);
-      */
-      this.buildButtonRow();
-      dim = rectDimFromCenter(.8,.532,.05,.08);
-      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevels.bind(this),.05,.4,'white','black',5,false);
-      this.rightArrow.selectable = false;
-      this.rightArrow.setVisibility(false);
-      this.gui.push(this.rightArrow);
-
-      dim = rectDimFromCenter(.2,.532,.05,.08);
-      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevels.bind(this),.05,.4,'white','black',5,true);
-      this.leftArrow.selectable = false;
-      this.leftArrow.setVisibility(false);
-      this.gui.push(this.leftArrow);
-
-      dim = rectDimFromCenter(.5,.62,.4,.1);
-      this.levelName = new Label(dim[0],dim[1],dim[2],dim[3],5,"",'30px Noteworthy','white','center');
-      this.gui.push(this.levelName);
-
-      this.buttons = getButtons(this.gui);
-      this.selectedButton = world1Button;
-    }
-    buildButtonRow(){
-      var regionWidth = 0.5;
-      var regionHeight = 0.12;
-      var square = [1,16/9];
-      var buttonWidth = .05*square[0];
-      var buttonHeight = .05*square[1];
-      var buttonGap = regionWidth/this.buttonsInRow;
-      var origin = {x:0.5-buttonGap*(this.buttonsInRow-1)/2,y:.535};
-      var dim = [];
-      for(var i = 0; i < this.buttonsInRow; i++){
-        dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);
-        var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
-          this.loadGameLevel.bind(this,i+1),""+(i+1),'40px Noteworthy','white',
-          'transparent','white',5);
-        /*
-        var outline = new ColoredBox(dim[0],dim[1],dim[2],dim[3],4,'transparent','white',3);
-        this.gui.push(outline);
-        outline.setOptions(false,false,false);
-        */
-        button.setOptions(false,false,false);
-        button.value = i;
-        this.gui.push(button);
-        this.buttonRow.push(button);
-      }
-      for(var i = 0; i < this.buttonRow.length; i++){
-        var left = (i == 0) ? undefined : this.buttonRow[i-1];
-        var right = (i == this.buttonRow.length-1) ? undefined : this.buttonRow[i+1];
-        this.buttonRow[i].setNeighbors([undefined,right,undefined,left]);
-      }
-    }
-    updateWorldSelection(worldNumber){
-      this.worldSelected = worldNumber;
-      for(var i = 0; i < this.backWall.length; i++){
-        this.backWall[i].activated = false;
-        this.worldLabels[i].setVisibility(false);
-      }
-      this.worldLabels[worldNumber].setVisibility(true);
-      this.backWall[worldNumber].activated = true;
-      for(var i = 0; i < this.backgroundList.length;i++){
-        for(var j = 0; j < this.backgroundList[i].length;j++){
-          if(i == worldNumber)
-            this.backgroundList[i][j].activated = true;
-          else 
-            this.backgroundList[i][j].activated = false;
-        }
-      }
-    }
-    handleWorldClick(worldNumber){
-      if(this.menuState == SELECTWORLD){
-        this.selectWorld(worldNumber);
-      } else if(this.menuState == SELECTLEVEL){
-        if(worldNumber != this.worldSelected){
-          this.returnToWorldSelect();  
-          this.updateWorldSelection(worldNumber);    
-        }     
-      }
-    }
-    selectWorld(worldNumber){
-      this.worldSelected = worldNumber;
-      this.menuState = SELECTLEVEL;
-      this.selectedButton = this.buttonRow[0];
-      this.selectedButton.selected = true;
-      for(var i = 0; i < this.buttonRow.length; i++){
-        this.buttonRow[i].value = i;
-      }
-      for(var i = 0; i < this.worldButtons.length; i++){
-        this.worldButtons[i].setOptions(true,false,false);
-      }
-      var offSet = (this.worldSelected-1)/3;
-      var group4GUI = getGUIInGroup(4,this.gui);
-      for(var i = 0; i < group4GUI.length; i++){
-        group4GUI[i].setOptions(true,true,true);
-        group4GUI[i].y += offSet;
-      }
-      var group5GUI = getGUIInGroup(5,this.gui);
-      for(var i = 0; i < group5GUI.length; i++){
-        group5GUI[i].setOptions(true,false,true);
-        group5GUI[i].y += offSet;
-      }
-      
-      this.leftArrow.setVisibility(true);
-      this.rightArrow.setVisibility(true);
-      this.levelIndex = 0;
-      if(this.menuState == SELECTLEVEL){
-        var absoluteLevelIndex = this.levelIndex;
-        for(var i = 0; i < this.worldSelected; i++){
-          absoluteLevelIndex += this.levelsInWorld[i];
-        }
-        if(this.levels[absoluteLevelIndex])
-          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
-        else  
-          this.levelName.text = "";
-      }
-    }
-    
-    returnToWorldSelect(){
-      this.menuState = SELECTWORLD;
-      this.selectedButton.selected = false;
-      this.selectedButton = getGUIInGroup(this.worldSelected,this.gui)[0];
-      for(var i = 0; i < this.worldButtons.length; i++){
-        this.worldButtons[i].setOptions(true,true,true);
-      }
-      var group4GUI = getGUIInGroup(4,this.gui);
-      for(var i = 0; i < group4GUI.length; i++){
-        group4GUI[i].setOptions(false,false,false);
-        group4GUI[i].reset();
-      }
-      var group5GUI = getGUIInGroup(5,this.gui);
-      for(var i = 0; i < group5GUI.length; i++){
-        group5GUI[i].setOptions(false,false,false);
-        group5GUI[i].reset();
-      }
-      this.levelIndex = 0;
-      for(var i = 0; i < this.buttonRow.length; i++){
-        this.buttonRow[i].text = ''+(i+1);
-      }
-    }
-    
-    loadGameLevel(){
-      //This calls a fade to black transition and then loads the level at the end of the transition
-      this.allowUIInput = false;
-      var levelToLoad = 0;
-      for(var i = 0; i < this.worldSelected; i++){
-        levelToLoad += this.levelsInWorld[i];       //sums # of levels in previous worlds
-      }
-      levelToLoad += this.levelIndex;     
-      this.startTransition(25,1,function() {
-        var newScene = new GameScene();
-        if(levelToLoad < newScene.levels.length){
-          newScene.loadNewLevel(levelToLoad);
-          this.driver.setScene(new LevelIntroScene(newScene,true));
-        } else {
-          this.allowUIInput = true;
-        }
-      });
-      
-    }
-    handleEscape(){
-      if(this.menuState == SELECTWORLD){
-        this.driver.setScene(new MenuScene(false));
-      } else if(this.menuState == SELECTLEVEL){
-        this.returnToWorldSelect();
-      }
-    }
-    goToMainMenu(){
-      this.driver.setScene(new MenuScene(false));
-    }
-    mousemove(e, mouse) {
-      //Overload
-      if(!this.allowUIInput)
-        return;
-      if(this.menuState == SELECTWORLD){
-        var percentPoint = getPercentPoint(e);
-        var worldNumber = Math.floor(percentPoint[1]*3);        //spreads values 0 to .999 -> 0 to 2.999
-        if(!worldNumber&&worldNumber!=0)return;
-        var worldNumber = (worldNumber >= 3) ? 2 : worldNumber; //cap to 2 if too large
-        var worldNumber = (worldNumber < 0) ? 0 : worldNumber;  //cap to 0 if too small
-        this.updateWorldSelection(worldNumber);   
-      } 
-      GUIMouseMove(this,e,this.buttons);
-    }
-    navigateLevelSelect(direction){
-      //Overload
-      if(!this.allowUIInput)
-        return;
-      if(this.menuState == SELECTWORLD){
-        this.navigateUI(direction);
-        this.updateWorldSelection(this.selectedButton.groupID);
-      } else if(this.menuState == SELECTLEVEL){
-        
-        switch(direction){
-          case 1: //right
-            this.rightArrow.displaceArrow();
-            break;
-          case 3: //left
-            this.leftArrow.displaceArrow();
-            break;
-        }
-
-        if(direction == 1 && this.selectedButton == this.buttonRow[this.buttonsInRow-1]){
-          this.incrementLevels();
-        }
-        else if(direction == 3 && this.selectedButton == this.buttonRow[0]){
-          this.decrementLevels();
-        }
-        this.navigateUI(direction);
-        this.levelIndex = this.selectedButton.value;
-
-      }
-    }
-    
-    incrementLevels(){
-      if(this.buttonRow[this.buttonsInRow-1].value
-        < this.levelsInWorld[this.worldSelected]-1){
-        for(var i = 0; i < this.buttonRow.length; i++){
-          this.buttonRow[i].value+= 1;
-          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
-        }
-        this.levelIndex = this.selectedButton.value;
-        if(this.selectedButton != this.buttonRow[0]){
-          this.selectedButton.selected = false;
-          this.selectedButton = this.selectedButton.getNeighbor('left');
-          this.selectedButton.selected = true;
-        }
-      }
-    }
-    decrementLevels(){
-      if(this.buttonRow[0].value > 0){
-        for(var i = 0; i < this.buttonRow.length; i++){
-          this.buttonRow[i].value-= 1;
-          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
-        }
-        this.levelIndex = this.selectedButton.value;
-        if(this.selectedButton != this.buttonRow[this.buttonsInRow-1]){
-          this.selectedButton.selected = false;
-          this.selectedButton = this.selectedButton.getNeighbor('right');
-          this.selectedButton.selected = true;
-        }
-      }
-    }
+  }
+  start() {
+    this.driver.setScene(new GameScene());
+  }
+  draw(canvas) {
+    canvas.fillStyle = 'black';
+    canvas.textAlign = 'center';
+    canvas.fillText('You Win! Press Space To Restart', canvas.width/2, canvas.height/2);
+  }
 }class Slider extends Button{
   constructor(x,y,w,h,groupID,onRelease,handleWidth,defaultValue,
     barColor,handleColor,handleHeldColor,handleOutlineColor,handleOutlineWeight){
@@ -6369,38 +5341,38 @@ class LevelSelectScene extends Scene{
     return x>= this.x+this.value*this.w-this.handleWidth/2 && x<=this.x+this.value*this.w+this.handleWidth/2 && y>=this.y && y<=this.y+this.h;
   }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "Let The Dogs Out",
       worldType: 0,
       grid: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 5, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,],
-        [ 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 1, 1, 1, 9, 9, 9, 9, 9, 9, 1, 1, 1, 0, 0, 0, 0, 9, 9, 9, 9, 1, 1, 1, 9, 9, 9, 9, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 9, 9, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 1,16, 0, 9, 9, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 0, 0, 0,16, 0, 0, 0, 0, 1, 0, 0, 0,16, 0, 0, 0, 0, 1, 2, 2, 0, 0, 0, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,5,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,],
+        [4,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,9,9,9,9,9,9,1,1,1,9,9,9,9,9,9,1,1,1,0,0,0,0,9,9,9,9,1,1,1,9,9,9,9,1,0,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,1,1,0,0,9,9,2,0,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,2,1,1,2,1,16,0,9,9,1,1,2,1,1,1,1,1,1,1,],
+        [1,1,1,1,0,0,0,16,0,0,0,0,1,0,0,0,16,0,0,0,0,1,2,2,0,0,0,2,1,1,2,1,1,1,1,2,1,1,2,2,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
     };
 
@@ -6471,7 +5443,7 @@ class DoinkPad {
         this.w= 30;
         this.h = 30;
         this.r = 15;
-        this.bounceAnimation2 = 0;
+        this.bounceAnimation = 0;
         this.behind = true;
     }
     update() {    
@@ -6487,14 +5459,14 @@ class DoinkPad {
     } else {
       this.isColliding = false;
     }
-        if (this.bounceAnimation2 > 0)this.bounceAnimation2-=1;
+        if (this.bounceAnimation > 0)this.bounceAnimation-=1;
 	}
     draw(canvas) {
     var r = this.r;
-    r += Math.cos(this.bounceAnimation2*Math.PI/5)*10;
+    r += Math.cos(this.bounceAnimation*Math.PI/5)*10;
     canvas.fillStyle="#ffee5e";
-    // canvas.arc(this.x,this.y-Math.cos(this.bounceAnimation2*Math.PI/10)*10,r,0,Math.PI*2);
-    var bounce = Math.cos(this.bounceAnimation2*Math.PI/10);
+    // canvas.arc(this.x,this.y-Math.cos(this.bounceAnimation*Math.PI/10)*10,r,0,Math.PI*2);
+    var bounce = Math.cos(this.bounceAnimation*Math.PI/10);
     var pinch = this.w/10;
     pinch += 3*bounce;
     canvas.beginPath();    
@@ -6512,7 +5484,7 @@ class DoinkPad {
     }
 
     getHitByEntity(player) {
-        this.bounceAnimation2 = 20;
+        this.bounceAnimation = 20;
       player.bounceOffEntity(this);
 	}
 
@@ -6528,162 +5500,51 @@ class DoinkPad {
     return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
     }
     
-}class CreditsScene extends Scene{
-  constructor(playIntro){
-    super(playIntro);
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-
-      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
-    }
-    this.memberNames = ["Brian Dizon",
-                        "Christian Gramling",
-                        "Kyle Wong",
-                        "Kristen Campbell",
-                        "Taylor Poppoff",
-                        "TJ Hanson",
-                        "Muhammad Albayati",];
-    this.memberRoles = ["js wizardry",
-                        "Programming and Design",
-                        "Programming",
-                        "Music & Audio",
-                        "Art",
-                        "Programming",
-                        "Programming"];
-    this.addCreditsGUI();
-    this.nameLabels = getGUIInGroup(2,this.gui);
-    this.roleLabels = getGUIInGroup(3,this.gui);
-    moveAllGUI(-.7,0,this.nameLabels);
-    moveAllGUI(.7,0,this.roleLabels);
-    this.creditsTimer = 0;
-    this.initialDelay = 15;
-    this.delayBetween = 8;
-    this.labelVelocity = 0.08;
-    this.endDistanceFromCenter = .03;   //distance around center where credit entries should go
-                                        //Not actually accurate but decreasing this moves both sides closer
-                                        //and increasing it moves them away from the center.
+}class LevelTesterScene extends GameScene {
+  constructor(level, prevScene) {
+    super(level, undefined, false);
+    this.prevScene = prevScene;
+    this.keyMap[27] = {down: this.back.bind(this)};
+    this.transitionDuration = 1;
+    this.updateTransition();
   }
-
-  update(dt){
-    super.update(dt);
-    this.updateCreditsLabels(dt);
+  back() {
+    this.driver.setScene(this.prevScene);
   }
-  draw(canvas){
-    canvas.fillStyle = 'black';
-    canvas.fillRect(0,0,canvas.width,canvas.height);
-    this.drawAllGUI(canvas);
-  }
-  updateCreditsLabels(dt){
-    //controls which labels should be moved every frame
-    //There is an initial delay where no labels are moving
-    //After that, every delayBetween duration allows one more row to begin
-    //moving to the center.
-    this.creditsTimer += dt;
-    if(this.creditsTimer > this.initialDelay){
-      for(var i = 0; i < this.memberNames.length; i++){
-        if(this.creditsTimer > this.initialDelay+i*this.delayBetween){
-          this.moveCreditsEntry(this.nameLabels[i],'right',dt);
-          this.moveCreditsEntry(this.roleLabels[i],'left',dt);
-        }
-      }
-    }
-  }
-  moveCreditsEntry(label,direction,dt){
-    //Moves label until it is within endDistanceFromCenter distance from center of screen
-    //Speed scales with distance to destination.
-    switch(direction){
-      case 'left':
-        var distance = label.x-(0.5+this.endDistanceFromCenter);
-        if(label.x + dt*(-this.labelVelocity)*distance < 0.5 + this.endDistanceFromCenter){
-          label.x = 0.5+this.endDistanceFromCenter;
-        } else {
-          label.x -= dt*this.labelVelocity*distance;
-        }
-        break;
-      case 'right':
-        var distance = 0.5-this.endDistanceFromCenter-(label.x+label.w);
-        if(label.x+label.w + dt*(this.labelVelocity)*distance > 0.5-this.endDistanceFromCenter){
-          label.x = 0.5-label.w-this.endDistanceFromCenter;;
-        } else {
-          label.x += dt*this.labelVelocity*distance;
-        }
-        break;
-    }
-  }
-  addCreditsGUI(){
-    var textColor = 'white';
-    var titleFont = '60px Noteworthy';
-    var creditsFont = '30px Noteworthy';
-    this.leftRefObject = new GUIElement(-0.5,0.5,0,0,0);
-    this.rightRefObject = new GUIElement(1.5,0.5,0,0,0);
-
-    var dim = rectDimFromCenter(0.5,.1,.4,.2);
-    var creditsTitle = new Label(dim[0],dim[1],dim[2],dim[3],
-      1,"Credits",titleFont,textColor,'center');
-    this.gui.push(creditsTitle);
-
-    dim = rectDimFromCenter(0.6,0.9,.1,.1);
-    var backButton = new TextButton(dim[0],dim[1],dim[2],dim[3],
-      4,this.goToMainMenu.bind(this),"Back",creditsFont,textColor,
-      'transparent',textColor,3);
-    this.gui.push(backButton);
-
-    var labelWidth = 0.3;
-    var labelGap = 0.6/this.memberNames.length;   //This controls how far down the credit entries should go.
-    var labelHeight = labelGap-0.05;
-    var origin = [0.5,0.25];                      //origin[1] is height that the credit entires begin drawing
-    for(var i = 0; i < this.memberNames.length; i++){
-      dim = rectDimFromCenter(origin[0]-0.05,origin[1]+(i*labelGap),labelWidth,labelHeight);
-      var memberLabel = new Label(dim[0],dim[1],dim[2],dim[3],
-        2,this.memberNames[i],creditsFont,textColor,'right');
-      this.gui.push(memberLabel);
-
-      dim = rectDimFromCenter(origin[0]+0.05,origin[1]+(i*labelGap),labelWidth,labelHeight);
-      var memberRole = new Label(dim[0],dim[1],dim[2],dim[3],
-        3,this.memberRoles[i],creditsFont,textColor,'left');
-      this.gui.push(memberRole);
-    }
-
-    this.selectedButton = backButton;
-    backButton.selected = true;
-    //backbutton intentionally has no neighbors
-    this.buttons = getButtons(this.gui);
-  }
-  goToMainMenu(){
-    this.driver.setScene(new MenuScene(false));
+  win() {
+    this.back();
   }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "RUN!",
       worldType: 1,
       grid: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19, 0, 0, 0,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0,],
-        [ 0, 0, 0,19,19,19,19, 0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19, 0, 0, 0,],
-        [ 0, 0, 0,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,19,19, 0,],
-        [ 0, 0, 0,19,19,19,19,19,19,19,19,19,18,18,19,19,19,19,19,19,19,18,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,19,19,18,19,19,19,19, 0,],
-        [ 0, 0, 0,19,18,18,18,19,19,19,18,19,19,18,18,18,19,19,19,19,18,19,19,19,27,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,18,19,19,19, 0,],
-        [ 0, 0, 0,19,19,19,18,18,18,18,18,19,19,19,19,18,18,18,18,18,19,19,16,19,27,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,18,18,19,18,19,19,19,19,],
-        [16, 0,19,19,19,19,19,19,19,19,18,19,19,19,19,18,18,23,23,23,23,23,23,23,27,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,18,19,19,18,19,18,18,],
-        [ 9, 0,19,19,19,18,18,19,19,18,18,18,18,18,18,18,19,19,18,18,18,18,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,18,18,18,18,18,19,],
-        [ 0,19,19,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,19,19,19, 0,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,18,18,18,19,19,],
-        [16, 2,19,18,19,19,19, 0, 0, 0,18,18,18,18,18,18,18,18,18,18,18, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,18,18,18,19,19, 0,],
-        [ 9, 0,19,19,19, 0, 0, 0, 0, 0, 0, 0,18,18,18,18,18,18,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0,],
-        [ 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0,16,],
-        [ 1, 1, 1, 1, 1, 1, 9, 9, 9,16, 3, 3, 0, 0,18,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,27,18,18,18, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9,23,23,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,27,23,23, 9, 9,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,16,18,18,18,18,23,23,23,23, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,27,18,16, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,18,16,18,18,18,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18,27,23, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0,23,23,23,23,23, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,19,19,19,0,0,0,0,0,0,0,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,0,0,0,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,],
+        [0,0,0,19,19,19,19,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,0,0,0,],
+        [0,0,0,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,0,],
+        [0,0,0,19,19,19,19,19,19,19,19,19,18,18,19,19,19,19,19,19,19,18,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,19,19,18,19,19,18,19,19,19,19,0,],
+        [0,0,0,19,18,18,18,19,19,19,18,19,19,18,18,18,19,19,19,19,18,19,19,19,27,19,19,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,18,19,19,19,0,],
+        [0,0,0,19,19,19,18,18,18,18,18,19,19,19,19,18,18,18,18,18,19,19,16,19,27,19,19,0,0,0,0,0,0,0,0,0,19,19,19,19,18,18,19,18,19,19,19,19,],
+        [16,0,19,19,19,19,19,19,19,19,18,19,19,19,19,18,18,23,23,23,23,23,23,23,27,19,19,0,0,0,0,0,0,0,0,0,0,19,19,19,19,18,19,19,18,19,18,18,],
+        [9,0,19,19,19,18,18,19,19,18,18,18,18,18,18,18,19,19,18,18,18,18,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,18,18,18,18,18,19,],
+        [0,19,19,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,19,19,19,0,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,18,18,18,18,19,19,],
+        [16,2,19,18,19,19,19,0,0,0,18,18,18,18,18,18,18,18,18,18,18,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,19,19,0,],
+        [9,0,19,19,19,0,0,0,0,0,0,0,18,18,18,18,18,18,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,0,0,0,],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,0,0,16,],
+        [1,1,1,1,1,1,9,9,9,16,3,3,0,0,18,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,27,18,18,18,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,9,9,23,23,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,27,23,23,9,9,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,16,18,18,18,18,23,23,23,23,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,27,18,16,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,18,16,18,18,18,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,27,23,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,9,9,9,9,9,9,9,0,0,0,23,23,23,23,23,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,5,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
     };
 
@@ -6903,7 +5764,7 @@ class Woof extends Enemy {
     this.speed = 0;
     this.jump();//just a lil surprise animation
     this.game.addEntity(new SleepText(this.x,this.y-this.h-70,80,0,-1,"!",
-    "45", "Noteworthy",[255,255,255,1],[250,40,40,0],10,10,true));
+    "45", FONT,[255,255,255,1],[250,40,40,0],10,10,true));
     return 1;//change state
   }
 
@@ -7018,81 +5879,40 @@ class Woof extends Enemy {
     canvas.lineTo(w/2,2);  
     canvas.stroke();
   }
-}class LevelEditorSelectScene extends LevelSelectScene{
-  constructor(playIntro){
-    super(playIntro);
-    
-    this.keyMap['78'] = {down: this.loadNewLevel.bind(this)};
-    this.keyMap['69'] = {down: this.loadLocalLevel.bind(this)};
-    this.keyMap['82'] = {down: this.loadPigLevel.bind(this)};
-    this.addExtraGUI();
-  }
-  update(dt,frameCount){
-    super.update(dt,frameCount);
-  }
-  draw(canvas){
-    super.draw(canvas);
-  }
-  
-  loadNewLevel(){
-    this.loadGameLevel(-2);
-  }
-
-  loadLocalLevel(){
-    this.loadGameLevel(0);
-  }
-  loadPigLevel(){
-    this.loadGameLevel(-1);
-  }
-  addExtraGUI(){
-    var dim = rectDimFromCenter(.5,.33,.7,.1);
-    var levelEditorLabel = new Label(dim[0],dim[1],dim[2],dim[3],7,"Level Editor    [N] - New Level    [E] - Local Level    [R] - PigFunScene",'30px Noteworthy','white','center');
-    this.gui.push(levelEditorLabel);
-  }
-  loadGameLevel(index){
-    if(index == undefined){
-      super.loadGameLevel();
-      return;
-    }
-    var absoluteLevelIndex = index;
-    for(var i = 0; i < this.worldSelected; i++){
-      absoluteLevelIndex += this.levelsInWorld[i];
-    } 
-    
-    var scene = new LevelEditorScene(absoluteLevelIndex);
-    this.driver.setScene(scene);
-  }
-}addLevel( function(nameSpace) {
-   {
+}
+class LevelEditorScene extends Scene {  
+}
+addLevel( function(nameSpace) {
+  {
 
     return {
       name: "Escape from the Den",
       worldType: 1,
       grid: [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,19,19,18,18,19,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,18,19,19,19,19,19,18,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,19,19,19,19,18,19,19,19, 0, 5,19,19,],
-        [ 0, 0, 0, 0,19,19,19, 0, 0, 0, 0, 0, 0,19,19,19,19, 0, 0, 0, 0,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,18,19,19,18,19,19,19, 9,23,23,23,],
-        [ 0, 0, 0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19, 0,19,19,19,19,19,19, 0,19,19,19,18,18,18,18,19,19,19,19,19,19,19,],
-        [ 0, 0, 0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19, 0,19,19,19,19,18,18,18,18,18,19,19,18,19,],
-        [ 0, 0, 0,19,19,18,18,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,19,19,18,27,19,19,19,18, 0, 0,19,18,18,18,18,18,18,19,18,19,],
-        [ 0, 0, 0,19,19,19,18,18,19,18,19,19,19,19,19,18,18,19,19,19,19,19,18,18,19,19,19,19,19,19,18,27,16,23,23,23,27,18,18,18,18,18,18,18,18,18,18,27,],
-        [ 0, 0, 0, 0, 0,19,19,18,18,19,19,19,19,19,18,18,19,19,19,19,19,19,19,18,18,18,18,19,18,18,18,27,27,27,27,27,27,27,27,27,27,18,18,27,23,23,23,27,],
-        [19,19,19,19,19, 0,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,18,18,18,18,18,18,18,18,18,19,19,19,19,19, 0, 0,18,18,23,23,27,18,19,19,19,],
-        [19,19,18,19,19, 0,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,19,18,18,18,18,18,19,19,19, 0, 0, 0, 0, 0, 0,18,18,18,18,27,18,18, 0, 0,],
-        [19,19,18,18,19,19, 0,18,18,19,18,18,18,18,18,18,18,18,19,19, 0,19, 0,18,18,18,18,18,18,19,19, 0, 0, 0, 0, 0, 0,27,27,27,27,27,27,27,18,18,18,18,],
-        [ 0,19,18,18,18,18,18,18,18,18,18,18,18,18,18,18,19,19,19,19,18,18,18,18,18,18,18,18,18,18, 0, 0, 0, 0, 0, 9,23,27,18,18,18,18,18,18,18,18,18,18,],
-        [ 0,19,19,18,18,18,18,18,18,18,18,18,18,18,19,19,19, 0, 0, 0,19,18,18,18,18,18,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18,18, 0, 0,],
-        [16, 9,23,23,27,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19, 0,18,18,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18,18, 0, 0,],
-        [ 9, 9, 9,23,23,23,23,23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18,18,18, 0, 0, 0, 0, 0, 0,18,18,18,18,18,18, 0, 0, 0, 0,],
-        [ 0,16, 0,18,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18,18,18,18,18,18, 0, 0, 0, 0, 0,18,18,18,18,18,18, 0,16, 0, 0,],
-        [ 1, 1, 9,23,23,23,23,27, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,18,18,18,18,18,18,18,18, 0, 0,18,18,18,18,18,18,18,18, 0, 0, 0,],
-        [ 1, 0, 0, 0,18,18,18,27,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0,18,18,27,18,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 4, 0, 0, 0, 0,18,18,27, 0, 0,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1,27,23,23,23,18,16, 1, 1,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,18,18,19,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,18,19,19,19,19,19,18,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,18,19,19,19,19,18,19,19,19,0,5,19,19,],
+        [0,0,0,0,19,19,19,0,0,0,0,0,0,19,19,19,19,0,0,0,0,19,19,19,0,0,0,0,0,0,0,0,0,0,19,19,19,18,19,19,18,19,19,19,9,23,23,23,],
+        [0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,19,19,19,19,19,19,0,19,19,19,18,18,18,18,19,19,19,19,19,19,19,],
+        [0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,19,19,19,19,18,18,18,18,18,19,19,18,19,],
+        [0,0,0,19,19,18,18,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,19,19,18,27,19,19,19,18,0,0,19,18,18,18,18,18,18,19,18,19,],
+        [0,0,0,19,19,19,18,18,19,18,19,19,19,19,19,18,18,19,19,19,19,19,18,18,19,19,19,19,19,19,18,27,16,23,23,23,27,18,18,18,18,18,18,18,18,18,18,27,],
+        [0,0,0,0,0,19,19,18,18,19,19,19,19,19,18,18,19,19,19,19,19,19,19,18,18,18,18,19,18,18,18,27,27,27,27,27,27,27,27,27,27,18,18,27,23,23,23,27,],
+        [19,19,19,19,19,0,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,18,18,18,18,18,18,18,18,18,19,19,19,19,19,0,0,18,18,23,23,27,18,19,19,19,],
+        [19,19,18,19,19,0,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,19,18,18,18,18,18,19,19,19,0,0,0,0,0,0,18,18,18,18,27,18,18,0,0,],
+        [19,19,18,18,19,19,0,18,18,19,18,18,18,18,18,18,18,18,19,19,0,19,0,18,18,18,18,18,18,19,19,0,0,0,0,0,0,27,27,27,27,27,27,27,18,18,18,18,],
+        [0,19,18,18,18,18,18,18,18,18,18,18,18,18,18,18,19,19,19,19,18,18,18,18,18,18,18,18,18,18,0,0,0,0,0,9,23,27,18,18,18,18,18,18,18,18,18,18,],
+        [0,19,19,18,18,18,18,18,18,18,18,18,18,18,19,19,19,0,0,0,19,18,18,18,18,18,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,18,0,0,],
+        [16,9,23,23,27,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,0,18,18,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,18,0,0,],
+        [9,9,9,23,23,23,23,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,18,18,0,0,0,0,0,0,18,18,18,18,18,18,0,0,0,0,],
+        [0,16,0,18,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,18,18,18,18,18,18,0,0,0,0,0,18,18,18,18,18,18,0,16,0,0,],
+        [1,1,9,23,23,23,23,27,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,18,18,18,18,18,18,18,18,0,0,18,18,18,18,18,18,18,18,0,0,0,],
+        [1,0,0,0,18,18,18,27,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,18,18,27,18,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [4,0,0,0,0,18,18,27,0,0,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,27,23,23,23,18,16,1,1,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
     };
 
@@ -7263,7 +6083,9 @@ class Butcher extends Mover {
     canvas.rotate(-hatAngle);
     this.drawHat(canvas,w);
     canvas.translate(0,h);
-    // this.drawKnife(canvas, w,h);
+    if(this.wielding) {
+      this.drawKnife(canvas, w,h);
+    }
     canvas.restore();    
   }
   drawEye(canvas, x,y,w,h, dx, browangle, broww, browh, browcolor) {
@@ -7320,154 +6142,511 @@ class Butcher extends Mover {
     canvas.fill();
     canvas.restore();
   }
-}class OptionScene extends Scene{
-  constructor(playLevelIntro){
-    super(playLevelIntro);
-    this.keyMap = {
-      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-        '68': { down: this.navigateUI.bind(this,1)},    //D
-        '83': { down: this.navigateUI.bind(this,2)},    //S
-        '65': { down: this.navigateUI.bind(this,3)},   //A
-  
-        '38': { down: this.navigateUI.bind(this,0)},  //up
-        '39': { down: this.navigateUI.bind(this,1)},  //right
-        '40': { down: this.navigateUI.bind(this,2)},   //down
-        '37': { down: this.navigateUI.bind(this,3)},   //left
+}//menustate constants
+var SELECTWORLD = 0;
+var SELECTLEVEL = 1;
 
 
+class LevelSelectScene extends Scene{
+    constructor(playIntro){
+        super(playIntro);
+        this.keyMap = {
+          '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+          '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+          '27': {down: this.safeButtonCall(this,this.handleEscape)},   //esc
     
-    }
-    this.background = new InfiniteBackground();
-   
-    this.camera = {x:0,y:0,dx:0,dy:0};
-    this.loadOptionGUI();
-    this.FREE = 0;
-    this.VOLUME = 1;
-    this.state = 0;
-  }
-  update(dt){
-    this.camera.x += 3;
-    super.update(dt);
-    this.volumeLabel.text = "Volume: "+Math.floor(this.volumeSlider.value*100);
-  }
-  draw(canvas){
-    this.background.drawLayers(canvas, this.camera);
-    this.drawAllGUI(canvas);
-  }
-  changeVolumeBy(toAdd){
-    this.volumeSlider.setValue(this.volumeSlider.value+toAdd);
-    this.volumeSlider.setValue(Math.round(this.volumeSlider.value*100)/100);
-    this.volumeSlider.onRelease();
-  }
-  loadOptionGUI(){
-    var dim = rectDimFromCenter(.5,.5,.2,.1);
-    this.volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
-      0,undefined,0.03,DESTINATION.gain.value,'white','white','gray','black');
-    this.volumeSlider.onRelease = this.playSliderSound.bind(this,this.volumeSlider); 
-    this.volumeSlider.onHold = this.setVolume.bind(this,this.volumeSlider);
-    this.volumeSlider.selectable = true;
-    this.gui.push(this.volumeSlider);
-
-    dim = rectDimFromCenter(0,.4,.25,.1);
-    this.volumeLabel = new Label(.4,dim[1],dim[2],dim[3],0,
-      this.volumeSlider.value,'35px Noteworthy','white','left');
-    this.gui.push(this.volumeLabel);
-
-    dim = rectDimFromCenter(.8,.9,.2,.1);
-    var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
-    'white','transparent','white', 5,.05);
-    this.gui.push(backButton);
-    this.selectedButton = backButton;
-    backButton.selected = true;
-
-    dim = rectDimFromCenter(.5,.7,.2,.1);
-    var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
-      MAIN.gamepadOn = !MAIN.gamepadOn;
-      gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
-    },"Gamepad On",'30px Noteworthy', 
-    'white','transparent','white', 5,.05);
-    this.gui.push(gamepadBtn);
-
-    dim = rectDimFromCenter(.5,.15,.4,.2);
-    var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px Noteworthy','white','center');
-    this.gui.push(optionsLabel);
+          '87': { down: this.navigateLevelSelect.bind(this,0)},    //W
+          '68': { down: this.navigateLevelSelect.bind(this,1)},    //D
+          '83': { down: this.navigateLevelSelect.bind(this,2)},    //S
+          '65': { down: this.navigateLevelSelect.bind(this,3)},   //A
     
-    this.volumeSlider.setNeighbors([undefined,undefined,gamepadBtn,undefined]);
-    backButton.setNeighbors([gamepadBtn,undefined,undefined,gamepadBtn]);
-    gamepadBtn.setNeighbors([this.volumeSlider,backButton,backButton,undefined]);
-    this.buttons = getButtons(this.gui);
-  }
-  goToMainMenu(){
-    this.driver.setScene(new MenuScene(false));
-  }
-  setVolume(slider){
-    setVolume(slider.value);
-  }
-  playSliderSound(slider){
-    SOUNDMAP.bounce.play();
-  }
-  navigateUI(direction){
-    switch(this.state){
-      case this.FREE:
-        super.navigateUI(direction);
-        break;
-      case this.VOLUME:
-        if(direction == 1)
-          this.changeVolumeBy(0.05);
-        else if(direction == 2){
-          this.selectedButton = this.selectedButton.buttonLinks[2];
-          this.selectedButton.selected = true;
-          this.volumeSlider.selected = false;
-          this.state = this.FREE;
+          '38': { down: this.navigateLevelSelect.bind(this,0)},  //up
+          '39': { down: this.navigateLevelSelect.bind(this,1)},  //right
+          '40': { down: this.navigateLevelSelect.bind(this,2)},   //down
+          '37': { down: this.navigateLevelSelect.bind(this,3)},   //left
         }
-        else if(direction == 3)
-          this.changeVolumeBy(-0.05);
-        break;
+        this.levels = createLevels();    
+
+        this.levelsInWorld = [0,0,0];     //numbers should match how many levels are in each world
+        for(var i = 0; i < this.levels.length; i += 1) {
+          var level = this.levels[i];
+          var worldType = level.worldType || 0;
+          this.levelsInWorld[worldType] += 1;
+        }
+        this.menuState = SELECTWORLD;
+        this.worldSelected = 0;
+        this.levelIndex = 0;    
+        this.buttonsInRow = 6;
+        this.buttonRow = [];
+
+        this.worldButtons = [];
+        this.worldLabels = [];
+        this.allowUIInput = true;
+        this.backWall = [];
+        this.addLevelSelectGUI();
+        this.backgroundList = [[],[],[]];  //list of lists
+                                                                //top to bottom
+                                                                //4 ScrollingBackgrounds each
+        this.createBackgrounds();
+
+
+    }
+
+
+    update(dt){
+      super.update(dt);
+      this.updateBackgrounds(dt);
+      if(this.menuState == SELECTLEVEL){
+        this.levelIndex = this.selectedButton.value;
+        var absoluteLevelIndex = this.levelIndex;
+        for(var i = 0; i < this.worldSelected; i++){
+          absoluteLevelIndex += this.levelsInWorld[i];
+        }
+        if(this.levels[absoluteLevelIndex])
+          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
+        else  
+          this.levelName.text = "";
+      }
+    }
+    draw(canvas){
+      this.drawBackgrounds(canvas);
+      canvas.strokeStyle = 'black';
+      if(this.menuState == SELECTWORLD)
+        canvas.lineWidth = 3;
+      else if(this.menuState == SELECTLEVEL)
+        canvas.lineWidth = 10;
+      canvas.strokeRect(0,this.worldSelected*canvas.height/3,canvas.width,canvas.height/3);
+      this.drawGrayScale();
+      this.drawAllGUI(canvas);
+      drawTransitionOverlay(this.overlayColor,canvas);
+      if(this.debug)
+        drawGrid(canvas);
+    }
+    drawGrayScale() {
+      canvas.save();      
+      canvas.globalCompositeOperation='hue';    
+      canvas.fillStyle = 'white';        
+      for(var i=0;i<3;i+=1) {
+        var obj = this.backgroundList[i][0];
+        canvas.globalAlpha = obj.colorTimer/obj.colorChangeDuration;
+        canvas.fillRect(0,i*canvas.height/3,canvas.width,canvas.height/3);
+      }
+      canvas.restore();      
+    }
+    updateBackgrounds(dt){
+      for(var i = 0; i < this.backWall.length; i++){
+        this.backWall[i].update(dt);
+      }
+      for(var i = 0; i < this.backgroundList.length; i++){
+        for(var j = 0; j < this.backgroundList[i].length; j++){
+          this.backgroundList[i][j].update(dt);
+        }
+      }
+    }
+    drawBackgrounds(canvas){
+      for(var i = 0; i < this.backWall.length; i++){
+        this.backWall[i].draw(canvas);
+      }
+      for(var i = 0; i < this.backgroundList.length; i++){
+        for(var j = 0; j < this.backgroundList[i].length; j++){
+          this.backgroundList[i][j].draw(canvas);
+        }
+      }
+    }
+    createBackgrounds(){
+      var slowSpeed = 3;
+      var fastSpeed = 5;
+      /*
+      this.bg = createHillBackground(60, "#888", true);
+      this.newBackground1 = new ScrollingBackgroundObject(this.bg,.6,.5,3,0,-200,false);
+      this.newBackground2 = new ScrollingBackgroundObject(this.bg,.6,.5,3,this.bg.width,-200,true);
+  
+      this.otherbg = createHillBackground(100, "#666", false);
+      this.newBackground3 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,0,-100,false);
+      this.newBackground4 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,this.otherbg.width,-100,true);
+      */
+      var xScale = 0.55;
+      var bgSprite1 = createHillBackground(6000, "rgb(10,92,31)", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,0,-80,false,true);
+      var bg2 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,bgSprite1.width,-80,true,true);
+      this.backgroundList[0].push(bg1);
+      this.backgroundList[0].push(bg2);
+      
+      var bgSprite2 = createHillBackground(6000, "rgb(11,102,35)", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite2,xScale,.2,fastSpeed,0,37,false,true);
+      bg2 = new ScrollingBackgroundObject(bgSprite2,xScale,0.2,fastSpeed,bgSprite2.width,37,true,true);
+      this.backgroundList[0].push(bg1);
+      this.backgroundList[0].push(bg2);
+
+      xScale = 0.7;
+      var bgSprite3 = createForrestBackground(60, "0b6623", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,0,120,false,false);
+      var bg2 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,bgSprite3.width,120,true,false);
+      this.backgroundList[1].push(bg1);
+      this.backgroundList[1].push(bg2);
+
+      var bgSprite4 = createForrestBackground(100, "0b6623", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite4,xScale,.2,fastSpeed,0,237,false,false);
+      bg2 = new ScrollingBackgroundObject(bgSprite4,xScale,0.2,fastSpeed,bgSprite4.width,237,true,false);
+      this.backgroundList[1].push(bg1);
+      this.backgroundList[1].push(bg2);
+
+      var bgSprite5 = createSpikeBackground(60, "#222", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,0,320,false,false);
+      var bg2 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,bgSprite5.width,320,true,false);
+      this.backgroundList[2].push(bg1);
+      this.backgroundList[2].push(bg2);
+
+      var bgSprite6 = createSpikeBackground(100, "#222", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite6,xScale,.2,fastSpeed,0,437,false,false);
+      bg2 = new ScrollingBackgroundObject(bgSprite6,xScale,0.2,fastSpeed,bgSprite6.width,437,true,false);
+      this.backgroundList[2].push(bg1);
+      this.backgroundList[2].push(bg2);
+    }
+    addLevelSelectGUI(){
+      var bigFont = '40px ' + FONT;
+      var buttonFont = '30px ' + FONT;
+      var textColor = 'white';
+      //level select title
+      var dim = rectDimFromCenter(.5,.06,.3,.1);
+      var levelSelectTitle = new Label(dim[0],dim[1],dim[2],dim[3],3,
+        "Select Level",'50px ' + FONT,textColor,'center');
+      this.gui.push(levelSelectTitle);
+      //Color lerp backgrounds
+      var world1Back = new ColorLerpBox(0,0,1,.333,3,[135,206,235,255],[128,128,128,255],25,true );
+      this.backWall.push(world1Back);
+
+      var world2Back = new ColorLerpBox(0,.3333,1,.333,3,[135,206,235,255],[128,128,128,255],25,false );
+      this.backWall.push(world2Back);
+
+      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[130,56,48,255],[128,128,128,255],25,false );
+      this.backWall.push(world3Back);
+
+      //World labels
+      dim = rectDimFromCenter(.1,.09,.2,.12);
+      var world1Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 1",bigFont,textColor,'center');
+      world1Label.setVisibility(true);
+      this.gui.push(world1Label);
+      this.worldLabels.push(world1Label);
+
+      dim = rectDimFromCenter(.1,.09+.333,.2,.12);
+      var world2Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 2",bigFont,textColor,'center');
+      world2Label.setVisibility(false);
+      this.gui.push(world2Label);
+      this.worldLabels.push(world2Label);
+
+      dim = rectDimFromCenter(.1,.09+.666,.2,.12);
+      var world3Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 3",bigFont,textColor,'center');
+      world3Label.setVisibility(false);
+      this.gui.push(world3Label);
+      this.worldLabels.push(world3Label);
+
+      //World buttons (invisible but functional)
+      var world1Button = new Button(0,0,1,1/3,0,this.handleWorldClick.bind(this,0));
+      this.gui.push(world1Button);
+      this.worldButtons.push(world1Button);
+
+      var world2Button = new Button(0,.333,1,1/3,1,this.handleWorldClick.bind(this,1));
+      this.gui.push(world2Button);
+      this.worldButtons.push(world2Button);
+
+      var world3Button = new Button(0,.666,1,1/3,2,this.handleWorldClick.bind(this,2));
+      this.gui.push(world3Button);
+      this.worldButtons.push(world3Button);
+
+      world1Button.setNeighbors([undefined,undefined,world2Button,undefined]);
+      world2Button.setNeighbors([world1Button,undefined,world3Button,undefined]);
+      world3Button.setNeighbors([world2Button,undefined,undefined,undefined]);
+
+      //Select level UI
+      /*
+      dim = rectDimFromCenter(.5,.5,.2,.1)
+      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px ' + FONT,textColor,'center');
+      this.levelNumLabel.setVisibility(false);
+      this.gui.push(this.levelNumLabel);
+        
+      dim = rectDimFromCenter(.5,.6,.18,.08);
+      this.startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
+      this.loadGameLevel.bind(this),"Start Level",buttonFont,textColor,'transparent',textColor,5);
+      this.startButton.setVisibility(false);
+      this.startButton.interactable = false;
+      this.gui.push(this.startButton);
+      */
+      this.buildButtonRow();
+      dim = rectDimFromCenter(.8,.532,.05,.08);
+      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevels.bind(this),.05,.4,'white','black',5,false);
+      this.rightArrow.selectable = false;
+      this.rightArrow.setVisibility(false);
+      this.gui.push(this.rightArrow);
+
+      dim = rectDimFromCenter(.2,.532,.05,.08);
+      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevels.bind(this),.05,.4,'white','black',5,true);
+      this.leftArrow.selectable = false;
+      this.leftArrow.setVisibility(false);
+      this.gui.push(this.leftArrow);
+
+      dim = rectDimFromCenter(.5,.62,.4,.1);
+      this.levelName = new Label(dim[0],dim[1],dim[2],dim[3],5,"",'30px ' + FONT,'white','center');
+      this.gui.push(this.levelName);
+
+      this.buttons = getButtons(this.gui);
+      this.selectedButton = world1Button;
+    }
+    buildButtonRow(){
+      var regionWidth = 0.5;
+      var regionHeight = 0.12;
+      var square = [1,16/9];
+      var buttonWidth = .05*square[0];
+      var buttonHeight = .05*square[1];
+      var buttonGap = regionWidth/this.buttonsInRow;
+      var origin = {x:0.5-buttonGap*(this.buttonsInRow-1)/2,y:.535};
+      var dim = [];
+      for(var i = 0; i < this.buttonsInRow; i++){
+        dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);
+        var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
+          this.loadGameLevel.bind(this,i+1),""+(i+1),'40px ' + FONT,'white',
+          'transparent','white',5);
+        /*
+        var outline = new ColoredBox(dim[0],dim[1],dim[2],dim[3],4,'transparent','white',3);
+        this.gui.push(outline);
+        outline.setOptions(false,false,false);
+        */
+        button.setOptions(false,false,false);
+        button.value = i;
+        this.gui.push(button);
+        this.buttonRow.push(button);
+      }
+      for(var i = 0; i < this.buttonRow.length; i++){
+        var left = (i == 0) ? undefined : this.buttonRow[i-1];
+        var right = (i == this.buttonRow.length-1) ? undefined : this.buttonRow[i+1];
+        this.buttonRow[i].setNeighbors([undefined,right,undefined,left]);
+      }
+    }
+    updateWorldSelection(worldNumber){
+      this.worldSelected = worldNumber;
+      for(var i = 0; i < this.backWall.length; i++){
+        this.backWall[i].activated = false;
+        this.worldLabels[i].setVisibility(false);
+      }
+      this.worldLabels[worldNumber].setVisibility(true);
+      this.backWall[worldNumber].activated = true;
+      for(var i = 0; i < this.backgroundList.length;i++){
+        for(var j = 0; j < this.backgroundList[i].length;j++){
+          if(i == worldNumber)
+            this.backgroundList[i][j].activated = true;
+          else 
+            this.backgroundList[i][j].activated = false;
+        }
+      }
+    }
+    handleWorldClick(worldNumber){
+      if(this.menuState == SELECTWORLD){
+        this.selectWorld(worldNumber);
+      } else if(this.menuState == SELECTLEVEL){
+        if(worldNumber != this.worldSelected){
+          this.returnToWorldSelect();  
+          this.updateWorldSelection(worldNumber);    
+        }     
+      }
+    }
+    selectWorld(worldNumber){
+      this.worldSelected = worldNumber;
+      this.menuState = SELECTLEVEL;
+      this.selectedButton = this.buttonRow[0];
+      this.selectedButton.selected = true;
+      for(var i = 0; i < this.buttonRow.length; i++){
+        this.buttonRow[i].value = i;
+      }
+      for(var i = 0; i < this.worldButtons.length; i++){
+        this.worldButtons[i].setOptions(true,false,false);
+      }
+      var offSet = (this.worldSelected-1)/3;
+      var group4GUI = getGUIInGroup(4,this.gui);
+      for(var i = 0; i < group4GUI.length; i++){
+        group4GUI[i].setOptions(true,true,true);
+        group4GUI[i].y += offSet;
+      }
+      var group5GUI = getGUIInGroup(5,this.gui);
+      for(var i = 0; i < group5GUI.length; i++){
+        group5GUI[i].setOptions(true,false,true);
+        group5GUI[i].y += offSet;
+      }
+      
+      this.leftArrow.setVisibility(true);
+      this.rightArrow.setVisibility(true);
+      this.levelIndex = 0;
+      if(this.menuState == SELECTLEVEL){
+        var absoluteLevelIndex = this.levelIndex;
+        for(var i = 0; i < this.worldSelected; i++){
+          absoluteLevelIndex += this.levelsInWorld[i];
+        }
+        if(this.levels[absoluteLevelIndex])
+          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
+        else  
+          this.levelName.text = "";
+      }
+    }
+    
+    returnToWorldSelect(){
+      this.menuState = SELECTWORLD;
+      this.selectedButton.selected = false;
+      this.selectedButton = getGUIInGroup(this.worldSelected,this.gui)[0];
+      for(var i = 0; i < this.worldButtons.length; i++){
+        this.worldButtons[i].setOptions(true,true,true);
+      }
+      var group4GUI = getGUIInGroup(4,this.gui);
+      for(var i = 0; i < group4GUI.length; i++){
+        group4GUI[i].setOptions(false,false,false);
+        group4GUI[i].reset();
+      }
+      var group5GUI = getGUIInGroup(5,this.gui);
+      for(var i = 0; i < group5GUI.length; i++){
+        group5GUI[i].setOptions(false,false,false);
+        group5GUI[i].reset();
+      }
+      this.levelIndex = 0;
+      for(var i = 0; i < this.buttonRow.length; i++){
+        this.buttonRow[i].text = ''+(i+1);
+      }
+    }
+    
+    loadGameLevel(){
+      //This calls a fade to black transition and then loads the level at the end of the transition
+      this.allowUIInput = false;
+      var levelToLoad = 0;
+      for(var i = 0; i < this.worldSelected; i++){
+        levelToLoad += this.levelsInWorld[i];       //sums # of levels in previous worlds
+      }
+      levelToLoad += this.levelIndex;     
+      this.startTransition(25,1,function() {
+        var newScene = new GameScene();
+        if(levelToLoad < newScene.levels.length){
+          newScene.loadNewLevel(levelToLoad);
+          this.driver.setScene(new LevelIntroScene(newScene,true));
+        } else {
+          this.allowUIInput = true;
+        }
+      });
       
     }
-    if(this.selectedButton == this.volumeSlider){
-      this.state = this.VOLUME;
-
+    handleEscape(){
+      if(this.menuState == SELECTWORLD){
+        this.driver.setScene(new MenuScene(false));
+      } else if(this.menuState == SELECTLEVEL){
+        this.returnToWorldSelect();
+      }
     }
-  }
+    goToMainMenu(){
+      this.driver.setScene(new MenuScene(false));
+    }
+    mousemove(e, mouse) {
+      //Overload
+      if(!this.allowUIInput)
+        return;
+      if(this.menuState == SELECTWORLD){
+        var percentPoint = getPercentPoint(e);
+        var worldNumber = Math.floor(percentPoint[1]*3);        //spreads values 0 to .999 -> 0 to 2.999
+        if(!worldNumber&&worldNumber!=0)return;
+        var worldNumber = (worldNumber >= 3) ? 2 : worldNumber; //cap to 2 if too large
+        var worldNumber = (worldNumber < 0) ? 0 : worldNumber;  //cap to 0 if too small
+        this.updateWorldSelection(worldNumber);   
+      } 
+      GUIMouseMove(this,e,this.buttons);
+    }
+    navigateLevelSelect(direction){
+      //Overload
+      if(!this.allowUIInput)
+        return;
+      if(this.menuState == SELECTWORLD){
+        this.navigateUI(direction);
+        this.updateWorldSelection(this.selectedButton.groupID);
+      } else if(this.menuState == SELECTLEVEL){
+        
+        switch(direction){
+          case 1: //right
+            this.rightArrow.displaceArrow();
+            break;
+          case 3: //left
+            this.leftArrow.displaceArrow();
+            break;
+        }
+
+        if(direction == 1 && this.selectedButton == this.buttonRow[this.buttonsInRow-1]){
+          this.incrementLevels();
+        }
+        else if(direction == 3 && this.selectedButton == this.buttonRow[0]){
+          this.decrementLevels();
+        }
+        this.navigateUI(direction);
+        this.levelIndex = this.selectedButton.value;
+
+      }
+    }
+    
+    incrementLevels(){
+      if(this.buttonRow[this.buttonsInRow-1].value
+        < this.levelsInWorld[this.worldSelected]-1){
+        for(var i = 0; i < this.buttonRow.length; i++){
+          this.buttonRow[i].value+= 1;
+          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
+        }
+        this.levelIndex = this.selectedButton.value;
+        if(this.selectedButton != this.buttonRow[0]){
+          this.selectedButton.selected = false;
+          this.selectedButton = this.selectedButton.getNeighbor('left');
+          this.selectedButton.selected = true;
+        }
+      }
+    }
+    decrementLevels(){
+      if(this.buttonRow[0].value > 0){
+        for(var i = 0; i < this.buttonRow.length; i++){
+          this.buttonRow[i].value-= 1;
+          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
+        }
+        this.levelIndex = this.selectedButton.value;
+        if(this.selectedButton != this.buttonRow[this.buttonsInRow-1]){
+          this.selectedButton.selected = false;
+          this.selectedButton = this.selectedButton.getNeighbor('right');
+          this.selectedButton.selected = true;
+        }
+      }
+    }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "The Acorn",
       worldType: 1,
       grid: [
-        [ 0,19,19,19,19,19,19,19,19,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,],
-        [ 0,19,19,19,19,19,19,19,19,19,27,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,18,],
-        [19,19,18,19,19,19,19,18,19,19,27,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,18,18,18,19,19,18,18,19,19,19,19,19,18,27,19,19,18,19,18,19,19,18,18,],
-        [ 4,18,19,19,18,19,19,18,19,19,27,19,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,19,19,18,18,19,18,19,19,19,19,18,18,18,27,18,19,19,18,18,18,18,27,23,],
-        [23,23,18,19,18,19,19,18,19,18,27,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,18,18,18,18,18,19,19,19,18,19,19,19,27,18,18,18,19,18,18,19,27,18,],
-        [ 0,18,18,18,18,19,18,18,19,18,27,19,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9,23,23,23,23,27,18,19,19,18,23,23,23,27,18,18,18,27,18,19,19,27,19,],
-        [ 0, 0,18,18,18,18,18,18,18,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19,18,18,18,27,18,19,18,19,19,19,19,27,18,18,18,27,18,18,18,27,19,],
-        [ 0, 0, 0,19,23,23,27,18,18,18,19,19, 0, 0, 0, 0, 0,19,19,19,19,19,19,19, 0, 0,19,19,18,18, 2,18,18,19,19,19,19,19,19,19,18,18,27,18,18,19,27, 0,],
-        [ 0,19,19,19,19,18,27,18,18,18,19,19, 0, 0, 0,19,19,19,19,19,19,19,19,19,19,19, 0,19,22,18, 2,18,18,19,19,19,19,19,19,19,19,18,27,18,18, 0,27, 0,],
-        [ 0,19,19,19,19,18,27,18,18,19,19,19, 0, 0, 0,19,19,19,19,19,19,19,19,19,19,19, 0, 0, 0,18,27,18,18,19,19,19, 0, 0, 0, 0,19,18,27,18,18,27,18, 0,],
-        [ 0,19,19,18,19,18,27,18,19,18,19,19, 0, 0, 0,19,19,19,19,18,18,19,19,19,18,19,19, 0, 0,18,27,18,18,19,19,23,23,23,23, 9,19,18,27,18,18,27,18, 0,],
-        [ 0,19,19,18,19,18,18,18,18,18,19, 0, 0, 0, 0,19,18,19,18,19,18,18,18,19,18,19,19, 0, 0,18,27,18,18,18,18,18,18,19,19, 0,19,18,27,18,18,27, 0, 0,],
-        [ 0, 0,19,18,18,18,19,19,19,19,19, 0, 0, 0, 0,19,18,18,18,19,18,18,18,18,18,18, 0, 0, 0,18,27,18,18,18, 2,19,19,19, 0, 0, 0,18,27,18,18,27, 0, 0,],
-        [ 0, 0,19,19,19,18,19,18,19,19, 0, 0, 0, 0,19,19,19,19,18,18,18,18,19,19,18,19,19, 0, 0,18, 2,18,18,19,27,19,19, 0, 0, 0, 0,18,27,18,18,27, 0, 0,],
-        [ 0, 0, 0, 0,19,18,18,18,19,19, 0, 0, 0, 0, 0, 0, 0,19,19,18,18,18,19,19,19,19,19, 0, 0,18, 2,18,19,19,27, 0, 0, 0, 0, 0,23,23,27,18,18,27, 0, 0,],
-        [ 0, 0, 0, 0, 0,18,18,18,19, 0, 0, 0, 0, 0, 0, 0, 0, 9,23,23,27,18,18,18,19,19,19, 0,18,18,27,18, 0, 0,27, 0, 0, 0, 0, 0, 0,18,27,18,18,27, 0, 0,],
-        [ 0, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18,18,19,19,19,19, 0,18,18,27,18, 0, 0,27,18,18, 0, 0, 0, 0,18,27,18,18,27, 0, 0,],
-        [ 0, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,18,19,19, 0, 0,19, 0,18,18,27,18, 0, 0, 2,18,18, 0, 0, 0, 0,18,27,18,18,27, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,27,18, 0, 0, 0, 0,19, 0,18,18,27,18, 0, 0, 2,18,18, 0, 0, 0, 0,18,27,18,18,18, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1,18,18, 0,15, 0, 0, 0, 0, 0, 0, 0, 0,18,27,18, 0, 0, 0, 0, 7, 0,18,18,18,18, 0, 0,27,18,18, 0, 0, 0, 0, 2,27,18,18,18, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2,18,27,18,18, 0, 0, 0, 0, 0,18,18,18,18, 0, 0,27,18,18,18, 0, 0, 0,18,27,18,18,18, 5, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2,18,27,18,18,18, 0, 0, 0,18,18,18,18,18, 0, 0,27,18,18,18, 0, 0, 2,18,27, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3,18,18,27,18,18,18,18, 0,18,18,18,18,18,18,18, 0, 2,18,18,18,18, 0,18,18, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,],
+        [0,19,19,19,19,19,19,19,19,19,27,19,19,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,18,],
+        [19,19,18,19,19,19,19,18,19,19,27,19,19,19,0,0,0,0,0,0,0,0,0,19,19,18,18,18,19,19,18,18,19,19,19,19,19,18,27,19,19,18,19,18,19,19,18,18,],
+        [4,18,19,19,18,19,19,18,19,19,27,19,19,19,0,0,0,0,0,0,0,0,0,0,19,19,19,18,18,19,18,19,19,19,19,18,18,18,27,18,19,19,18,18,18,18,27,23,],
+        [23,23,18,19,18,19,19,18,19,18,27,19,19,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,18,18,19,19,19,18,19,19,19,27,18,18,18,19,18,18,19,27,18,],
+        [0,18,18,18,18,19,18,18,19,18,27,19,19,0,0,0,0,0,0,0,0,0,0,0,9,9,23,23,23,23,27,18,19,19,18,23,23,23,27,18,18,18,27,18,19,19,27,19,],
+        [0,0,18,18,18,18,18,18,18,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,27,18,19,18,19,19,19,19,27,18,18,18,27,18,18,18,27,19,],
+        [0,0,0,19,23,23,27,18,18,18,19,19,0,0,0,0,0,19,19,19,19,19,19,19,0,0,19,19,18,18,2,18,18,19,19,19,19,19,19,19,18,18,27,18,18,19,27,0,],
+        [0,19,19,19,19,18,27,18,18,18,19,19,0,0,0,19,19,19,19,19,19,19,19,19,19,19,0,19,22,18,2,18,18,19,19,19,19,19,19,19,19,18,27,18,18,0,27,0,],
+        [0,19,19,19,19,18,27,18,18,19,19,19,0,0,0,19,19,19,19,19,19,19,19,19,19,19,0,0,0,18,27,18,18,19,19,19,0,0,0,0,19,18,27,18,18,27,18,0,],
+        [0,19,19,18,19,18,27,18,19,18,19,19,0,0,0,19,19,19,19,18,18,19,19,19,18,19,19,0,0,18,27,18,18,19,19,23,23,23,23,9,19,18,27,18,18,27,18,0,],
+        [0,19,19,18,19,18,18,18,18,18,19,0,0,0,0,19,18,19,18,19,18,18,18,19,18,19,19,0,0,18,27,18,18,18,18,18,18,19,19,0,19,18,27,18,18,27,0,0,],
+        [0,0,19,18,18,18,19,19,19,19,19,0,0,0,0,19,18,18,18,19,18,18,18,18,18,18,0,0,0,18,27,18,18,18,2,19,19,19,0,0,0,18,27,18,18,27,0,0,],
+        [0,0,19,19,19,18,19,18,19,19,0,0,0,0,19,19,19,19,18,18,18,18,19,19,18,19,19,0,0,18,2,18,18,19,27,19,19,0,0,0,0,18,27,18,18,27,0,0,],
+        [0,0,0,0,19,18,18,18,19,19,0,0,0,0,0,0,0,19,19,18,18,18,19,19,19,19,19,0,0,18,2,18,19,19,27,0,0,0,0,0,23,23,27,18,18,27,0,0,],
+        [0,0,0,0,0,18,18,18,19,0,0,0,0,0,0,0,0,9,23,23,27,18,18,18,19,19,19,0,18,18,27,18,0,0,27,0,0,0,0,0,0,18,27,18,18,27,0,0,],
+        [0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,18,27,18,18,19,19,19,19,0,18,18,27,18,0,0,27,18,18,0,0,0,0,18,27,18,18,27,0,0,],
+        [0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,27,18,19,19,0,0,19,0,18,18,27,18,0,0,2,18,18,0,0,0,0,18,27,18,18,27,0,0,],
+        [1,1,1,1,1,1,1,18,0,0,0,0,0,0,0,0,0,0,0,2,27,18,0,0,0,0,19,0,18,18,27,18,0,0,2,18,18,0,0,0,0,18,27,18,18,18,0,0,],
+        [1,1,1,1,1,1,1,18,18,0,15,0,0,0,0,0,0,0,0,18,27,18,0,0,0,0,7,0,18,18,18,18,0,0,27,18,18,0,0,0,0,2,27,18,18,18,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,2,18,27,18,18,0,0,0,0,0,18,18,18,18,0,0,27,18,18,18,0,0,0,18,27,18,18,18,5,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,2,18,27,18,18,18,0,0,0,18,18,18,18,18,0,0,27,18,18,18,0,0,2,18,27,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,18,18,27,18,18,18,18,0,18,18,18,18,18,18,18,0,2,18,18,18,18,0,18,18,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ],
       init(gameScene){
-        var acornTutorial = new WorldText(1030,820,620,'ACORNS allow Jimothy to WALL JUMP','30px Noteworthy',[255,255,255,0],[255,255,255,1],25,false,'center');
+        var acornTutorial = new WorldText(1030,820,620,'ACORNS allow Jimothy to WALL JUMP','30px ' + FONT,[255,255,255,0],[255,255,255,1],25,false,'center');
         var acornTrigger = new TriggerZone(830,720,420,200,gameScene.player,acornTutorial.appear.bind(acornTutorial),undefined,acornTutorial.disappear.bind(acornTutorial),false)
         gameScene.entities.push(acornTutorial);
         gameScene.entities.push(acornTrigger);
@@ -7687,88 +6866,163 @@ class PigBeginning extends Pig {
     }
   }
 
-}class LevelIntroScene extends Scene{
-  constructor(nextScene, playIntro){
+}class CreditsScene extends Scene{
+  constructor(playIntro){
     super(playIntro);
-    this.nextScene = nextScene;
+    this.keyMap = {
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
 
-    this.player = this.nextScene.player;
-    this.originalPlayer = {x:this.player.x,y:this.player.y};
-    this.player.x = -50;
-    this.player.uncrouch();
-    this.player.width = this.player.w;
-    this.player.height = this.player.h;
-    this.player.y = this.originalPlayer.y;
-    this.player.vx = this.player.speed/3;
-    this.player.mx = 1;
-    this.postMoveDuration = 15;
-    this.postMoveTimer = 0;
-    this.nextScene.behinds=[];
+      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
+    }
+    this.memberNames = ["Brian Dizon",
+                        "Christian Gramling",
+                        "Kyle Wong",
+                        "Kristen Campbell",
+                        "Taylor Poppoff",
+                        "TJ Hanson",
+                        "Muhammad Albayati",];
+    this.memberRoles = ["Project Lead",
+                        "Programming & Design",
+                        "Programming",
+                        "Music & Audio",
+                        "Art",
+                        "Programming",
+                        "Programming"];
+    this.addCreditsGUI();
+    this.nameLabels = getGUIInGroup(2,this.gui);
+    this.roleLabels = getGUIInGroup(3,this.gui);
+    moveAllGUI(-.7,0,this.nameLabels);
+    moveAllGUI(.7,0,this.roleLabels);
+    this.creditsTimer = 0;
+    this.initialDelay = 15;
+    this.delayBetween = 8;
+    this.labelVelocity = 0.08;
+    this.endDistanceFromCenter = .03;   //distance around center where credit entries should go
+                                        //Not actually accurate but decreasing this moves both sides closer
+                                        //and increasing it moves them away from the center.
   }
-  update(dt, frameCount){
+
+  update(dt){
     super.update(dt);
-    this.nextScene.updateTransition(dt);
-    this.player.updateEye(dt, frameCount);
-    this.player.y = this.originalPlayer.y;
-    this.player.vx = this.player.speed/3;
-    if(this.player.x < this.originalPlayer.x){
-      this.player.x += dt*this.player.vx;
-      this.player.angle = -Math.PI/40*this.player.vx/this.player.speed + Math.cos(frameCount*Math.PI/7)*Math.PI/20;
-    } else {
-      this.player.angle = 0;
-      this.player.vx = 0;
-      this.player.x = this.originalPlayer.x;
-      if(this.postMoveTimer < this.postMoveDuration){
-        this.postMoveTimer += dt;
-      } else{
-        this.loadNextScene();
+    this.updateCreditsLabels(dt);
+  }
+  draw(canvas){
+    canvas.fillStyle = 'black';
+    canvas.fillRect(0,0,canvas.width,canvas.height);
+    this.drawAllGUI(canvas);
+  }
+  updateCreditsLabels(dt){
+    //controls which labels should be moved every frame
+    //There is an initial delay where no labels are moving
+    //After that, every delayBetween duration allows one more row to begin
+    //moving to the center.
+    this.creditsTimer += dt;
+    if(this.creditsTimer > this.initialDelay){
+      for(var i = 0; i < this.memberNames.length; i++){
+        if(this.creditsTimer > this.initialDelay+i*this.delayBetween){
+          this.moveCreditsEntry(this.nameLabels[i],'right',dt);
+          this.moveCreditsEntry(this.roleLabels[i],'left',dt);
+        }
       }
     }
   }
-  draw(canvas){
-    super.draw(canvas);
-    this.nextScene.draw(canvas);
-    drawTransitionOverlay(this.overlayColor, canvas)
+  moveCreditsEntry(label,direction,dt){
+    //Moves label until it is within endDistanceFromCenter distance from center of screen
+    //Speed scales with distance to destination.
+    switch(direction){
+      case 'left':
+        var distance = label.x-(0.5+this.endDistanceFromCenter);
+        if(label.x + dt*(-this.labelVelocity)*distance < 0.5 + this.endDistanceFromCenter){
+          label.x = 0.5+this.endDistanceFromCenter;
+        } else {
+          label.x -= dt*this.labelVelocity*distance;
+        }
+        break;
+      case 'right':
+        var distance = 0.5-this.endDistanceFromCenter-(label.x+label.w);
+        if(label.x+label.w + dt*(this.labelVelocity)*distance > 0.5-this.endDistanceFromCenter){
+          label.x = 0.5-label.w-this.endDistanceFromCenter;;
+        } else {
+          label.x += dt*this.labelVelocity*distance;
+        }
+        break;
+    }
   }
-  loadNextScene(){
-    this.player.angle = 0;
-    this.player.vx = 0;
-    this.player.x = this.originalPlayer.x;
-    this.player.grounded = true;
-    this.driver.setScene(this.nextScene);
+  addCreditsGUI(){
+    var textColor = 'white';
+    var titleFont = '60px ' + FONT;
+    var creditsFont = '30px ' + FONT;
+    this.leftRefObject = new GUIElement(-0.5,0.5,0,0,0);
+    this.rightRefObject = new GUIElement(1.5,0.5,0,0,0);
+
+    var dim = rectDimFromCenter(0.5,.1,.4,.2);
+    var creditsTitle = new Label(dim[0],dim[1],dim[2],dim[3],
+      1,"Credits",titleFont,textColor,'center');
+    this.gui.push(creditsTitle);
+
+    dim = rectDimFromCenter(0.6,0.9,.1,.1);
+    var backButton = new TextButton(dim[0],dim[1],dim[2],dim[3],
+      4,this.goToMainMenu.bind(this),"Back",creditsFont,textColor,
+      'transparent',textColor,3);
+    this.gui.push(backButton);
+
+    var labelWidth = 0.3;
+    var labelGap = 0.6/this.memberNames.length;   //This controls how far down the credit entries should go.
+    var labelHeight = labelGap-0.05;
+    var origin = [0.5,0.25];                      //origin[1] is height that the credit entires begin drawing
+    for(var i = 0; i < this.memberNames.length; i++){
+      dim = rectDimFromCenter(origin[0]-0.05,origin[1]+(i*labelGap),labelWidth,labelHeight);
+      var memberLabel = new Label(dim[0],dim[1],dim[2],dim[3],
+        2,this.memberNames[i],creditsFont,textColor,'right');
+      this.gui.push(memberLabel);
+
+      dim = rectDimFromCenter(origin[0]+0.05,origin[1]+(i*labelGap),labelWidth,labelHeight);
+      var memberRole = new Label(dim[0],dim[1],dim[2],dim[3],
+        3,this.memberRoles[i],creditsFont,textColor,'left');
+      this.gui.push(memberRole);
+    }
+
+    this.selectedButton = backButton;
+    backButton.selected = true;
+    //backbutton intentionally has no neighbors
+    this.buttons = getButtons(this.gui);
+  }
+  goToMainMenu(){
+    this.driver.setScene(new MenuScene(false));
   }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "Jungle Gym",
       worldType: 0,
       grid: [
-        [ 0, 0, 0, 0, 0,19,19,19,19,19,19,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,27,19,18,19,19,18,18,18,18,18,18,18,27,18,19,19,19,19,19, 0, 0, 0,],
-        [ 0, 0, 0,19,19,19,19,19,19,19,19,19,18,18,19,18,19,19,18,19,19,19,19,19,18,18,27,19,19,19,19,18,18,18,19,19,18,18,27,19,19,19,19,19,19,19,19,19,],
-        [ 0, 0,19,19,19,19,19,19,19,19,19,19,18,18,27,18,18,18,19,19,19, 0, 0,19,18,18,27,19,19,18,19,19,18,18,18,18,18,19,27,19,19,19,19,19,19,19,19,19,],
-        [ 0, 0,19,19,19,19,19,19,19,19,19,19,19,18,27,18,18,19,27,23,23,23,23,27,19,18,27,18,18,19,22,18,18,18,18,19,19,19,27,19,19,19,18,19,19,19,18,19,],
-        [ 0, 0,19,19,19,19,19,19,19,19,19,19,19,19,27,23,23,23,27,18,18,18,18,27,19,18,27,23,23,23,23,23,23,27,18,18,19,18,27,19,19,19,18,19,19,19,19,18,],
-        [ 0,19,19,19,19,19,19,19,19,19,19,19,19,19, 2,18,18,18,27,18,18,18,27,27,19,23,27, 2,18,18,18,18, 2,27,18,19,19,18,27,19,19,18,18,19,19, 0,19,19,],
-        [ 0,19,19,19,19,19,19,19,19,19,19,19,19,19,27,18,18,18,27,18,18,18,27,19,19,18,27, 2,18,18,18,18, 2,27,19,19,19,18,27,18,19,23,23,23, 9, 0, 0, 5,],
-        [ 0,19,19,19,19,19,19,18,19,19,19,19,19,19,27,18,18,18, 2,18,18,27,27,19, 0,18,27, 2,18,19,18,18, 2,27, 0,19,19,18,27,18,18,18,19,19,19, 0, 9,23,],
-        [ 0, 0,19,19,19,19,18,18,18,19,19,19,19,18,27,18,18,18, 2,18,18,27,19,19, 0, 2,27, 2,18,19,18,18, 2,27, 0,19,19,18,18,19,18,27,19,19, 0, 0,19,19,],
-        [ 0, 0,19, 0,19,19,18,18,19,19,19,19,19,18,27,18,18,18, 2,18,27,27,19, 0, 2,18,18,18,18,19,19,18,18,27,19,19,19,18,18,19,18,27,19,19,19,19,19, 0,],
-        [ 0, 0, 7, 0, 0,19,18,18,18,18,19,19,18,18, 2,18,18,18, 2,18,27,19,19, 2,19,18,18,18,18,19,19,18,18,27,19,18,18,18,27,19,18,27,19,19,19,19,19, 0,],
-        [ 0, 0, 0, 0, 0, 0,18,18,18, 0, 0,19,19,18,27,18,18,18, 2,27,27,19, 0, 2,19,18,18,18,18,18,18,18,18,27,19,19,18,18,27,18,18,18,18,18,18,18,19,19,],
-        [ 0, 0, 0, 0, 0, 0,18,18,18, 0, 0, 0,19,18,27,18,18,18, 2,27,19,19, 2,19,19,18,18,18,18,18,19,18,18,27,19,19,19,19,27,18,18,18,18,18,19,19,19,19,],
-        [ 0, 0, 9,23,23,23,23,18,18, 0, 0, 0, 0,19,27,18,18,18, 2,27, 0, 0, 2,19,18,18,18,18,18,19,19,18,18,27,19,19,18,19,18,18,18,27,18,19,19, 0, 0, 0,],
-        [ 0, 0, 0,19,19,18,18,18,18, 0, 0, 0, 0, 0,27,18,18,18, 2,27, 0, 2,19,19,19,18,18,18,18,19,18,18,18,18,19,19,19,18,18,18,18,27,19,19, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0,19,19,18,18,18, 0, 0, 0, 0, 0,27,18,18,18, 2,27, 0,19,19,23,23,23,27,18,18, 0,18,18,18,18,19, 0,19,19,18,18,18,18, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0,18,18,23,23,23, 9, 0, 0, 2,18,18,18,27,27, 0, 0,19,19,18,18,27,18,18, 0,18, 2,18,18,19, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 2,18,18,18,27,27, 0, 0, 0,19,19,18,27,18,18, 0,18,27,18,19,19, 0, 9,23,23,27,18,18, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0,18,18,18, 0, 0, 0, 0, 0, 0,18,18,18,27,27, 0, 0, 0, 0, 0,18,27,18,18, 0,18,27,18,19, 0, 0, 0, 0,18,27,18,18, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0,23,23,23,18,18, 0, 0, 0, 0, 0,18,18,18,18, 2,27, 2, 0, 0, 0, 0,18,27,18,18, 0,18,27,18, 0, 0, 0, 0, 0,18,27,18,18,18, 0, 0, 0, 0, 0,],
-        [ 0, 4, 0,18,18,18,18,18,18,18,18, 0, 0,18,18,18,18,18, 2,27, 2, 2, 2, 0, 0,18,27,18,18, 0,18,27,18, 0, 0, 0, 0, 0,18,27,18,18,18,18,18, 0, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,18,18,27,18,18,18,18,27, 2, 0, 0, 0, 0, 2, 2,27,18,18,18,18,18, 0, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,18,18,27,18, 2, 2, 2, 2,18,18, 1, 1, 1, 1, 1,18,18, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,19,19,19,19,19,19,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,27,19,18,19,19,18,18,18,18,18,18,18,27,18,19,19,19,19,19,0,0,0,],
+        [0,0,0,19,19,19,19,19,19,19,19,19,18,18,19,18,19,19,18,19,19,19,19,19,18,18,27,19,19,19,19,18,18,18,19,19,18,18,27,19,19,19,19,19,19,19,19,19,],
+        [0,0,19,19,19,19,19,19,19,19,19,19,18,18,27,18,18,18,19,19,19,0,0,19,18,18,27,19,19,18,19,19,18,18,18,18,18,19,27,19,19,19,19,19,19,19,19,19,],
+        [0,0,19,19,19,19,19,19,19,19,19,19,19,18,27,18,18,19,27,23,23,23,23,27,19,18,27,18,18,19,22,18,18,18,18,19,19,19,27,19,19,19,18,19,19,19,18,19,],
+        [0,0,19,19,19,19,19,19,19,19,19,19,19,19,27,23,23,23,27,18,18,18,18,27,19,18,27,23,23,23,23,23,23,27,18,18,19,18,27,19,19,19,18,19,19,19,19,18,],
+        [0,19,19,19,19,19,19,19,19,19,19,19,19,19,2,18,18,18,27,18,18,18,27,27,19,23,27,2,18,18,18,18,2,27,18,19,19,18,27,19,19,18,18,19,19,0,19,19,],
+        [0,19,19,19,19,19,19,19,19,19,19,19,19,19,27,18,18,18,27,18,18,18,27,19,19,18,27,2,18,18,18,18,2,27,19,19,19,18,27,18,19,23,23,23,9,0,0,5,],
+        [0,19,19,19,19,19,19,18,19,19,19,19,19,19,27,18,18,18,2,18,18,27,27,19,0,18,27,2,18,19,18,18,2,27,0,19,19,18,27,18,18,18,19,19,19,0,9,23,],
+        [0,0,19,19,19,19,18,18,18,19,19,19,19,18,27,18,18,18,2,18,18,27,19,19,0,2,27,2,18,19,18,18,2,27,0,19,19,18,18,19,18,27,19,19,0,0,19,19,],
+        [0,0,19,0,19,19,18,18,19,19,19,19,19,18,27,18,18,18,2,18,27,27,19,0,2,18,18,18,18,19,19,18,18,27,19,19,19,18,18,19,18,27,19,19,19,19,19,0,],
+        [0,0,7,0,0,19,18,18,18,18,19,19,18,18,2,18,18,18,2,18,27,19,19,2,19,18,18,18,18,19,19,18,18,27,19,18,18,18,27,19,18,27,19,19,19,19,19,0,],
+        [0,0,0,0,0,0,18,18,18,0,0,19,19,18,27,18,18,18,2,27,27,19,0,2,19,18,18,18,18,18,18,18,18,27,19,19,18,18,27,18,18,18,18,18,18,18,19,19,],
+        [0,0,0,0,0,0,18,18,18,0,0,0,19,18,27,18,18,18,2,27,19,19,2,19,19,18,18,18,18,18,19,18,18,27,19,19,19,19,27,18,18,18,18,18,19,19,19,19,],
+        [0,0,9,23,23,23,23,18,18,0,0,0,0,19,27,18,18,18,2,27,0,0,2,19,18,18,18,18,18,19,19,18,18,27,19,19,18,19,18,18,18,27,18,19,19,0,0,0,],
+        [0,0,0,19,19,18,18,18,18,0,0,0,0,0,27,18,18,18,2,27,0,2,19,19,19,18,18,18,18,19,18,18,18,18,19,19,19,18,18,18,18,27,19,19,0,0,0,0,],
+        [0,0,0,0,19,19,18,18,18,0,0,0,0,0,27,18,18,18,2,27,0,19,19,23,23,23,27,18,18,0,18,18,18,18,19,0,19,19,18,18,18,18,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,18,18,23,23,23,9,0,0,2,18,18,18,27,27,0,0,19,19,18,18,27,18,18,0,18,2,18,18,19,0,0,0,18,18,18,18,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,18,18,18,18,0,0,0,0,2,18,18,18,27,27,0,0,0,19,19,18,27,18,18,0,18,27,18,19,19,0,9,23,23,27,18,18,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,18,18,18,27,27,0,0,0,0,0,18,27,18,18,0,18,27,18,19,0,0,0,0,18,27,18,18,0,0,0,0,0,0,],
+        [0,0,0,0,23,23,23,18,18,0,0,0,0,0,18,18,18,18,2,27,2,0,0,0,0,18,27,18,18,0,18,27,18,0,0,0,0,0,18,27,18,18,18,0,0,0,0,0,],
+        [0,4,0,18,18,18,18,18,18,18,18,0,0,18,18,18,18,18,2,27,2,2,2,0,0,18,27,18,18,0,18,27,18,0,0,0,0,0,18,27,18,18,18,18,18,0,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,18,18,27,18,18,18,18,27,2,0,0,0,0,2,2,27,18,18,18,18,18,0,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,18,18,27,18,2,2,2,2,18,18,1,1,1,1,1,18,18,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ],
     };
 
@@ -7837,11 +7091,11 @@ class Apple extends Mover {
         this.game.pig.ateApple(this.x);
     }
     super.update(dt, frameCount);
-    // if (this.bounceAnimation2 > 0)this.bounceAnimation2-=1;
+    // if (this.bounceAnimation > 0)this.bounceAnimation-=1;
 	}
 
   getHitByEntity(player) {
-    //this.bounceAnimation2 = 20;
+    //this.bounceAnimation = 20;
     // player.jumpCount--;
     // player.jump(5);
     player.bounceOffEntity(this, 15);
@@ -7883,6 +7137,485 @@ class Apple extends Mover {
     canvas.fillRect(-w*0.1,-h*0.9,w*0.5,h*0.2);
     canvas.fillStyle = this.color4;
     canvas.fillRect(-w*0.1,-h*1.3,w*0.2,h*0.3);
+  }
+}class LevelEditorSelectScene extends LevelSelectScene{
+  constructor(playIntro){
+    super(playIntro);
+    
+    this.keyMap['78'] = {down: this.loadNewLevel.bind(this)};
+    this.keyMap['69'] = {down: this.loadLocalLevel.bind(this)};
+    this.keyMap['82'] = {down: this.loadPigLevel.bind(this)};
+    this.addExtraGUI();
+  }
+  update(dt,frameCount){
+    super.update(dt,frameCount);
+  }
+  draw(canvas){
+    super.draw(canvas);
+  }
+  
+  loadNewLevel(){
+    this.loadGameLevel(-2);
+  }
+
+  loadLocalLevel(){
+    this.loadGameLevel(0);
+  }
+  loadPigLevel(){
+    this.loadGameLevel(-1);
+  }
+  addExtraGUI(){
+    var dim = rectDimFromCenter(.5,.33,.7,.1);
+    var levelEditorLabel = new Label(dim[0],dim[1],dim[2],dim[3],7,"Level Editor    [N] - New Level    [E] - Local Level    [R] - PigFunScene",'30px ' + FONT,'white','center');
+    this.gui.push(levelEditorLabel);
+  }
+  loadGameLevel(index){
+    if(index == undefined){
+      super.loadGameLevel();
+      return;
+    }
+    var absoluteLevelIndex = index;
+    for(var i = 0; i < this.worldSelected; i++){
+      absoluteLevelIndex += this.levelsInWorld[i];
+    } 
+    
+    var scene = new LevelEditorScene(absoluteLevelIndex);
+    this.driver.setScene(scene);
+  }
+}addLevel( function(nameSpace) {
+  {
+
+    return {
+      name: "Woof-Bouncing",
+      worldType: 1,
+      grid: [
+        [1,1,0,0,0,0,0,0,0,0,0,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,],
+        [1,1,0,0,0,0,0,0,0,0,0,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,],
+        [1,1,1,0,0,0,0,0,5,0,0,18,18,18,18,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,9,9,9,9,9,9,9,9,23,23,23,23,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,],
+        [1,1,1,0,0,0,0,0,0,0,0,18,18,18,18,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,],
+        [1,1,1,0,0,14,0,0,0,0,14,18,18,18,18,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,0,0,0,0,0,0,0,0,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,9,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,0,0,0,0,0,0,0,0,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,0,0,0,0,0,0,0,0,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,],
+        [1,1,1,0,0,0,0,0,0,0,0,18,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,1,0,0,0,0,1,1,1,1,],
+        [1,1,1,1,1,0,0,0,18,18,18,1,1,1,23,23,23,23,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,9,9,9,9,9,9,0,0,0,0,0,0,1,1,1,],
+        [1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,2,23,23,23,23,0,0,0,0,0,0,0,0,16,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,],
+        [1,1,1,1,1,9,9,9,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,],
+        [1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,9,9,9,1,1,14,0,0,0,0,0,0,0,0,0,0,0,14,1,1,],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,],
+        [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,16,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,16,0,0,0,0,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,3,3,3,3,3,0,0,0,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,1,1,1,3,0,0,0,0,0,0,16,0,0,1,1,1,1,1,1,1,1,3,3,3,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        ]
+    };
+
+  }
+});
+addBlock(function() { return {
+  //Byrd Block
+  id: BLOCKS.length,
+  name: "Byrd",
+  hide: true,   
+  ignoreCollisions: true,
+  redraws: true,
+  drawer: new Byrd(),
+  draw: drawEntity,
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.addEntity(new Byrd(x + width/2,y + height));
+  },
+}});
+class Collectable {
+  constructor(x,y) {
+    this.w=30;
+    this.h=30;
+    this.x=x-this.w/2;
+    this.y=y-this.h/2;
+    this.color = 'gainsboro';
+
+    this.color1 = "red";
+    this.color2 = "#a00";
+    this.color3 = "#fff";
+    this.color4 = "#640";
+  }
+  getHitBox() {
+    return this;
+  }
+  update(dt, frameCount) {
+    if(this.game.collidesWithPlayer(this)) {
+      this.shouldDelete=true;
+      var player = this.game.player;
+      SOUNDMAP.pickup.play(player);
+      player.game.screenShakeLevel = 0.4;
+      player.game.frameStop = 2;
+      for(var i=0;i<10;i++) {
+        var x = this.x;// + (Math.random()*this.w-this.w/2)/2;
+        var y = this.y;// - (Math.random()*this.h)/4;
+        var w = 10;
+        var h = 10;
+        var vx = Math.random()*5-2;
+        var vy = Math.random()*5-2-10;
+        var color = this.color1;
+        // if(i>=num-8) color = "#222";
+        // if(i>=num-4) color = "#33d"
+        // if(i>=num-2) color = "#fff"; 
+        this.game.addEntity(new FallingParticle(x,y,w,h,vx,vy,30,color));
+      }
+    }
+  }
+  draw(canvas) {
+    // canvas.fillStyle = this.color;
+    // canvas.fillRect(this.x,this.y,this.w,this.h);
+    canvas.save();
+    canvas.translate(this.x+this.w/2,this.y+this.h/2);
+    this.drawShape(canvas,this.w,this.h);
+    canvas.restore();
+  }
+  drawShape(canvas,w,h) {
+    // canvas.strokeStyle = "#fff";
+    // canvas.lineWidth = 7;
+    // canvas.strokeRect(-w/2,-h,w,h);    
+    // canvas.strokeRect(-w*0.1,-h*1.3,w*0.2,h*0.3);
+    
+    canvas.fillStyle = this.color1;
+    canvas.fillRect(-w/2,-h,w,h);
+    canvas.fillStyle = this.color2;
+    canvas.fillRect(-w/2,-h,w/2,h);
+    canvas.fillStyle= this.color3;
+    canvas.fillRect(-w*0.1,-h*0.9,w*0.5,h*0.2);
+    canvas.fillStyle = this.color4;
+    canvas.fillRect(-w*0.1,-h*1.3,w*0.2,h*0.3);
+  }
+}class OptionScene extends Scene{
+  constructor(playLevelIntro){
+    super(playLevelIntro);
+    this.keyMap = {
+      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+        '68': { down: this.navigateUI.bind(this,1)},    //D
+        '83': { down: this.navigateUI.bind(this,2)},    //S
+        '65': { down: this.navigateUI.bind(this,3)},   //A
+  
+        '38': { down: this.navigateUI.bind(this,0)},  //up
+        '39': { down: this.navigateUI.bind(this,1)},  //right
+        '40': { down: this.navigateUI.bind(this,2)},   //down
+        '37': { down: this.navigateUI.bind(this,3)},   //left
+
+
+    
+    }
+    this.background = new InfiniteBackground();
+   
+    this.camera = {x:0,y:0,dx:0,dy:0};
+    this.loadOptionGUI();
+    this.FREE = 0;
+    this.VOLUME = 1;
+    this.state = 0;
+  }
+  update(dt){
+    this.camera.x += 3;
+    super.update(dt);
+    this.volumeLabel.text = "Volume: "+Math.floor(this.volumeSlider.value*100);
+  }
+  draw(canvas){
+    this.background.drawLayers(canvas, this.camera);
+    this.drawAllGUI(canvas);
+  }
+  changeVolumeBy(toAdd){
+    this.volumeSlider.setValue(this.volumeSlider.value+toAdd);
+    this.volumeSlider.setValue(Math.round(this.volumeSlider.value*100)/100);
+    this.volumeSlider.onRelease();
+  }
+  loadOptionGUI(){
+    var dim = rectDimFromCenter(.5,.5,.2,.1);
+    this.volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
+      0,undefined,0.03,DESTINATION.gain.value,'white','white','gray','black');
+    this.volumeSlider.onRelease = this.playSliderSound.bind(this,this.volumeSlider); 
+    this.volumeSlider.onHold = this.setVolume.bind(this,this.volumeSlider);
+    this.volumeSlider.selectable = true;
+    this.gui.push(this.volumeSlider);
+
+    dim = rectDimFromCenter(0,.4,.25,.1);
+    this.volumeLabel = new Label(.4,dim[1],dim[2],dim[3],0,
+      this.volumeSlider.value,'35px ' + FONT,'white','left');
+    this.gui.push(this.volumeLabel);
+
+    dim = rectDimFromCenter(.8,.9,.2,.1);
+    var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px ' + FONT, 
+    'white','transparent','white', 5,.05);
+    this.gui.push(backButton);
+    this.selectedButton = backButton;
+    backButton.selected = true;
+
+    dim = rectDimFromCenter(.5,.7,.2,.1);
+    var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
+      MAIN.gamepadOn = !MAIN.gamepadOn;
+      gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
+    },"Gamepad On",'30px ' + FONT, 
+    'white','transparent','white', 5,.05);
+    this.gui.push(gamepadBtn);
+
+    dim = rectDimFromCenter(.5,.15,.4,.2);
+    var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px ' + FONT,'white','center');
+    this.gui.push(optionsLabel);
+    
+    this.volumeSlider.setNeighbors([undefined,undefined,gamepadBtn,undefined]);
+    backButton.setNeighbors([gamepadBtn,undefined,undefined,gamepadBtn]);
+    gamepadBtn.setNeighbors([this.volumeSlider,backButton,backButton,undefined]);
+    this.buttons = getButtons(this.gui);
+  }
+  goToMainMenu(){
+    this.driver.setScene(new MenuScene(false));
+  }
+  setVolume(slider){
+    setVolume(slider.value);
+  }
+  playSliderSound(slider){
+    SOUNDMAP.bounce.play();
+  }
+  navigateUI(direction){
+    switch(this.state){
+      case this.FREE:
+        super.navigateUI(direction);
+        break;
+      case this.VOLUME:
+        if(direction == 1)
+          this.changeVolumeBy(0.05);
+        else if(direction == 2){
+          this.selectedButton = this.selectedButton.buttonLinks[2];
+          this.selectedButton.selected = true;
+          this.volumeSlider.selected = false;
+          this.state = this.FREE;
+        }
+        else if(direction == 3)
+          this.changeVolumeBy(-0.05);
+        break;
+      
+    }
+    if(this.selectedButton == this.volumeSlider){
+      this.state = this.VOLUME;
+
+    }
+  }
+}addLevel( function(nameSpace) {
+  {
+
+    return {
+      name: "Tree Tops",
+      worldType: 1,
+      grid: [
+        [0,0,0,0,0,19,19,19,19,19,19,18,18,18,18,18,19,19,19,19,2,19,18,18,18,18,19,19,18,19,19,18,18,18,18,18,18,18,19,18,19,19,19,19,19,0,0,0,],
+        [0,0,0,19,19,19,19,19,19,19,19,19,18,18,19,18,19,19,19,2,19,19,19,19,18,18,19,19,19,19,19,18,18,18,19,19,18,18,19,19,2,19,19,19,19,19,19,19,],
+        [0,0,19,19,19,19,19,19,19,19,19,19,18,18,19,18,19,19,19,27,19,19,0,19,18,18,19,19,19,18,19,19,18,18,18,18,18,19,19,2,19,19,19,19,19,19,19,19,],
+        [0,0,19,19,19,19,19,19,19,19,19,19,19,23,27,2,2,19,18,27,23,23,23,18,18,18,19,18,18,19,19,18,18,27,23,23,18,19,19,27,2,19,18,19,19,19,18,19,],
+        [0,0,19,19,7,19,19,19,19,19,2,19,19,19,27,27,18,18,18,27,18,19,18,18,19,18,27,23,23,23,23,23,23,27,18,18,19,19,19,27,19,19,18,19,19,19,19,18,],
+        [0,19,19,19,19,19,19,19,19,19,2,19,19,19,2,27,18,18,18,27,19,19,18,18,19,18,27,2,18,18,18,18,2,27,18,19,19,19,19,27,19,18,18,19,19,19,19,19,],
+        [4,19,19,19,19,19,19,19,19,19,2,19,19,19,27,27,18,18,18,27,18,18,18,19,19,18,27,2,18,18,18,18,2,27,18,19,2,19,19,27,19,23,23,23,9,19,19,0,],
+        [23,23,23,23,19,18,19,19,19,19,19,19,19,19,27,27,18,18,18,27,23,23,23,23,23,23,23,19,19,19,19,19,19,27,19,19,27,2,2,27,18,18,27,19,19,19,19,0,],
+        [0,0,18,18,18,18,18,18,18,19,19,19,19,18,2,27,18,18,2,27,18,18,27,19,19,18,18,19,19,19,18,18,2,27,19,2,27,18,18,27,18,18,27,18,19,19,19,19,],
+        [0,0,0,18,18,18,18,18,19,19,19,19,19,18,27,27,18,18,18,18,18,18,27,19,18,18,18,18,18,19,19,18,18,27,19,19,18,18,19,2,18,18,27,18,18,19,19,5,],
+        [0,0,0,0,0,18,18,2,18,18,19,19,18,18,27,27,18,18,18,18,18,18,27,19,19,18,18,18,18,19,19,18,18,27,19,0,18,18,19,2,18,18,27,23,23,23,23,23,],
+        [0,0,0,0,0,18,18,27,18,0,0,19,19,18,2,27,18,18,18,23,23,23,27,19,19,18,18,18,18,22,18,18,18,27,19,0,18,18,19,2,18,18,27,18,18,18,19,19,],
+        [0,0,0,0,0,18,18,27,18,0,0,0,19,18,0,27,18,18,18,18,18,19,19,19,19,18,18,18,23,23,23,18,18,27,0,19,2,18,19,2,18,18,27,18,19,19,19,19,],
+        [0,0,0,0,0,18,18,27,18,0,0,0,0,19,0,27,18,18,18,18,19,19,0,19,18,18,18,18,18,19,19,18,18,27,19,19,27,18,19,19,18,18,27,19,19,0,0,0,],
+        [0,0,0,0,0,18,18,18,18,0,0,0,0,0,0,18,2,18,18,18,0,0,0,19,19,18,18,18,18,19,18,18,18,27,19,2,27,18,19,19,18,18,19,19,19,19,0,0,],
+        [0,0,0,0,0,18,18,18,18,0,0,0,0,0,0,18,18,18,18,18,0,19,19,23,23,23,27,18,18,0,18,18,18,27,2,19,27,18,19,0,18,18,2,0,19,0,0,0,],
+        [0,0,0,0,18,18,18,18,18,18,0,0,0,0,0,18,18,18,18,18,0,0,19,19,18,18,27,18,18,0,18,2,18,27,0,18,27,18,0,27,23,23,0,0,0,0,0,0,],
+        [0,0,0,0,18,18,18,18,18,18,18,0,0,0,0,18,18,18,18,18,0,0,0,19,19,18,27,18,18,0,18,27,2,27,0,18,27,18,0,27,18,18,0,0,0,0,0,0,],
+        [0,0,0,0,18,18,18,18,18,18,18,18,0,0,0,18,18,18,18,18,0,0,0,0,0,18,27,18,18,0,18,27,18,19,0,18,18,18,2,27,18,18,0,0,0,0,0,0,],
+        [0,0,0,18,2,18,18,18,18,18,18,18,2,18,18,18,2,18,18,18,18,0,0,0,0,18,27,18,18,0,18,27,18,0,0,18,18,18,18,27,18,18,18,0,0,0,0,0,],
+        [0,2,18,18,18,18,18,18,18,2,18,18,18,18,2,18,18,18,2,18,2,2,2,0,2,18,27,18,18,0,18,27,18,0,18,18,2,18,18,27,18,18,18,18,18,0,0,0,],
+        [2,18,18,2,18,2,18,2,18,18,18,0,18,18,18,3,1,18,1,18,18,1,1,0,18,18,2,18,18,18,2,27,2,0,18,18,18,2,2,27,18,18,18,18,18,0,0,0,],
+        [1,1,18,1,18,1,3,1,3,18,3,3,1,18,1,1,1,1,1,3,18,1,1,3,1,1,1,18,3,18,18,27,18,2,2,2,2,18,18,1,1,1,1,1,18,18,0,0,],
+        [1,18,1,18,1,1,1,1,1,18,18,1,1,1,18,18,1,1,1,1,1,1,1,1,1,1,18,3,1,3,18,1,1,18,18,18,18,1,1,1,1,1,1,1,1,1,3,3,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        ],
+    };
+
+  }
+});
+addBlock(function() { return {
+  //Doink Block
+  id: BLOCKS.length,
+  name: "DoinkPad",
+  hide: true,
+  ignoreCollisions: true,
+  redraws: true,
+  drawer: new DoinkPad(),
+  draw: drawEntity,
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.addEntity(new DoinkPad(x + width/2,y + height));
+  },
+}});
+class WorldText{
+  constructor(x,y,w,text,font,inactiveColor,activeColor,
+    changeDuration,isVisible,textAlign){
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.text = text;
+    this.font = font;
+    this.inactiveColor = inactiveColor;
+    this.activeColor = activeColor;
+    this.changeDuration = changeDuration;
+    this.colorTimer = (isVisible) ? this.changeDuration : 0;
+    this.visible = isVisible || false;
+    this.textAlign = textAlign || "center";
+  }
+  update(dt){
+    if(this.visible){
+      this.colorTimer += dt;
+      if(this.colorTimer > this.changeDuration)
+        this.colorTimer = this.changeDuration;
+    } else {
+      this.colorTimer -= dt;
+      if(this.colorTimer < 0)
+        this.colorTimer = 0;
+    } 
+  }
+  setVisible(x){
+    this.visible = x;
+  }
+  appear(){
+    this.visible = true;
+  }
+  disappear(){
+    this.visible = false;
+  }
+  draw(canvas){
+    canvas.save();
+    var fillColor = colorLerp(this.inactiveColor,this.activeColor,this.colorTimer*1.0/this.changeDuration);
+    canvas.globalAlpha = this.colorTimer*1.0/this.changeDuration;
+    fillColor[3] = 1;
+    canvas.fillStyle = makeColorStr(fillColor);
+    canvas.font = this.font;
+    canvas.textAlign = this.textAlign;
+    canvas.textBaseline='middle';
+    var dim = rectDimFromCenter(this.x,this.y,this.w,0);
+    switch(this.textAlign){
+      case 'left':
+        canvas.fillText(this.text,dim[0],dim[1]+dim[3]/2,this.w);  
+        break;
+      case 'right':
+        canvas.fillText(this.text,dim[0]+dim[2],dim[1]+dim[3]/2,this.w);  
+        break;
+      case 'center':
+        canvas.fillText(this.text,dim[0]+dim[2]/2,dim[1]+dim[3]/2,this.w);  
+        break;
+    }
+    canvas.restore();
+  }
+
+}class LevelIntroScene extends Scene{
+  constructor(nextScene, playIntro){
+    super(playIntro);
+    this.nextScene = nextScene;
+
+    this.player = this.nextScene.player;
+    this.originalPlayer = {x:this.player.x,y:this.player.y};
+    this.player.x = -50;
+    this.player.uncrouch();
+    this.player.width = this.player.w;
+    this.player.height = this.player.h;
+    this.player.y = this.originalPlayer.y;
+    this.player.vx = this.player.speed/3;
+    this.player.mx = 1;
+    this.postMoveDuration = 15;
+    this.postMoveTimer = 0;
+    this.nextScene.behinds=[];
+  }
+  update(dt, frameCount){
+    super.update(dt);
+    this.nextScene.updateTransition(dt);
+    this.player.updateEye(dt, frameCount);
+    this.player.y = this.originalPlayer.y;
+    this.player.vx = this.player.speed/3;
+    if(this.player.x < this.originalPlayer.x){
+      this.player.x += dt*this.player.vx;
+      this.player.angle = -Math.PI/40*this.player.vx/this.player.speed + Math.cos(frameCount*Math.PI/7)*Math.PI/20;
+    } else {
+      this.player.angle = 0;
+      this.player.vx = 0;
+      this.player.x = this.originalPlayer.x;
+      if(this.postMoveTimer < this.postMoveDuration){
+        this.postMoveTimer += dt;
+      } else{
+        this.loadNextScene();
+      }
+    }
+  }
+  draw(canvas){
+    super.draw(canvas);
+    this.nextScene.draw(canvas);
+    drawTransitionOverlay(this.overlayColor, canvas)
+  }
+  loadNextScene(){
+    this.player.angle = 0;
+    this.player.vx = 0;
+    this.player.x = this.originalPlayer.x;
+    this.player.grounded = true;
+    this.driver.setScene(this.nextScene);
+  }
+}WORLDTYPE = 2;
+addBlock(function() { return {
+  //Woof Block
+  id: BLOCKS.length,
+  name: "Woof",
+  hide: true,   
+  ignoreCollisions: true,
+  redraws: true,
+  drawer: new Woof(),
+  draw: drawEntity,
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.addEntity(new Woof(x + width/2,y + height));
+  },
+}});
+class TriggerZone{
+  constructor(x,y,w,h,player,onEnter,onStay,onExit,drawDebug){
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.drawDebug = drawDebug || false;
+    this.player = player;
+    this.previousOutputState = 0;
+    this.outputState = 0;
+    this.onEnter = onEnter;
+    this.onStay = onStay;
+    this.onExit = onExit;
+  }
+  update(dt){
+    if(pointInRect(this.player.x,
+      this.player.y,{x:this.x,y:this.y,w:this.w,h:this.h})){
+      this.outputState = 1;
+    } else {
+      this.outputState = 0;
+    }
+    if(this.previousOutputState == 0 && this.outputState == 1){
+      if(this.onEnter) this.onEnter();
+    }
+    else if(this.previousOutputState == 1 && this.outputState == 0){
+      if(this.onExit) this.onExit();
+    }
+    else if(this.previousOutputState == 1 && this.outputState == 1){
+      if(this.onStay) this.onStay();
+    }
+    this.previousOutputState = this.outputState;
+  }
+  draw(canvas){
+    if(this.drawDebug){
+      canvas.fillStyle = (this.outputState == 1) ? 'rgba(0,255,0,0.4)': 'rgba(255,0,0,.4)';
+      canvas.fillRect(this.x,this.y,this.w,this.h);
+    }
   }
 }class LevelCompleteScene extends Scene{
   constructor(prevScene, callback, win){
@@ -8056,7 +7789,7 @@ class Apple extends Mover {
     this.callback();
   }
   addAllGUI(){
-    var bigFont = "60px Noteworthy";
+    var bigFont = "60px " + FONT;
     var buttonFont = "30px noteworthy";
     var textColor = 'black';
     var dim = rectDimFromCenter(.96,.95,.05,.08);
@@ -8077,381 +7810,39 @@ class Apple extends Mover {
     }
   }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
-      name: "Woof-bouncing",
-      worldType: 1,
-      grid: [
-        [ 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,],
-        [ 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0, 5, 0, 0,18,18,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9,23,23,23,23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 0, 0,14, 0, 0, 0, 0,14,18,18,18,18, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,15, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 0, 0, 0,18,18,18, 1, 1, 1,23,23,23,23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,23,23,23,23, 0, 0, 0, 0, 0, 0, 0, 0,16, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,],
-        [ 1, 1, 1, 1, 1, 9, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,],
-        [ 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9, 9, 1, 1,14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14, 1, 1,],
-        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 1, 1, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,],
-        [ 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,16, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0,16, 0, 0, 0, 0, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 3, 3, 3, 3, 3, 0, 0, 0, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 1, 1, 1, 3, 0, 0, 0, 0, 0, 0,16, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        ]
-    };
-
-  }
-});
-addBlock(function() { return {
-  //Byrd Block
-  id: BLOCKS.length,
-  name: "Byrd",
-  hide: true,   
-  ignoreCollisions: true,
-  redraws: true,
-  drawer: new Byrd(),
-  draw: drawEntity,
-  onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new Byrd(x + width/2,y + height));
-  },
-}});
-class Collectable {
-  constructor(x,y) {
-    this.w=30;
-    this.h=30;
-    this.x=x-this.w/2;
-    this.y=y-this.h/2;
-    this.color = 'gainsboro';
-
-    this.color1 = "red";
-    this.color2 = "#a00";
-    this.color3 = "#fff";
-    this.color4 = "#640";
-  }
-  getHitBox() {
-    return this;
-  }
-  update(dt, frameCount) {
-    if(this.game.collidesWithPlayer(this)) {
-      this.shouldDelete=true;
-      var player = this.game.player;
-      SOUNDMAP.pickup.play(player);
-      player.game.screenShakeLevel = 0.4;
-      player.game.frameStop = 2;
-      for(var i=0;i<10;i++) {
-        var x = this.x;// + (Math.random()*this.w-this.w/2)/2;
-        var y = this.y;// - (Math.random()*this.h)/4;
-        var w = 10;
-        var h = 10;
-        var vx = Math.random()*5-2;
-        var vy = Math.random()*5-2-10;
-        var color = this.color1;
-        // if(i>=num-8) color = "#222";
-        // if(i>=num-4) color = "#33d"
-        // if(i>=num-2) color = "#fff"; 
-        this.game.addEntity(new FallingParticle(x,y,w,h,vx,vy,30,color));
-      }
-    }
-  }
-  draw(canvas) {
-    // canvas.fillStyle = this.color;
-    // canvas.fillRect(this.x,this.y,this.w,this.h);
-    canvas.save();
-    canvas.translate(this.x+this.w/2,this.y+this.h/2);
-    this.drawShape(canvas,this.w,this.h);
-    canvas.restore();
-  }
-  drawShape(canvas,w,h) {
-    // canvas.strokeStyle = "#fff";
-    // canvas.lineWidth = 7;
-    // canvas.strokeRect(-w/2,-h,w,h);    
-    // canvas.strokeRect(-w*0.1,-h*1.3,w*0.2,h*0.3);
-    
-    canvas.fillStyle = this.color1;
-    canvas.fillRect(-w/2,-h,w,h);
-    canvas.fillStyle = this.color2;
-    canvas.fillRect(-w/2,-h,w/2,h);
-    canvas.fillStyle= this.color3;
-    canvas.fillRect(-w*0.1,-h*0.9,w*0.5,h*0.2);
-    canvas.fillStyle = this.color4;
-    canvas.fillRect(-w*0.1,-h*1.3,w*0.2,h*0.3);
-  }
-}class PostWinScene extends Scene{
-  constructor(prevScene) {
-    super();
-    this.prevScene = prevScene;
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-      '65': { down: this.navigateUI.bind(this,1)},   //D
-      '83': { down: this.navigateUI.bind(this,2)},    //S
-      '68': { down: this.navigateUI.bind(this,3)},    //A
-      '38': { down: this.navigateUI.bind(this,0)},  //up
-      '39': { down: this.navigateUI.bind(this,1)},  //right
-      '40': { down: this.navigateUI.bind(this,2)},   //down
-      '37': { down: this.navigateUI.bind(this,3)},   //left
-    }
-    this.allowUIInput = true;
-    this.selectedButton = undefined;
-    this.addAllGUI();
-  }
-  update(dt){
-    super.update(dt);
-  }
-  draw(canvas){
-    this.prevScene.draw(canvas);
-    canvas.fillStyle="rgba(255,255,255,.7)"
-    canvas.fillRect(0,0,canvas.width,canvas.height);
-    this.deathCount.text = ""+this.prevScene.totalDeaths;
-    this.drawAllGUI(canvas);
-    if(this.debug)
-      drawGrid(canvas);
-    drawTransitionOverlay(this.overlayColor,canvas);
-  }
-  addAllGUI(){
-    var bigFont = "60px Noteworthy";
-    var buttonFont = "30px noteworthy";
-    var textColor = 'black';
-    var buttonGap = 0.085;
-
-    var dim = rectDimFromCenter(.5,.4,.2,.08);
-    var winLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "You Win!",bigFont,textColor,'center');
-    this.gui.push(winLabel);
-
-    dim = rectDimFromCenter(.5,.55,.05,.08);
-    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "X", bigFont, textColor,'center');
-    this.gui.push(this.deathCount);
-
-    dim = rectDimFromCenter(.48,.56,.3,.08);
-    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "You died          times", buttonFont,textColor,'center');
-    this.gui.push(deathLabel);
-
-
-    dim = rectDimFromCenter(0.5,0.7,.15,.08);
-    var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(mainMenuButton);
-
-    this.selectedButton = mainMenuButton;
-    this.selectedButton.selected = true;
-
-    this.buttons = getButtons(this.gui);
-  }
-  goToMainMenu(){
-    this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
-  }
-}addLevel( function(nameSpace) {
-   {
-
-    return {
-      name: "Tree Tops",
-      worldType: 1,
-      grid: [
-        [ 0, 0, 0, 0, 0,19,19,19,19,19,19,18,18,18,18,18,19,19,19,19, 2,19,18,18,18,18,19,19,18,19,19,18,18,18,18,18,18,18,19,18,19,19,19,19,19, 0, 0, 0,],
-        [ 0, 0, 0,19,19,19,19,19,19,19,19,19,18,18,19,18,19,19,19, 2,19,19,19,19,18,18,19,19,19,19,19,18,18,18,19,19,18,18,19,19, 2,19,19,19,19,19,19,19,],
-        [ 0, 0,19,19,19,19,19,19,19,19,19,19,18,18,19,18,19,19,19,27,19,19, 0,19,18,18,19,19,19,18,19,19,18,18,18,18,18,19,19, 2,19,19,19,19,19,19,19,19,],
-        [ 0, 0,19,19,19,19,19,19,19,19,19,19,19,23,27, 2, 2,19,18,27,23,23,23,18,18,18,19,18,18,19,19,18,18,27,23,23,18,19,19,27, 2,19,18,19,19,19,18,19,],
-        [ 0, 0,19,19, 7,19,19,19,19,19, 2,19,19,19,27,27,18,18,18,27,18,19,18,18,19,18,27,23,23,23,23,23,23,27,18,18,19,19,19,27,19,19,18,19,19,19,19,18,],
-        [ 0,19,19,19,19,19,19,19,19,19, 2,19,19,19, 2,27,18,18,18,27,19,19,18,18,19,18,27, 2,18,18,18,18, 2,27,18,19,19,19,19,27,19,18,18,19,19,19,19,19,],
-        [ 4,19,19,19,19,19,19,19,19,19, 2,19,19,19,27,27,18,18,18,27,18,18,18,19,19,18,27, 2,18,18,18,18, 2,27,18,19, 2,19,19,27,19,23,23,23, 9,19,19, 0,],
-        [23,23,23,23,19,18,19,19,19,19,19,19,19,19,27,27,18,18,18,27,23,23,23,23,23,23,23,19,19,19,19,19,19,27,19,19,27, 2, 2,27,18,18,27,19,19,19,19, 0,],
-        [ 0, 0,18,18,18,18,18,18,18,19,19,19,19,18, 2,27,18,18, 2,27,18,18,27,19,19,18,18,19,19,19,18,18, 2,27,19, 2,27,18,18,27,18,18,27,18,19,19,19,19,],
-        [ 0, 0, 0,18,18,18,18,18,19,19,19,19,19,18,27,27,18,18,18,18,18,18,27,19,18,18,18,18,18,19,19,18,18,27,19,19,18,18,19, 2,18,18,27,18,18,19,19, 5,],
-        [ 0, 0, 0, 0, 0,18,18, 2,18,18,19,19,18,18,27,27,18,18,18,18,18,18,27,19,19,18,18,18,18,19,19,18,18,27,19, 0,18,18,19, 2,18,18,27,23,23,23,23,23,],
-        [ 0, 0, 0, 0, 0,18,18,27,18, 0, 0,19,19,18, 2,27,18,18,18,23,23,23,27,19,19,18,18,18,18,22,18,18,18,27,19, 0,18,18,19, 2,18,18,27,18,18,18,19,19,],
-        [ 0, 0, 0, 0, 0,18,18,27,18, 0, 0, 0,19,18, 0,27,18,18,18,18,18,19,19,19,19,18,18,18,23,23,23,18,18,27, 0,19, 2,18,19, 2,18,18,27,18,19,19,19,19,],
-        [ 0, 0, 0, 0, 0,18,18,27,18, 0, 0, 0, 0,19, 0,27,18,18,18,18,19,19, 0,19,18,18,18,18,18,19,19,18,18,27,19,19,27,18,19,19,18,18,27,19,19, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0,18, 2,18,18,18, 0, 0, 0,19,19,18,18,18,18,19,18,18,18,27,19, 2,27,18,19,19,18,18,19,19,19,19, 0, 0,],
-        [ 0, 0, 0, 0, 0,18,18,18,18, 0, 0, 0, 0, 0, 0,18,18,18,18,18, 0,19,19,23,23,23,27,18,18, 0,18,18,18,27, 2,19,27,18,19, 0,18,18, 2, 0,19, 0, 0, 0,],
-        [ 0, 0, 0, 0,18,18,18,18,18,18, 0, 0, 0, 0, 0,18,18,18,18,18, 0, 0,19,19,18,18,27,18,18, 0,18, 2,18,27, 0,18,27,18, 0,27,23,23, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0,18,18,18,18,18,18,18, 0, 0, 0, 0,18,18,18,18,18, 0, 0, 0,19,19,18,27,18,18, 0,18,27, 2,27, 0,18,27,18, 0,27,18,18, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0,18,18,18,18,18,18,18,18, 0, 0, 0,18,18,18,18,18, 0, 0, 0, 0, 0,18,27,18,18, 0,18,27,18,19, 0,18,18,18, 2,27,18,18, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0,18, 2,18,18,18,18,18,18,18, 2,18,18,18, 2,18,18,18,18, 0, 0, 0, 0,18,27,18,18, 0,18,27,18, 0, 0,18,18,18,18,27,18,18,18, 0, 0, 0, 0, 0,],
-        [ 0, 2,18,18,18,18,18,18,18, 2,18,18,18,18, 2,18,18,18, 2,18, 2, 2, 2, 0, 2,18,27,18,18, 0,18,27,18, 0,18,18, 2,18,18,27,18,18,18,18,18, 0, 0, 0,],
-        [ 2,18,18, 2,18, 2,18, 2,18,18,18, 0,18,18,18, 3, 1,18, 1,18,18, 1, 1, 0,18,18, 2,18,18,18, 2,27, 2, 0,18,18,18, 2, 2,27,18,18,18,18,18, 0, 0, 0,],
-        [ 1, 1,18, 1,18, 1, 3, 1, 3,18, 3, 3, 1,18, 1, 1, 1, 1, 1, 3,18, 1, 1, 3, 1, 1, 1,18, 3,18,18,27,18, 2, 2, 2, 2,18,18, 1, 1, 1, 1, 1,18,18, 0, 0,],
-        [ 1,18, 1,18, 1, 1, 1, 1, 1,18,18, 1, 1, 1,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,18, 3, 1, 3,18, 1, 1,18,18,18,18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        ],
-    };
-
-  }
-});
-addBlock(function() { return {
-  //Doink Block
-  id: BLOCKS.length,
-  name: "DoinkPad",
-  hide: true,
-  ignoreCollisions: true,
-  redraws: true,
-  drawer: new DoinkPad(),
-  draw: drawEntity,
-  onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new DoinkPad(x + width/2,y + height));
-  },
-}});
-class WorldText{
-  constructor(x,y,w,text,font,inactiveColor,activeColor,
-    changeDuration,isVisible,textAlign){
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.text = text;
-    this.font = font;
-    this.inactiveColor = inactiveColor;
-    this.activeColor = activeColor;
-    this.changeDuration = changeDuration;
-    this.colorTimer = (isVisible) ? this.changeDuration : 0;
-    this.visible = isVisible || false;
-    this.textAlign = textAlign || "center";
-  }
-  update(dt){
-    if(this.visible){
-      this.colorTimer += dt;
-      if(this.colorTimer > this.changeDuration)
-        this.colorTimer = this.changeDuration;
-    } else {
-      this.colorTimer -= dt;
-      if(this.colorTimer < 0)
-        this.colorTimer = 0;
-    } 
-  }
-  setVisible(x){
-    this.visible = x;
-  }
-  appear(){
-    this.visible = true;
-  }
-  disappear(){
-    this.visible = false;
-  }
-  draw(canvas){
-    canvas.save();
-    var fillColor = colorLerp(this.inactiveColor,this.activeColor,this.colorTimer*1.0/this.changeDuration);
-    canvas.globalAlpha = this.colorTimer*1.0/this.changeDuration;
-    fillColor[3] = 1;
-    canvas.fillStyle = makeColorStr(fillColor);
-    canvas.font = this.font;
-    canvas.textAlign = this.textAlign;
-    canvas.textBaseline='middle';
-    var dim = rectDimFromCenter(this.x,this.y,this.w,0);
-    switch(this.textAlign){
-      case 'left':
-        canvas.fillText(this.text,dim[0],dim[1]+dim[3]/2,this.w);  
-        break;
-      case 'right':
-        canvas.fillText(this.text,dim[0]+dim[2],dim[1]+dim[3]/2,this.w);  
-        break;
-      case 'center':
-        canvas.fillText(this.text,dim[0]+dim[2]/2,dim[1]+dim[3]/2,this.w);  
-        break;
-    }
-    canvas.restore();
-  }
-
-}WORLDTYPE = 2;
-addBlock(function() { return {
-  //Woof Block
-  id: BLOCKS.length,
-  name: "Woof",
-  hide: true,   
-  ignoreCollisions: true,
-  redraws: true,
-  drawer: new Woof(),
-  draw: drawEntity,
-  onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new Woof(x + width/2,y + height));
-  },
-}});
-class TriggerZone{
-  constructor(x,y,w,h,player,onEnter,onStay,onExit,drawDebug){
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-    this.drawDebug = drawDebug || false;
-    this.player = player;
-    this.previousOutputState = 0;
-    this.outputState = 0;
-    this.onEnter = onEnter;
-    this.onStay = onStay;
-    this.onExit = onExit;
-  }
-  update(dt){
-    if(pointInRect(this.player.x,
-      this.player.y,{x:this.x,y:this.y,w:this.w,h:this.h})){
-      this.outputState = 1;
-    } else {
-      this.outputState = 0;
-    }
-    if(this.previousOutputState == 0 && this.outputState == 1){
-      if(this.onEnter) this.onEnter();
-    }
-    else if(this.previousOutputState == 1 && this.outputState == 0){
-      if(this.onExit) this.onExit();
-    }
-    else if(this.previousOutputState == 1 && this.outputState == 1){
-      if(this.onStay) this.onStay();
-    }
-    this.previousOutputState = this.outputState;
-  }
-  draw(canvas){
-    if(this.drawDebug){
-      canvas.fillStyle = (this.outputState == 1) ? 'rgba(0,255,0,0.4)': 'rgba(255,0,0,.4)';
-      canvas.fillRect(this.x,this.y,this.w,this.h);
-    }
-  }
-}addLevel( function(nameSpace) {
-   {
-
-    return {
-      name: "spiketops",
+      name: "Spiketops",
       worldType: 2,
       grid: 
       [
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-        [ 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,3,0,0,0,0,0,1,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,7,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+        [0,4,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0,0,0,0,0,0,0,5,0,0,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,3,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
     };
 
@@ -8577,8 +7968,78 @@ class Knife {
     canvas.fill();
     canvas.restore();
   }
+}class PostWinScene extends Scene{
+  constructor(prevScene) {
+    super();
+    this.prevScene = prevScene;
+    this.keyMap = {
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '83': { down: this.navigateUI.bind(this,2)},    //S
+      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '38': { down: this.navigateUI.bind(this,0)},  //up
+      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '40': { down: this.navigateUI.bind(this,2)},   //down
+      '37': { down: this.navigateUI.bind(this,3)},   //left
+    }
+    this.allowUIInput = true;
+    this.selectedButton = undefined;
+    this.addAllGUI();
+  }
+  update(dt){
+    super.update(dt);
+  }
+  draw(canvas){
+    this.prevScene.draw(canvas);
+    canvas.fillStyle="rgba(255,255,255,.7)"
+    canvas.fillRect(0,0,canvas.width,canvas.height);
+    this.deathCount.text = ""+this.prevScene.totalDeaths;
+    this.drawAllGUI(canvas);
+    if(this.debug)
+      drawGrid(canvas);
+    drawTransitionOverlay(this.overlayColor,canvas);
+  }
+  addAllGUI(){
+    var bigFont = "60px " + FONT;
+    var buttonFont = "30px noteworthy";
+    var textColor = 'black';
+    var buttonGap = 0.085;
+
+    var dim = rectDimFromCenter(.5,.4,.2,.08);
+    var winLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "You Win!",bigFont,textColor,'center');
+    this.gui.push(winLabel);
+
+    dim = rectDimFromCenter(.5,.55,.05,.08);
+    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "X", bigFont, textColor,'center');
+    this.gui.push(this.deathCount);
+
+    dim = rectDimFromCenter(.48,.56,.3,.08);
+    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "You died          times", buttonFont,textColor,'center');
+    this.gui.push(deathLabel);
+
+
+    dim = rectDimFromCenter(0.5,0.7,.15,.08);
+    var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+      this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
+    this.gui.push(mainMenuButton);
+
+    this.selectedButton = mainMenuButton;
+    this.selectedButton.selected = true;
+
+    this.buttons = getButtons(this.gui);
+  }
+  goToMainMenu(){
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
+  }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "Deadly Byrds",
@@ -8676,6 +8137,7 @@ class ButcherTurret extends Butcher{
     this.speed = 9;
     this.moveTimer = 0;
     this.min = null;
+    this.wielding = true;
   }
   update(dt,frameCount) {
     dt = dt/0.8;
@@ -8785,39 +8247,39 @@ class ButcherTurret extends Butcher{
     this.game.addEntity(knife);
   }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "Saws",
       worldType: 2,
       grid:   [
-  [ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,27, 2, 2, 2, 2, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9,27,27,27,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 1,],
-  [ 0, 9, 9, 9,23, 9, 9, 9, 9,23, 9, 9, 9,23, 9, 9, 9,23, 9, 9, 9,23, 9, 9,23, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-  [ 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,30, 0, 2, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 1,],
-  [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-  [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-  [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+  [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,27,2,2,2,2,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,9,9,9,27,27,27,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,1,],
+  [0,9,9,9,23,9,9,9,9,23,9,9,9,23,9,9,9,23,9,9,9,23,9,9,23,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,30,0,2,0,0,0,0,0,0,30,0,0,0,0,2,0,0,0,0,0,0,5,0,0,0,1,],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
   ]
     };
 
@@ -8964,38 +8426,38 @@ class ButcherTurretPoint {
     canvas.fillRect(this.x-this.w/2,this.y-this.h/2,this.w,this.h);
   }
 }addLevel( function(nameSpace) {
-   {
+  {
 
     return {
       name: "The Woof of Saw Street",
       worldType: 2,
       grid:   
      [
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0,18, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27,27,23,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9,27,27,27,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9,16, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 1, 0,],
-[ 9, 9, 9, 9,23, 9, 9, 9, 9,23, 9, 9, 9,23, 9, 1, 0, 0, 0, 0, 0, 1, 9, 9, 9, 9,23, 9, 9, 9, 9, 9, 9, 9, 9, 9,23, 9, 9, 9, 9, 9, 9,23, 9, 9, 9, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
-[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,18,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,27,23,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,9,9,9,27,27,27,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,1,9,16,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,1,0,],
+[9,9,9,9,23,9,9,9,9,23,9,9,9,23,9,1,0,0,0,0,0,1,9,9,9,9,23,9,9,9,9,9,9,9,9,9,23,9,9,9,9,9,9,23,9,9,9,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,9,9,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,],
 ]
     };
 
@@ -9087,28 +8549,28 @@ class ButcherTurretPoint {
     this.game.addEntity(knife);
   }
 }addLevel( function(nameSpace) {
-   {
+  {
     
     return {
-      name: "double jump and wall jump",
+      name: "Double Jump and Wall Jump",
       worldType: 2,
       grid: [
-        [ 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 1, 0, 0, 0, 0, 8, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 1, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 1,],
-        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 1,],
-        [ 1, 0, 0, 2, 2, 1, 2, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 1,],
-        [ 1, 0, 0, 2, 2, 1, 2, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 1,],
-        [ 1, 7, 0, 2, 2, 1, 2, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 8, 0, 0, 0, 0, 2, 1, 1, 0, 0, 1,],
-        [ 1, 0, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 0,],
-        [ 0, 0, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 0,],
-        [ 0, 4, 0, 0, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 5, 0,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+        [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [1,0,0,0,0,8,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [1,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [1,0,0,0,1,2,2,2,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [1,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,1,0,0,1,],
+        [1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,2,1,1,0,0,1,],
+        [1,0,0,2,2,1,2,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,2,1,1,0,0,1,],
+        [1,0,0,2,2,1,2,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,1,1,0,0,1,],
+        [1,7,0,2,2,1,2,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,8,0,0,0,0,2,1,1,0,0,1,],
+        [1,0,0,0,2,1,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,1,1,0,0,0,],
+        [0,0,0,0,2,1,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,1,1,0,0,0,],
+        [0,4,0,0,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,2,1,1,0,5,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
         ]
   };
     
@@ -9169,7 +8631,49 @@ class MovingWorldText extends WorldText{
   die(){
     this.shouldDelete = true;
   }
-}addBlock(function() { return {
+}addLevel( function(nameSpace) {
+  {
+
+    return {
+      name: "Final Battle",
+      worldType: 2,
+      song: 0,
+      grid: 
+      [
+        [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,5,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,9,9,9,27,27,27,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,16,9,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,9,9,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,30,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [9,9,9,9,9,23,9,9,9,9,9,23,9,9,9,9,9,23,9,9,9,9,9,23,9,9,9,9,9,23,9,9,9,9,9,23,9,9,9,9,9,23,9,9,9,9,23,1,],
+        [0,0,0,0,0,19,0,0,0,0,0,19,0,0,0,0,0,19,0,0,0,0,0,19,0,0,0,0,0,19,0,0,0,0,0,19,0,0,0,0,0,19,0,0,0,0,19,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,30,0,2,0,0,0,0,0,0,30,0,0,0,0,2,0,0,0,0,0,0,15,0,0,0,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        ]
+    };
+
+  }
+});
+addBlock(function() { return {
   //Byrd Block
   id: BLOCKS.length,
   name: "collectable",
@@ -9183,48 +8687,6 @@ class MovingWorldText extends WorldText{
     game.addEntity(new Collectable(x + width/2,y + height/2));
   },
 }});
-addLevel( function(nameSpace) {
-   {
-
-    return {
-      name: "Final Battle",
-      worldType: 2,
-      song: 0,
-      grid: 
-      [
-        [ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9,27,27,27,27,27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,16, 9, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 9, 9, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 9, 9, 9, 9, 9,23, 9, 9, 9, 9, 9,23, 9, 9, 9, 9, 9,23, 9, 9, 9, 9, 9,23, 9, 9, 9, 9, 9,23, 9, 9, 9, 9, 9,23, 9, 9, 9, 9, 9,23, 9, 9, 9, 9,23, 1,],
-        [ 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0,19, 0, 0, 0, 0,19, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,29, 0, 0, 0, 0, 0, 0, 0, 0, 0,29, 0, 0, 0, 0, 0, 0, 0, 0,29, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
-        [ 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,30, 0, 2, 0, 0, 0, 0, 0, 0,30, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,15, 0, 0, 0, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-        ]
-    };
-
-  }
-});
 class SleepText extends MovingWorldText{
   constructor(x,y,w,dx,dy,text,fontSize,fontType,inactiveColor,activeColor,
     changeDuration,initialDelay,isVisible){

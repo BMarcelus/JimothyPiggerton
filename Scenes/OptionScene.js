@@ -51,11 +51,11 @@ class OptionScene extends Scene{
 
     dim = rectDimFromCenter(0,.4,.25,.1);
     this.volumeLabel = new Label(.4,dim[1],dim[2],dim[3],0,
-      this.volumeSlider.value,'35px Noteworthy','white','left');
+      this.volumeSlider.value,'35px ' + FONT,'white','left');
     this.gui.push(this.volumeLabel);
 
     dim = rectDimFromCenter(.8,.9,.2,.1);
-    var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
+    var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px ' + FONT, 
     'white','transparent','white', 5,.05);
     this.gui.push(backButton);
     this.selectedButton = backButton;
@@ -65,12 +65,12 @@ class OptionScene extends Scene{
     var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
       MAIN.gamepadOn = !MAIN.gamepadOn;
       gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
-    },"Gamepad On",'30px Noteworthy', 
+    },"Gamepad On",'30px ' + FONT, 
     'white','transparent','white', 5,.05);
     this.gui.push(gamepadBtn);
 
     dim = rectDimFromCenter(.5,.15,.4,.2);
-    var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px Noteworthy','white','center');
+    var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px ' + FONT,'white','center');
     this.gui.push(optionsLabel);
     
     this.volumeSlider.setNeighbors([undefined,undefined,gamepadBtn,undefined]);

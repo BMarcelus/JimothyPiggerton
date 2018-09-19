@@ -52,8 +52,8 @@ class MenuScene extends Scene{
   }
  
   addMainMenuGUI(){
-    var bigFont = "60px Noteworthy";
-    var buttonFont = "30px Noteworthy";
+    var bigFont = "60px " + FONT;
+    var buttonFont = "30px " + FONT;
 
     var dim = rectDimFromCenter(.5,.28,.58,.12);
     var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,

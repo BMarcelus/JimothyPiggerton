@@ -1,6 +1,9 @@
 loadSequentially('Scenes/',
 [
   "Scene.js",
+  "SplashScreenScene.js",
+  "VgdcSplashScreen.js",
+  "CoolmathSplashScreen.js",
   "GameScene.js",
   "PigFunScene.js",
   "MenuScene.js",

@@ -26,7 +26,7 @@ class LevelEditorSelectScene extends LevelSelectScene{
   }
   addExtraGUI(){
     var dim = rectDimFromCenter(.5,.33,.7,.1);
-    var levelEditorLabel = new Label(dim[0],dim[1],dim[2],dim[3],7,"Level Editor    [N] - New Level    [E] - Local Level    [R] - PigFunScene",'30px Noteworthy','white','center');
+    var levelEditorLabel = new Label(dim[0],dim[1],dim[2],dim[3],7,"Level Editor    [N] - New Level    [E] - Local Level    [R] - PigFunScene",'30px ' + FONT,'white','center');
     this.gui.push(levelEditorLabel);
   }
   loadGameLevel(index){

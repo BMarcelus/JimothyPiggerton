@@ -25,7 +25,7 @@ class Player extends Mover{
       this.game.screenShakeLevel += 1;   
       this.game.frameStop = 10;         
       this.eyeMovement.blink = 0;
-    this.animation = new Animation(4, function(dt, frameCount) {
+    this.animation = new Animation2(4, function(dt, frameCount) {
       this.mx = 0;
       this.angle = 0;
       this.width = this.w;
@@ -47,7 +47,7 @@ class Player extends Mover{
       }
       this.vy=-20;   
       this.invisible = true;  
-      this.animation = new Animation(60, function(dt, frameCount) {
+      this.animation = new Animation2(60, function(dt, frameCount) {
         // this.y+=this.vy;
         // this.vy++;
       }.bind(this), function() {

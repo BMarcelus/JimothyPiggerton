@@ -160,13 +160,13 @@ class LevelSelectScene extends Scene{
       this.backgroundList[2].push(bg2);
     }
     addLevelSelectGUI(){
-      var bigFont = '40px Noteworthy';
-      var buttonFont = '30px Noteworthy';
+      var bigFont = '40px ' + FONT;
+      var buttonFont = '30px ' + FONT;
       var textColor = 'white';
       //level select title
       var dim = rectDimFromCenter(.5,.06,.3,.1);
       var levelSelectTitle = new Label(dim[0],dim[1],dim[2],dim[3],3,
-        "Select Level",'50px Noteworthy',textColor,'center');
+        "Select Level",'50px ' + FONT,textColor,'center');
       this.gui.push(levelSelectTitle);
       //Color lerp backgrounds
       var world1Back = new ColorLerpBox(0,0,1,.333,3,[135,206,235,255],[128,128,128,255],25,true );
@@ -217,7 +217,7 @@ class LevelSelectScene extends Scene{
       //Select level UI
       /*
       dim = rectDimFromCenter(.5,.5,.2,.1)
-      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px Noteworthy',textColor,'center');
+      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px ' + FONT,textColor,'center');
       this.levelNumLabel.setVisibility(false);
       this.gui.push(this.levelNumLabel);
         
@@ -242,7 +242,7 @@ class LevelSelectScene extends Scene{
       this.gui.push(this.leftArrow);
 
       dim = rectDimFromCenter(.5,.62,.4,.1);
-      this.levelName = new Label(dim[0],dim[1],dim[2],dim[3],5,"",'30px Noteworthy','white','center');
+      this.levelName = new Label(dim[0],dim[1],dim[2],dim[3],5,"",'30px ' + FONT,'white','center');
       this.gui.push(this.levelName);
 
       this.buttons = getButtons(this.gui);
@@ -260,7 +260,7 @@ class LevelSelectScene extends Scene{
       for(var i = 0; i < this.buttonsInRow; i++){
         dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);
         var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
-          this.loadGameLevel.bind(this,i+1),""+(i+1),'40px Noteworthy','white',
+          this.loadGameLevel.bind(this,i+1),""+(i+1),'40px ' + FONT,'white',
           'transparent','white',5);
         /*
         var outline = new ColoredBox(dim[0],dim[1],dim[2],dim[3],4,'transparent','white',3);

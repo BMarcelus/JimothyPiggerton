@@ -32,7 +32,7 @@ function createLevels() {
 ********************************************************************************
 
 addLevel( function(nameSpace) {
-  with(nameSpace) {
+  {
 
     retun {
         name: "title",
