@@ -380,6 +380,7 @@ class GameScene extends Scene {
     canvas.restore();
     if(this.level.name) {
       canvas.fillStyle='#fff';
+      canvas.font = '30px Noteworthy';
       canvas.fillText(this.level.name, 200, canvas.height-30);
     }
     this.drawAllGUI(canvas);

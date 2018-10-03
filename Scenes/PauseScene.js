@@ -113,34 +113,34 @@ class PauseScene extends Scene {
   
         break;
       case true:
-        buttonFont = "50px Noteworthy";
+        var touchScreenFont = "50px Noteworthy";
         var dim = rectDimFromCenter(.5,.28,.2,.08);
         var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
           "Paused",bigFont,textColor,'center');
         this.gui.push(pauseLabel);
         dim = rectDimFromCenter(.32,.52,.35,.25);
         var resumeButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.unpause.bind(this),"Resume",buttonFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+          this.unpause.bind(this),"Resume",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
         this.gui.push(resumeButton);
     
         dim = rectDimFromCenter(.68,.52,.35,.25);
         var levelSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+          this.goToLevelSelect.bind(this),"Level Select",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
         this.gui.push(levelSelectButton);
     
         dim = rectDimFromCenter(.32,.8,.35,.25);
         var restartButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.restartLevel.bind(this),"Restart",buttonFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+          this.restartLevel.bind(this),"Restart",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
         this.gui.push(restartButton);
         
         dim = rectDimFromCenter(.68,.8,.35,.25);
         var mainMenuButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+          this.goToMainMenu.bind(this),"Main Menu",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
         this.gui.push(mainMenuButton);
 
         dim = rectDimFromCenter(.88,.1,.095,.12);
         var pauseButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.unpause.bind(this),"",buttonFont,'transparent','rgba(64,64,64,.5)','transparent',0);
+          this.unpause.bind(this),"",touchScreenFont,'transparent','rgba(64,64,64,.5)','transparent',0);
         this.gui.push(pauseButton);
         dim = rectDimFromCenter(.895,.1,.02,.08);
         var box1 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
@@ -148,7 +148,6 @@ class PauseScene extends Scene {
         dim = rectDimFromCenter(.865,.1,.02,.08);
         var box2 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
         this.gui.push(box2);
-  
         
         break;
     }
