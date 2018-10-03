@@ -20,6 +20,7 @@ function setUpTouchBtns() {
     x: .75, y: .76, w: .2, h: .24,
     key: 83,
   },
+ 
 ];
 }
 setUpTouchBtns();
@@ -104,6 +105,9 @@ class MainDriver {
     this.soundsInitialized = false;
     this.timeoutes = [];
     this.gamepadOn=true;
+
+
+   
   }
   setTimeout(callback, frames) {
     this.timeoutes.push({callback, frames});
@@ -136,7 +140,7 @@ class MainDriver {
   draw(canvas) {
     canvas.clearRect(0,0,canvas.width,canvas.height);
     this.scene.draw(canvas);
-    if(touchOn) {
+    if(touchOn && this.scene.touchButtonsActive) {
       var W = canvas.width;
       var H = canvas.height;
       canvas.save();    
@@ -204,11 +208,13 @@ class MainDriver {
       var touch = e.changedTouches[i];
       var {x, y} = this.getTouchPosition(touch, e);
       e.percentPoint = [x,y];
-      this.scene.mousedown(e, this.mouse);     
-      for(var j=0;j<touchButtons.length;j++) {
-        var btn = touchButtons[j];
-        if(pointInRect(x,y,btn)) {
-          this.enterTouchButton(btn, touch.identifier);
+      this.scene.mousedown(e, this.mouse);    
+      if(this.scene.touchButtonsActive){ 
+        for(var j=0;j<touchButtons.length;j++) {
+          var btn = touchButtons[j];
+          if(pointInRect(x,y,btn)) {
+            this.enterTouchButton(btn, touch.identifier);
+          }
         }
       }
     }
@@ -219,16 +225,18 @@ class MainDriver {
       var {x, y} = this.getTouchPosition(touch, e);
       e.percentPoint = [x,y];      
       this.scene.mousemove(e, this.mouse);    
-      var cbtn = touchButtonMap[touch.identifier];
-      if(cbtn) {
-        if(!pointInRect(x,y,cbtn)) {
-          this.leaveTouchButton(cbtn, touch.identifier);
+      if(this.scene.touchButtonsActive){
+        var cbtn = touchButtonMap[touch.identifier];
+        if(cbtn) {
+          if(!pointInRect(x,y,cbtn)) {
+            this.leaveTouchButton(cbtn, touch.identifier);
+          }
         }
-      }
-      for(var j=0;j<touchButtons.length;j++) {
-        var btn = touchButtons[j];
-        if(pointInRect(x,y,btn)) {
-          this.enterTouchButton(btn, touch.identifier);
+        for(var j=0;j<touchButtons.length;j++) {
+          var btn = touchButtons[j];
+          if(pointInRect(x,y,btn)) {
+            this.enterTouchButton(btn, touch.identifier);
+          }
         }
       }
     }
@@ -239,10 +247,12 @@ class MainDriver {
       var {x, y} = this.getTouchPosition(touch, e);
       e.percentPoint = [x,y];      
       this.scene.mouseup(e, this.mouse);           
+      
       var cbtn = touchButtonMap[touch.identifier];
       if(cbtn) {
         this.leaveTouchButton(cbtn, touch.identifier);
       }
+      
       // for(var i=0;i<touchButtons.length;i++) {
       //   var btn = touchButtons[i];
       //   if(pointInRect(x,y,btn)) {
@@ -306,6 +316,7 @@ class MainDriver {
     // grd.addColorStop(1,"rgba(20,50,100,1)");
     return grd;
   }
+  
 }
 var CE = document.getElementById('gc');
 var canvas = CE.getContext('2d');

@@ -16,8 +16,14 @@ class TextButton extends Button{
 
     var dim = this.getPixelDimensions(canvas);
     this.drawRectangle(canvas,dim);
-    if(this.selected && !this.held)
-      this.drawOutline(canvas,dim);
+    if(!touchOn){
+      if(this.selected && !this.held)
+        this.drawOutline(canvas,dim);
+    } else {
+      if(this.selected)
+        this.drawOutline(canvas,dim);
+    }
+    
     this.drawText(canvas,dim);
     
   }

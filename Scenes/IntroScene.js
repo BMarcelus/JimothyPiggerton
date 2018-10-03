@@ -31,6 +31,7 @@ class IntroScene extends GameScene{
         
         ]
     },true);
+    this.touchButtonsActive = false;
     this.gui = [];
     this.keyMap = {
       '27': {down: sceneTransition(this, GameScene)},
@@ -62,6 +63,11 @@ class IntroScene extends GameScene{
     this.timeToWait=0;
     this.emitZ = true;
     this.emissionDelay = 35;
+
+    this.allowUIInput = true;
+    this.selectedButton = undefined;
+    this.touchCount = 0;
+    this.addIntroGUI();
   }
   makeLetterBox(){
     var upperBoxHeight = 0.2;
@@ -110,8 +116,39 @@ class IntroScene extends GameScene{
   constrainCamera(x,y,w,h){
     
   }
+  addIntroGUI(){
+    var buttonFont = "25px noteworthy";
+    var textColor = 'black';
+    if(touchOn){
+      var entireScreenButton = new TextButton(0,0,1,1,0,
+        this.increaseTouchCount.bind(this),"",buttonFont,'transparent','transparent','transparent',0);
+      this.gui.push(entireScreenButton);
+      
+      var dim = rectDimFromCenter(.83,.08,.5,.1);
+      this.skipMessage = new Label(dim[0],dim[1],dim[2],dim[3],0,
+        "",buttonFont, 'rgba(255,255,255,.9)', 'center');
+      this.gui.push(this.skipMessage);
+    }
+    this.buttons = getButtons(this.gui);
+
+
+    
+  }
+  increaseTouchCount(){
+    this.touchCount += 1;
+  }
   update(dt, frameCount) {
     super.update(dt,frameCount);
+
+    if(touchOn){
+      if(this.touchCount >= 1){
+        this.skipMessage.text = "Tap again to skip";
+      }
+      if(this.touchCount >= 2){
+        this.time = 0;
+      }
+    }
+
     this.timeToWait--;
     this.time--;
     if(this.time<=0) {

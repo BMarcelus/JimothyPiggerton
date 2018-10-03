@@ -107,13 +107,30 @@ function getGUIInGroup(n,guiList){
   return result;
 }
 function GUIMouseDown(e,buttonList){
+  
   var percentPoint = getPercentPoint(e);  
-  for(var i = 0; i < buttonList.length; i++){
-    if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
-        && buttonList[i].interactable){
-      buttonList[i].held = true;
-      if(buttonList[i].onClick) buttonList[i].onClick();
-    }
+  switch(touchOn){
+    case false:
+      for(var i = 0; i < buttonList.length; i++){
+        if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
+            && buttonList[i].interactable){
+          buttonList[i].held = true;
+          if(buttonList[i].onClick) buttonList[i].onClick();
+        }
+      }
+      break;
+
+    case true:
+      for(var i = 0; i < buttonList.length; i++){
+        buttonList[i].selected = false;
+        if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
+          && buttonList[i].interactable){
+        buttonList[i].selected = true;
+        buttonList[i].held = true;
+        if(buttonList[i].onClick) buttonList[i].onClick();
+      }
+      }
+      break;
   }
 }
 function GUIMouseUp(e,buttonList){
@@ -139,10 +156,13 @@ function GUIMouseUp(e,buttonList){
 function GUIMouseMove(self, e, buttonList){
   if(buttonList == undefined)
     return;
-  for(var j = 0; j < buttonList.length; j++){
-    if(buttonList[j].held)
-      return; //If a button is currently being held (meaning this is a mouse drag
-              //that was initiated on a valid button), bail out
+
+  if(!touchOn){
+    for(var j = 0; j < buttonList.length; j++){
+      if(buttonList[j].held)
+        return; //If a button is currently being held (meaning this is a mouse drag
+                //that was initiated on a valid button), bail out
+    }
   }
   var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){

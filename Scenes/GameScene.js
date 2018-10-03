@@ -2,6 +2,7 @@
 class GameScene extends Scene {
   constructor(level, dontSpawnPig,playIntro) {
     super(playIntro);
+    this.touchButtonsActive = true;
     this.dontSpawnPig=dontSpawnPig;
     this.player = new Player();
     this.entities = [];
@@ -63,6 +64,10 @@ class GameScene extends Scene {
     this.levelDeaths = 0;
     this.constrainCamera();
     this.frameStop = 0;
+
+    this.allowUIInput = true;
+    this.selectedButton = undefined;
+    this.addGameGUI();
   }
   addEntity(entity) {
     entity.game = this;
@@ -183,6 +188,27 @@ class GameScene extends Scene {
   win() {
     this.driver.setScene(new PostWinScene(this));    
   }
+  addGameGUI(){
+    var bigFont = "60px Noteworthy";
+    var buttonFont = "30px noteworthy";
+    var textColor = 'black';
+    if(touchOn){
+      var dim = rectDimFromCenter(.88,.1,.095,.12);
+      var pauseButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+        this.pause.bind(this),"",buttonFont,'transparent','rgba(64,64,64,.5)','transparent',0);
+      this.gui.push(pauseButton);
+      dim = rectDimFromCenter(.895,.1,.02,.08);
+      var box1 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
+      this.gui.push(box1);
+      dim = rectDimFromCenter(.865,.1,.02,.08);
+      var box2 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
+      this.gui.push(box2);
+
+    }
+    this.buttons = getButtons(this.gui);
+
+    
+  }
   loadNewLevel(index) {   
     this.frameStop = 0;
     if(index<0)index=0;
@@ -231,6 +257,7 @@ class GameScene extends Scene {
     // this.addEntity(new Enemy(300,100));  
     this.playLevelIntro();
     this.levelCompleted = false;
+    this.touchButtonsActive = true;
     /*
     var text = new WorldText(800,600,300,"TEXT HERE",'60px Noteworthy',[0,0,0,0],[0,0,0,1],
       100,false)
@@ -355,6 +382,7 @@ class GameScene extends Scene {
       canvas.fillStyle='#fff';
       canvas.fillText(this.level.name, 200, canvas.height-30);
     }
+    this.drawAllGUI(canvas);
     drawTransitionOverlay(this.overlayColor,canvas);
     
   }

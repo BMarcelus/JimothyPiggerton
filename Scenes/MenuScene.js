@@ -54,36 +54,68 @@ class MenuScene extends Scene{
   addMainMenuGUI(){
     var bigFont = "60px Noteworthy";
     var buttonFont = "30px Noteworthy";
-
     var dim = rectDimFromCenter(.5,.28,.58,.12);
-    var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Jimothy Piggerton",bigFont,"white",'center');
-    this.gui.push(mainTitle);
 
-    dim = rectDimFromCenter(.5,.48,.18,.1);
-    var startButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
-      "Start Game",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(startButton);
+    switch(touchOn){
+      case false:
+        var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
+          "Jimothy Piggerton",bigFont,"white",'center');
+        this.gui.push(mainTitle);
+        dim = rectDimFromCenter(.5,.48,.18,.1);
+        var startButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
+          "Start Game",buttonFont,"white","transparent","white",5,.08);
+        this.gui.push(startButton);
+    
+        dim = rectDimFromCenter(.5,.60,.18,.1);
+        var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
+          "Level Select",buttonFont,"white","transparent","white",5,.08);
+        this.gui.push(levelSelectButton);
+    
+        dim = rectDimFromCenter(.5,.72,.18,.1);
+        var optionsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
+          "Options",buttonFont,"white","transparent","white",5,.08);
+        this.gui.push(optionsButton);
+    
+        dim = rectDimFromCenter(.5,.84,.18,.1);
+        var creditsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
+          "Credits",buttonFont,"white","transparent","white",5,.08);
+        this.gui.push(creditsButton);
+    
+        startButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
+        levelSelectButton.setNeighbors([startButton,undefined,optionsButton,undefined]);
+        optionsButton.setNeighbors([levelSelectButton,undefined,creditsButton,undefined]);
+        creditsButton.setNeighbors([optionsButton,undefined,undefined,undefined]);
+        break;
 
-    dim = rectDimFromCenter(.5,.60,.18,.1);
-    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
-      "Level Select",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(levelSelectButton);
+      case true:
 
-    dim = rectDimFromCenter(.5,.72,.18,.1);
-    var optionsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
-      "Options",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(optionsButton);
+        buttonFont = "50px NoteWorthy";
+        var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
+          "Jimothy Piggerton",bigFont,"white",'center');
+        this.gui.push(mainTitle);
+        dim = rectDimFromCenter(.32,.52,.35,.25);
+        var startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
+          "Start Game",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        this.gui.push(startButton);
+    
+        dim = rectDimFromCenter(.68,.52,.35,.25);
+        var levelSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
+          "Level Select",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        this.gui.push(levelSelectButton);
+    
+        dim = rectDimFromCenter(.32,.8,.35,.25);
+        var optionsButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
+          "Options",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        this.gui.push(optionsButton);
+    
+        dim = rectDimFromCenter(.68,.8,.35,.25);
+        var creditsButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
+          "Credits",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        this.gui.push(creditsButton);
+        break;
+    }
 
-    dim = rectDimFromCenter(.5,.84,.18,.1);
-    var creditsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
-      "Credits",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(creditsButton);
-
-    startButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
-    levelSelectButton.setNeighbors([startButton,undefined,optionsButton,undefined]);
-    optionsButton.setNeighbors([levelSelectButton,undefined,creditsButton,undefined]);
-    creditsButton.setNeighbors([optionsButton,undefined,undefined,undefined]);
+    
 
     this.selectedButton = startButton;
     this.selectedButton.selected = true;

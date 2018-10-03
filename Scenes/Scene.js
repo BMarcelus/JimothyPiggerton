@@ -57,6 +57,7 @@ class Scene {
     if(playIntro != undefined && playIntro){
       this.startTransition(25,-1,undefined);
     }
+    this.touchButtonsActive = false;
     this.mouse = {x:-1,y:-1};
   }
   update(dt){

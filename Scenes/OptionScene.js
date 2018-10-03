@@ -54,20 +54,42 @@ class OptionScene extends Scene{
       this.volumeSlider.value,'35px Noteworthy','white','left');
     this.gui.push(this.volumeLabel);
 
-    dim = rectDimFromCenter(.8,.9,.2,.1);
-    var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
-    'white','transparent','white', 5,.05);
-    this.gui.push(backButton);
-    this.selectedButton = backButton;
-    backButton.selected = true;
+    
+    switch(touchOn){
+      case false:
+        dim = rectDimFromCenter(.8,.9,.2,.1);
+        var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
+        'white','transparent','white', 5,.05);
+        this.gui.push(backButton);
+        this.selectedButton = backButton;
+        backButton.selected = true;
 
-    dim = rectDimFromCenter(.5,.7,.2,.1);
-    var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
-      MAIN.gamepadOn = !MAIN.gamepadOn;
-      gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
-    },"Gamepad On",'30px Noteworthy', 
-    'white','transparent','white', 5,.05);
-    this.gui.push(gamepadBtn);
+        dim = rectDimFromCenter(.5,.7,.2,.1);
+        var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
+          MAIN.gamepadOn = !MAIN.gamepadOn;
+          gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
+        },"Gamepad On",'30px Noteworthy', 
+        'white','transparent','white', 5,.05);
+        this.gui.push(gamepadBtn);
+      break;
+      case true:
+        dim = rectDimFromCenter(.8,.9,.2,.1);
+        var backButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
+        'white','rgba(255,255,255,0.5)','white', 5);
+        this.gui.push(backButton);
+        this.selectedButton = backButton;
+        backButton.selected = true;
+
+        dim = rectDimFromCenter(.5,.7,.2,.1);
+        var gamepadBtn = new TextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
+          MAIN.gamepadOn = !MAIN.gamepadOn;
+          gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
+        },"Gamepad On",'30px Noteworthy', 
+        'white','rgba(255,255,255,0.5)','white', 5);
+        this.gui.push(gamepadBtn);
+      break;
+    }
+    
 
     dim = rectDimFromCenter(.5,.15,.4,.2);
     var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px Noteworthy','white','center');

@@ -70,10 +70,7 @@ class PauseScene extends Scene {
     var textColor = 'black';
     var buttonGap = 0.085;
 
-    var dim = rectDimFromCenter(.5,.4,.2,.08);
-    var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Paused",bigFont,textColor,'center');
-    this.gui.push(pauseLabel);
+    
 
     dim = rectDimFromCenter(.96,.95,.05,.08);
     this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
@@ -85,29 +82,77 @@ class PauseScene extends Scene {
       "Fails:", buttonFont,textColor,'right');
     this.gui.push(deathLabel);
 
-    dim = rectDimFromCenter(0.5,.55,0.2,.08);
-    var resumeButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.unpause.bind(this),"Resume",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(resumeButton);
-
-    dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
-    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(levelSelectButton);
-
-    dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
-    var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(restartButton);
+    switch(touchOn){
+      case false:
+        var dim = rectDimFromCenter(.5,.4,.2,.08);
+        var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+          "Paused",bigFont,textColor,'center');
+        this.gui.push(pauseLabel);
+        dim = rectDimFromCenter(0.5,.55,0.2,.08);
+        var resumeButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.unpause.bind(this),"Resume",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(resumeButton);
     
-    dim = rectDimFromCenter(0.5,0.55+buttonGap*3,.2,.08);
-    var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(mainMenuButton);
+        dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
+        var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(levelSelectButton);
+    
+        dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
+        var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(restartButton);
+        
+        dim = rectDimFromCenter(0.5,0.55+buttonGap*3,.2,.08);
+        var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(mainMenuButton);
+    
+        this.selectedButton = resumeButton;
+        this.selectedButton.selected = true;
+  
+        break;
+      case true:
+        buttonFont = "50px Noteworthy";
+        var dim = rectDimFromCenter(.5,.28,.2,.08);
+        var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+          "Paused",bigFont,textColor,'center');
+        this.gui.push(pauseLabel);
+        dim = rectDimFromCenter(.32,.52,.35,.25);
+        var resumeButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.unpause.bind(this),"Resume",buttonFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        this.gui.push(resumeButton);
+    
+        dim = rectDimFromCenter(.68,.52,.35,.25);
+        var levelSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        this.gui.push(levelSelectButton);
+    
+        dim = rectDimFromCenter(.32,.8,.35,.25);
+        var restartButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.restartLevel.bind(this),"Restart",buttonFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        this.gui.push(restartButton);
+        
+        dim = rectDimFromCenter(.68,.8,.35,.25);
+        var mainMenuButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        this.gui.push(mainMenuButton);
 
-    this.selectedButton = resumeButton;
-    this.selectedButton.selected = true;
-
+        dim = rectDimFromCenter(.88,.1,.095,.12);
+        var pauseButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.unpause.bind(this),"",buttonFont,'transparent','rgba(64,64,64,.5)','transparent',0);
+        this.gui.push(pauseButton);
+        dim = rectDimFromCenter(.895,.1,.02,.08);
+        var box1 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
+        this.gui.push(box1);
+        dim = rectDimFromCenter(.865,.1,.02,.08);
+        var box2 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
+        this.gui.push(box2);
+  
+        
+        break;
+    }
+    
     resumeButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
     levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
     restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
