@@ -32,7 +32,11 @@ class LevelSelectScene extends Scene{
         this.menuState = SELECTWORLD;
         this.worldSelected = 0;
         this.levelIndex = 0;    
-        this.buttonsInRow = 6;
+        if(touchOn){
+          this.buttonsInRow = 4;
+        } else {
+          this.buttonsInRow = 6;
+        }
         this.buttonRow = [];
 
         this.worldButtons = [];
@@ -112,15 +116,7 @@ class LevelSelectScene extends Scene{
     createBackgrounds(){
       var slowSpeed = 3;
       var fastSpeed = 5;
-      /*
-      this.bg = createHillBackground(60, "#888", true);
-      this.newBackground1 = new ScrollingBackgroundObject(this.bg,.6,.5,3,0,-200,false);
-      this.newBackground2 = new ScrollingBackgroundObject(this.bg,.6,.5,3,this.bg.width,-200,true);
-  
-      this.otherbg = createHillBackground(100, "#666", false);
-      this.newBackground3 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,0,-100,false);
-      this.newBackground4 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,this.otherbg.width,-100,true);
-      */
+      
       var xScale = 0.55;
       var bgSprite1 = createHillBackground(6000, "rgb(10,92,31)", false);
       var bg1 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,0,-80,false,true);
@@ -214,28 +210,25 @@ class LevelSelectScene extends Scene{
       world2Button.setNeighbors([world1Button,undefined,world3Button,undefined]);
       world3Button.setNeighbors([world2Button,undefined,undefined,undefined]);
 
-      //Select level UI
-      /*
-      dim = rectDimFromCenter(.5,.5,.2,.1)
-      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px Noteworthy',textColor,'center');
-      this.levelNumLabel.setVisibility(false);
-      this.gui.push(this.levelNumLabel);
-        
-      dim = rectDimFromCenter(.5,.6,.18,.08);
-      this.startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
-      this.loadGameLevel.bind(this),"Start Level",buttonFont,textColor,'transparent',textColor,5);
-      this.startButton.setVisibility(false);
-      this.startButton.interactable = false;
-      this.gui.push(this.startButton);
-      */
+      
       this.buildButtonRow();
       dim = rectDimFromCenter(.8,.532,.05,.08);
+      if(touchOn){
+        dim[1] -= .012;
+        dim[2] *= 1.3;
+        dim[3] *= 1.3;
+      }
       this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevels.bind(this),.05,.4,'white','black',5,false);
       this.rightArrow.selectable = false;
       this.rightArrow.setVisibility(false);
       this.gui.push(this.rightArrow);
 
       dim = rectDimFromCenter(.2,.532,.05,.08);
+      if(touchOn){
+        dim[1] -= .012;
+        dim[2] *= 1.3;
+        dim[3] *= 1.3;
+      }
       this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevels.bind(this),.05,.4,'white','black',5,true);
       this.leftArrow.selectable = false;
       this.leftArrow.setVisibility(false);
@@ -245,6 +238,11 @@ class LevelSelectScene extends Scene{
       this.levelName = new Label(dim[0],dim[1],dim[2],dim[3],5,"",'30px Noteworthy','white','center');
       this.gui.push(this.levelName);
 
+      if(touchOn){
+        dim = rectDimFromCenter(.85,.06,.25,.08);
+        var mainMenuButton = new TextButton(dim[0],dim[1],dim[2],dim[3],10,this.goToMainMenu.bind(this),"Main Menu",buttonFont,'white','rgba(255,255,255,.5)','white',5);
+        this.gui.push(mainMenuButton);
+      }
       this.buttons = getButtons(this.gui);
       this.selectedButton = world1Button;
     }
@@ -254,14 +252,26 @@ class LevelSelectScene extends Scene{
       var square = [1,16/9];
       var buttonWidth = .05*square[0];
       var buttonHeight = .05*square[1];
+      
       var buttonGap = regionWidth/this.buttonsInRow;
       var origin = {x:0.5-buttonGap*(this.buttonsInRow-1)/2,y:.535};
+      if(touchOn){
+        buttonWidth *= 1.5;
+        buttonHeight *= 1.25;
+        origin.y = .52;
+      }
       var dim = [];
       for(var i = 0; i < this.buttonsInRow; i++){
-        dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);
-        var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
-          this.loadGameLevel.bind(this,i+1),""+(i+1),'40px Noteworthy','white',
-          'transparent','white',5);
+        dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);        
+        if(!touchOn){
+          var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
+            this.loadGameLevel.bind(this,i+1),""+(i+1),'40px Noteworthy','white',
+            'transparent','white',5);
+        } else {
+          var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
+            this.loadGameLevel.bind(this,i+1),""+(i+1),'40px Noteworthy','white',
+            'rgba(255,255,255,.5)','white',5);
+        }
         /*
         var outline = new ColoredBox(dim[0],dim[1],dim[2],dim[3],4,'transparent','white',3);
         this.gui.push(outline);
@@ -297,12 +307,21 @@ class LevelSelectScene extends Scene{
     }
     handleWorldClick(worldNumber){
       if(this.menuState == SELECTWORLD){
+        this.updateWorldSelection(worldNumber);
         this.selectWorld(worldNumber);
       } else if(this.menuState == SELECTLEVEL){
-        if(worldNumber != this.worldSelected){
-          this.returnToWorldSelect();  
-          this.updateWorldSelection(worldNumber);    
-        }     
+        if(!touchOn){
+          if(worldNumber != this.worldSelected){
+            this.returnToWorldSelect();  
+            this.updateWorldSelection(worldNumber);    
+          }  
+        } else {
+          if(worldNumber != this.worldSelected){
+            this.returnToWorldSelect();
+            this.updateWorldSelection(worldNumber);
+            this.handleWorldClick(worldNumber);
+          }
+        }   
       }
     }
     selectWorld(worldNumber){
@@ -451,7 +470,11 @@ class LevelSelectScene extends Scene{
           this.selectedButton.selected = false;
           this.selectedButton = this.selectedButton.getNeighbor('left');
           this.selectedButton.selected = true;
+        } else {
+          this.selectedButton.selected = true;
         }
+      } else {
+        this.selectedButton.selected = true;
       }
     }
     decrementLevels(){
@@ -465,7 +488,11 @@ class LevelSelectScene extends Scene{
           this.selectedButton.selected = false;
           this.selectedButton = this.selectedButton.getNeighbor('right');
           this.selectedButton.selected = true;
+        } else {
+          this.selectedButton.selected = true;
         }
+      } else {
+        this.selectedButton.selected = true;
       }
     }
 }
