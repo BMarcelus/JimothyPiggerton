@@ -157,6 +157,7 @@ class LevelCompleteScene extends Scene{
     canvas.restore();
   }
   startExitTransition(){
+    this.prevScene.screenShakeLevel = 0;
     this.update = super.update;
     setTimeout(() => {
       this.startTransition(20, 1, this.loadNextScene);

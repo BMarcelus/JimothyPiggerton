@@ -12,7 +12,11 @@
     for(var i in args)
     debug = debug+','+args[i];
   }
-var concat = 'cat '
+var concat = 'cat ';
+if (typeof window.orientation !== 'undefined') {
+  
+}
+
 function loadScript (dir, file) {
  var scr = document.createElement("script");
  var url = dir + file;

@@ -94,6 +94,9 @@ function handleGamePad(driver) {
   
 var touchButtonMap = {};
 var touchOn = false;
+if (typeof window.orientation !== 'undefined') {
+  touchOn = true;
+}
 class MainDriver {
   constructor(canvas) {
     this.canvas=canvas;

@@ -2,6 +2,7 @@ class PauseScene extends Scene {
   constructor(prevScene) {
     super();
     this.prevScene = prevScene;
+    if(prevScene.onPause)prevScene.onPause();
     this.keyMap = {
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
       '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
@@ -31,6 +32,7 @@ class PauseScene extends Scene {
     SOUNDMAP.music.lerpVolume(0.2, 0.05);
   }
   unpause() {
+    if(this.prevScene.onResume)this.prevScene.onResume();
     this.driver.setScene(this.prevScene);
   }
   goToMainMenu(){

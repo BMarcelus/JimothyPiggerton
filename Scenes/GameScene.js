@@ -183,8 +183,9 @@ class GameScene extends Scene {
   win() {
     this.driver.setScene(new PostWinScene(this));    
   }
-  loadNewLevel(index) {   
+  loadNewLevel(index) {
     this.frameStop = 0;
+    this.screenShakeLevel = 0;
     if(index<0)index=0;
     this.butcher = null;
     this.kingByrd = null;
@@ -368,6 +369,7 @@ class GameScene extends Scene {
     }
   }
   doScreenShake(canvas) {
+    if(this.paused)return;
     if(this.screenShakeLevel==0) {
       return this.camera.r = 0;
     }
@@ -379,5 +381,11 @@ class GameScene extends Scene {
     this.camera.y+=y;
     this.camera.r=r;
     // canvas.rotate(r);
+  }
+  onPause() {
+    this.paused = true;
+  }
+  onResume() {
+    this.paused = false;
   }
 }

@@ -227,4 +227,10 @@ class Scene {
     this.mouse.x = constrain(this.mouse.x,0,1); 
     this.mouse.y = constrain(this.mouse.y,0,1)
   }
+  onPause() {
+
+  }
+  onResume() {
+    
+  }
 }
