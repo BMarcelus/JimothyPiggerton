@@ -15,6 +15,7 @@ class LevelIntroScene extends Scene{
     this.postMoveDuration = 15;
     this.postMoveTimer = 0;
     this.nextScene.behinds=[];
+    this.touchButtonsActive = true;
   }
   update(dt, frameCount){
     super.update(dt);

@@ -35,9 +35,11 @@ class LevelCompleteScene extends Scene{
     this.butcher.state = -1;
     SOUNDMAP.levelComplete.play();
     this.addAllGUI();
+    this.touchCount = 0;
   }
   update0(dt,frameCount) {
     super.update(dt,frameCount);
+    this.checkTapToSkip();
     if(this.player.grounded||true) {
       this.update = this.update1;
       this.player.ghostOn = true;
@@ -51,6 +53,7 @@ class LevelCompleteScene extends Scene{
   }
   update1(dt, frameCount){
     super.update(dt,frameCount);
+    this.checkTapToSkip();
     var t = this.time/this.maxTime;
     this.prevLevelAlpha = 1 - t;
     if(this.time>=this.maxTime) {
@@ -89,6 +92,7 @@ class LevelCompleteScene extends Scene{
   }
   update2(dt,frameCount) {
     super.update(dt,frameCount);
+    this.checkTapToSkip();
     this.time += 1;
     this.maxTime = 40;
     var t = this.time/this.maxTime;
@@ -112,6 +116,7 @@ class LevelCompleteScene extends Scene{
   }
   update3(dt,frameCount) {
     super.update(dt,frameCount);
+    this.checkTapToSkip();
     this.prevScene.musicFadeOnPig();
     this.time += 1;    
     var t = this.time/this.maxTime;
@@ -189,6 +194,31 @@ class LevelCompleteScene extends Scene{
       this.perfectLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
         "Perfect Clear!", buttonFont,textColor,'right');
       this.gui.push(this.perfectLabel);
+    }
+    if(touchOn){
+      var entireScreenButton = new TextButton(0,0,1,1,0,
+        this.increaseTouchCount.bind(this),"",buttonFont,'transparent','transparent','transparent',0);
+      this.gui.push(entireScreenButton);
+      
+      var dim = rectDimFromCenter(.83,.08,.5,.1);
+      this.skipMessage = new Label(dim[0],dim[1],dim[2],dim[3],0,
+        "",buttonFont, 'black', 'center');
+      this.gui.push(this.skipMessage);
+    }
+    this.buttons = getButtons(this.gui);
+
+  }
+  increaseTouchCount(){
+    this.touchCount += 1;
+  }
+  checkTapToSkip(){
+    if(touchOn){
+      if(this.touchCount >= 1){
+        this.skipMessage.text = "Tap again to skip";
+      }
+      if(this.touchCount >= 2){
+        this.startExitTransition()
+      }
     }
   }
 }
