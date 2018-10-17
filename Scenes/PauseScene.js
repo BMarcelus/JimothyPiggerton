@@ -68,7 +68,7 @@ class PauseScene extends Scene {
   }
   addPauseMenuGUI(){
     var bigFont = "60px " + FONT;
-    var buttonFont = "30px noteworthy";
+    var buttonFont = "30px " + FONT;
     var textColor = 'black';
     var buttonGap = 0.085;
 
@@ -115,32 +115,36 @@ class PauseScene extends Scene {
   
         break;
       case true:
-        var touchScreenFont = "50px Noteworthy";
+        var touchScreenFont = FONT;
+        var fontSize = '35px';
+        var largerFontSize = '45px';
+        var backFill = 'rgba(0,0,0,.2)';
+        var expandFactor = .3;        
         var dim = rectDimFromCenter(.5,.28,.2,.08);
         var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
           "Paused",bigFont,textColor,'center');
         this.gui.push(pauseLabel);
-        dim = rectDimFromCenter(.32,.52,.35,.25);
-        var resumeButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.unpause.bind(this),"Resume",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        dim = rectDimFromCenter(.31,.52,.27,.24);
+          var resumeButton = new ExpandingMobileButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.unpause.bind(this),"Resume",touchScreenFont,fontSize,largerFontSize,textColor,'rgba(128,128,128,0.5)',textColor,5,expandFactor);
         this.gui.push(resumeButton);
     
-        dim = rectDimFromCenter(.68,.52,.35,.25);
-        var levelSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.goToLevelSelect.bind(this),"Level Select",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        dim = rectDimFromCenter(.69,.52,.27,.24);
+        var levelSelectButton = new ExpandingMobileButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToLevelSelect.bind(this),"Level Select",touchScreenFont,fontSize,largerFontSize,textColor,'rgba(128,128,128,0.5)',textColor,5,expandFactor);
         this.gui.push(levelSelectButton);
     
-        dim = rectDimFromCenter(.32,.8,.35,.25);
-        var restartButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.restartLevel.bind(this),"Restart",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        dim = rectDimFromCenter(.31,.8,.27,.24);
+        var restartButton = new ExpandingMobileButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.restartLevel.bind(this),"Restart",touchScreenFont,fontSize,largerFontSize,textColor,'rgba(128,128,128,0.5)',textColor,5,expandFactor);
         this.gui.push(restartButton);
-        
-        dim = rectDimFromCenter(.68,.8,.35,.25);
-        var mainMenuButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.goToMainMenu.bind(this),"Main Menu",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+
+        dim = rectDimFromCenter(.69,.8,.27,.24);
+        var mainMenuButton = new ExpandingMobileButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToMainMenu.bind(this),"Main Menu",touchScreenFont,fontSize,largerFontSize,textColor,'rgba(128,128,128,0.5)',textColor,5,expandFactor);
         this.gui.push(mainMenuButton);
 
-        dim = rectDimFromCenter(.88,.1,.095,.12);
+        var dim = rectDimFromCenter(.88,.1,.095,.12);
         var pauseButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
           this.unpause.bind(this),"",touchScreenFont,'transparent','rgba(64,64,64,.5)','transparent',0);
         this.gui.push(pauseButton);

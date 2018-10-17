@@ -166,6 +166,7 @@ function GUIMouseMove(self, e, buttonList){
   }
   var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
+    buttonList[i].selected = false;
     if(buttonList[i].contains(percentPoint[0],percentPoint[1]) && buttonList[i].selectable){
       if(self.selectedButton != undefined)
         self.selectedButton.selected = false;
