@@ -2,6 +2,7 @@ addBlock(function() { return {
   //Ground
     id: BLOCKS.length,
     name: "Air",
+    air: true,
     ignoreCollisions:true,
     // redraws:true,
     // draw: function(canvas, x,y,w,h, world,i,j) {

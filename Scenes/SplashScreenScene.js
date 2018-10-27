@@ -46,6 +46,10 @@ class SplashScreenScene extends Scene {
       var x = canvas.width/2 - w/2;
       var y = canvas.height/2 - h/2;
       canvas.drawImage(image, x,y, w, h);
+      if(this.text) {
+        canvas.fillStyle = 'white';
+        canvas.fillText(this.text, x,y,w,h);
+      }
     }
     drawTransitionOverlay(this.overlayColor,canvas);
   }

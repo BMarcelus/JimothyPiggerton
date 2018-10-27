@@ -27,4 +27,6 @@ loadSequentially('Entities/',
   "KingByrd.js",
   "KingByrdPoint.js",
   "BigSaw.js",
+  "Grass.js",
+  "Butterfly.js",
 ]);

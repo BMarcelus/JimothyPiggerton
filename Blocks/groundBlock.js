@@ -302,6 +302,16 @@ addBlock(function() {
       // if(type == 3) this.redraws = true;
       // else this.redraws = false;
     },
+    onload: function(game, x,y,width,height, world,ii,jj) {
+      var block = world.getCell(ii,jj-1);
+      if(!block.air) { return };
+      if(Math.random()<.5)return;
+      for(var i=0;i<3;++i) {
+        game.unshift(new Grass(x+width/2,y, ii,jj));
+      }
+      if(Math.random()<.75)return;
+      game.unshift(new Butterfly(x+width/2,y, ii,jj));
+    },
     drawTypes: {
       0: drawTypes.grass,
       1: drawTypes.dirt,

@@ -136,6 +136,9 @@ class World {
       var x1 = points[i][0];
       var y1 = points[i][1];
       var p = this.pointToMatrix(x1,y1);
+      if(i==0) {
+        entity.matrixPosition = p;
+      }
       var cellPos = this.matrixToPoint(p.x,p.y);      
       cellPos.i = i;
       // var type = this.pointCollides(x1,y1);

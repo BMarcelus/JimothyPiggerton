@@ -36,7 +36,7 @@ class GameScene extends Scene {
         }
       }.bind(this)},
     }
-    this.camera = {x:0,y:0,dx:0,dy:0,speed:10};
+    this.camera = {x:0,y:0,dx:0,dy:0,speed:10,zoom:1};
     
     // this.world = new World(200,50,50);
 
@@ -60,6 +60,7 @@ class GameScene extends Scene {
     // this.addEntity(new Pig(this.world.w*this.world.s-200,100));  
     // this.addEntity(new Enemy(300,100));
     this.screenShakeLevel=0;
+    this.screenZoom=0;
     this.totalDeaths = 0;
     this.levelDeaths = 0;
     this.constrainCamera();
@@ -72,6 +73,10 @@ class GameScene extends Scene {
   addEntity(entity) {
     entity.game = this;
     this.entities.push(entity);
+  }
+  unshift(entity) {
+    entity.game = this;
+    this.entities.unshift(entity);
   }
   collidesWithPlayer(entity) {
 		var entityBox = entity.getHitBox();
@@ -212,6 +217,7 @@ class GameScene extends Scene {
   loadNewLevel(index) {   
     this.frameStop = 0;
     this.screenShakeLevel = 0;
+    this.screenZoom=0;
     if(index<0)index=0;
     this.butcher = null;
     this.kingByrd = null;
@@ -347,7 +353,9 @@ class GameScene extends Scene {
     // this.screenShakeLevel -= this.screenShakeLevel/10;
   }
   updateScreenShakeLevel() {
-    this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05);    
+    this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05); 
+    // this.screenZoom = linearMove(this.screenZoom, 0, .005); 
+    // this.camera.zoom = this.screenZoom+1;
   }
   draw(canvas) {
     if(!this.canvas) {
@@ -371,6 +379,7 @@ class GameScene extends Scene {
 
     canvas.translate(canvas.width/2,canvas.height/2);  
     canvas.rotate(camera.r);
+    // canvas.scale(camera.zoom,camera.zoom);
     
     canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
     
