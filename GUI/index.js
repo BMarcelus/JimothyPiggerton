@@ -10,5 +10,6 @@ loadSequentially('GUI/',
   "ArrowSelector.js",
   "BlockButton.js",
   "Slider.js",
-  "MobileButton.js",
+  "MobileTextButton.js",
+  "ExpandingMobileButton.js",
 ]);

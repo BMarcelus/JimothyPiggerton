@@ -90,28 +90,32 @@ class MenuScene extends Scene{
 
       case true:
 
-        buttonFont = "50px NoteWorthy";
+        buttonFont = FONT;
+        var fontSize = '35px';
+        var largerFontSize = '45px';
+        var backFill = 'rgba(0,0,0,.2)';
+        var expandFactor = .3;
         var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
           "Jimothy Piggerton",bigFont,"white",'center');
         this.gui.push(mainTitle);
-        dim = rectDimFromCenter(.32,.52,.35,.25);
-        var startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
-          "Start Game",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        dim = rectDimFromCenter(.31,.52,.27,.24);
+        var startButton = new ExpandingMobileButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
+          "Start Game",buttonFont,fontSize,largerFontSize,'white',backFill,'white',10,expandFactor);
         this.gui.push(startButton);
     
-        dim = rectDimFromCenter(.68,.52,.35,.25);
-        var levelSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
-          "Level Select",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        dim = rectDimFromCenter(.69,.52,.27,.24);
+        var levelSelectButton = new ExpandingMobileButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
+          "Level Select",buttonFont,fontSize,largerFontSize,'white',backFill,'white',10,expandFactor);
         this.gui.push(levelSelectButton);
     
-        dim = rectDimFromCenter(.32,.8,.35,.25);
-        var optionsButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
-          "Options",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        dim = rectDimFromCenter(.31,.8,.27,.24);
+        var optionsButton = new ExpandingMobileButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
+          "Options",buttonFont,fontSize,largerFontSize,'white',backFill,'white',10,expandFactor);
         this.gui.push(optionsButton);
     
-        dim = rectDimFromCenter(.68,.8,.35,.25);
-        var creditsButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
-          "Credits",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        dim = rectDimFromCenter(.69,.8,.27,.24);
+        var creditsButton = new ExpandingMobileButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
+          "Credits",buttonFont,fontSize,largerFontSize,'white',backFill,'white',10,expandFactor);
         this.gui.push(creditsButton);
         break;
     }

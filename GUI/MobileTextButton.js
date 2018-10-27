@@ -1,4 +1,4 @@
-class MobileButton extends TextButton{
+class MobileTextButton extends TextButton{
 
   constructor(x,y,w,h,groupID,onRelease,text,font, 
     textColor,rectBackFillColor,rectOutlineColor, strokeWidth, 
@@ -16,8 +16,7 @@ class MobileButton extends TextButton{
 
     var dim = this.getPixelDimensions(canvas);
     this.drawRectangle(canvas,dim);
-    if(this.selected)
-      this.drawOutline(canvas,dim);
+    this.drawOutline(canvas,dim);
     
     this.drawText(canvas,dim);
     
