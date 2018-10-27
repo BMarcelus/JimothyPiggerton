@@ -155,7 +155,19 @@ class SoundSource {
     this.lastSound.stopSound();
     this.lastSound = null;
   }
+  pause() {
+    this.setVolume(0);
+    // if(!this.lastSound)return;
+    // this.pauseTime = this.lastSound.getTime();
+    // this.stopSound();
+  }
+  resume() {
+    this.setVolume(1);
+    // if(!this.lastSound||!this.pauseTime)return;
+    // this.lastSound.resume(this.pauseTime);
+  }
   setVolume(v) {
+    if(!this.lastSound)return;
     this.lastVolume = v;
     v = v*this.volume;
     if(v<0)v=0;
@@ -273,6 +285,7 @@ class MusicSource extends SoundSource {
     super(...args);
     this.loops = true;
     this.lastVolume = 1;
+    this.isSong = false;
   }
   play() {
     if(this.lastSound)return this.lastSound;
@@ -291,9 +304,12 @@ class MusicHandler {
   setSong(index) {
     var newSong = this.songs[index];
     if(this.song == newSong) return;
+    newSong.isSong = true;
     newSong.play();
     if(this.song){
       this.song.stopSound();
+      this.song.pause();
+      this.song.isSong = false;
     }
     this.song = newSong;
   }

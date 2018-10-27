@@ -117,7 +117,9 @@ class LevelCompleteScene extends Scene{
   update3(dt,frameCount) {
     super.update(dt,frameCount);
     this.checkTapToSkip();
-    this.prevScene.musicFadeOnPig();
+    if(!this.prevScene.isFinalInWorld) {
+      this.prevScene.musicFadeOnPig();
+    }
     this.time += 1;    
     var t = this.time/this.maxTime;
     var player = this.player;

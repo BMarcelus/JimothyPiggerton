@@ -8,8 +8,11 @@ addBlock(function() { return {
     draw: function(canvas, x,y,w,h, world,i,j) {
       canvas.save();
       h*=.5;
-      var color1 = "#754";
-      var color2 = "#532";
+      // var color1 = "#754";
+      // var color2 = "#532";
+
+      var color1 = "#805940";
+      var color2 = "#531";
       // color1 = "#555";
       // color2 = "#777";
       // color3 = "#000";

@@ -1,4 +1,3 @@
-var FONT = "Handlee";
 function linearMove(a,b,s) {
   if(Math.abs(a-b)<=s)return b;
   if(a>b)return a-s;
@@ -1067,6 +1066,7 @@ class Scene {
     if(playIntro != undefined && playIntro){
       this.startTransition(25,-1,undefined);
     }
+    this.touchButtonsActive = false;
     this.mouse = {x:-1,y:-1};
   }
   update(dt){
@@ -1237,6 +1237,12 @@ class Scene {
     this.mouse.x = constrain(this.mouse.x,0,1); 
     this.mouse.y = constrain(this.mouse.y,0,1)
   }
+  onPause() {
+
+  }
+  onResume() {
+    
+  }
 }
 class GUIElement{
   constructor(x,y,w,h,groupID){
@@ -1347,13 +1353,30 @@ function getGUIInGroup(n,guiList){
   return result;
 }
 function GUIMouseDown(e,buttonList){
+  
   var percentPoint = getPercentPoint(e);  
-  for(var i = 0; i < buttonList.length; i++){
-    if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
-        && buttonList[i].interactable){
-      buttonList[i].held = true;
-      if(buttonList[i].onClick) buttonList[i].onClick();
-    }
+  switch(touchOn){
+    case false:
+      for(var i = 0; i < buttonList.length; i++){
+        if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
+            && buttonList[i].interactable){
+          buttonList[i].held = true;
+          if(buttonList[i].onClick) buttonList[i].onClick();
+        }
+      }
+      break;
+
+    case true:
+      for(var i = 0; i < buttonList.length; i++){
+        buttonList[i].selected = false;
+        if(buttonList[i].contains(percentPoint[0],percentPoint[1]) 
+          && buttonList[i].interactable){
+        buttonList[i].selected = true;
+        buttonList[i].held = true;
+        if(buttonList[i].onClick) buttonList[i].onClick();
+      }
+      }
+      break;
   }
 }
 function GUIMouseUp(e,buttonList){
@@ -1379,10 +1402,13 @@ function GUIMouseUp(e,buttonList){
 function GUIMouseMove(self, e, buttonList){
   if(buttonList == undefined)
     return;
-  for(var j = 0; j < buttonList.length; j++){
-    if(buttonList[j].held)
-      return; //If a button is currently being held (meaning this is a mouse drag
-              //that was initiated on a valid button), bail out
+
+  if(!touchOn){
+    for(var j = 0; j < buttonList.length; j++){
+      if(buttonList[j].held)
+        return; //If a button is currently being held (meaning this is a mouse drag
+                //that was initiated on a valid button), bail out
+    }
   }
   var percentPoint = getPercentPoint(e);  
   for(var i = 0; i < buttonList.length; i++){
@@ -1399,6 +1425,7 @@ function GUIMouseMove(self, e, buttonList){
 
 
 
+var FONT = "Handlee";
 var movementKeys = [32,37,38,39,40];
 var touchButtons = [];
 function setUpTouchBtns() {
@@ -1421,6 +1448,7 @@ function setUpTouchBtns() {
     x: .75, y: .76, w: .2, h: .24,
     key: 83,
   },
+ 
 ];
 }
 setUpTouchBtns();
@@ -1494,17 +1522,23 @@ function handleGamePad(driver) {
   
 var touchButtonMap = {};
 var touchOn = false;
+if (typeof window.orientation !== 'undefined') {
+  touchOn = true;
+}
 class MainDriver {
   constructor(canvas) {
     this.canvas=canvas;
     this.frameCount=0;
     this.keys = [];
-    this.scene = new CoolmathSplashScreen(true);
+    this.scene = new VgdcSplashScreen(true);
     this.scene.driver = this;
     this.mouse = {x:0,y:0};
     this.soundsInitialized = false;
     this.timeoutes = [];
     this.gamepadOn=true;
+
+
+   
   }
   setTimeout(callback, frames) {
     this.timeoutes.push({callback, frames});
@@ -1537,7 +1571,7 @@ class MainDriver {
   draw(canvas) {
     canvas.clearRect(0,0,canvas.width,canvas.height);
     this.scene.draw(canvas);
-    if(touchOn) {
+    if(touchOn && this.scene.touchButtonsActive) {
       var W = canvas.width;
       var H = canvas.height;
       canvas.save();    
@@ -1605,11 +1639,13 @@ class MainDriver {
       var touch = e.changedTouches[i];
       var {x, y} = this.getTouchPosition(touch, e);
       e.percentPoint = [x,y];
-      this.scene.mousedown(e, this.mouse);     
-      for(var j=0;j<touchButtons.length;j++) {
-        var btn = touchButtons[j];
-        if(pointInRect(x,y,btn)) {
-          this.enterTouchButton(btn, touch.identifier);
+      this.scene.mousedown(e, this.mouse);    
+      if(this.scene.touchButtonsActive){ 
+        for(var j=0;j<touchButtons.length;j++) {
+          var btn = touchButtons[j];
+          if(pointInRect(x,y,btn)) {
+            this.enterTouchButton(btn, touch.identifier);
+          }
         }
       }
     }
@@ -1620,16 +1656,18 @@ class MainDriver {
       var {x, y} = this.getTouchPosition(touch, e);
       e.percentPoint = [x,y];      
       this.scene.mousemove(e, this.mouse);    
-      var cbtn = touchButtonMap[touch.identifier];
-      if(cbtn) {
-        if(!pointInRect(x,y,cbtn)) {
-          this.leaveTouchButton(cbtn, touch.identifier);
+      if(this.scene.touchButtonsActive){
+        var cbtn = touchButtonMap[touch.identifier];
+        if(cbtn) {
+          if(!pointInRect(x,y,cbtn)) {
+            this.leaveTouchButton(cbtn, touch.identifier);
+          }
         }
-      }
-      for(var j=0;j<touchButtons.length;j++) {
-        var btn = touchButtons[j];
-        if(pointInRect(x,y,btn)) {
-          this.enterTouchButton(btn, touch.identifier);
+        for(var j=0;j<touchButtons.length;j++) {
+          var btn = touchButtons[j];
+          if(pointInRect(x,y,btn)) {
+            this.enterTouchButton(btn, touch.identifier);
+          }
         }
       }
     }
@@ -1640,10 +1678,12 @@ class MainDriver {
       var {x, y} = this.getTouchPosition(touch, e);
       e.percentPoint = [x,y];      
       this.scene.mouseup(e, this.mouse);           
+      
       var cbtn = touchButtonMap[touch.identifier];
       if(cbtn) {
         this.leaveTouchButton(cbtn, touch.identifier);
       }
+      
       // for(var i=0;i<touchButtons.length;i++) {
       //   var btn = touchButtons[i];
       //   if(pointInRect(x,y,btn)) {
@@ -1707,6 +1747,7 @@ class MainDriver {
     // grd.addColorStop(1,"rgba(20,50,100,1)");
     return grd;
   }
+  
 }
 var CE = document.getElementById('gc');
 var canvas = CE.getContext('2d');
@@ -2981,8 +3022,14 @@ class Mover {
 
     var dim = this.getPixelDimensions(canvas);
     this.drawRectangle(canvas,dim);
-    if(this.selected && !this.held)
-      this.drawOutline(canvas,dim);
+    if(!touchOn){
+      if(this.selected && !this.held)
+        this.drawOutline(canvas,dim);
+    } else {
+      if(this.selected)
+        this.drawOutline(canvas,dim);
+    }
+    
     this.drawText(canvas,dim);
     
   }
@@ -3682,6 +3729,7 @@ class Pig extends Mover {
 class GameScene extends Scene {
   constructor(level, dontSpawnPig,playIntro) {
     super(playIntro);
+    this.touchButtonsActive = true;
     this.dontSpawnPig=dontSpawnPig;
     this.player = new Player();
     this.entities = [];
@@ -3743,6 +3791,10 @@ class GameScene extends Scene {
     this.levelDeaths = 0;
     this.constrainCamera();
     this.frameStop = 0;
+
+    this.allowUIInput = true;
+    this.selectedButton = undefined;
+    this.addGameGUI();
   }
   addEntity(entity) {
     entity.game = this;
@@ -3863,8 +3915,30 @@ class GameScene extends Scene {
   win() {
     this.driver.setScene(new PostWinScene(this));    
   }
+  addGameGUI(){
+    var bigFont = "60px Noteworthy";
+    var buttonFont = "30px noteworthy";
+    var textColor = 'black';
+    if(touchOn){
+      var dim = rectDimFromCenter(.88,.1,.095,.12);
+      var pauseButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+        this.pause.bind(this),"",buttonFont,'transparent','rgba(64,64,64,.5)','transparent',0);
+      this.gui.push(pauseButton);
+      dim = rectDimFromCenter(.895,.1,.02,.08);
+      var box1 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
+      this.gui.push(box1);
+      dim = rectDimFromCenter(.865,.1,.02,.08);
+      var box2 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
+      this.gui.push(box2);
+
+    }
+    this.buttons = getButtons(this.gui);
+
+    
+  }
   loadNewLevel(index) {   
     this.frameStop = 0;
+    this.screenShakeLevel = 0;
     if(index<0)index=0;
     this.butcher = null;
     this.kingByrd = null;
@@ -3911,6 +3985,7 @@ class GameScene extends Scene {
     // this.addEntity(new Enemy(300,100));  
     this.playLevelIntro();
     this.levelCompleted = false;
+    this.touchButtonsActive = true;
     /*
     var text = new WorldText(800,600,300,"TEXT HERE",'60px ' + FONT,[0,0,0,0],[0,0,0,1],
       100,false)
@@ -4033,8 +4108,10 @@ class GameScene extends Scene {
     canvas.restore();
     if(this.level.name) {
       canvas.fillStyle='#fff';
+      canvas.font = '30px Noteworthy';
       canvas.fillText(this.level.name, 200, canvas.height-30);
     }
+    this.drawAllGUI(canvas);
     drawTransitionOverlay(this.overlayColor,canvas);
     
   }
@@ -4048,6 +4125,7 @@ class GameScene extends Scene {
     }
   }
   doScreenShake(canvas) {
+    if(this.paused)return;
     if(this.screenShakeLevel==0) {
       return this.camera.r = 0;
     }
@@ -4060,7 +4138,12 @@ class GameScene extends Scene {
     this.camera.r=r;
     // canvas.rotate(r);
   }
-  
+  onPause() {
+    this.paused = true;
+  }
+  onResume() {
+    this.paused = false;
+  }
 }
 class Label extends GUIElement{
   constructor(x,y,width,height,groupID
@@ -4164,7 +4247,47 @@ class Label extends GUIElement{
     game.player.y = y + height;
   },
 }});
-class Enemy extends Mover {
+class PigFunScene extends GameScene{
+  constructor() {
+    super({
+      grid: [
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,0o0,19,19,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,19,23,23,23,19,19,19,18,18,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,21,19,19,19,19,18,18,18,18,18,19,19,19,19,0o0,0o0,0o0,0o0,0o0,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,18,18,18,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,18,19,19,0o0,0o0,19,19,19,19,19,19,19,18,18,18,23,23,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,18,18,18,23,23,23,9,9,19,18,19,19,19,19,0o0,18,18,18,18,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,22,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,18,19,19,19,19,18,19,19,19,19,19,18,18,18,19,0o0,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,18,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,23,23,23,23,18,18,19,19,19,19,19,18,18,19,18,19,19,18,18,18,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,19,18,19,19,18,18,19,19,19,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,19,21,0o0,19,19,18,18,18,18,19,19,18,18,18,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,19,18,18,18,19,19,19,0o0,0o0,19,19,19,19,19,19,0o0,0o0,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,21,19,19,19,19,19,19,19,19,0o0,19,19,18,18,18,19,19,0o0,19,19,19,18,18,18,19,19,18,18,18,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,18,18,19,19,0o0,19,19,19,19,19,19,19,19,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,18,19,19,19,19,19,19,0o0,0o0,19,18,18,18,0o0,19,0o0,0o0,19,19,19,18,18,19,0o0,18,18,18,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,23,23,23,23,23,19,19,19,0o0,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,18,18,18,18,19,19,0o0,19,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,0o0,0o0,0o0,19,18,18,19,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,19,18,18,18,18,19,0o0,19,19,19,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,0o0,19,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,18,23,23,23,9,0o0,19,0o0,0o0,0o1,0o1,18,18,0o0,0o0,0o0,0o0,0o0,9,23,23,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,19,19,18,18,19,19,0o0,19,19,19,18,19,18,19,18,19,19,19,19,18,19,19,18,19,19,19,19,19,0o0,19,19,18,19,19,19,18,19,19,19,19,19,0o0,0o0,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,18,19,21,0o0,0o0,0o0,0o0,0o1,0o1,0o1,18,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,19,18,18,19,19,0o0,0o0,19,21,18,18,18,18,18,19,19,19,19,19,18,19,18,18,18,19,0o0,0o0,0o0,0o0,19,19,18,19,19,19,18,19,19,19,0o0,0o1,0o0,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,19,19,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,18,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,18,18,19,0o0,0o0,0o0,19,19,19,18,18,18,18,18,19,19,19,19,18,18,18,23,23,23,23,23,9,0o0,0o0,19,18,18,19,18,18,18,18,19,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,19,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,18,18,0o0,0o1,0o0,0o0,0o0,0o0,19,19,23,23,23,18,19,19,0o0,19,18,18,18,18,19,19,19,0o0,0o0,0o0,0o0,19,19,18,18,18,18,18,19,19,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,0o0,0o1,9,9,9,9,9,23,23,23,18,18,19,19,0o0,0o0,18,18,18,18,19,19,0o0,0o0,0o0,0o0,0o0,9,23,23,23,18,18,18,19,0o0,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,18,18,18,0o0,19,0o0,0o0,0o0,18,18,19,19,0o0,24,0o0,0o0,0o0,0o0,0o0,21,19,18,18,18,0o0,21,0o0,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,0o0,21,0o0,0o0,0o0,18,18,19,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,],
+        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,23,23,9,0o0,0o0,0o0,0o1,0o1,0o1,],
+        [0o0,0o4,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,20,0o0,18,18,18,18,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o0,0o0,0o1,0o1,0o1,],
+        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,],
+        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,],
+        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,],
+        ]
+    },true);
+    this.gui = [];
+  }
+  win() {
+    this.driver.setScene(new IntroScene());    
+  }
+  // update(dt, frameCount) {
+  //   super.update(dt,frameCount);
+  // }
+}class Enemy extends Mover {
 	constructor(x,y) {
 		super(x,y);
 		this.w = 40;
@@ -4222,77 +4345,6 @@ class Enemy extends Mover {
     super.draw(canvas);
     // var box = this.getHitBox();
     // canvas.strokeRect(box.x,box.y,box.w,box.h);
-  }
-}class PigFunScene extends GameScene{
-  constructor() {
-    super({
-      grid: [
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,0o0,19,19,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,19,23,23,23,19,19,19,18,18,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,21,19,19,19,19,18,18,18,18,18,19,19,19,19,0o0,0o0,0o0,0o0,0o0,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,18,18,18,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,18,19,19,0o0,0o0,19,19,19,19,19,19,19,18,18,18,23,23,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,18,18,18,23,23,23,9,9,19,18,19,19,19,19,0o0,18,18,18,18,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,22,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,18,19,19,19,19,18,19,19,19,19,19,18,18,18,19,0o0,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,18,18,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,23,23,23,23,18,18,19,19,19,19,19,18,18,19,18,19,19,18,18,18,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,19,18,19,19,18,18,19,19,19,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,19,21,0o0,19,19,18,18,18,18,19,19,18,18,18,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,19,18,18,18,19,19,19,0o0,0o0,19,19,19,19,19,19,0o0,0o0,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,21,19,19,19,19,19,19,19,19,0o0,19,19,18,18,18,19,19,0o0,19,19,19,18,18,18,19,19,18,18,18,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,18,18,19,19,0o0,19,19,19,19,19,19,19,19,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,19,18,19,19,19,19,19,19,0o0,0o0,19,18,18,18,0o0,19,0o0,0o0,19,19,19,18,18,19,0o0,18,18,18,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,23,23,23,23,23,19,19,19,0o0,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,0o0,0o0,0o0,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o0,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,18,18,18,18,19,19,0o0,19,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,0o0,0o0,0o0,19,18,18,19,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,19,18,18,18,18,19,0o0,19,19,19,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,0o0,19,19,19,19,19,19,19,19,19,19,19,19,0o0,0o0,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,19,19,18,23,23,23,9,0o0,19,0o0,0o0,0o1,0o1,18,18,0o0,0o0,0o0,0o0,0o0,9,23,23,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,19,19,18,18,19,19,0o0,19,19,19,18,19,18,19,18,19,19,19,19,18,19,19,18,19,19,19,19,19,0o0,19,19,18,19,19,19,18,19,19,19,19,19,0o0,0o0,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,18,19,21,0o0,0o0,0o0,0o0,0o1,0o1,0o1,18,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,19,18,18,19,19,0o0,0o0,19,21,18,18,18,18,18,19,19,19,19,19,18,19,18,18,18,19,0o0,0o0,0o0,0o0,19,19,18,19,19,19,18,19,19,19,0o0,0o1,0o0,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,19,0o0,19,18,18,19,19,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,18,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,18,18,19,0o0,0o0,0o0,19,19,19,18,18,18,18,18,19,19,19,19,18,18,18,23,23,23,23,23,9,0o0,0o0,19,18,18,19,18,18,18,18,19,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,19,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,18,18,0o0,0o1,0o0,0o0,0o0,0o0,19,19,23,23,23,18,19,19,0o0,19,18,18,18,18,19,19,19,0o0,0o0,0o0,0o0,19,19,18,18,18,18,18,19,19,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,0o0,0o1,9,9,9,9,9,23,23,23,18,18,19,19,0o0,0o0,18,18,18,18,19,19,0o0,0o0,0o0,0o0,0o0,9,23,23,23,18,18,18,19,0o0,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,18,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,19,18,18,18,0o0,19,0o0,0o0,0o0,18,18,19,19,0o0,24,0o0,0o0,0o0,0o0,0o0,21,19,18,18,18,0o0,21,0o0,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,18,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,0o0,21,0o0,0o0,0o0,18,18,19,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,],
-        [0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,0o0,0o0,18,18,0o0,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,0o0,0o0,18,23,23,9,0o0,0o0,0o0,0o1,0o1,0o1,],
-        [0o0,0o4,0o0,0o0,0o0,0o0,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,0o0,20,0o0,18,18,18,18,0o0,0o0,0o0,18,18,18,0o0,0o0,0o0,24,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o0,0o0,0o1,0o1,0o1,],
-        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,],
-        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o0,0o0,0o0,0o0,0o0,25,0o0,18,18,18,0o0,0o0,0o1,0o1,0o1,0o1,0o1,],
-        [0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,0o1,],
-        ]
-    },true);
-    this.gui = [];
-  }
-  win() {
-    this.driver.setScene(new IntroScene());    
-  }
-  // update(dt, frameCount) {
-  //   super.update(dt,frameCount);
-  // }
-}class ColorLerpBox extends GUIElement{
-  constructor(x,y,w,h,groupID,activeColor, inactiveColor, changeDuration,startActivated){
-    super(x,y,w,h,groupID);
-    //Color is in format [r,g,b,a]
-    this.activeColor = activeColor;
-    this.inactiveColor = inactiveColor;
-    this.changeDuration = changeDuration;
-    this.activated = startActivated;
-    this.colorTimer = startActivated ? this.changeDuration : 0;
-  }
-  update(dt){
-    if(this.activated){
-      this.colorTimer += dt;
-      if(this.colorTimer > this.changeDuration)
-        this.colorTimer = this.changeDuration;
-    } else {
-      this.colorTimer -= dt;
-      if(this.colorTimer < 0)
-        this.colorTimer = 0;
-    }  
-  }
-  draw(canvas){
-    var fillColor = colorLerp(this.inactiveColor,this.activeColor,this.colorTimer/this.changeDuration);
-    canvas.fillStyle = makeColorStr(fillColor);
-    canvas.fillRect(this.x*canvas.width,this.y*canvas.height,this.w*canvas.width,this.h*canvas.height);
-  }
-  setOptions(interactable,selectable,visible){
-    //Interactable and selectable should never be true
-    //But calling setOptions with 3 parameters like buttons should be possible
-    super.setOptions(false,false,visible);
   }
 }addLevel( function(nameSpace) {
   {
@@ -4359,6 +4411,189 @@ addBlock(function() { return {
     game.addEntity(game.pig);
   },
 }});
+
+class ColorLerpBox extends GUIElement{
+  constructor(x,y,w,h,groupID,activeColor, inactiveColor, changeDuration,startActivated){
+    super(x,y,w,h,groupID);
+    //Color is in format [r,g,b,a]
+    this.activeColor = activeColor;
+    this.inactiveColor = inactiveColor;
+    this.changeDuration = changeDuration;
+    this.activated = startActivated;
+    this.colorTimer = startActivated ? this.changeDuration : 0;
+  }
+  update(dt){
+    if(this.activated){
+      this.colorTimer += dt;
+      if(this.colorTimer > this.changeDuration)
+        this.colorTimer = this.changeDuration;
+    } else {
+      this.colorTimer -= dt;
+      if(this.colorTimer < 0)
+        this.colorTimer = 0;
+    }  
+  }
+  draw(canvas){
+    var fillColor = colorLerp(this.inactiveColor,this.activeColor,this.colorTimer/this.changeDuration);
+    canvas.fillStyle = makeColorStr(fillColor);
+    canvas.fillRect(this.x*canvas.width,this.y*canvas.height,this.w*canvas.width,this.h*canvas.height);
+  }
+  setOptions(interactable,selectable,visible){
+    //Interactable and selectable should never be true
+    //But calling setOptions with 3 parameters like buttons should be possible
+    super.setOptions(false,false,visible);
+  }
+}class MenuScene extends Scene{
+  constructor(playIntro) {
+    super(playIntro);
+    
+    //up    - 0
+    //right - 1
+    //down  - 2
+    //left  - 3
+    this.menuState = 0;
+    this.allowUIInput = true;
+    this.addMainMenuGUI();
+    this.keyMap = {
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+      '69': { down: () => {if(DEBUG)this.driver.setScene(new LevelEditorSelectScene(false));} },
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '83': { down: this.navigateUI.bind(this,2)},    //S
+      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '38': { down: this.navigateUI.bind(this,0)},  //up
+      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '40': { down: this.navigateUI.bind(this,2)},   //down
+      '37': { down: this.navigateUI.bind(this,3)},   //left
+
+    }
+    this.background = new InfiniteBackground();
+   
+    this.camera = {x:0,y:0,dx:0,dy:0};
+    this.allowUIInput = true;
+  }
+  
+  update(dt) {
+    this.camera.x+=3;
+    super.update(dt);
+   
+  }
+  draw(canvas) {
+    this.background.drawLayers(canvas, this.camera);
+
+    
+    this.drawAllGUI(canvas);
+    if(this.debug)
+      drawGrid(canvas);
+    drawTransitionOverlay(this.overlayColor,canvas);
+  }
+  drawAllGUI(canvas){
+    for(var i = 0; i < this.gui.length; i++){
+      if(this.gui[i].visible){
+        this.gui[i].draw(canvas);
+      }
+    }
+  }
+ 
+  addMainMenuGUI(){
+    var bigFont = "60px " + FONT;
+    var buttonFont = "30px " + FONT;
+
+    var dim = rectDimFromCenter(.5,.28,.58,.12);
+
+    switch(touchOn){
+      case false:
+        var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
+          "Jimothy Piggerton",bigFont,"white",'center');
+        this.gui.push(mainTitle);
+        dim = rectDimFromCenter(.5,.48,.18,.1);
+        var startButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
+          "Start Game",buttonFont,"white","transparent","white",5,.08);
+        this.gui.push(startButton);
+    
+        dim = rectDimFromCenter(.5,.60,.18,.1);
+        var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
+          "Level Select",buttonFont,"white","transparent","white",5,.08);
+        this.gui.push(levelSelectButton);
+    
+        dim = rectDimFromCenter(.5,.72,.18,.1);
+        var optionsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
+          "Options",buttonFont,"white","transparent","white",5,.08);
+        this.gui.push(optionsButton);
+    
+        dim = rectDimFromCenter(.5,.84,.18,.1);
+        var creditsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
+          "Credits",buttonFont,"white","transparent","white",5,.08);
+        this.gui.push(creditsButton);
+    
+        startButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
+        levelSelectButton.setNeighbors([startButton,undefined,optionsButton,undefined]);
+        optionsButton.setNeighbors([levelSelectButton,undefined,creditsButton,undefined]);
+        creditsButton.setNeighbors([optionsButton,undefined,undefined,undefined]);
+        break;
+
+      case true:
+
+        buttonFont = "50px NoteWorthy";
+        var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
+          "Jimothy Piggerton",bigFont,"white",'center');
+        this.gui.push(mainTitle);
+        dim = rectDimFromCenter(.32,.52,.35,.25);
+        var startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
+          "Start Game",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        this.gui.push(startButton);
+    
+        dim = rectDimFromCenter(.68,.52,.35,.25);
+        var levelSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
+          "Level Select",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        this.gui.push(levelSelectButton);
+    
+        dim = rectDimFromCenter(.32,.8,.35,.25);
+        var optionsButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
+          "Options",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        this.gui.push(optionsButton);
+    
+        dim = rectDimFromCenter(.68,.8,.35,.25);
+        var creditsButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
+          "Credits",buttonFont,"white","rgba(255,255,255,.5)","white",10);
+        this.gui.push(creditsButton);
+        break;
+    }
+
+    
+
+    this.selectedButton = startButton;
+    this.selectedButton.selected = true;
+    this.buttons = getButtons(this.gui);
+
+  }
+  startGame(){
+   
+    this.allowUIInput = false;
+    //this.driver.setScene(new PigFunScene());
+    this.startTransition(25,1,sceneTransition(this,IntroScene,true));
+  }
+  goToLevelSelect(){
+   
+    this.allowUIInput = false;
+    this.driver.setScene(new LevelSelectScene(false));
+
+  }
+  goToOptions(){
+    this.allowUIInput = false;
+    this.driver.setScene(new OptionScene(false));
+  } 
+  goToCredits(){
+   
+    this.allowUIInput = false;
+    this.driver.setScene(new CreditsScene(false));
+  }
+  
+  
+}
+
+
 
 var TheByrd;
 class Byrd extends Enemy {
@@ -4466,146 +4701,6 @@ class Byrd extends Enemy {
     canvas.rect(-px*.5,-py+5,w*.5,h);
     canvas.restore();
   }
-}class MenuScene extends Scene{
-  constructor(playIntro) {
-    super(playIntro);
-    
-    //up    - 0
-    //right - 1
-    //down  - 2
-    //left  - 3
-    this.menuState = 0;
-    this.allowUIInput = true;
-    this.addMainMenuGUI();
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-      '69': { down: () => {if(DEBUG)this.driver.setScene(new LevelEditorSelectScene(false));} },
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-      '65': { down: this.navigateUI.bind(this,1)},   //D
-      '83': { down: this.navigateUI.bind(this,2)},    //S
-      '68': { down: this.navigateUI.bind(this,3)},    //A
-      '38': { down: this.navigateUI.bind(this,0)},  //up
-      '39': { down: this.navigateUI.bind(this,1)},  //right
-      '40': { down: this.navigateUI.bind(this,2)},   //down
-      '37': { down: this.navigateUI.bind(this,3)},   //left
-
-    }
-    this.background = new InfiniteBackground();
-   
-    this.camera = {x:0,y:0,dx:0,dy:0};
-    this.allowUIInput = true;
-  }
-  
-  update(dt) {
-    this.camera.x+=3;
-    super.update(dt);
-   
-  }
-  draw(canvas) {
-    this.background.drawLayers(canvas, this.camera);
-
-    
-    this.drawAllGUI(canvas);
-    if(this.debug)
-      drawGrid(canvas);
-    drawTransitionOverlay(this.overlayColor,canvas);
-  }
-  drawAllGUI(canvas){
-    for(var i = 0; i < this.gui.length; i++){
-      if(this.gui[i].visible){
-        this.gui[i].draw(canvas);
-      }
-    }
-  }
- 
-  addMainMenuGUI(){
-    var bigFont = "60px " + FONT;
-    var buttonFont = "30px " + FONT;
-
-    var dim = rectDimFromCenter(.5,.28,.58,.12);
-    var mainTitle = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Jimothy Piggerton",bigFont,"white",'center');
-    this.gui.push(mainTitle);
-
-    dim = rectDimFromCenter(.5,.48,.18,.1);
-    var startButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.startGame.bind(this),
-      "Start Game",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(startButton);
-
-    dim = rectDimFromCenter(.5,.60,.18,.1);
-    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToLevelSelect.bind(this),
-      "Level Select",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(levelSelectButton);
-
-    dim = rectDimFromCenter(.5,.72,.18,.1);
-    var optionsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToOptions.bind(this),
-      "Options",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(optionsButton);
-
-    dim = rectDimFromCenter(.5,.84,.18,.1);
-    var creditsButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToCredits.bind(this),
-      "Credits",buttonFont,"white","transparent","white",5,.08);
-    this.gui.push(creditsButton);
-
-    startButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
-    levelSelectButton.setNeighbors([startButton,undefined,optionsButton,undefined]);
-    optionsButton.setNeighbors([levelSelectButton,undefined,creditsButton,undefined]);
-    creditsButton.setNeighbors([optionsButton,undefined,undefined,undefined]);
-
-    this.selectedButton = startButton;
-    this.selectedButton.selected = true;
-    this.buttons = getButtons(this.gui);
-
-  }
-  startGame(){
-   
-    this.allowUIInput = false;
-    //this.driver.setScene(new PigFunScene());
-    this.startTransition(25,1,sceneTransition(this,IntroScene,true));
-  }
-  goToLevelSelect(){
-   
-    this.allowUIInput = false;
-    this.driver.setScene(new LevelSelectScene(false));
-
-  }
-  goToOptions(){
-    this.allowUIInput = false;
-    this.driver.setScene(new OptionScene(false));
-  } 
-  goToCredits(){
-   
-    this.allowUIInput = false;
-    this.driver.setScene(new CreditsScene(false));
-  }
-  
-  
-}
-
-
-
-class ColoredBox extends GUIElement{
-  constructor(x,y,w,h,groupID,fillColor,outlineColor,lineWidth){
-    super(x,y,w,h,groupID);
-    this.fillColor = fillColor || 'transparent';
-    this.outlineColor = outlineColor || 'transparent';
-    this.lineWidth = lineWidth
-  }
-  update(dt){}
-  draw(canvas){
-    canvas.fillStyle = this.fillColor;
-    canvas.strokeStyle = this.outlineColor;
-    canvas.lineWidth = this.lineWidth;
-    var dim = this.getPixelDimensions(canvas);
-    canvas.fillRect(dim[0],dim[1],dim[2],dim[3]);
-    canvas.strokeRect(dim[0],dim[1],dim[2],dim[3]);
-  }
-  setOptions(interactable,selectable,visible){
-    //Interactable and selectable should never be true
-    //But calling setOptions with 3 parameters like buttons should be possible
-    super.setOptions(false,false,visible);
-  }
 }addLevel( function(nameSpace) {
   {
 
@@ -4663,7 +4758,217 @@ addBlock(function() { return {
     game.addEntity(new Enemy(x + width/2,y + height));
   },
 }});
-class Powerup {
+class ColoredBox extends GUIElement{
+  constructor(x,y,w,h,groupID,fillColor,outlineColor,lineWidth){
+    super(x,y,w,h,groupID);
+    this.fillColor = fillColor || 'transparent';
+    this.outlineColor = outlineColor || 'transparent';
+    this.lineWidth = lineWidth
+  }
+  update(dt){}
+  draw(canvas){
+    canvas.fillStyle = this.fillColor;
+    canvas.strokeStyle = this.outlineColor;
+    canvas.lineWidth = this.lineWidth;
+    var dim = this.getPixelDimensions(canvas);
+    canvas.fillRect(dim[0],dim[1],dim[2],dim[3]);
+    canvas.strokeRect(dim[0],dim[1],dim[2],dim[3]);
+  }
+  setOptions(interactable,selectable,visible){
+    //Interactable and selectable should never be true
+    //But calling setOptions with 3 parameters like buttons should be possible
+    super.setOptions(false,false,visible);
+  }
+}class IntroScene extends GameScene{
+  constructor() {
+    var w = 18;
+    var l = 19;
+    super({
+      grid: [
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,0,19,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,19,19,19,18,19,19,18,19,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [4,0,0,0,0,0,0,0,19,0,19,18,18,19,18,18,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,18,19,19,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,19,0,18,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,0,0,0,0,4,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        
+        ]
+    },true);
+    this.touchButtonsActive = false;
+    this.gui = [];
+    this.keyMap = {
+      '27': {down: sceneTransition(this, GameScene)},
+    }
+    this.gamePadOn = false;
+    // this.player.x = 500;
+    this.player.flipped = true;
+    this.pig = new Pig(this.player.x+100, this.player.y);
+    this.pig.speed=0;
+    this.butcher = new Butcher(this.player.x+600, this.player.y);
+    this.addEntity(this.butcher);
+    this.butcher.speed=0;    
+    this.addEntity(this.pig);
+    this.player.updateEye = function() {};
+    this.pig.mx = 0;
+    this.pig.bounceFrq = Math.PI/30;
+    this.totalTime = 400;
+    this.time = this.totalTime+1000;
+    this.player.resetControls = function() {};
+    this.player.speed = 4;
+    this.player._angle = Math.PI/10;
+    this.player.eyeMovement.blink = 1;
+    this.pig.animationState = 1;
+    this.startTransition(100, -1, function() {
+      this.time=this.totalTime;
+      this.butcher.speed = 3.9;
+    });
+    this.makeLetterBox();
+    this.timeToWait=0;
+    this.emitZ = true;
+    this.emissionDelay = 35;
+
+    this.allowUIInput = true;
+    this.selectedButton = undefined;
+    this.touchCount = 0;
+    this.addIntroGUI();
+  }
+  makeLetterBox(){
+    var upperBoxHeight = 0.2;
+    var lowerBoxHeight = 0.2;
+
+    this.upperLetterBox = new ColoredBox(0,0,1,upperBoxHeight,0,'black','transparent',1);
+    this.lowerLetterBox = new ColoredBox(0,1-lowerBoxHeight,1,lowerBoxHeight,0,'black','transparent',1);
+    this.gui.push(this.upperLetterBox);
+    this.gui.push(this.lowerLetterBox);
+  }
+  moveCamera(){
+    var camera = this.camera;
+    var player = this.player;
+    var canvas = this.canvas;
+    // if(player.mx) {
+      var cdx = (player.x-camera.x+camera.dx)/10;
+      if(Math.abs(cdx)>3)camera.x += cdx;
+      // camera.x += (player.x-camera.x+camera.dx)/10;
+    // }
+    // camera.x = linearMove(camera.x, (player.x + camera.dx), 5);    
+
+    // var cdy = (player.y-camera.x+camera.dy-30)/10;
+    // if(Math.abs(cdy)>3)camera.y += cdy;
+    camera.y += (player.y-camera.y-30)/30;
+    if(player.grounded) camera.y += (player.y-camera.y-30)/20;
+    var d = 0;
+    if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
+    if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
+    if(camera.dy>60)camera.dy=60;
+    if(camera.dy>10) camera.y+=(camera.dy-10)/3;
+    //make the camera point more towards the direction
+    //that the player is moving in so they can see ahead
+    if(player.mx!=0) {
+      // camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
+    }
+    if(!canvas)return;
+    var world1 = this.world;
+    if(camera.x<canvas.width/2)camera.x = canvas.width/2;
+    if(camera.x>world1.w*world1.s-canvas.width/2) camera.x = world1.w*world1.s-canvas.width/2;
+    if(camera.y>world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h)camera.y = world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h;
+    if(camera.y<canvas.height/2-canvas.height*this.upperLetterBox.h)camera.y = canvas.height/2-canvas.height*this.upperLetterBox.h;  
+  }
+  followPlayer(){
+    this.moveCamera();
+  }
+  constrainCamera(x,y,w,h){
+    
+  }
+  addIntroGUI(){
+    var buttonFont = "25px noteworthy";
+    var textColor = 'black';
+    if(touchOn){
+      var entireScreenButton = new TextButton(0,0,1,1,0,
+        this.increaseTouchCount.bind(this),"",buttonFont,'transparent','transparent','transparent',0);
+      this.gui.push(entireScreenButton);
+      
+      var dim = rectDimFromCenter(.83,.08,.5,.1);
+      this.skipMessage = new Label(dim[0],dim[1],dim[2],dim[3],0,
+        "",buttonFont, 'rgba(255,255,255,.9)', 'center');
+      this.gui.push(this.skipMessage);
+    }
+    this.buttons = getButtons(this.gui);
+
+
+    
+  }
+  increaseTouchCount(){
+    this.touchCount += 1;
+  }
+  update(dt, frameCount) {
+    super.update(dt,frameCount);
+
+    if(touchOn){
+      if(this.touchCount >= 1){
+        this.skipMessage.text = "Tap again to skip";
+      }
+      if(this.touchCount >= 2){
+        this.time = 0;
+      }
+    }
+
+    this.timeToWait--;
+    this.time--;
+    if(this.time<=0) {
+      this.driver.setScene(new LevelIntroScene(new GameScene(),true));
+    }
+    if(this.time > this.totalTime-200){
+      if(this.time % this.emissionDelay == 0){
+        this.addEntity(new SleepText(this.player.x+this.player.w,this.player.y-this.player.h,20,2,-2,"Z",
+          "30", FONT,[255,255,255,1],[255,255,255,0],25,25,true));
+      }
+      
+    }
+    if(this.time > this.totalTime-150){
+      if(this.time % this.emissionDelay == 9){
+        this.addEntity(new SleepText(this.pig.x+this.pig.w,this.pig.y-this.pig.h,20,2,-2,"Z",
+          "30", FONT,[255,255,255,1],[255,255,255,0],25,25,true));
+      }
+    }
+    if(this.time == this.totalTime-160){
+      this.addEntity(new SleepText(this.pig.x+this.pig.w/2,this.pig.y-this.pig.h-70,80,0,0,"!?",
+          "65", FONT,[255,255,255,1],[255,255,255,0],20,30,true));
+    }
+    if(this.time == this.totalTime - 200) {
+      this.player.flipped = false;
+      this.player.jump(7);
+      this.player._angle = 0;      
+      this.player.eyeMovement.blink = 0;      
+    }
+    if(this.time < this.totalTime - 230) {
+      this.player.mx = 1;
+      this.moveCamera = function() {};
+    }
+    
+  }
+  draw(canvas){
+    super.draw(canvas);
+    this.drawAllGUI(canvas);
+  }
+}class Powerup {
   constructor(x,y) {
     this.x = x;
     this.y = y;
@@ -4746,159 +5051,24 @@ class Powerup {
     this.color = 'rgba(150,150,150,.5)';
     this.game.driver.setTimeout(this.reset, 60);
   }
-}class IntroScene extends GameScene{
-  constructor() {
-    var w = 18;
-    var l = 19;
-    super({
-      grid: [
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,0,19,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,19,19,19,18,19,19,18,19,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [4,0,0,0,0,0,0,0,19,0,19,18,18,19,18,18,18,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,18,19,19,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,19,0,18,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [1,1,1,0,0,0,0,0,0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [1,1,1,1,1,1,1,1,0,0,0,0,4,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        
-        ]
-    },true);
-    this.gui = [];
-    this.keyMap = {
-      '27': {down: sceneTransition(this, GameScene)},
-    }
-    this.gamePadOn = false;
-    // this.player.x = 500;
-    this.player.flipped = true;
-    this.pig = new Pig(this.player.x+100, this.player.y);
-    this.pig.speed=0;
-    this.butcher = new Butcher(this.player.x+600, this.player.y);
-    this.addEntity(this.butcher);
-    this.butcher.speed=0;    
-    this.addEntity(this.pig);
-    this.player.updateEye = function() {};
-    this.pig.mx = 0;
-    this.pig.bounceFrq = Math.PI/30;
-    this.totalTime = 400;
-    this.time = this.totalTime+1000;
-    this.player.resetControls = function() {};
-    this.player.speed = 4;
-    this.player._angle = Math.PI/10;
-    this.player.eyeMovement.blink = 1;
-    this.pig.animationState = 1;
-    this.startTransition(100, -1, function() {
-      this.time=this.totalTime;
-      this.butcher.speed = 3.9;
-    });
-    this.makeLetterBox();
-    this.timeToWait=0;
-    this.emitZ = true;
-    this.emissionDelay = 35;
-  }
-  makeLetterBox(){
-    var upperBoxHeight = 0.2;
-    var lowerBoxHeight = 0.2;
-
-    this.upperLetterBox = new ColoredBox(0,0,1,upperBoxHeight,0,'black','transparent',1);
-    this.lowerLetterBox = new ColoredBox(0,1-lowerBoxHeight,1,lowerBoxHeight,0,'black','transparent',1);
-    this.gui.push(this.upperLetterBox);
-    this.gui.push(this.lowerLetterBox);
-  }
-  moveCamera(){
-    var camera = this.camera;
-    var player = this.player;
-    var canvas = this.canvas;
-    // if(player.mx) {
-      var cdx = (player.x-camera.x+camera.dx)/10;
-      if(Math.abs(cdx)>3)camera.x += cdx;
-      // camera.x += (player.x-camera.x+camera.dx)/10;
-    // }
-    // camera.x = linearMove(camera.x, (player.x + camera.dx), 5);    
-
-    // var cdy = (player.y-camera.x+camera.dy-30)/10;
-    // if(Math.abs(cdy)>3)camera.y += cdy;
-    camera.y += (player.y-camera.y-30)/30;
-    if(player.grounded) camera.y += (player.y-camera.y-30)/20;
-    var d = 0;
-    if(player.vy>0 && camera.y < player.y - 30) camera.y += (player.y-camera.y-30)/10;
-    if(player.crouching&&player.grounded) camera.dy += 1; else camera.dy=0;
-    if(camera.dy>60)camera.dy=60;
-    if(camera.dy>10) camera.y+=(camera.dy-10)/3;
-    //make the camera point more towards the direction
-    //that the player is moving in so they can see ahead
-    if(player.mx!=0) {
-      // camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
-    }
-    if(!canvas)return;
-    var world1 = this.world;
-    if(camera.x<canvas.width/2)camera.x = canvas.width/2;
-    if(camera.x>world1.w*world1.s-canvas.width/2) camera.x = world1.w*world1.s-canvas.width/2;
-    if(camera.y>world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h)camera.y = world1.h*world1.s-canvas.height/2+canvas.height*this.lowerLetterBox.h;
-    if(camera.y<canvas.height/2-canvas.height*this.upperLetterBox.h)camera.y = canvas.height/2-canvas.height*this.upperLetterBox.h;  
-  }
-  followPlayer(){
-    this.moveCamera();
-  }
-  constrainCamera(x,y,w,h){
-    
-  }
-  update(dt, frameCount) {
-    super.update(dt,frameCount);
-    this.timeToWait--;
-    this.time--;
-    if(this.time<=0) {
-      this.driver.setScene(new LevelIntroScene(new GameScene(),true));
-    }
-    if(this.time > this.totalTime-200){
-      if(this.time % this.emissionDelay == 0){
-        this.addEntity(new SleepText(this.player.x+this.player.w,this.player.y-this.player.h,20,2,-2,"Z",
-          "30", FONT,[255,255,255,1],[255,255,255,0],25,25,true));
-      }
-      
-    }
-    if(this.time > this.totalTime-150){
-      if(this.time % this.emissionDelay == 9){
-        this.addEntity(new SleepText(this.pig.x+this.pig.w,this.pig.y-this.pig.h,20,2,-2,"Z",
-          "30", FONT,[255,255,255,1],[255,255,255,0],25,25,true));
-      }
-    }
-    if(this.time == this.totalTime-160){
-      this.addEntity(new SleepText(this.pig.x+this.pig.w/2,this.pig.y-this.pig.h-70,80,0,0,"!?",
-          "65", FONT,[255,255,255,1],[255,255,255,0],20,30,true));
-    }
-    if(this.time == this.totalTime - 200) {
-      this.player.flipped = false;
-      this.player.jump(7);
-      this.player._angle = 0;      
-      this.player.eyeMovement.blink = 0;      
-    }
-    if(this.time < this.totalTime - 230) {
-      this.player.mx = 1;
-      this.moveCamera = function() {};
-    }
-    
-  }
-  draw(canvas){
-    super.draw(canvas);
-    this.drawAllGUI(canvas);
-  }
-}class ArrowSelector extends Button{
+}WORLDTYPE = 1;
+addBlock(function() { return {
+  //End Block
+  id: BLOCKS.length,
+  name: "WallJump",
+  hide: true,
+  ignoreCollisions: true,
+  draw: drawEntity,
+  drawer: new wallJump(),
+  //entityCollision: function(entity, pos, dx, dy, cellPos) {
+ //   entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
+//    entity.game.world.forceRedraw();
+  //},
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.addEntity(new wallJump(x + width/2,y));
+  },
+}});
+class ArrowSelector extends Button{
   constructor(x,y,w,h,groupID,onRelease,moveDistance,moveSpeed,fillColor,outlineColor,lineWidth,flipped){
     super(x,y,w,h,groupID,undefined);
     
@@ -4967,24 +5137,171 @@ class Powerup {
       else  
         this.x = this.originalDimension[0]+this.moveDistance;
   }
-}WORLDTYPE = 1;
-addBlock(function() { return {
-  //End Block
-  id: BLOCKS.length,
-  name: "WallJump",
-  hide: true,
-  ignoreCollisions: true,
-  draw: drawEntity,
-  drawer: new wallJump(),
-  //entityCollision: function(entity, pos, dx, dy, cellPos) {
- //   entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
-//    entity.game.world.forceRedraw();
-  //},
-  onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new wallJump(x + width/2,y));
-  },
-}});
-class doubleJump extends Powerup {
+}class PauseScene extends Scene {
+  constructor(prevScene) {
+    super();
+    this.prevScene = prevScene;
+    if(prevScene.onPause)prevScene.onPause();
+    this.keyMap = {
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+
+      '27': {down: this.safeButtonCall(this,this.unpause)}, //esc
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '83': { down: this.navigateUI.bind(this,2)},    //S
+      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '38': { down: this.navigateUI.bind(this,0)},  //up
+      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '40': { down: this.navigateUI.bind(this,2)},   //down
+      '37': { down: this.navigateUI.bind(this,3)},   //left
+
+      '78': {down: function() {
+        if(this.keys[67] && DEBUG) {
+          this.goToLevelEditor(prevScene.levelIndex+1);
+        }
+      }.bind(this)},
+    }
+    this.allowUIInput = true;
+    this.selectedButton = undefined;
+    this.addPauseMenuGUI();
+  }
+  update(dt){
+    super.update(dt);
+    SOUNDMAP.music.lerpVolume(0.2, 0.05);
+  }
+  unpause() {
+    if(this.prevScene.onResume)this.prevScene.onResume();
+    this.driver.setScene(this.prevScene);
+  }
+  goToMainMenu(){
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
+  }
+  goToLevelSelect(){
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,LevelSelectScene,true));
+  }
+  restartLevel(){
+    this.allowUIInput = false;
+    this.prevScene.loadNewLevel();
+    if(this.prevScene instanceof PigFunScene)
+      this.prevScene.spawnPig();
+    this.unpause();
+  }
+  goToLevelEditor(index){
+    if (index == 24)
+      index = -1;
+    var scene = new LevelEditorScene(index);
+    this.driver.setScene(scene);
+  }
+  draw(canvas) {
+    this.prevScene.draw(canvas);
+    canvas.fillStyle="rgba(255,255,255,.7)"
+    canvas.fillRect(0,0,canvas.width,canvas.height);
+    this.deathCount.text = ""+this.prevScene.levelDeaths;
+    this.drawAllGUI(canvas);
+    if(this.debug)
+      drawGrid(canvas);
+    drawTransitionOverlay(this.overlayColor,canvas);
+  }
+  addPauseMenuGUI(){
+    var bigFont = "60px " + FONT;
+    var buttonFont = "30px noteworthy";
+    var textColor = 'black';
+    var buttonGap = 0.085;
+
+    
+
+    dim = rectDimFromCenter(.96,.95,.05,.08);
+    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "X", bigFont, textColor,'left');
+    this.gui.push(this.deathCount);
+
+    dim = rectDimFromCenter(.82,.96,.2,.08);
+    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "Fails:", buttonFont,textColor,'right');
+    this.gui.push(deathLabel);
+
+    switch(touchOn){
+      case false:
+        var dim = rectDimFromCenter(.5,.4,.2,.08);
+        var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+          "Paused",bigFont,textColor,'center');
+        this.gui.push(pauseLabel);
+        dim = rectDimFromCenter(0.5,.55,0.2,.08);
+        var resumeButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.unpause.bind(this),"Resume",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(resumeButton);
+    
+        dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
+        var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(levelSelectButton);
+    
+        dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
+        var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(restartButton);
+        
+        dim = rectDimFromCenter(0.5,0.55+buttonGap*3,.2,.08);
+        var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(mainMenuButton);
+    
+        this.selectedButton = resumeButton;
+        this.selectedButton.selected = true;
+  
+        break;
+      case true:
+        var touchScreenFont = "50px Noteworthy";
+        var dim = rectDimFromCenter(.5,.28,.2,.08);
+        var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+          "Paused",bigFont,textColor,'center');
+        this.gui.push(pauseLabel);
+        dim = rectDimFromCenter(.32,.52,.35,.25);
+        var resumeButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.unpause.bind(this),"Resume",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        this.gui.push(resumeButton);
+    
+        dim = rectDimFromCenter(.68,.52,.35,.25);
+        var levelSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToLevelSelect.bind(this),"Level Select",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        this.gui.push(levelSelectButton);
+    
+        dim = rectDimFromCenter(.32,.8,.35,.25);
+        var restartButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.restartLevel.bind(this),"Restart",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        this.gui.push(restartButton);
+        
+        dim = rectDimFromCenter(.68,.8,.35,.25);
+        var mainMenuButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToMainMenu.bind(this),"Main Menu",touchScreenFont,textColor,'rgba(128,128,128,0.5)',textColor,5);
+        this.gui.push(mainMenuButton);
+
+        dim = rectDimFromCenter(.88,.1,.095,.12);
+        var pauseButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.unpause.bind(this),"",touchScreenFont,'transparent','rgba(64,64,64,.5)','transparent',0);
+        this.gui.push(pauseButton);
+        dim = rectDimFromCenter(.895,.1,.02,.08);
+        var box1 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
+        this.gui.push(box1);
+        dim = rectDimFromCenter(.865,.1,.02,.08);
+        var box2 = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','transparent',0);
+        this.gui.push(box2);
+        
+        break;
+    }
+    
+    resumeButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
+    levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
+    restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
+    mainMenuButton.setNeighbors([restartButton,undefined,undefined,undefined]);
+
+    this.buttons = getButtons(this.gui);
+
+  }
+} class doubleJump extends Powerup {
   constructor(x,y) {
     super(x,y);
     this.w = 40;
@@ -5033,150 +5350,6 @@ class doubleJump extends Powerup {
     if(s)canvas.stroke();
     else canvas.fill();
   }
-}class PauseScene extends Scene {
-  constructor(prevScene) {
-    super();
-    this.prevScene = prevScene;
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-
-      '27': {down: this.safeButtonCall(this,this.unpause)}, //esc
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-      '65': { down: this.navigateUI.bind(this,1)},   //D
-      '83': { down: this.navigateUI.bind(this,2)},    //S
-      '68': { down: this.navigateUI.bind(this,3)},    //A
-      '38': { down: this.navigateUI.bind(this,0)},  //up
-      '39': { down: this.navigateUI.bind(this,1)},  //right
-      '40': { down: this.navigateUI.bind(this,2)},   //down
-      '37': { down: this.navigateUI.bind(this,3)},   //left
-
-      '78': {down: function() {
-        if(this.keys[67] && DEBUG) {
-          this.goToLevelEditor(prevScene.levelIndex+1);
-        }
-      }.bind(this)},
-    }
-    this.allowUIInput = true;
-    this.selectedButton = undefined;
-    this.addPauseMenuGUI();
-  }
-  update(dt){
-    super.update(dt);
-    SOUNDMAP.music.lerpVolume(0.2, 0.05);
-  }
-  unpause() {
-    this.driver.setScene(this.prevScene);
-  }
-  goToMainMenu(){
-    this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
-  }
-  goToLevelSelect(){
-    this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,LevelSelectScene,true));
-  }
-  restartLevel(){
-    this.allowUIInput = false;
-    this.prevScene.loadNewLevel();
-    if(this.prevScene instanceof PigFunScene)
-      this.prevScene.spawnPig();
-    this.unpause();
-  }
-  goToLevelEditor(index){
-    if (index == 24)
-      index = -1;
-    var scene = new LevelEditorScene(index);
-    this.driver.setScene(scene);
-  }
-  draw(canvas) {
-    this.prevScene.draw(canvas);
-    canvas.fillStyle="rgba(255,255,255,.7)"
-    canvas.fillRect(0,0,canvas.width,canvas.height);
-    this.deathCount.text = ""+this.prevScene.levelDeaths;
-    this.drawAllGUI(canvas);
-    if(this.debug)
-      drawGrid(canvas);
-    drawTransitionOverlay(this.overlayColor,canvas);
-  }
-  addPauseMenuGUI(){
-    var bigFont = "60px " + FONT;
-    var buttonFont = "30px noteworthy";
-    var textColor = 'black';
-    var buttonGap = 0.085;
-
-    var dim = rectDimFromCenter(.5,.4,.2,.08);
-    var pauseLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Paused",bigFont,textColor,'center');
-    this.gui.push(pauseLabel);
-
-    dim = rectDimFromCenter(.96,.95,.05,.08);
-    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "X", bigFont, textColor,'left');
-    this.gui.push(this.deathCount);
-
-    dim = rectDimFromCenter(.82,.96,.2,.08);
-    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "Fails:", buttonFont,textColor,'right');
-    this.gui.push(deathLabel);
-
-    dim = rectDimFromCenter(0.5,.55,0.2,.08);
-    var resumeButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.unpause.bind(this),"Resume",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(resumeButton);
-
-    dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
-    var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(levelSelectButton);
-
-    dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
-    var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(restartButton);
-    
-    dim = rectDimFromCenter(0.5,0.55+buttonGap*3,.2,.08);
-    var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(mainMenuButton);
-
-    this.selectedButton = resumeButton;
-    this.selectedButton.selected = true;
-
-    resumeButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
-    levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
-    restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
-    mainMenuButton.setNeighbors([restartButton,undefined,undefined,undefined]);
-
-    this.buttons = getButtons(this.gui);
-
-  }
-} class BlockButton extends Button{
-  constructor(x,y,w,h,groupID,onRelease,blockID){
-    super(x,y,w,h,groupID,onRelease);
-    this.blockID = blockID;
-    this.world = {
-      getCell: function() {return true;},
-    };
-    this.i = 0;
-    this.j = 0;
-  }
-  draw(canvas){
-    var dim = this.getPixelDimensions(canvas);
-    if(this.blockID >= 0 && this.blockID < CELLMAP.length){
-      var cell = CELLMAP[this.blockID];
-      if(cell.draw){
-        cell.draw(canvas,dim[0],dim[1],dim[2],dim[3],
-          this.world,this.i,this.j);
-      }    
-    }
-    canvas.strokeStyle = 'black';
-    if(this.held)
-      canvas.strokeStyle = 'gray';
-    canvas.lineWidth = 5;
-    canvas.strokeRect(dim[0],dim[1],dim[2],dim[3]);
-  }
-  
 }addLevel( function(nameSpace) {
   {
 
@@ -5225,7 +5398,49 @@ addBlock(function() { return {
     game.addEntity(new doubleJump(x + width/2,y + height));
   },
 }});
-class wallJump extends Powerup {
+class BlockButton extends Button{
+  constructor(x,y,w,h,groupID,onRelease,blockID){
+    super(x,y,w,h,groupID,onRelease);
+    this.blockID = blockID;
+    this.world = {
+      getCell: function() {return true;},
+    };
+    this.i = 0;
+    this.j = 0;
+  }
+  draw(canvas){
+    var dim = this.getPixelDimensions(canvas);
+    if(this.blockID >= 0 && this.blockID < CELLMAP.length){
+      var cell = CELLMAP[this.blockID];
+      if(cell.draw){
+        cell.draw(canvas,dim[0],dim[1],dim[2],dim[3],
+          this.world,this.i,this.j);
+      }    
+    }
+    canvas.strokeStyle = 'black';
+    if(this.held)
+      canvas.strokeStyle = 'gray';
+    canvas.lineWidth = 5;
+    canvas.strokeRect(dim[0],dim[1],dim[2],dim[3]);
+  }
+  
+}class WinScene extends Scene{
+  constructor() {
+    super();
+    this.gui = [];
+    this.keyMap = {
+      '32': {down: this.start.bind(this)}
+    }
+  }
+  start() {
+    this.driver.setScene(new GameScene());
+  }
+  draw(canvas) {
+    canvas.fillStyle = 'black';
+    canvas.textAlign = 'center';
+    canvas.fillText('You Win! Press Space To Restart', canvas.width/2, canvas.height/2);
+  }
+}class wallJump extends Powerup {
   constructor(x,y) {
     var h = 30;
     super(x,y+h);
@@ -5272,73 +5487,6 @@ class wallJump extends Powerup {
   }
   die() {
     this.shouldDelete = true;
-  }
-}class WinScene extends Scene{
-  constructor() {
-    super();
-    this.gui = [];
-    this.keyMap = {
-      '32': {down: this.start.bind(this)}
-    }
-  }
-  start() {
-    this.driver.setScene(new GameScene());
-  }
-  draw(canvas) {
-    canvas.fillStyle = 'black';
-    canvas.textAlign = 'center';
-    canvas.fillText('You Win! Press Space To Restart', canvas.width/2, canvas.height/2);
-  }
-}class Slider extends Button{
-  constructor(x,y,w,h,groupID,onRelease,handleWidth,defaultValue,
-    barColor,handleColor,handleHeldColor,handleOutlineColor,handleOutlineWeight){
-    super(x,y,w,h,groupID,onRelease);
-    this.barColor = barColor;
-    this.handleWidth = handleWidth;
-    this.handleColor = handleColor;
-    this.handleHeldColor = handleHeldColor;
-    this.handleOutlineColor = handleOutlineColor;
-    this.handleOutlineWeight = handleOutlineWeight || 0;
-    this.value = defaultValue;
-    this.selectable = false;
-    this.requireMouseInRegionOnRelease = false;
-  }
-  update(dt,percentPoint){
-    if(this.held){
-      this.setValue((percentPoint.x-this.x)/this.w);
-    }    
-  }
-  draw(canvas){
-    canvas.fillStyle = this.handleBarColor;
-    var dim = this.getPixelDimensions(canvas);
-    dim[1] += dim[3]/3;
-    dim[3] /= 3;
-    canvas.fillRect(dim[0],dim[1],dim[2],dim[3]);
-
-    canvas.fillStyle = (this.held) ? this.handleHeldColor : this.handleColor;
-    canvas.strokeStyle = this.handleOutlineColor;
-    canvas.lineWidth = this.handleOutlineWeight;
-    dim = {x:0,y:0,w:0,h:0};
-    dim.x = ((this.value * this.w)+this.x-this.handleWidth/2)*canvas.width;
-    dim.y = this.y*canvas.height;
-    dim.w = this.handleWidth*canvas.width;
-    dim.h = this.h*canvas.height;
-    canvas.lineWidth = this.handleOutlineWeight*10;
-    if(this.selected){
-      canvas.lineWidth = 8;
-
-    }
-    canvas.fillRect(dim.x,dim.y,dim.w,dim.h);
-    canvas.strokeRect(dim.x,dim.y,dim.w,dim.h);
-  }
-  setValue(x){
-    this.value = x;
-    this.value = (this.value > 1) ? 1 : this.value;
-    this.value = (this.value < 0) ? 0 : this.value;
-    if(this.onHold) this.onHold(this.value);
-  }
-  contains(x,y){
-    return x>= this.x+this.value*this.w-this.handleWidth/2 && x<=this.x+this.value*this.w+this.handleWidth/2 && y>=this.y && y<=this.y+this.h;
   }
 }addLevel( function(nameSpace) {
   {
@@ -5436,7 +5584,72 @@ addBlock(function() { return {
       return false;
     },
 }});
+class Slider extends Button{
+  constructor(x,y,w,h,groupID,onRelease,handleWidth,defaultValue,
+    barColor,handleColor,handleHeldColor,handleOutlineColor,handleOutlineWeight){
+    super(x,y,w,h,groupID,onRelease);
+    this.barColor = barColor;
+    this.handleWidth = handleWidth;
+    this.handleColor = handleColor;
+    this.handleHeldColor = handleHeldColor;
+    this.handleOutlineColor = handleOutlineColor;
+    this.handleOutlineWeight = handleOutlineWeight || 0;
+    this.value = defaultValue;
+    this.selectable = false;
+    this.requireMouseInRegionOnRelease = false;
+  }
+  update(dt,percentPoint){
+    if(this.held){
+      this.setValue((percentPoint.x-this.x)/this.w);
+    }    
+  }
+  draw(canvas){
+    canvas.fillStyle = this.handleBarColor;
+    var dim = this.getPixelDimensions(canvas);
+    dim[1] += dim[3]/3;
+    dim[3] /= 3;
+    canvas.fillRect(dim[0],dim[1],dim[2],dim[3]);
 
+    canvas.fillStyle = (this.held) ? this.handleHeldColor : this.handleColor;
+    canvas.strokeStyle = this.handleOutlineColor;
+    canvas.lineWidth = this.handleOutlineWeight;
+    dim = {x:0,y:0,w:0,h:0};
+    dim.x = ((this.value * this.w)+this.x-this.handleWidth/2)*canvas.width;
+    dim.y = this.y*canvas.height;
+    dim.w = this.handleWidth*canvas.width;
+    dim.h = this.h*canvas.height;
+    canvas.lineWidth = this.handleOutlineWeight*10;
+    if(this.selected){
+      canvas.lineWidth = 8;
+
+    }
+    canvas.fillRect(dim.x,dim.y,dim.w,dim.h);
+    canvas.strokeRect(dim.x,dim.y,dim.w,dim.h);
+  }
+  setValue(x){
+    this.value = x;
+    this.value = (this.value > 1) ? 1 : this.value;
+    this.value = (this.value < 0) ? 0 : this.value;
+    if(this.onHold) this.onHold(this.value);
+  }
+  contains(x,y){
+    return x>= this.x+this.value*this.w-this.handleWidth/2 && x<=this.x+this.value*this.w+this.handleWidth/2 && y>=this.y && y<=this.y+this.h;
+  }
+}class LevelTesterScene extends GameScene {
+  constructor(level, prevScene) {
+    super(level, undefined, false);
+    this.prevScene = prevScene;
+    this.keyMap[27] = {down: this.back.bind(this)};
+    this.transitionDuration = 1;
+    this.updateTransition();
+  }
+  back() {
+    this.driver.setScene(this.prevScene);
+  }
+  win() {
+    this.back();
+  }
+}
 class DoinkPad {
     constructor(x,y){
         this.x=x;this.y=y;
@@ -5500,20 +5713,6 @@ class DoinkPad {
     return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
     }
     
-}class LevelTesterScene extends GameScene {
-  constructor(level, prevScene) {
-    super(level, undefined, false);
-    this.prevScene = prevScene;
-    this.keyMap[27] = {down: this.back.bind(this)};
-    this.transitionDuration = 1;
-    this.updateTransition();
-  }
-  back() {
-    this.driver.setScene(this.prevScene);
-  }
-  win() {
-    this.back();
-  }
 }addLevel( function(nameSpace) {
   {
 
@@ -5605,7 +5804,664 @@ addBlock(function() { return {
     return false;
   },
 }});
-class Woof extends Enemy {
+class MobileButton extends TextButton{
+
+  constructor(x,y,w,h,groupID,onRelease,text,font, 
+    textColor,rectBackFillColor,rectOutlineColor, strokeWidth, 
+    selectedTextColor,selectedBackFillColor,selectedOutlineColor){
+      super(x,y,w,h,groupID,onRelease,text,font, 
+        textColor,rectBackFillColor,rectOutlineColor, strokeWidth);
+      this.selectedTextColor = selectedTextColor;
+      this.selectedBackFillColor = selectedBackFillColor;
+      this.selectedOutlineColor = selectedOutlineColor;
+    }
+
+  update(dt){}
+
+  draw(canvas){
+
+    var dim = this.getPixelDimensions(canvas);
+    this.drawRectangle(canvas,dim);
+    if(this.selected)
+      this.drawOutline(canvas,dim);
+    
+    this.drawText(canvas,dim);
+    
+  }
+  drawOutline(canvas,dim){
+    canvas.lineWidth = this.strokeWidth;
+    if(this.selected)
+      canvas.strokeStyle = this.selectedOutlineColor;
+    else
+      canvas.strokeStyle = this.rectOutlineColor;
+    canvas.strokeRect(dim[0],dim[1],dim[2],dim[3]);
+  }
+  drawRectangle(canvas,dim){
+    if(this.selected)
+      canvas.fillStyle = this.selectedBackFillColor;
+    else
+      canvas.fillStyle = this.rectBackFillColor;
+    canvas.fillRect(dim[0],dim[1],dim[2],dim[3]);
+  }
+  drawText(canvas,dim){
+    canvas.font=this.font;
+    if(this.selected)
+      canvas.fillStyle = this.selectedTextColor;
+    else
+      canvas.fillStyle = this.textColor;
+    canvas.textAlign = 'center';
+    canvas.textBaseline='middle';
+    canvas.fillText(this.text,dim[0]+dim[2]/2,dim[1]+dim[3]/2,this.w*canvas.width*.8);
+  }
+
+}class LevelEditorScene extends Scene{
+  constructor(index) {
+    super(false);
+    this.editLevel = index;
+    this.zoom = 1;
+    var grid;
+
+    switch (this.editLevel)
+    {
+      case -2:
+        this.world = new WorldDefault(48,24);
+        break;
+      case -1:
+        var level = new PigFunScene();
+        this.world = new WorldFromLevel(level.levels[0]);
+        break;
+      case 0:
+        this.world = new WorldDefault(48, 24);      
+        grid = this.load();
+        this.world.h = grid.length;
+        this.world.w = grid[0].length;
+        break;
+      default:
+        var levels = createLevels();
+        this.world = new WorldFromLevel(levels[this.editLevel-1]);
+    }
+      
+    if(grid) {
+      this.world.world = grid;
+    }
+    this.grid = this.world.world;
+    this.camera = {x:0,y:0, offset: {x: 0, y: 0}};
+    this.keyMap = {
+      '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
+      '75': {down: this.runTest.bind(this)},    //K
+      '80': {down: this.printLevel.bind(this)},       //P
+      '83': {down: this.cycleBlockBackwards.bind(this)},//S
+      '87': {down: this.cycleBlock.bind(this)},         //W
+      '69': {down: this.cycleAbility.bind(this)},       //E
+      '84': {down: this.zoomIn.bind(this)},             //T
+      '71': {down: this.zoomOut.bind(this)},            //G
+      '73': {down: this.growi.bind(this)},              //I
+      '74': {down: this.growj.bind(this)},              //J
+      //'27': {down: this.backToSelect.bind(this)},       //Escape
+      '66': {down: this.resetCameraPosition.bind(this)},//B
+      '65': {down: this.pickBlockFromLevel.bind(this)}, //A
+
+      '82': {down: this.gridScrollUp.bind(this)},     //R
+      '70': {down: this.gridScrollDown.bind(this)},   //F
+      '68': {down: this.selectAir.bind(this)},        //D
+      '72': {down: this.toggleCommandList.bind(this)},//H
+
+      '90': {down: this.selectFromQuickSelect.bind(this,0)},   //Z
+      '88': {down: this.selectFromQuickSelect.bind(this,1)},   //X
+      '67': {down: this.selectFromQuickSelect.bind(this,2)},   //C
+      '86': {down: this.selectFromQuickSelect.bind(this,3)},   //V
+      
+      '49': {down: this.selectFromBar.bind(this,0)},            //1
+      '50': {down: this.selectFromBar.bind(this,1)},            //2
+      '51': {down: this.selectFromBar.bind(this,2)},            //3
+      '52': {down: this.selectFromBar.bind(this,3)},            //4
+      '53': {down: this.selectFromBar.bind(this,4)},            //5
+      '54': {down: this.selectFromBar.bind(this,5)},            //6
+      '55': {down: this.selectFromBar.bind(this,6)},            //7
+
+      
+    }
+    this.bottomBarHeight = 0.2;
+    this.showCommands = false;
+    this.dragPivot = {x: 0, y: 0};
+    this.clickDragPivot = {x: 0, y: 0};
+    this.mousePoint = {x: 0, y: 0};
+    this.currentBlock = 1;
+    this.playerAbility = [0,0];
+    this.rowLength = 7;
+    this.rowCount = 2;
+    this.buttonGrid = Array(this.rowLength);
+    this.quickSelect = [];
+    this.resetCameraPosition();
+    this.addLevelEditorGUI();
+  }
+  resetCameraPosition() {
+    this.camera.x=this.world.w*this.world.s/2*this.zoom;
+    this.camera.y=this.world.h*this.world.s/2*this.zoom;
+  }
+  zoomIn() {
+    this.zoom += .1;
+    if(this.zoom>2) {
+      this.zoom=2;
+      return;
+    }
+    this.camera.x += this.world.w*this.world.s*.1/2;
+    this.camera.y += this.world.h*this.world.s*.1/2;
+  }
+  zoomOut() {
+    this.zoom -= .1;
+    if(this.zoom<.1) {
+      this.zoom=.1;
+      return;
+    }
+    this.camera.x -= this.world.w*this.world.s*.1/2;    
+    this.camera.y -= this.world.h*this.world.s*.1/2;    
+  }
+  growi()
+  {
+    if(this.keys[16]) return this.extendLeft();
+    for (var j = 0; j < this.grid.length; j++)
+    {
+      this.grid[j].push(0);
+    }
+    this.world.w++;
+  }
+  growj()
+  {
+    if(this.keys[16]) return this.extendTop();
+    var newrow = [];
+    for (var j = 0; j < this.grid[0].length; j++)
+    {
+      newrow.push(0);
+    }
+    this.grid.push(newrow);
+    this.world.h++;
+  }
+  extendTop() {
+    var newrow = [];
+    for (var j = 0; j < this.grid[0].length; j++) {
+      newrow.push(0);
+    }
+    this.grid.unshift(newrow);
+    this.world.h++;
+    this.world.forceRedraw();
+  }
+  extendLeft() {
+    for (var j = 0; j < this.grid.length; j++)
+    {
+      this.grid[j].unshift(0);
+    }
+    this.world.w++;
+    this.world.forceRedraw();
+    
+  }
+  shrinkj() {
+    this.grid.splice(this.grid.length-1,1);
+    this.world.h--;    
+  }
+  backToSelect()
+  {
+    var newScene = new LevelEditorSelectScene();
+    this.driver.setScene(newScene);
+  }
+  cycleBlockBackwards() {
+    var l = CELLMAP.length;
+    this.currentBlock = (this.currentBlock - 1 + l) % l;
+  }
+  cycleBlock() {
+    this.currentBlock = (this.currentBlock + 1) % CELLMAP.length;
+  }
+  cycleAbility() {
+    if (this.playerAbility[1] == 0)
+      this.playerAbility[1] = 1;
+    else
+    {
+      if (this.playerAbility[0] == 0)
+      {
+        this.playerAbility = [1,0];
+      }
+      else
+        this.playerAbility = [0,0];
+    }
+  }
+  getLevelString() {
+    var string = '[\n';
+    for(var i = 0;i < this.grid.length;i++) {
+      string += '[';
+      for(var j=0;j<this.grid[i].length;j++) {
+        var s = this.grid[i][j];
+        if(s<10) s='0'+s;
+        string += s + ',';
+      }
+      string += '],\n'
+    }
+    string += ']';
+    return string;
+  }
+  save() {
+
+    //if (this.editLevel)
+    //  return;
+    var string = this.getLevelString();
+    if(!localStorage||!localStorage.setItem)return;
+    localStorage.setItem("currentLevel", string);
+  }
+  load() {
+    if(!localStorage || !localStorage.getItem)return null;
+    var string = localStorage.getItem("currentLevel");
+    if(!string)return false;
+    var grid = [];
+    var currentRow;
+    var currentDigit = '';
+    var x = 0;
+    var y = 0;
+    for(var i = 1; i < string.length-1; i++) {
+      var char = string[i];
+      switch(char) {
+        case '[':
+          currentRow = [];
+          break;
+        case ']':
+          grid.push(currentRow);
+          break;
+        case ',':
+          if(currentDigit != '') {
+            var type = parseInt(currentDigit, 10);
+            if(!CELLMAP[type]) type = 0;
+            currentRow.push(type);
+            currentDigit = '';
+          }
+          break;
+        default:
+          currentDigit += char;
+      }
+    }
+    return grid;
+  }
+  printLevel() {
+    var string = this.getLevelString();
+    console.log(string);
+  }
+  getLevel() {
+    return {
+      name: 'test1',
+      abilities: this.playerAbility,
+      modifyPlayer: function(player) {
+        for (var i = 0; i < this.abilities.length; i++)
+        {
+          if (this.abilities[i] == 1)
+          {
+            PLAYER_ABILITIES[i+1](player);
+          }
+        }
+      },
+      grid: this.grid,
+    }
+  }
+  runTest() {
+    var testerScene = new LevelTesterScene(this.getLevel(), this);
+    this.driver.setScene(testerScene);
+  }
+  startDragging() {
+    this.dragPivot.x = this.driver.mouse.x;
+    this.dragPivot.y = this.driver.mouse.y;
+  }
+  drag() {
+    var dx = this.driver.mouse.x - this.dragPivot.x;
+    var dy = this.driver.mouse.y - this.dragPivot.y;
+    this.camera.x-=dx;
+    this.camera.y-=dy;
+    this.dragPivot.x += dx;
+    this.dragPivot.y += dy; 
+  }
+  mousedown(e, mouse) {
+    // var camera = this.camera;
+    // var wx = mouse.x + camera.x - camera.offset.x;
+    // var wy = mouse.y + camera.y - camera.offset.y;
+    // var x = Math.floor(wx/this.world.s);
+    // var y = Math.floor(wy/this.world.s);
+    // if(this.world.oob(x,y))return;
+    // var t = this.grid[y][x];
+    // this.grid[y][x] = (t+1)%3;
+    // this.grid[y][x] = this.currentBlock;
+    // this.world.forceRedraw(); 
+    var onGUI = pointContainsGUI(getPercentPoint(e),this.gui);
+    if(!onGUI&&canvas.height-mouse.y> this.bottomBarHeight*canvas.height){
+      this.clickDragPivot = {x:0,y:0};
+      this.clickDragPivot.x = mouse.x/this.zoom;
+      this.clickDragPivot.y = mouse.y/this.zoom;
+    } else {
+      this.clickDragPivot = undefined;
+    }
+    super.mousedown(e,mouse);
+  }
+  mouseup(e, mouse) {
+
+    if(canvas.height-mouse.y> this.bottomBarHeight*canvas.height && this.clickDragPivot != undefined){
+      var camera = this.camera;    
+      var wx = mouse.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
+      var wy = mouse.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
+      var x1 = Math.floor(wx/this.world.s);
+      var y1 = Math.floor(wy/this.world.s);
+
+      wx = this.clickDragPivot.x + (camera.x - camera.offset.x)/this.zoom;
+      wy = this.clickDragPivot.y + (camera.y - camera.offset.y)/this.zoom;
+      var x2 = Math.floor(wx/this.world.s);
+      var y2 = Math.floor(wy/this.world.s);
+
+      var dx = (1 - 2 * (x2<x1));
+      var dy = (1 - 2 * (y2<y1));
+      for(var i = x1; i != x2+dx; i+= dx) {
+        for(var j=y1; j!=y2+dy; j+=dy) {
+          if(this.world.oob(i, j))continue;
+          this.grid[j][i] = this.currentBlock;
+          //var t = this.grid[j][i];
+          //this.grid[j][i] = (t+1)%3;
+        }
+      }
+      this.save();
+      this.world.forceRedraw();
+    }
+    super.mouseup(e,mouse);
+  }
+  mousemove(e,mouse){
+    super.mousemove(e);
+    this.mousePoint.x = mouse.x;
+    this.mousePoint.y = mouse.y;
+  }
+  // mouseheld(mouse) {
+
+  // }
+  // update(dt) {
+  //   super.update(dt);
+  //   var mouse = this.driver.mouse;
+  //   if(mouse.held) {
+  //     this.mouseheld(mouse);
+  //   }
+  // }
+  update(dt){
+    super.update(dt);
+  }
+  addLevelEditorGUI(){
+    this.buildButtonGrid();
+    this.buildQuickSelect();
+
+    var dim = rectDimFromCenter(0.945,.75,.07,.08);
+    var saveButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.save.bind(this),'Save','30px ' + FONT,'black','rgba(255,255,255,0.75)','black',5);
+    this.gui.push(saveButton);
+
+
+
+    this.buttons = getButtons(this.gui);
+  }
+  buildButtonGrid(){
+    
+    var dim = [];
+    var buttonGridRegionWidth = 0.7;
+    var buttonGridRegionHeight = 0.2
+    var origin = [.05,.85];
+    var labelOffset = {x:0.043,y:0.036};
+    var labelFont = '20px ' + FONT;
+    var labelColor = 'black';
+    for(var i = 0; i < this.rowCount; i++){
+      this.buttonGrid[i] = [];
+      for(var j = 0; j < this.rowLength; j++){
+        dim = rectDimFromCenter(origin[0]+j/this.rowLength*buttonGridRegionWidth,
+          origin[1]+i/this.rowCount*buttonGridRegionHeight,1/this.rowLength*buttonGridRegionWidth-.02,1/this.rowCount*buttonGridRegionHeight-.02);
+        var button = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
+          undefined,i*this.rowLength+j);
+        button.onRelease = this.selectBlock.bind(this,button);
+        this.buttonGrid[i].push(button);
+        this.gui.push(button);
+
+        if(i==0 && j < this.rowLength){
+          var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,.05,.05,0,""+(j+1),labelFont,labelColor,'center');
+          this.gui.push(label);
+        }
+      }
+    }
+  }
+  buildQuickSelect(){
+    var dim = [];
+    var regionWidth = 0.2;
+    var regionHeight = 0.2;
+    var origin = {x:0.78,y:.85};
+    var buttonWidth = 0.08;
+    var buttonHeight = 0.09;
+
+    var labelOffset = {x:0.043,y:0.045};
+    var labelFont = '20px ' + FONT;
+    var labelColor = 'black';
+    dim = rectDimFromCenter(origin.x,origin.y,buttonWidth,buttonHeight);
+    var button1 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
+      undefined,0);
+    button1.onRelease = this.quickSelectClick.bind(this,button1); 
+    this.quickSelect.push(button1); 
+    this.gui.push(button1);
+    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'Z',labelFont,labelColor,'center');
+    this.gui.push(label);    
+
+    dim = rectDimFromCenter(origin.x+buttonWidth,origin.y,buttonWidth,buttonHeight);
+    var button2 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
+      undefined,0);
+    button2.onRelease = this.quickSelectClick.bind(this,button2);  
+    this.quickSelect.push(button2); 
+    this.gui.push(button2);
+    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'X',labelFont,labelColor,'center');
+    this.gui.push(label);
+
+    dim = rectDimFromCenter(origin.x,origin.y+buttonHeight,buttonWidth,buttonHeight);
+    var button3 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
+      undefined,0);
+    button3.onRelease = this.quickSelectClick.bind(this,button3); 
+    this.quickSelect.push(button3);  
+    this.gui.push(button3);
+    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'C',labelFont,labelColor,'center');
+    this.gui.push(label);
+
+    dim = rectDimFromCenter(origin.x+buttonWidth,origin.y+buttonHeight,buttonWidth,buttonHeight);
+    var button4 = new BlockButton(dim[0],dim[1],dim[2],dim[3],0,
+      undefined,0);
+    button4.onRelease = this.quickSelectClick.bind(this,button4); 
+    this.quickSelect.push(button4);  
+    this.gui.push(button4);
+    var label = new Label(dim[0]+labelOffset.x,dim[1]+labelOffset.y,0.05,0.05,0,'V',labelFont,labelColor,'center');
+    this.gui.push(label);
+
+    dim = rectDimFromCenter(0.945,0.94,.06,.08);
+    var resetBackWall = new ColoredBox(dim[0],dim[1],dim[2],dim[3],0,'white','black',5);
+    this.gui.push(resetBackWall);
+    var resetQuickSelectButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.resetQuickSelect.bind(this),'X','30px ' + FONT,'red','transparent','transparent','3');
+    this.gui.push(resetQuickSelectButton);
+    
+  }
+  quickSelectClick(button){
+    if(button.blockID == 0){
+      button.blockID = this.currentBlock;
+    } else {
+      this.selectBlock(button);
+    }
+  }
+  selectFromQuickSelect(quickSlotIndex){
+    this.currentBlock = this.quickSelect[quickSlotIndex].blockID;
+  }
+  selectFromBar(index){
+    this.currentBlock = this.buttonGrid[0][index].blockID;
+  }
+  selectBlock(button){
+    this.currentBlock = button.blockID;
+    if(this.currentBlock >= CELLMAP.length-1)
+      this.currentBlock = CELLMAP.length-1;
+    if(this.currentBlock < 0){      
+      this.currentBlock = 0;
+    }
+  }
+  resetQuickSelect(){
+    for(var i = 0; i < this.quickSelect.length; i++){
+      this.quickSelect[i].blockID = 0;
+    }
+  }
+  gridScrollUp(){
+    if(this.buttonGrid[0][0].blockID >= this.rowLength){
+      for(var i = 0; i < this.rowCount; i++){
+        for(var j = 0; j < this.rowLength; j++){
+          this.buttonGrid[i][j].blockID -= this.rowLength;
+        }
+      }
+    }
+  }
+  gridScrollDown(){
+    if(this.buttonGrid[0][0].blockID <= CELLMAP.length-7){
+      for(var i = 0; i < this.rowCount; i++){
+        for(var j = 0; j < this.rowLength; j++){
+          this.buttonGrid[i][j].blockID += this.rowLength;
+        }
+      }
+    }
+  }
+  drawBlockAtCursor(canvas){
+    var offset = {x: 20, y: 20};
+    var width = 30;
+    var height = 30;
+    var world = {
+      getCell: function() {return true}
+    };
+    if(this.currentBlock < CELLMAP.length && this.currentBlock > 0 && CELLMAP[this.currentBlock].draw)
+      CELLMAP[this.currentBlock].draw(canvas,this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height,world,0,0);
+    canvas.strokeStyle = 'black';
+    canvas.lineWidth = 3;
+    canvas.strokeRect(this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height);
+    if(this.driver.mouse.held && this.clickDragPivot) {
+      var w = Math.floor((this.clickDragPivot.x - this.driver.mouse.x)/this.zoom/this.world.s);
+      var h = Math.floor((this.clickDragPivot.y - this.driver.mouse.y)/this.zoom/this.world.s);
+      w = Math.abs(w);
+      h = Math.abs(h);
+      canvas.fillText(w+','+h, this.mousePoint.x + offset.x*3, this.mousePoint.y+offset.y*3);
+    }
+  }
+  selectAir(){
+    this.currentBlock = 0;
+  }
+  toggleCommandList(){
+    this.showCommands = !this.showCommands;
+  }
+  pickBlockFromLevel(){
+
+    var camera = this.camera;    
+    var wx = this.mousePoint.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
+    var wy = this.mousePoint.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
+    var x = Math.floor(wx/this.world.s);
+    var y = Math.floor(wy/this.world.s);
+    if(x > this.world.w || x < 0 || y > this.world.h || y < 0) return;  //bail if out of bounds
+    this.currentBlock = this.grid[y][x];
+  
+  }
+  draw(canvas) {
+    var camera = this.camera;
+    var world1 = this.world;
+    camera.offset = {x: canvas.width/2, y: canvas.height/2};
+    var xmin = -canvas.width/2 + world1.s*this.zoom;
+    var xmax = canvas.width/2 + (world1.w-1)*world1.s*this.zoom;
+    var ymin = -canvas.height/2 + world1.s*this.zoom;
+    var ymax = canvas.height/2 + (world1.h-1)*world1.s*this.zoom;
+    if(camera.x<xmin) camera.x = xmin;
+    if(camera.x>xmax) camera.x = xmax;
+    if(camera.y>ymax)camera.y = ymax;
+    if(camera.y<ymin)camera.y = ymin;  
+    var camera = this.camera;
+    canvas.save();
+    canvas.translate(canvas.width/2,canvas.height/2);
+    canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
+    canvas.scale(this.zoom,this.zoom);
+    canvas.strokeStyle = 'black';
+    canvas.lineWidth = 10;
+    canvas.strokeRect(0,0,world1.w*world1.s,world1.h*world1.s);
+    this.world.draw(canvas,true);
+    canvas.restore();
+    var mouse = this.driver.mouse;
+
+    //canvas.fillStyle='#fff';
+    canvas.fillStyle = 'rgba(255,255,255,0.85)';
+
+    canvas.beginPath();
+    canvas.rect(0, canvas.height - canvas.height/5, canvas.width, canvas.height/5);
+    canvas.fill();
+    canvas.stroke();
+    
+    canvas.fillStyle='#000';
+    canvas.fillText("[" + CELLMAP[this.currentBlock].name + "]", canvas.width/5, canvas.height/1.1-100);
+    canvas.fillText("[Wall Jump: " + this.playerAbility[0] + "   Double Jump: " + this.playerAbility[1]+ "]", canvas.width/1.5, canvas.height/1.1-100);
+    
+  /*
+'32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
+      '75': {down: this.runTest.bind(this)},    //K
+      //'80': {down: this.printLevel.bind(this)},
+      '65': {down: this.cycleBlockBackwards.bind(this)},//S
+      '68': {down: this.cycleBlock.bind(this)},         //W
+      '69': {down: this.cycleAbility.bind(this)},       //E
+      '84': {down: this.zoomIn.bind(this)},             //T
+      '71': {down: this.zoomOut.bind(this)},            //G
+      '73': {down: this.growi.bind(this)},              //I
+      '74': {down: this.growj.bind(this)},              //J
+      '27': {down: this.backToSelect.bind(this)},       //Escape
+      '88': {down: this.openBlockSelect.bind(this)},    //X
+      '66': {down: this.resetCameraPosition.bind(this)},//B
+
+      '82': {down: this.gridScrollUp.bind(this)},     //R
+      '70': {down: this.gridScrollDown.bind(this)},   //F
+      '69': {down: this.selectAir.bind(this)},        //D
+      '72': {down: this.toggleCommandList.bind(this)},//H
+  */
+    canvas.font = "20px " + FONT;
+    canvas.textAlign = 'left';
+    if(this.showCommands){
+      var origin = {x:0.02,y:0.1};
+      var gap = 0.04;
+      var text = [
+        "[H] - Toggle Command List",
+        "[W] - Cycle block forward",
+        "[S] - Cycle block backward",
+        "[E] - Cycle abilities",
+        "[A] - Block Picker",
+        "[R] - Scroll Block Select Up",
+        "[F] - Scroll Black Select Down",
+        "[T] - Zoom In",
+        "[G] - Zoom Out",
+        "[D] - Select Erase (Air)",
+        "[1/2/3/4] - Quick select",
+        "[K] - Test Level",
+        "[B] - Reset Camera",
+        "[I] - Grow I",
+        "[J] - Grow J",
+        "[P] - Print as String",
+
+      ];
+      for(var i = 0; i < text.length; i++){
+        canvas.fillStyle = 'rgba(255,255,255,0.75)';
+        canvas.fillRect(origin.x*canvas.width,
+          (origin.y+i*gap-gap/2)*canvas.height,300,gap*canvas.height);
+        canvas.fillStyle = 'black';
+        canvas.fillText(text[i],origin.x*canvas.width,
+          (origin.y+i*gap)*canvas.height,1600);
+      }
+    } else {
+      canvas.fillText("[H] - Help",canvas.width*0.02,canvas.height*0.1,1600);
+    }
+    canvas.textAlign = 'center';
+    this.drawAllGUI(canvas);
+    this.drawBlockAtCursor(canvas);
+    if(mouse.held && this.clickDragPivot != undefined) {
+      canvas.strokeStyle = "rgba(0,100,0,1)";
+      canvas.fillStyle = "rgba(0,255,0,.5)";
+      canvas.beginPath();
+      var tx = this.clickDragPivot.x*this.zoom;
+      var ty = this.clickDragPivot.y*this.zoom;
+      canvas.rect(tx, ty, -tx+mouse.x, -ty+mouse.y);
+      canvas.fill();
+      canvas.stroke();
+    }
+  }
+}class Woof extends Enemy {
   constructor(x,y) {
     super(x,y);
     this.w = 50;
@@ -5879,10 +6735,7 @@ class Woof extends Enemy {
     canvas.lineTo(w/2,2);  
     canvas.stroke();
   }
-}
-class LevelEditorScene extends Scene {  
-}
-addLevel( function(nameSpace) {
+}addLevel( function(nameSpace) {
   {
 
     return {
@@ -5950,7 +6803,506 @@ addBlock(function() { return {
     // return false;
   },
 }});
-class Butcher extends Mover {
+//menustate constants
+var SELECTWORLD = 0;
+var SELECTLEVEL = 1;
+
+
+class LevelSelectScene extends Scene{
+    constructor(playIntro){
+        super(playIntro);
+        this.keyMap = {
+          '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+          '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+          '27': {down: this.safeButtonCall(this,this.handleEscape)},   //esc
+    
+          '87': { down: this.navigateLevelSelect.bind(this,0)},    //W
+          '68': { down: this.navigateLevelSelect.bind(this,1)},    //D
+          '83': { down: this.navigateLevelSelect.bind(this,2)},    //S
+          '65': { down: this.navigateLevelSelect.bind(this,3)},   //A
+    
+          '38': { down: this.navigateLevelSelect.bind(this,0)},  //up
+          '39': { down: this.navigateLevelSelect.bind(this,1)},  //right
+          '40': { down: this.navigateLevelSelect.bind(this,2)},   //down
+          '37': { down: this.navigateLevelSelect.bind(this,3)},   //left
+        }
+        this.levels = createLevels();    
+
+        this.levelsInWorld = [0,0,0];     //numbers should match how many levels are in each world
+        for(var i = 0; i < this.levels.length; i += 1) {
+          var level = this.levels[i];
+          var worldType = level.worldType || 0;
+          this.levelsInWorld[worldType] += 1;
+        }
+        this.menuState = SELECTWORLD;
+        this.worldSelected = 0;
+        this.levelIndex = 0;    
+        if(touchOn){
+          this.buttonsInRow = 4;
+        } else {
+          this.buttonsInRow = 6;
+        }
+        this.buttonRow = [];
+
+        this.worldButtons = [];
+        this.worldLabels = [];
+        this.allowUIInput = true;
+        this.backWall = [];
+        this.addLevelSelectGUI();
+        this.backgroundList = [[],[],[]];  //list of lists
+                                                                //top to bottom
+                                                                //4 ScrollingBackgrounds each
+        this.createBackgrounds();
+
+
+    }
+
+
+    update(dt){
+      super.update(dt);
+      this.updateBackgrounds(dt);
+      if(this.menuState == SELECTLEVEL){
+        this.levelIndex = this.selectedButton.value;
+        var absoluteLevelIndex = this.levelIndex;
+        for(var i = 0; i < this.worldSelected; i++){
+          absoluteLevelIndex += this.levelsInWorld[i];
+        }
+        if(this.levels[absoluteLevelIndex])
+          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
+        else  
+          this.levelName.text = "";
+      }
+    }
+    draw(canvas){
+      this.drawBackgrounds(canvas);
+      canvas.strokeStyle = 'black';
+      if(this.menuState == SELECTWORLD)
+        canvas.lineWidth = 3;
+      else if(this.menuState == SELECTLEVEL)
+        canvas.lineWidth = 10;
+      canvas.strokeRect(0,this.worldSelected*canvas.height/3,canvas.width,canvas.height/3);
+      this.drawGrayScale();
+      this.drawAllGUI(canvas);
+      drawTransitionOverlay(this.overlayColor,canvas);
+      if(this.debug)
+        drawGrid(canvas);
+    }
+    drawGrayScale() {
+      canvas.save();      
+      canvas.globalCompositeOperation='hue';    
+      canvas.fillStyle = 'white';        
+      for(var i=0;i<3;i+=1) {
+        var obj = this.backgroundList[i][0];
+        canvas.globalAlpha = obj.colorTimer/obj.colorChangeDuration;
+        canvas.fillRect(0,i*canvas.height/3,canvas.width,canvas.height/3);
+      }
+      canvas.restore();      
+    }
+    updateBackgrounds(dt){
+      for(var i = 0; i < this.backWall.length; i++){
+        this.backWall[i].update(dt);
+      }
+      for(var i = 0; i < this.backgroundList.length; i++){
+        for(var j = 0; j < this.backgroundList[i].length; j++){
+          this.backgroundList[i][j].update(dt);
+        }
+      }
+    }
+    drawBackgrounds(canvas){
+      for(var i = 0; i < this.backWall.length; i++){
+        this.backWall[i].draw(canvas);
+      }
+      for(var i = 0; i < this.backgroundList.length; i++){
+        for(var j = 0; j < this.backgroundList[i].length; j++){
+          this.backgroundList[i][j].draw(canvas);
+        }
+      }
+    }
+    createBackgrounds(){
+      var slowSpeed = 3;
+      var fastSpeed = 5;
+      
+      var xScale = 0.55;
+      var bgSprite1 = createHillBackground(6000, "rgb(10,92,31)", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,0,-80,false,true);
+      var bg2 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,bgSprite1.width,-80,true,true);
+      this.backgroundList[0].push(bg1);
+      this.backgroundList[0].push(bg2);
+      
+      var bgSprite2 = createHillBackground(6000, "rgb(11,102,35)", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite2,xScale,.2,fastSpeed,0,37,false,true);
+      bg2 = new ScrollingBackgroundObject(bgSprite2,xScale,0.2,fastSpeed,bgSprite2.width,37,true,true);
+      this.backgroundList[0].push(bg1);
+      this.backgroundList[0].push(bg2);
+
+      xScale = 0.7;
+      var bgSprite3 = createForrestBackground(60, "0b6623", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,0,120,false,false);
+      var bg2 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,bgSprite3.width,120,true,false);
+      this.backgroundList[1].push(bg1);
+      this.backgroundList[1].push(bg2);
+
+      var bgSprite4 = createForrestBackground(100, "0b6623", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite4,xScale,.2,fastSpeed,0,237,false,false);
+      bg2 = new ScrollingBackgroundObject(bgSprite4,xScale,0.2,fastSpeed,bgSprite4.width,237,true,false);
+      this.backgroundList[1].push(bg1);
+      this.backgroundList[1].push(bg2);
+
+      var bgSprite5 = createSpikeBackground(60, "#222", false);
+      var bg1 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,0,320,false,false);
+      var bg2 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,bgSprite5.width,320,true,false);
+      this.backgroundList[2].push(bg1);
+      this.backgroundList[2].push(bg2);
+
+      var bgSprite6 = createSpikeBackground(100, "#222", false);
+      bg1 = new ScrollingBackgroundObject(bgSprite6,xScale,.2,fastSpeed,0,437,false,false);
+      bg2 = new ScrollingBackgroundObject(bgSprite6,xScale,0.2,fastSpeed,bgSprite6.width,437,true,false);
+      this.backgroundList[2].push(bg1);
+      this.backgroundList[2].push(bg2);
+    }
+    addLevelSelectGUI(){
+      var bigFont = '40px ' + FONT;
+      var buttonFont = '30px ' + FONT;
+      var textColor = 'white';
+      //level select title
+      var dim = rectDimFromCenter(.5,.06,.3,.1);
+      var levelSelectTitle = new Label(dim[0],dim[1],dim[2],dim[3],3,
+        "Select Level",'50px ' + FONT,textColor,'center');
+      this.gui.push(levelSelectTitle);
+      //Color lerp backgrounds
+      var world1Back = new ColorLerpBox(0,0,1,.333,3,[135,206,235,255],[128,128,128,255],25,true );
+      this.backWall.push(world1Back);
+
+      var world2Back = new ColorLerpBox(0,.3333,1,.333,3,[135,206,235,255],[128,128,128,255],25,false );
+      this.backWall.push(world2Back);
+
+      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[130,56,48,255],[128,128,128,255],25,false );
+      this.backWall.push(world3Back);
+
+      //World labels
+      dim = rectDimFromCenter(.1,.09,.2,.12);
+      var world1Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 1",bigFont,textColor,'center');
+      world1Label.setVisibility(true);
+      this.gui.push(world1Label);
+      this.worldLabels.push(world1Label);
+
+      dim = rectDimFromCenter(.1,.09+.333,.2,.12);
+      var world2Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 2",bigFont,textColor,'center');
+      world2Label.setVisibility(false);
+      this.gui.push(world2Label);
+      this.worldLabels.push(world2Label);
+
+      dim = rectDimFromCenter(.1,.09+.666,.2,.12);
+      var world3Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 3",bigFont,textColor,'center');
+      world3Label.setVisibility(false);
+      this.gui.push(world3Label);
+      this.worldLabels.push(world3Label);
+
+      //World buttons (invisible but functional)
+      var world1Button = new Button(0,0,1,1/3,0,this.handleWorldClick.bind(this,0));
+      this.gui.push(world1Button);
+      this.worldButtons.push(world1Button);
+
+      var world2Button = new Button(0,.333,1,1/3,1,this.handleWorldClick.bind(this,1));
+      this.gui.push(world2Button);
+      this.worldButtons.push(world2Button);
+
+      var world3Button = new Button(0,.666,1,1/3,2,this.handleWorldClick.bind(this,2));
+      this.gui.push(world3Button);
+      this.worldButtons.push(world3Button);
+
+      world1Button.setNeighbors([undefined,undefined,world2Button,undefined]);
+      world2Button.setNeighbors([world1Button,undefined,world3Button,undefined]);
+      world3Button.setNeighbors([world2Button,undefined,undefined,undefined]);
+
+      
+      this.buildButtonRow();
+      dim = rectDimFromCenter(.8,.532,.05,.08);
+      if(touchOn){
+        dim[1] -= .012;
+        dim[2] *= 1.3;
+        dim[3] *= 1.3;
+      }
+      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevels.bind(this),.05,.4,'white','black',5,false);
+      this.rightArrow.selectable = false;
+      this.rightArrow.setVisibility(false);
+      this.gui.push(this.rightArrow);
+
+      dim = rectDimFromCenter(.2,.532,.05,.08);
+      if(touchOn){
+        dim[1] -= .012;
+        dim[2] *= 1.3;
+        dim[3] *= 1.3;
+      }
+      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevels.bind(this),.05,.4,'white','black',5,true);
+      this.leftArrow.selectable = false;
+      this.leftArrow.setVisibility(false);
+      this.gui.push(this.leftArrow);
+
+      dim = rectDimFromCenter(.5,.62,.4,.1);
+      this.levelName = new Label(dim[0],dim[1],dim[2],dim[3],5,"",'30px ' + FONT,'white','center');
+      this.gui.push(this.levelName);
+
+      if(touchOn){
+        dim = rectDimFromCenter(.85,.06,.25,.08);
+        var mainMenuButton = new TextButton(dim[0],dim[1],dim[2],dim[3],10,this.goToMainMenu.bind(this),"Main Menu",buttonFont,'white','rgba(255,255,255,.5)','white',5);
+        this.gui.push(mainMenuButton);
+      }
+      this.buttons = getButtons(this.gui);
+      this.selectedButton = world1Button;
+    }
+    buildButtonRow(){
+      var regionWidth = 0.5;
+      var regionHeight = 0.12;
+      var square = [1,16/9];
+      var buttonWidth = .05*square[0];
+      var buttonHeight = .05*square[1];
+      
+      var buttonGap = regionWidth/this.buttonsInRow;
+      var origin = {x:0.5-buttonGap*(this.buttonsInRow-1)/2,y:.535};
+      if(touchOn){
+        buttonWidth *= 1.5;
+        buttonHeight *= 1.25;
+        origin.y = .52;
+      }
+      var dim = [];
+      for(var i = 0; i < this.buttonsInRow; i++){
+        dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);        
+        if(!touchOn){
+          var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
+            this.loadGameLevel.bind(this,i+1),""+(i+1),'40px Noteworthy','white',
+            'transparent','white',5);
+        } else {
+          var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
+            this.loadGameLevel.bind(this,i+1),""+(i+1),'40px Noteworthy','white',
+            'rgba(255,255,255,.5)','white',5);
+        }
+        /*
+        var outline = new ColoredBox(dim[0],dim[1],dim[2],dim[3],4,'transparent','white',3);
+        this.gui.push(outline);
+        outline.setOptions(false,false,false);
+        */
+        button.setOptions(false,false,false);
+        button.value = i;
+        this.gui.push(button);
+        this.buttonRow.push(button);
+      }
+      for(var i = 0; i < this.buttonRow.length; i++){
+        var left = (i == 0) ? undefined : this.buttonRow[i-1];
+        var right = (i == this.buttonRow.length-1) ? undefined : this.buttonRow[i+1];
+        this.buttonRow[i].setNeighbors([undefined,right,undefined,left]);
+      }
+    }
+    updateWorldSelection(worldNumber){
+      this.worldSelected = worldNumber;
+      for(var i = 0; i < this.backWall.length; i++){
+        this.backWall[i].activated = false;
+        this.worldLabels[i].setVisibility(false);
+      }
+      this.worldLabels[worldNumber].setVisibility(true);
+      this.backWall[worldNumber].activated = true;
+      for(var i = 0; i < this.backgroundList.length;i++){
+        for(var j = 0; j < this.backgroundList[i].length;j++){
+          if(i == worldNumber)
+            this.backgroundList[i][j].activated = true;
+          else 
+            this.backgroundList[i][j].activated = false;
+        }
+      }
+    }
+    handleWorldClick(worldNumber){
+      if(this.menuState == SELECTWORLD){
+        this.updateWorldSelection(worldNumber);
+        this.selectWorld(worldNumber);
+      } else if(this.menuState == SELECTLEVEL){
+        if(!touchOn){
+          if(worldNumber != this.worldSelected){
+            this.returnToWorldSelect();  
+            this.updateWorldSelection(worldNumber);    
+          }  
+        } else {
+          if(worldNumber != this.worldSelected){
+            this.returnToWorldSelect();
+            this.updateWorldSelection(worldNumber);
+            this.handleWorldClick(worldNumber);
+          }
+        }   
+      }
+    }
+    selectWorld(worldNumber){
+      this.worldSelected = worldNumber;
+      this.menuState = SELECTLEVEL;
+      this.selectedButton = this.buttonRow[0];
+      this.selectedButton.selected = true;
+      for(var i = 0; i < this.buttonRow.length; i++){
+        this.buttonRow[i].value = i;
+      }
+      for(var i = 0; i < this.worldButtons.length; i++){
+        this.worldButtons[i].setOptions(true,false,false);
+      }
+      var offSet = (this.worldSelected-1)/3;
+      var group4GUI = getGUIInGroup(4,this.gui);
+      for(var i = 0; i < group4GUI.length; i++){
+        group4GUI[i].setOptions(true,true,true);
+        group4GUI[i].y += offSet;
+      }
+      var group5GUI = getGUIInGroup(5,this.gui);
+      for(var i = 0; i < group5GUI.length; i++){
+        group5GUI[i].setOptions(true,false,true);
+        group5GUI[i].y += offSet;
+      }
+      
+      this.leftArrow.setVisibility(true);
+      this.rightArrow.setVisibility(true);
+      this.levelIndex = 0;
+      if(this.menuState == SELECTLEVEL){
+        var absoluteLevelIndex = this.levelIndex;
+        for(var i = 0; i < this.worldSelected; i++){
+          absoluteLevelIndex += this.levelsInWorld[i];
+        }
+        if(this.levels[absoluteLevelIndex])
+          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
+        else  
+          this.levelName.text = "";
+      }
+    }
+    
+    returnToWorldSelect(){
+      this.menuState = SELECTWORLD;
+      this.selectedButton.selected = false;
+      this.selectedButton = getGUIInGroup(this.worldSelected,this.gui)[0];
+      for(var i = 0; i < this.worldButtons.length; i++){
+        this.worldButtons[i].setOptions(true,true,true);
+      }
+      var group4GUI = getGUIInGroup(4,this.gui);
+      for(var i = 0; i < group4GUI.length; i++){
+        group4GUI[i].setOptions(false,false,false);
+        group4GUI[i].reset();
+      }
+      var group5GUI = getGUIInGroup(5,this.gui);
+      for(var i = 0; i < group5GUI.length; i++){
+        group5GUI[i].setOptions(false,false,false);
+        group5GUI[i].reset();
+      }
+      this.levelIndex = 0;
+      for(var i = 0; i < this.buttonRow.length; i++){
+        this.buttonRow[i].text = ''+(i+1);
+      }
+    }
+    
+    loadGameLevel(){
+      //This calls a fade to black transition and then loads the level at the end of the transition
+      this.allowUIInput = false;
+      var levelToLoad = 0;
+      for(var i = 0; i < this.worldSelected; i++){
+        levelToLoad += this.levelsInWorld[i];       //sums # of levels in previous worlds
+      }
+      levelToLoad += this.levelIndex;     
+      this.startTransition(25,1,function() {
+        var newScene = new GameScene();
+        if(levelToLoad < newScene.levels.length){
+          newScene.loadNewLevel(levelToLoad);
+          this.driver.setScene(new LevelIntroScene(newScene,true));
+        } else {
+          this.allowUIInput = true;
+        }
+      });
+      
+    }
+    handleEscape(){
+      if(this.menuState == SELECTWORLD){
+        this.driver.setScene(new MenuScene(false));
+      } else if(this.menuState == SELECTLEVEL){
+        this.returnToWorldSelect();
+      }
+    }
+    goToMainMenu(){
+      this.driver.setScene(new MenuScene(false));
+    }
+    mousemove(e, mouse) {
+      //Overload
+      if(!this.allowUIInput)
+        return;
+      if(this.menuState == SELECTWORLD){
+        var percentPoint = getPercentPoint(e);
+        var worldNumber = Math.floor(percentPoint[1]*3);        //spreads values 0 to .999 -> 0 to 2.999
+        if(!worldNumber&&worldNumber!=0)return;
+        var worldNumber = (worldNumber >= 3) ? 2 : worldNumber; //cap to 2 if too large
+        var worldNumber = (worldNumber < 0) ? 0 : worldNumber;  //cap to 0 if too small
+        this.updateWorldSelection(worldNumber);   
+      } 
+      GUIMouseMove(this,e,this.buttons);
+    }
+    navigateLevelSelect(direction){
+      //Overload
+      if(!this.allowUIInput)
+        return;
+      if(this.menuState == SELECTWORLD){
+        this.navigateUI(direction);
+        this.updateWorldSelection(this.selectedButton.groupID);
+      } else if(this.menuState == SELECTLEVEL){
+        
+        switch(direction){
+          case 1: //right
+            this.rightArrow.displaceArrow();
+            break;
+          case 3: //left
+            this.leftArrow.displaceArrow();
+            break;
+        }
+
+        if(direction == 1 && this.selectedButton == this.buttonRow[this.buttonsInRow-1]){
+          this.incrementLevels();
+        }
+        else if(direction == 3 && this.selectedButton == this.buttonRow[0]){
+          this.decrementLevels();
+        }
+        this.navigateUI(direction);
+        this.levelIndex = this.selectedButton.value;
+
+      }
+    }
+    
+    incrementLevels(){
+      this.selectedButton = this.selectedButton.getNeighbor('right') || this.selectedButton;
+      if(this.buttonRow[this.buttonsInRow-1].value
+        < this.levelsInWorld[this.worldSelected]-1){
+        for(var i = 0; i < this.buttonRow.length; i++){
+          this.buttonRow[i].value+= 1;
+          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
+        }
+        this.levelIndex = this.selectedButton.value;
+        if(this.selectedButton != this.buttonRow[0]){
+          this.selectedButton.selected = false;
+          this.selectedButton = this.selectedButton.getNeighbor('left');
+          this.selectedButton.selected = true;
+        } else {
+          this.selectedButton.selected = true;
+        }
+      } else {
+        this.selectedButton.selected = true;
+      }
+    }
+    decrementLevels(){
+      this.selectedButton = this.selectedButton.getNeighbor('left') || this.selectedButton;
+      if(this.buttonRow[0].value > 0){
+        for(var i = 0; i < this.buttonRow.length; i++){
+          this.buttonRow[i].value-= 1;
+          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
+        }
+        this.levelIndex = this.selectedButton.value;
+        if(this.selectedButton != this.buttonRow[this.buttonsInRow-1]){
+          this.selectedButton.selected = false;
+          this.selectedButton = this.selectedButton.getNeighbor('right');
+          this.selectedButton.selected = true;
+        } else {
+          this.selectedButton.selected = true;
+        }
+      } else {
+        this.selectedButton.selected = true;
+      }
+    }
+}class Butcher extends Mover {
   constructor(x,y) {
     super(x,y);
     this.w = 35;
@@ -6142,520 +7494,7 @@ class Butcher extends Mover {
     canvas.fill();
     canvas.restore();
   }
-}//menustate constants
-var SELECTWORLD = 0;
-var SELECTLEVEL = 1;
-
-
-class LevelSelectScene extends Scene{
-    constructor(playIntro){
-        super(playIntro);
-        this.keyMap = {
-          '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-          '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-          '27': {down: this.safeButtonCall(this,this.handleEscape)},   //esc
-    
-          '87': { down: this.navigateLevelSelect.bind(this,0)},    //W
-          '68': { down: this.navigateLevelSelect.bind(this,1)},    //D
-          '83': { down: this.navigateLevelSelect.bind(this,2)},    //S
-          '65': { down: this.navigateLevelSelect.bind(this,3)},   //A
-    
-          '38': { down: this.navigateLevelSelect.bind(this,0)},  //up
-          '39': { down: this.navigateLevelSelect.bind(this,1)},  //right
-          '40': { down: this.navigateLevelSelect.bind(this,2)},   //down
-          '37': { down: this.navigateLevelSelect.bind(this,3)},   //left
-        }
-        this.levels = createLevels();    
-
-        this.levelsInWorld = [0,0,0];     //numbers should match how many levels are in each world
-        for(var i = 0; i < this.levels.length; i += 1) {
-          var level = this.levels[i];
-          var worldType = level.worldType || 0;
-          this.levelsInWorld[worldType] += 1;
-        }
-        this.menuState = SELECTWORLD;
-        this.worldSelected = 0;
-        this.levelIndex = 0;    
-        this.buttonsInRow = 6;
-        this.buttonRow = [];
-
-        this.worldButtons = [];
-        this.worldLabels = [];
-        this.allowUIInput = true;
-        this.backWall = [];
-        this.addLevelSelectGUI();
-        this.backgroundList = [[],[],[]];  //list of lists
-                                                                //top to bottom
-                                                                //4 ScrollingBackgrounds each
-        this.createBackgrounds();
-
-
-    }
-
-
-    update(dt){
-      super.update(dt);
-      this.updateBackgrounds(dt);
-      if(this.menuState == SELECTLEVEL){
-        this.levelIndex = this.selectedButton.value;
-        var absoluteLevelIndex = this.levelIndex;
-        for(var i = 0; i < this.worldSelected; i++){
-          absoluteLevelIndex += this.levelsInWorld[i];
-        }
-        if(this.levels[absoluteLevelIndex])
-          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
-        else  
-          this.levelName.text = "";
-      }
-    }
-    draw(canvas){
-      this.drawBackgrounds(canvas);
-      canvas.strokeStyle = 'black';
-      if(this.menuState == SELECTWORLD)
-        canvas.lineWidth = 3;
-      else if(this.menuState == SELECTLEVEL)
-        canvas.lineWidth = 10;
-      canvas.strokeRect(0,this.worldSelected*canvas.height/3,canvas.width,canvas.height/3);
-      this.drawGrayScale();
-      this.drawAllGUI(canvas);
-      drawTransitionOverlay(this.overlayColor,canvas);
-      if(this.debug)
-        drawGrid(canvas);
-    }
-    drawGrayScale() {
-      canvas.save();      
-      canvas.globalCompositeOperation='hue';    
-      canvas.fillStyle = 'white';        
-      for(var i=0;i<3;i+=1) {
-        var obj = this.backgroundList[i][0];
-        canvas.globalAlpha = obj.colorTimer/obj.colorChangeDuration;
-        canvas.fillRect(0,i*canvas.height/3,canvas.width,canvas.height/3);
-      }
-      canvas.restore();      
-    }
-    updateBackgrounds(dt){
-      for(var i = 0; i < this.backWall.length; i++){
-        this.backWall[i].update(dt);
-      }
-      for(var i = 0; i < this.backgroundList.length; i++){
-        for(var j = 0; j < this.backgroundList[i].length; j++){
-          this.backgroundList[i][j].update(dt);
-        }
-      }
-    }
-    drawBackgrounds(canvas){
-      for(var i = 0; i < this.backWall.length; i++){
-        this.backWall[i].draw(canvas);
-      }
-      for(var i = 0; i < this.backgroundList.length; i++){
-        for(var j = 0; j < this.backgroundList[i].length; j++){
-          this.backgroundList[i][j].draw(canvas);
-        }
-      }
-    }
-    createBackgrounds(){
-      var slowSpeed = 3;
-      var fastSpeed = 5;
-      /*
-      this.bg = createHillBackground(60, "#888", true);
-      this.newBackground1 = new ScrollingBackgroundObject(this.bg,.6,.5,3,0,-200,false);
-      this.newBackground2 = new ScrollingBackgroundObject(this.bg,.6,.5,3,this.bg.width,-200,true);
-  
-      this.otherbg = createHillBackground(100, "#666", false);
-      this.newBackground3 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,0,-100,false);
-      this.newBackground4 = new ScrollingBackgroundObject(this.otherbg,.6,.5,16,this.otherbg.width,-100,true);
-      */
-      var xScale = 0.55;
-      var bgSprite1 = createHillBackground(6000, "rgb(10,92,31)", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,0,-80,false,true);
-      var bg2 = new ScrollingBackgroundObject(bgSprite1,xScale,.35,slowSpeed,bgSprite1.width,-80,true,true);
-      this.backgroundList[0].push(bg1);
-      this.backgroundList[0].push(bg2);
-      
-      var bgSprite2 = createHillBackground(6000, "rgb(11,102,35)", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite2,xScale,.2,fastSpeed,0,37,false,true);
-      bg2 = new ScrollingBackgroundObject(bgSprite2,xScale,0.2,fastSpeed,bgSprite2.width,37,true,true);
-      this.backgroundList[0].push(bg1);
-      this.backgroundList[0].push(bg2);
-
-      xScale = 0.7;
-      var bgSprite3 = createForrestBackground(60, "0b6623", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,0,120,false,false);
-      var bg2 = new ScrollingBackgroundObject(bgSprite3,xScale,.35,slowSpeed,bgSprite3.width,120,true,false);
-      this.backgroundList[1].push(bg1);
-      this.backgroundList[1].push(bg2);
-
-      var bgSprite4 = createForrestBackground(100, "0b6623", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite4,xScale,.2,fastSpeed,0,237,false,false);
-      bg2 = new ScrollingBackgroundObject(bgSprite4,xScale,0.2,fastSpeed,bgSprite4.width,237,true,false);
-      this.backgroundList[1].push(bg1);
-      this.backgroundList[1].push(bg2);
-
-      var bgSprite5 = createSpikeBackground(60, "#222", false);
-      var bg1 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,0,320,false,false);
-      var bg2 = new ScrollingBackgroundObject(bgSprite5,xScale,.35,slowSpeed,bgSprite5.width,320,true,false);
-      this.backgroundList[2].push(bg1);
-      this.backgroundList[2].push(bg2);
-
-      var bgSprite6 = createSpikeBackground(100, "#222", false);
-      bg1 = new ScrollingBackgroundObject(bgSprite6,xScale,.2,fastSpeed,0,437,false,false);
-      bg2 = new ScrollingBackgroundObject(bgSprite6,xScale,0.2,fastSpeed,bgSprite6.width,437,true,false);
-      this.backgroundList[2].push(bg1);
-      this.backgroundList[2].push(bg2);
-    }
-    addLevelSelectGUI(){
-      var bigFont = '40px ' + FONT;
-      var buttonFont = '30px ' + FONT;
-      var textColor = 'white';
-      //level select title
-      var dim = rectDimFromCenter(.5,.06,.3,.1);
-      var levelSelectTitle = new Label(dim[0],dim[1],dim[2],dim[3],3,
-        "Select Level",'50px ' + FONT,textColor,'center');
-      this.gui.push(levelSelectTitle);
-      //Color lerp backgrounds
-      var world1Back = new ColorLerpBox(0,0,1,.333,3,[135,206,235,255],[128,128,128,255],25,true );
-      this.backWall.push(world1Back);
-
-      var world2Back = new ColorLerpBox(0,.3333,1,.333,3,[135,206,235,255],[128,128,128,255],25,false );
-      this.backWall.push(world2Back);
-
-      var world3Back = new ColorLerpBox(0,.6666,1,.333,3,[130,56,48,255],[128,128,128,255],25,false );
-      this.backWall.push(world3Back);
-
-      //World labels
-      dim = rectDimFromCenter(.1,.09,.2,.12);
-      var world1Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 1",bigFont,textColor,'center');
-      world1Label.setVisibility(true);
-      this.gui.push(world1Label);
-      this.worldLabels.push(world1Label);
-
-      dim = rectDimFromCenter(.1,.09+.333,.2,.12);
-      var world2Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 2",bigFont,textColor,'center');
-      world2Label.setVisibility(false);
-      this.gui.push(world2Label);
-      this.worldLabels.push(world2Label);
-
-      dim = rectDimFromCenter(.1,.09+.666,.2,.12);
-      var world3Label = new Label(dim[0],dim[1],dim[2],dim[3],3,"World 3",bigFont,textColor,'center');
-      world3Label.setVisibility(false);
-      this.gui.push(world3Label);
-      this.worldLabels.push(world3Label);
-
-      //World buttons (invisible but functional)
-      var world1Button = new Button(0,0,1,1/3,0,this.handleWorldClick.bind(this,0));
-      this.gui.push(world1Button);
-      this.worldButtons.push(world1Button);
-
-      var world2Button = new Button(0,.333,1,1/3,1,this.handleWorldClick.bind(this,1));
-      this.gui.push(world2Button);
-      this.worldButtons.push(world2Button);
-
-      var world3Button = new Button(0,.666,1,1/3,2,this.handleWorldClick.bind(this,2));
-      this.gui.push(world3Button);
-      this.worldButtons.push(world3Button);
-
-      world1Button.setNeighbors([undefined,undefined,world2Button,undefined]);
-      world2Button.setNeighbors([world1Button,undefined,world3Button,undefined]);
-      world3Button.setNeighbors([world2Button,undefined,undefined,undefined]);
-
-      //Select level UI
-      /*
-      dim = rectDimFromCenter(.5,.5,.2,.1)
-      this.levelNumLabel = new Label(dim[0],dim[1],dim[2],dim[3],4,"X",'50px ' + FONT,textColor,'center');
-      this.levelNumLabel.setVisibility(false);
-      this.gui.push(this.levelNumLabel);
-        
-      dim = rectDimFromCenter(.5,.6,.18,.08);
-      this.startButton = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
-      this.loadGameLevel.bind(this),"Start Level",buttonFont,textColor,'transparent',textColor,5);
-      this.startButton.setVisibility(false);
-      this.startButton.interactable = false;
-      this.gui.push(this.startButton);
-      */
-      this.buildButtonRow();
-      dim = rectDimFromCenter(.8,.532,.05,.08);
-      this.rightArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.incrementLevels.bind(this),.05,.4,'white','black',5,false);
-      this.rightArrow.selectable = false;
-      this.rightArrow.setVisibility(false);
-      this.gui.push(this.rightArrow);
-
-      dim = rectDimFromCenter(.2,.532,.05,.08);
-      this.leftArrow = new ArrowSelector(dim[0],dim[1],dim[2],dim[3],5,this.decrementLevels.bind(this),.05,.4,'white','black',5,true);
-      this.leftArrow.selectable = false;
-      this.leftArrow.setVisibility(false);
-      this.gui.push(this.leftArrow);
-
-      dim = rectDimFromCenter(.5,.62,.4,.1);
-      this.levelName = new Label(dim[0],dim[1],dim[2],dim[3],5,"",'30px ' + FONT,'white','center');
-      this.gui.push(this.levelName);
-
-      this.buttons = getButtons(this.gui);
-      this.selectedButton = world1Button;
-    }
-    buildButtonRow(){
-      var regionWidth = 0.5;
-      var regionHeight = 0.12;
-      var square = [1,16/9];
-      var buttonWidth = .05*square[0];
-      var buttonHeight = .05*square[1];
-      var buttonGap = regionWidth/this.buttonsInRow;
-      var origin = {x:0.5-buttonGap*(this.buttonsInRow-1)/2,y:.535};
-      var dim = [];
-      for(var i = 0; i < this.buttonsInRow; i++){
-        dim = rectDimFromCenter(origin.x+buttonGap*i,origin.y,buttonWidth,buttonHeight);
-        var button = new TextButton(dim[0],dim[1],dim[2],dim[3],4,
-          this.loadGameLevel.bind(this,i+1),""+(i+1),'40px ' + FONT,'white',
-          'transparent','white',5);
-        /*
-        var outline = new ColoredBox(dim[0],dim[1],dim[2],dim[3],4,'transparent','white',3);
-        this.gui.push(outline);
-        outline.setOptions(false,false,false);
-        */
-        button.setOptions(false,false,false);
-        button.value = i;
-        this.gui.push(button);
-        this.buttonRow.push(button);
-      }
-      for(var i = 0; i < this.buttonRow.length; i++){
-        var left = (i == 0) ? undefined : this.buttonRow[i-1];
-        var right = (i == this.buttonRow.length-1) ? undefined : this.buttonRow[i+1];
-        this.buttonRow[i].setNeighbors([undefined,right,undefined,left]);
-      }
-    }
-    updateWorldSelection(worldNumber){
-      this.worldSelected = worldNumber;
-      for(var i = 0; i < this.backWall.length; i++){
-        this.backWall[i].activated = false;
-        this.worldLabels[i].setVisibility(false);
-      }
-      this.worldLabels[worldNumber].setVisibility(true);
-      this.backWall[worldNumber].activated = true;
-      for(var i = 0; i < this.backgroundList.length;i++){
-        for(var j = 0; j < this.backgroundList[i].length;j++){
-          if(i == worldNumber)
-            this.backgroundList[i][j].activated = true;
-          else 
-            this.backgroundList[i][j].activated = false;
-        }
-      }
-    }
-    handleWorldClick(worldNumber){
-      if(this.menuState == SELECTWORLD){
-        this.selectWorld(worldNumber);
-      } else if(this.menuState == SELECTLEVEL){
-        if(worldNumber != this.worldSelected){
-          this.returnToWorldSelect();  
-          this.updateWorldSelection(worldNumber);    
-        }     
-      }
-    }
-    selectWorld(worldNumber){
-      this.worldSelected = worldNumber;
-      this.menuState = SELECTLEVEL;
-      this.selectedButton = this.buttonRow[0];
-      this.selectedButton.selected = true;
-      for(var i = 0; i < this.buttonRow.length; i++){
-        this.buttonRow[i].value = i;
-      }
-      for(var i = 0; i < this.worldButtons.length; i++){
-        this.worldButtons[i].setOptions(true,false,false);
-      }
-      var offSet = (this.worldSelected-1)/3;
-      var group4GUI = getGUIInGroup(4,this.gui);
-      for(var i = 0; i < group4GUI.length; i++){
-        group4GUI[i].setOptions(true,true,true);
-        group4GUI[i].y += offSet;
-      }
-      var group5GUI = getGUIInGroup(5,this.gui);
-      for(var i = 0; i < group5GUI.length; i++){
-        group5GUI[i].setOptions(true,false,true);
-        group5GUI[i].y += offSet;
-      }
-      
-      this.leftArrow.setVisibility(true);
-      this.rightArrow.setVisibility(true);
-      this.levelIndex = 0;
-      if(this.menuState == SELECTLEVEL){
-        var absoluteLevelIndex = this.levelIndex;
-        for(var i = 0; i < this.worldSelected; i++){
-          absoluteLevelIndex += this.levelsInWorld[i];
-        }
-        if(this.levels[absoluteLevelIndex])
-          this.levelName.text = ""+this.levels[absoluteLevelIndex].name;
-        else  
-          this.levelName.text = "";
-      }
-    }
-    
-    returnToWorldSelect(){
-      this.menuState = SELECTWORLD;
-      this.selectedButton.selected = false;
-      this.selectedButton = getGUIInGroup(this.worldSelected,this.gui)[0];
-      for(var i = 0; i < this.worldButtons.length; i++){
-        this.worldButtons[i].setOptions(true,true,true);
-      }
-      var group4GUI = getGUIInGroup(4,this.gui);
-      for(var i = 0; i < group4GUI.length; i++){
-        group4GUI[i].setOptions(false,false,false);
-        group4GUI[i].reset();
-      }
-      var group5GUI = getGUIInGroup(5,this.gui);
-      for(var i = 0; i < group5GUI.length; i++){
-        group5GUI[i].setOptions(false,false,false);
-        group5GUI[i].reset();
-      }
-      this.levelIndex = 0;
-      for(var i = 0; i < this.buttonRow.length; i++){
-        this.buttonRow[i].text = ''+(i+1);
-      }
-    }
-    
-    loadGameLevel(){
-      //This calls a fade to black transition and then loads the level at the end of the transition
-      this.allowUIInput = false;
-      var levelToLoad = 0;
-      for(var i = 0; i < this.worldSelected; i++){
-        levelToLoad += this.levelsInWorld[i];       //sums # of levels in previous worlds
-      }
-      levelToLoad += this.levelIndex;     
-      this.startTransition(25,1,function() {
-        var newScene = new GameScene();
-        if(levelToLoad < newScene.levels.length){
-          newScene.loadNewLevel(levelToLoad);
-          this.driver.setScene(new LevelIntroScene(newScene,true));
-        } else {
-          this.allowUIInput = true;
-        }
-      });
-      
-    }
-    handleEscape(){
-      if(this.menuState == SELECTWORLD){
-        this.driver.setScene(new MenuScene(false));
-      } else if(this.menuState == SELECTLEVEL){
-        this.returnToWorldSelect();
-      }
-    }
-    goToMainMenu(){
-      this.driver.setScene(new MenuScene(false));
-    }
-    mousemove(e, mouse) {
-      //Overload
-      if(!this.allowUIInput)
-        return;
-      if(this.menuState == SELECTWORLD){
-        var percentPoint = getPercentPoint(e);
-        var worldNumber = Math.floor(percentPoint[1]*3);        //spreads values 0 to .999 -> 0 to 2.999
-        if(!worldNumber&&worldNumber!=0)return;
-        var worldNumber = (worldNumber >= 3) ? 2 : worldNumber; //cap to 2 if too large
-        var worldNumber = (worldNumber < 0) ? 0 : worldNumber;  //cap to 0 if too small
-        this.updateWorldSelection(worldNumber);   
-      } 
-      GUIMouseMove(this,e,this.buttons);
-    }
-    navigateLevelSelect(direction){
-      //Overload
-      if(!this.allowUIInput)
-        return;
-      if(this.menuState == SELECTWORLD){
-        this.navigateUI(direction);
-        this.updateWorldSelection(this.selectedButton.groupID);
-      } else if(this.menuState == SELECTLEVEL){
-        
-        switch(direction){
-          case 1: //right
-            this.rightArrow.displaceArrow();
-            break;
-          case 3: //left
-            this.leftArrow.displaceArrow();
-            break;
-        }
-
-        if(direction == 1 && this.selectedButton == this.buttonRow[this.buttonsInRow-1]){
-          this.incrementLevels();
-        }
-        else if(direction == 3 && this.selectedButton == this.buttonRow[0]){
-          this.decrementLevels();
-        }
-        this.navigateUI(direction);
-        this.levelIndex = this.selectedButton.value;
-
-      }
-    }
-    
-    incrementLevels(){
-      if(this.buttonRow[this.buttonsInRow-1].value
-        < this.levelsInWorld[this.worldSelected]-1){
-        for(var i = 0; i < this.buttonRow.length; i++){
-          this.buttonRow[i].value+= 1;
-          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
-        }
-        this.levelIndex = this.selectedButton.value;
-        if(this.selectedButton != this.buttonRow[0]){
-          this.selectedButton.selected = false;
-          this.selectedButton = this.selectedButton.getNeighbor('left');
-          this.selectedButton.selected = true;
-        }
-      }
-    }
-    decrementLevels(){
-      if(this.buttonRow[0].value > 0){
-        for(var i = 0; i < this.buttonRow.length; i++){
-          this.buttonRow[i].value-= 1;
-          this.buttonRow[i].text = ""+(this.buttonRow[i].value+1);
-        }
-        this.levelIndex = this.selectedButton.value;
-        if(this.selectedButton != this.buttonRow[this.buttonsInRow-1]){
-          this.selectedButton.selected = false;
-          this.selectedButton = this.selectedButton.getNeighbor('right');
-          this.selectedButton.selected = true;
-        }
-      }
-    }
-}addLevel( function(nameSpace) {
-  {
-
-    return {
-      name: "The Acorn",
-      worldType: 1,
-      grid: [
-        [0,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,],
-        [0,19,19,19,19,19,19,19,19,19,27,19,19,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,18,],
-        [19,19,18,19,19,19,19,18,19,19,27,19,19,19,0,0,0,0,0,0,0,0,0,19,19,18,18,18,19,19,18,18,19,19,19,19,19,18,27,19,19,18,19,18,19,19,18,18,],
-        [4,18,19,19,18,19,19,18,19,19,27,19,19,19,0,0,0,0,0,0,0,0,0,0,19,19,19,18,18,19,18,19,19,19,19,18,18,18,27,18,19,19,18,18,18,18,27,23,],
-        [23,23,18,19,18,19,19,18,19,18,27,19,19,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,18,18,19,19,19,18,19,19,19,27,18,18,18,19,18,18,19,27,18,],
-        [0,18,18,18,18,19,18,18,19,18,27,19,19,0,0,0,0,0,0,0,0,0,0,0,9,9,23,23,23,23,27,18,19,19,18,23,23,23,27,18,18,18,27,18,19,19,27,19,],
-        [0,0,18,18,18,18,18,18,18,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,27,18,19,18,19,19,19,19,27,18,18,18,27,18,18,18,27,19,],
-        [0,0,0,19,23,23,27,18,18,18,19,19,0,0,0,0,0,19,19,19,19,19,19,19,0,0,19,19,18,18,2,18,18,19,19,19,19,19,19,19,18,18,27,18,18,19,27,0,],
-        [0,19,19,19,19,18,27,18,18,18,19,19,0,0,0,19,19,19,19,19,19,19,19,19,19,19,0,19,22,18,2,18,18,19,19,19,19,19,19,19,19,18,27,18,18,0,27,0,],
-        [0,19,19,19,19,18,27,18,18,19,19,19,0,0,0,19,19,19,19,19,19,19,19,19,19,19,0,0,0,18,27,18,18,19,19,19,0,0,0,0,19,18,27,18,18,27,18,0,],
-        [0,19,19,18,19,18,27,18,19,18,19,19,0,0,0,19,19,19,19,18,18,19,19,19,18,19,19,0,0,18,27,18,18,19,19,23,23,23,23,9,19,18,27,18,18,27,18,0,],
-        [0,19,19,18,19,18,18,18,18,18,19,0,0,0,0,19,18,19,18,19,18,18,18,19,18,19,19,0,0,18,27,18,18,18,18,18,18,19,19,0,19,18,27,18,18,27,0,0,],
-        [0,0,19,18,18,18,19,19,19,19,19,0,0,0,0,19,18,18,18,19,18,18,18,18,18,18,0,0,0,18,27,18,18,18,2,19,19,19,0,0,0,18,27,18,18,27,0,0,],
-        [0,0,19,19,19,18,19,18,19,19,0,0,0,0,19,19,19,19,18,18,18,18,19,19,18,19,19,0,0,18,2,18,18,19,27,19,19,0,0,0,0,18,27,18,18,27,0,0,],
-        [0,0,0,0,19,18,18,18,19,19,0,0,0,0,0,0,0,19,19,18,18,18,19,19,19,19,19,0,0,18,2,18,19,19,27,0,0,0,0,0,23,23,27,18,18,27,0,0,],
-        [0,0,0,0,0,18,18,18,19,0,0,0,0,0,0,0,0,9,23,23,27,18,18,18,19,19,19,0,18,18,27,18,0,0,27,0,0,0,0,0,0,18,27,18,18,27,0,0,],
-        [0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,18,27,18,18,19,19,19,19,0,18,18,27,18,0,0,27,18,18,0,0,0,0,18,27,18,18,27,0,0,],
-        [0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,27,18,19,19,0,0,19,0,18,18,27,18,0,0,2,18,18,0,0,0,0,18,27,18,18,27,0,0,],
-        [1,1,1,1,1,1,1,18,0,0,0,0,0,0,0,0,0,0,0,2,27,18,0,0,0,0,19,0,18,18,27,18,0,0,2,18,18,0,0,0,0,18,27,18,18,18,0,0,],
-        [1,1,1,1,1,1,1,18,18,0,15,0,0,0,0,0,0,0,0,18,27,18,0,0,0,0,7,0,18,18,18,18,0,0,27,18,18,0,0,0,0,2,27,18,18,18,0,0,],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,2,18,27,18,18,0,0,0,0,0,18,18,18,18,0,0,27,18,18,18,0,0,0,18,27,18,18,18,5,0,],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,2,18,27,18,18,18,0,0,0,18,18,18,18,18,0,0,27,18,18,18,0,0,2,18,27,1,1,1,1,1,],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,18,18,27,18,18,18,18,0,18,18,18,18,18,18,18,0,2,18,18,18,18,0,18,18,1,1,1,1,1,1,],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-        ],
-      init(gameScene){
-        var acornTutorial = new WorldText(1030,820,620,'ACORNS allow Jimothy to WALL JUMP','30px ' + FONT,[255,255,255,0],[255,255,255,1],25,false,'center');
-        var acornTrigger = new TriggerZone(830,720,420,200,gameScene.player,acornTutorial.appear.bind(acornTutorial),undefined,acornTutorial.disappear.bind(acornTutorial),false)
-        gameScene.entities.push(acornTutorial);
-        gameScene.entities.push(acornTrigger);
-      }
-    };
-
-  }
-});
-addBlock(function() { return {
+}addBlock(function() { return {
   name: "Bounce",
   solid: false,
   id: BLOCKS.length,
@@ -6698,7 +7537,175 @@ addBlock(function() { return {
     // entity.game.world.forceRedraw();    
   },
 }});
+addLevel( function(nameSpace) {
+  {
 
+    return {
+      name: "The Acorn",
+      worldType: 1,
+      grid: [
+        [0,19,19,19,19,19,19,19,19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,],
+        [0,19,19,19,19,19,19,19,19,19,27,19,19,0,0,0,0,0,0,0,0,0,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,18,],
+        [19,19,18,19,19,19,19,18,19,19,27,19,19,19,0,0,0,0,0,0,0,0,0,19,19,18,18,18,19,19,18,18,19,19,19,19,19,18,27,19,19,18,19,18,19,19,18,18,],
+        [4,18,19,19,18,19,19,18,19,19,27,19,19,19,0,0,0,0,0,0,0,0,0,0,19,19,19,18,18,19,18,19,19,19,19,18,18,18,27,18,19,19,18,18,18,18,27,23,],
+        [23,23,18,19,18,19,19,18,19,18,27,19,19,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,18,18,19,19,19,18,19,19,19,27,18,18,18,19,18,18,19,27,18,],
+        [0,18,18,18,18,19,18,18,19,18,27,19,19,0,0,0,0,0,0,0,0,0,0,0,9,9,23,23,23,23,27,18,19,19,18,23,23,23,27,18,18,18,27,18,19,19,27,19,],
+        [0,0,18,18,18,18,18,18,18,18,18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,18,18,18,27,18,19,18,19,19,19,19,27,18,18,18,27,18,18,18,27,19,],
+        [0,0,0,19,23,23,27,18,18,18,19,19,0,0,0,0,0,19,19,19,19,19,19,19,0,0,19,19,18,18,2,18,18,19,19,19,19,19,19,19,18,18,27,18,18,19,27,0,],
+        [0,19,19,19,19,18,27,18,18,18,19,19,0,0,0,19,19,19,19,19,19,19,19,19,19,19,0,19,22,18,2,18,18,19,19,19,19,19,19,19,19,18,27,18,18,0,27,0,],
+        [0,19,19,19,19,18,27,18,18,19,19,19,0,0,0,19,19,19,19,19,19,19,19,19,19,19,0,0,0,18,27,18,18,19,19,19,0,0,0,0,19,18,27,18,18,27,18,0,],
+        [0,19,19,18,19,18,27,18,19,18,19,19,0,0,0,19,19,19,19,18,18,19,19,19,18,19,19,0,0,18,27,18,18,19,19,23,23,23,23,9,19,18,27,18,18,27,18,0,],
+        [0,19,19,18,19,18,18,18,18,18,19,0,0,0,0,19,18,19,18,19,18,18,18,19,18,19,19,0,0,18,27,18,18,18,18,18,18,19,19,0,19,18,27,18,18,27,0,0,],
+        [0,0,19,18,18,18,19,19,19,19,19,0,0,0,0,19,18,18,18,19,18,18,18,18,18,18,0,0,0,18,27,18,18,18,2,19,19,19,0,0,0,18,27,18,18,27,0,0,],
+        [0,0,19,19,19,18,19,18,19,19,0,0,0,0,19,19,19,19,18,18,18,18,19,19,18,19,19,0,0,18,2,18,18,19,27,19,19,0,0,0,0,18,27,18,18,27,0,0,],
+        [0,0,0,0,19,18,18,18,19,19,0,0,0,0,0,0,0,19,19,18,18,18,19,19,19,19,19,0,0,18,2,18,19,19,27,0,0,0,0,0,23,23,27,18,18,27,0,0,],
+        [0,0,0,0,0,18,18,18,19,0,0,0,0,0,0,0,0,9,23,23,27,18,18,18,19,19,19,0,18,18,27,18,0,0,27,0,0,0,0,0,0,18,27,18,18,27,0,0,],
+        [0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,18,27,18,18,19,19,19,19,0,18,18,27,18,0,0,27,18,18,0,0,0,0,18,27,18,18,27,0,0,],
+        [0,0,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,27,18,19,19,0,0,19,0,18,18,27,18,0,0,2,18,18,0,0,0,0,18,27,18,18,27,0,0,],
+        [1,1,1,1,1,1,1,18,0,0,0,0,0,0,0,0,0,0,0,2,27,18,0,0,0,0,19,0,18,18,27,18,0,0,2,18,18,0,0,0,0,18,27,18,18,18,0,0,],
+        [1,1,1,1,1,1,1,18,18,0,15,0,0,0,0,0,0,0,0,18,27,18,0,0,0,0,7,0,18,18,18,18,0,0,27,18,18,0,0,0,0,2,27,18,18,18,0,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,2,18,27,18,18,0,0,0,0,0,18,18,18,18,0,0,27,18,18,18,0,0,0,18,27,18,18,18,5,0,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,2,18,27,18,18,18,0,0,0,18,18,18,18,18,0,0,27,18,18,18,0,0,2,18,27,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,18,18,27,18,18,18,18,0,18,18,18,18,18,18,18,0,2,18,18,18,18,0,18,18,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+        ],
+      init(gameScene){
+        var acornTutorial = new WorldText(1030,820,620,'ACORNS allow Jimothy to WALL JUMP','30px ' + FONT,[255,255,255,0],[255,255,255,1],25,false,'center');
+        var acornTrigger = new TriggerZone(830,720,420,200,gameScene.player,acornTutorial.appear.bind(acornTutorial),undefined,acornTutorial.disappear.bind(acornTutorial),false)
+        gameScene.entities.push(acornTutorial);
+        gameScene.entities.push(acornTrigger);
+      }
+    };
+
+  }
+});
+class CreditsScene extends Scene{
+  constructor(playIntro){
+    super(playIntro);
+    this.keyMap = {
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+
+      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
+    }
+    this.memberNames = ["Brian Dizon",
+                        "Christian Gramling",
+                        "Kyle Wong",
+                        "Kristen Campbell",
+                        "Taylor Poppoff",
+                        "TJ Hanson",
+                        "Muhammad Albayati",];
+    this.memberRoles = ["Project Lead",
+                        "Programming & Design",
+                        "Programming",
+                        "Music & Audio",
+                        "Art",
+                        "Programming",
+                        "Programming"];
+    this.addCreditsGUI();
+    this.nameLabels = getGUIInGroup(2,this.gui);
+    this.roleLabels = getGUIInGroup(3,this.gui);
+    moveAllGUI(-.7,0,this.nameLabels);
+    moveAllGUI(.7,0,this.roleLabels);
+    this.creditsTimer = 0;
+    this.initialDelay = 15;
+    this.delayBetween = 8;
+    this.labelVelocity = 0.08;
+    this.endDistanceFromCenter = .03;   //distance around center where credit entries should go
+                                        //Not actually accurate but decreasing this moves both sides closer
+                                        //and increasing it moves them away from the center.
+  }
+
+  update(dt){
+    super.update(dt);
+    this.updateCreditsLabels(dt);
+  }
+  draw(canvas){
+    canvas.fillStyle = 'black';
+    canvas.fillRect(0,0,canvas.width,canvas.height);
+    this.drawAllGUI(canvas);
+  }
+  updateCreditsLabels(dt){
+    //controls which labels should be moved every frame
+    //There is an initial delay where no labels are moving
+    //After that, every delayBetween duration allows one more row to begin
+    //moving to the center.
+    this.creditsTimer += dt;
+    if(this.creditsTimer > this.initialDelay){
+      for(var i = 0; i < this.memberNames.length; i++){
+        if(this.creditsTimer > this.initialDelay+i*this.delayBetween){
+          this.moveCreditsEntry(this.nameLabels[i],'right',dt);
+          this.moveCreditsEntry(this.roleLabels[i],'left',dt);
+        }
+      }
+    }
+  }
+  moveCreditsEntry(label,direction,dt){
+    //Moves label until it is within endDistanceFromCenter distance from center of screen
+    //Speed scales with distance to destination.
+    switch(direction){
+      case 'left':
+        var distance = label.x-(0.5+this.endDistanceFromCenter);
+        if(label.x + dt*(-this.labelVelocity)*distance < 0.5 + this.endDistanceFromCenter){
+          label.x = 0.5+this.endDistanceFromCenter;
+        } else {
+          label.x -= dt*this.labelVelocity*distance;
+        }
+        break;
+      case 'right':
+        var distance = 0.5-this.endDistanceFromCenter-(label.x+label.w);
+        if(label.x+label.w + dt*(this.labelVelocity)*distance > 0.5-this.endDistanceFromCenter){
+          label.x = 0.5-label.w-this.endDistanceFromCenter;;
+        } else {
+          label.x += dt*this.labelVelocity*distance;
+        }
+        break;
+    }
+  }
+  addCreditsGUI(){
+    var textColor = 'white';
+    var titleFont = '60px ' + FONT;
+    var creditsFont = '30px ' + FONT;
+    this.leftRefObject = new GUIElement(-0.5,0.5,0,0,0);
+    this.rightRefObject = new GUIElement(1.5,0.5,0,0,0);
+
+    var dim = rectDimFromCenter(0.5,.1,.4,.2);
+    var creditsTitle = new Label(dim[0],dim[1],dim[2],dim[3],
+      1,"Credits",titleFont,textColor,'center');
+    this.gui.push(creditsTitle);
+
+    dim = rectDimFromCenter(0.6,0.9,.1,.1);
+    var backButton = new TextButton(dim[0],dim[1],dim[2],dim[3],
+      4,this.goToMainMenu.bind(this),"Back",creditsFont,textColor,
+      'transparent',textColor,3);
+    this.gui.push(backButton);
+
+    var labelWidth = 0.3;
+    var labelGap = 0.6/this.memberNames.length;   //This controls how far down the credit entries should go.
+    var labelHeight = labelGap-0.05;
+    var origin = [0.5,0.25];                      //origin[1] is height that the credit entires begin drawing
+    for(var i = 0; i < this.memberNames.length; i++){
+      dim = rectDimFromCenter(origin[0]-0.05,origin[1]+(i*labelGap),labelWidth,labelHeight);
+      var memberLabel = new Label(dim[0],dim[1],dim[2],dim[3],
+        2,this.memberNames[i],creditsFont,textColor,'right');
+      this.gui.push(memberLabel);
+
+      dim = rectDimFromCenter(origin[0]+0.05,origin[1]+(i*labelGap),labelWidth,labelHeight);
+      var memberRole = new Label(dim[0],dim[1],dim[2],dim[3],
+        3,this.memberRoles[i],creditsFont,textColor,'left');
+      this.gui.push(memberRole);
+    }
+
+    this.selectedButton = backButton;
+    backButton.selected = true;
+    //backbutton intentionally has no neighbors
+    this.buttons = getButtons(this.gui);
+  }
+  goToMainMenu(){
+    this.driver.setScene(new MenuScene(false));
+  }
+}
 class PigBeginning extends Pig {
   constructor(x,y) 
   {
@@ -6866,132 +7873,27 @@ class PigBeginning extends Pig {
     }
   }
 
-}class CreditsScene extends Scene{
-  constructor(playIntro){
-    super(playIntro);
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-
-      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
+}addBlock(function() { return {
+  name: "Kaizo",
+  solid: false,
+  id: BLOCKS.length,
+  hide: true,
+  //ignoreCollisions: true,
+  draw: function(canvas, x,y,w,h, world,i,j) {
+    //var w= width;
+    //var h=height;
+    canvas.fillStyle = 'rgba(50,50,0,.5)';
+    canvas.fillRect(x,y,w,h);
+  },
+  entityCollision: function(entity, pos, dx, dy, cellPos) {
+    if(dy<0) {
+      entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
+      entity.game.world.forceRedraw();
+      //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = this.id;
     }
-    this.memberNames = ["Brian Dizon",
-                        "Christian Gramling",
-                        "Kyle Wong",
-                        "Kristen Campbell",
-                        "Taylor Poppoff",
-                        "TJ Hanson",
-                        "Muhammad Albayati",];
-    this.memberRoles = ["Project Lead",
-                        "Programming & Design",
-                        "Programming",
-                        "Music & Audio",
-                        "Art",
-                        "Programming",
-                        "Programming"];
-    this.addCreditsGUI();
-    this.nameLabels = getGUIInGroup(2,this.gui);
-    this.roleLabels = getGUIInGroup(3,this.gui);
-    moveAllGUI(-.7,0,this.nameLabels);
-    moveAllGUI(.7,0,this.roleLabels);
-    this.creditsTimer = 0;
-    this.initialDelay = 15;
-    this.delayBetween = 8;
-    this.labelVelocity = 0.08;
-    this.endDistanceFromCenter = .03;   //distance around center where credit entries should go
-                                        //Not actually accurate but decreasing this moves both sides closer
-                                        //and increasing it moves them away from the center.
-  }
-
-  update(dt){
-    super.update(dt);
-    this.updateCreditsLabels(dt);
-  }
-  draw(canvas){
-    canvas.fillStyle = 'black';
-    canvas.fillRect(0,0,canvas.width,canvas.height);
-    this.drawAllGUI(canvas);
-  }
-  updateCreditsLabels(dt){
-    //controls which labels should be moved every frame
-    //There is an initial delay where no labels are moving
-    //After that, every delayBetween duration allows one more row to begin
-    //moving to the center.
-    this.creditsTimer += dt;
-    if(this.creditsTimer > this.initialDelay){
-      for(var i = 0; i < this.memberNames.length; i++){
-        if(this.creditsTimer > this.initialDelay+i*this.delayBetween){
-          this.moveCreditsEntry(this.nameLabels[i],'right',dt);
-          this.moveCreditsEntry(this.roleLabels[i],'left',dt);
-        }
-      }
-    }
-  }
-  moveCreditsEntry(label,direction,dt){
-    //Moves label until it is within endDistanceFromCenter distance from center of screen
-    //Speed scales with distance to destination.
-    switch(direction){
-      case 'left':
-        var distance = label.x-(0.5+this.endDistanceFromCenter);
-        if(label.x + dt*(-this.labelVelocity)*distance < 0.5 + this.endDistanceFromCenter){
-          label.x = 0.5+this.endDistanceFromCenter;
-        } else {
-          label.x -= dt*this.labelVelocity*distance;
-        }
-        break;
-      case 'right':
-        var distance = 0.5-this.endDistanceFromCenter-(label.x+label.w);
-        if(label.x+label.w + dt*(this.labelVelocity)*distance > 0.5-this.endDistanceFromCenter){
-          label.x = 0.5-label.w-this.endDistanceFromCenter;;
-        } else {
-          label.x += dt*this.labelVelocity*distance;
-        }
-        break;
-    }
-  }
-  addCreditsGUI(){
-    var textColor = 'white';
-    var titleFont = '60px ' + FONT;
-    var creditsFont = '30px ' + FONT;
-    this.leftRefObject = new GUIElement(-0.5,0.5,0,0,0);
-    this.rightRefObject = new GUIElement(1.5,0.5,0,0,0);
-
-    var dim = rectDimFromCenter(0.5,.1,.4,.2);
-    var creditsTitle = new Label(dim[0],dim[1],dim[2],dim[3],
-      1,"Credits",titleFont,textColor,'center');
-    this.gui.push(creditsTitle);
-
-    dim = rectDimFromCenter(0.6,0.9,.1,.1);
-    var backButton = new TextButton(dim[0],dim[1],dim[2],dim[3],
-      4,this.goToMainMenu.bind(this),"Back",creditsFont,textColor,
-      'transparent',textColor,3);
-    this.gui.push(backButton);
-
-    var labelWidth = 0.3;
-    var labelGap = 0.6/this.memberNames.length;   //This controls how far down the credit entries should go.
-    var labelHeight = labelGap-0.05;
-    var origin = [0.5,0.25];                      //origin[1] is height that the credit entires begin drawing
-    for(var i = 0; i < this.memberNames.length; i++){
-      dim = rectDimFromCenter(origin[0]-0.05,origin[1]+(i*labelGap),labelWidth,labelHeight);
-      var memberLabel = new Label(dim[0],dim[1],dim[2],dim[3],
-        2,this.memberNames[i],creditsFont,textColor,'right');
-      this.gui.push(memberLabel);
-
-      dim = rectDimFromCenter(origin[0]+0.05,origin[1]+(i*labelGap),labelWidth,labelHeight);
-      var memberRole = new Label(dim[0],dim[1],dim[2],dim[3],
-        3,this.memberRoles[i],creditsFont,textColor,'left');
-      this.gui.push(memberRole);
-    }
-
-    this.selectedButton = backButton;
-    backButton.selected = true;
-    //backbutton intentionally has no neighbors
-    this.buttons = getButtons(this.gui);
-  }
-  goToMainMenu(){
-    this.driver.setScene(new MenuScene(false));
-  }
-}addLevel( function(nameSpace) {
+  },
+}});
+addLevel( function(nameSpace) {
   {
 
     return {
@@ -7028,27 +7930,51 @@ class PigBeginning extends Pig {
 
   }
 });
-addBlock(function() { return {
-  name: "Kaizo",
-  solid: false,
-  id: BLOCKS.length,
-  hide: true,
-  //ignoreCollisions: true,
-  draw: function(canvas, x,y,w,h, world,i,j) {
-    //var w= width;
-    //var h=height;
-    canvas.fillStyle = 'rgba(50,50,0,.5)';
-    canvas.fillRect(x,y,w,h);
-  },
-  entityCollision: function(entity, pos, dx, dy, cellPos) {
-    if(dy<0) {
-      entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
-      entity.game.world.forceRedraw();
-      //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = this.id;
-    }
-  },
-}});
+class LevelEditorSelectScene extends LevelSelectScene{
+  constructor(playIntro){
+    super(playIntro);
+    
+    this.keyMap['78'] = {down: this.loadNewLevel.bind(this)};
+    this.keyMap['69'] = {down: this.loadLocalLevel.bind(this)};
+    this.keyMap['82'] = {down: this.loadPigLevel.bind(this)};
+    this.addExtraGUI();
+  }
+  update(dt,frameCount){
+    super.update(dt,frameCount);
+  }
+  draw(canvas){
+    super.draw(canvas);
+  }
+  
+  loadNewLevel(){
+    this.loadGameLevel(-2);
+  }
 
+  loadLocalLevel(){
+    this.loadGameLevel(0);
+  }
+  loadPigLevel(){
+    this.loadGameLevel(-1);
+  }
+  addExtraGUI(){
+    var dim = rectDimFromCenter(.5,.33,.7,.1);
+    var levelEditorLabel = new Label(dim[0],dim[1],dim[2],dim[3],7,"Level Editor    [N] - New Level    [E] - Local Level    [R] - PigFunScene",'30px ' + FONT,'white','center');
+    this.gui.push(levelEditorLabel);
+  }
+  loadGameLevel(index){
+    if(index == undefined){
+      super.loadGameLevel();
+      return;
+    }
+    var absoluteLevelIndex = index;
+    for(var i = 0; i < this.worldSelected; i++){
+      absoluteLevelIndex += this.levelsInWorld[i];
+    } 
+    
+    var scene = new LevelEditorScene(absoluteLevelIndex);
+    this.driver.setScene(scene);
+  }
+}
 class Apple extends Mover {
   constructor(x,y){
       super(x,y);
@@ -7138,51 +8064,20 @@ class Apple extends Mover {
     canvas.fillStyle = this.color4;
     canvas.fillRect(-w*0.1,-h*1.3,w*0.2,h*0.3);
   }
-}class LevelEditorSelectScene extends LevelSelectScene{
-  constructor(playIntro){
-    super(playIntro);
-    
-    this.keyMap['78'] = {down: this.loadNewLevel.bind(this)};
-    this.keyMap['69'] = {down: this.loadLocalLevel.bind(this)};
-    this.keyMap['82'] = {down: this.loadPigLevel.bind(this)};
-    this.addExtraGUI();
-  }
-  update(dt,frameCount){
-    super.update(dt,frameCount);
-  }
-  draw(canvas){
-    super.draw(canvas);
-  }
-  
-  loadNewLevel(){
-    this.loadGameLevel(-2);
-  }
-
-  loadLocalLevel(){
-    this.loadGameLevel(0);
-  }
-  loadPigLevel(){
-    this.loadGameLevel(-1);
-  }
-  addExtraGUI(){
-    var dim = rectDimFromCenter(.5,.33,.7,.1);
-    var levelEditorLabel = new Label(dim[0],dim[1],dim[2],dim[3],7,"Level Editor    [N] - New Level    [E] - Local Level    [R] - PigFunScene",'30px ' + FONT,'white','center');
-    this.gui.push(levelEditorLabel);
-  }
-  loadGameLevel(index){
-    if(index == undefined){
-      super.loadGameLevel();
-      return;
-    }
-    var absoluteLevelIndex = index;
-    for(var i = 0; i < this.worldSelected; i++){
-      absoluteLevelIndex += this.levelsInWorld[i];
-    } 
-    
-    var scene = new LevelEditorScene(absoluteLevelIndex);
-    this.driver.setScene(scene);
-  }
-}addLevel( function(nameSpace) {
+}addBlock(function() { return {
+  //Byrd Block
+  id: BLOCKS.length,
+  name: "Byrd",
+  hide: true,   
+  ignoreCollisions: true,
+  redraws: true,
+  drawer: new Byrd(),
+  draw: drawEntity,
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.addEntity(new Byrd(x + width/2,y + height));
+  },
+}});
+addLevel( function(nameSpace) {
   {
 
     return {
@@ -7219,20 +8114,142 @@ class Apple extends Mover {
 
   }
 });
-addBlock(function() { return {
-  //Byrd Block
-  id: BLOCKS.length,
-  name: "Byrd",
-  hide: true,   
-  ignoreCollisions: true,
-  redraws: true,
-  drawer: new Byrd(),
-  draw: drawEntity,
-  onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new Byrd(x + width/2,y + height));
-  },
-}});
-class Collectable {
+class OptionScene extends Scene{
+  constructor(playLevelIntro){
+    super(playLevelIntro);
+    this.keyMap = {
+      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+        '68': { down: this.navigateUI.bind(this,1)},    //D
+        '83': { down: this.navigateUI.bind(this,2)},    //S
+        '65': { down: this.navigateUI.bind(this,3)},   //A
+  
+        '38': { down: this.navigateUI.bind(this,0)},  //up
+        '39': { down: this.navigateUI.bind(this,1)},  //right
+        '40': { down: this.navigateUI.bind(this,2)},   //down
+        '37': { down: this.navigateUI.bind(this,3)},   //left
+
+
+    
+    }
+    this.background = new InfiniteBackground();
+   
+    this.camera = {x:0,y:0,dx:0,dy:0};
+    this.loadOptionGUI();
+    this.FREE = 0;
+    this.VOLUME = 1;
+    this.state = 0;
+  }
+  update(dt){
+    this.camera.x += 3;
+    super.update(dt);
+    this.volumeLabel.text = "Volume: "+Math.floor(this.volumeSlider.value*100);
+  }
+  draw(canvas){
+    this.background.drawLayers(canvas, this.camera);
+    this.drawAllGUI(canvas);
+  }
+  changeVolumeBy(toAdd){
+    this.volumeSlider.setValue(this.volumeSlider.value+toAdd);
+    this.volumeSlider.setValue(Math.round(this.volumeSlider.value*100)/100);
+    this.volumeSlider.onRelease();
+  }
+  loadOptionGUI(){
+    var dim = rectDimFromCenter(.5,.5,.2,.1);
+    this.volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
+      0,undefined,0.03,DESTINATION.gain.value,'white','white','gray','black');
+    this.volumeSlider.onRelease = this.playSliderSound.bind(this,this.volumeSlider); 
+    this.volumeSlider.onHold = this.setVolume.bind(this,this.volumeSlider);
+    this.volumeSlider.selectable = true;
+    this.gui.push(this.volumeSlider);
+
+    dim = rectDimFromCenter(0,.4,.25,.1);
+    this.volumeLabel = new Label(.4,dim[1],dim[2],dim[3],0,
+      this.volumeSlider.value,'35px ' + FONT,'white','left');
+    this.gui.push(this.volumeLabel);
+
+    
+    switch(touchOn){
+      case false:
+        dim = rectDimFromCenter(.8,.9,.2,.1);
+        var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
+        'white','transparent','white', 5,.05);
+        this.gui.push(backButton);
+        this.selectedButton = backButton;
+        backButton.selected = true;
+
+        dim = rectDimFromCenter(.5,.7,.2,.1);
+        var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
+          MAIN.gamepadOn = !MAIN.gamepadOn;
+          gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
+        },"Gamepad On",'30px Noteworthy', 
+        'white','transparent','white', 5,.05);
+        this.gui.push(gamepadBtn);
+      break;
+      case true:
+        dim = rectDimFromCenter(.8,.9,.2,.1);
+        var backButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
+        'white','rgba(255,255,255,0.5)','white', 5);
+        this.gui.push(backButton);
+        this.selectedButton = backButton;
+        backButton.selected = true;
+
+        dim = rectDimFromCenter(.5,.7,.2,.1);
+        var gamepadBtn = new TextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
+          MAIN.gamepadOn = !MAIN.gamepadOn;
+          gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
+        },"Gamepad On",'30px Noteworthy', 
+        'white','rgba(255,255,255,0.5)','white', 5);
+        this.gui.push(gamepadBtn);
+      break;
+    }
+    
+
+    dim = rectDimFromCenter(.5,.15,.4,.2);
+    var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px ' + FONT,'white','center');
+    this.gui.push(optionsLabel);
+    
+    this.volumeSlider.setNeighbors([undefined,undefined,gamepadBtn,undefined]);
+    backButton.setNeighbors([gamepadBtn,undefined,undefined,gamepadBtn]);
+    gamepadBtn.setNeighbors([this.volumeSlider,backButton,backButton,undefined]);
+    this.buttons = getButtons(this.gui);
+  }
+  goToMainMenu(){
+    this.driver.setScene(new MenuScene(false));
+  }
+  setVolume(slider){
+    setVolume(slider.value);
+  }
+  playSliderSound(slider){
+    SOUNDMAP.bounce.play();
+  }
+  navigateUI(direction){
+    switch(this.state){
+      case this.FREE:
+        super.navigateUI(direction);
+        break;
+      case this.VOLUME:
+        if(direction == 1)
+          this.changeVolumeBy(0.05);
+        else if(direction == 2){
+          this.selectedButton = this.selectedButton.buttonLinks[2];
+          this.selectedButton.selected = true;
+          this.volumeSlider.selected = false;
+          this.state = this.FREE;
+        }
+        else if(direction == 3)
+          this.changeVolumeBy(-0.05);
+        break;
+      
+    }
+    if(this.selectedButton == this.volumeSlider){
+      this.state = this.VOLUME;
+
+    }
+  }
+}class Collectable {
   constructor(x,y) {
     this.w=30;
     this.h=30;
@@ -7293,120 +8310,20 @@ class Collectable {
     canvas.fillStyle = this.color4;
     canvas.fillRect(-w*0.1,-h*1.3,w*0.2,h*0.3);
   }
-}class OptionScene extends Scene{
-  constructor(playLevelIntro){
-    super(playLevelIntro);
-    this.keyMap = {
-      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-        '68': { down: this.navigateUI.bind(this,1)},    //D
-        '83': { down: this.navigateUI.bind(this,2)},    //S
-        '65': { down: this.navigateUI.bind(this,3)},   //A
-  
-        '38': { down: this.navigateUI.bind(this,0)},  //up
-        '39': { down: this.navigateUI.bind(this,1)},  //right
-        '40': { down: this.navigateUI.bind(this,2)},   //down
-        '37': { down: this.navigateUI.bind(this,3)},   //left
-
-
-    
-    }
-    this.background = new InfiniteBackground();
-   
-    this.camera = {x:0,y:0,dx:0,dy:0};
-    this.loadOptionGUI();
-    this.FREE = 0;
-    this.VOLUME = 1;
-    this.state = 0;
-  }
-  update(dt){
-    this.camera.x += 3;
-    super.update(dt);
-    this.volumeLabel.text = "Volume: "+Math.floor(this.volumeSlider.value*100);
-  }
-  draw(canvas){
-    this.background.drawLayers(canvas, this.camera);
-    this.drawAllGUI(canvas);
-  }
-  changeVolumeBy(toAdd){
-    this.volumeSlider.setValue(this.volumeSlider.value+toAdd);
-    this.volumeSlider.setValue(Math.round(this.volumeSlider.value*100)/100);
-    this.volumeSlider.onRelease();
-  }
-  loadOptionGUI(){
-    var dim = rectDimFromCenter(.5,.5,.2,.1);
-    this.volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
-      0,undefined,0.03,DESTINATION.gain.value,'white','white','gray','black');
-    this.volumeSlider.onRelease = this.playSliderSound.bind(this,this.volumeSlider); 
-    this.volumeSlider.onHold = this.setVolume.bind(this,this.volumeSlider);
-    this.volumeSlider.selectable = true;
-    this.gui.push(this.volumeSlider);
-
-    dim = rectDimFromCenter(0,.4,.25,.1);
-    this.volumeLabel = new Label(.4,dim[1],dim[2],dim[3],0,
-      this.volumeSlider.value,'35px ' + FONT,'white','left');
-    this.gui.push(this.volumeLabel);
-
-    dim = rectDimFromCenter(.8,.9,.2,.1);
-    var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px ' + FONT, 
-    'white','transparent','white', 5,.05);
-    this.gui.push(backButton);
-    this.selectedButton = backButton;
-    backButton.selected = true;
-
-    dim = rectDimFromCenter(.5,.7,.2,.1);
-    var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
-      MAIN.gamepadOn = !MAIN.gamepadOn;
-      gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
-    },"Gamepad On",'30px ' + FONT, 
-    'white','transparent','white', 5,.05);
-    this.gui.push(gamepadBtn);
-
-    dim = rectDimFromCenter(.5,.15,.4,.2);
-    var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px ' + FONT,'white','center');
-    this.gui.push(optionsLabel);
-    
-    this.volumeSlider.setNeighbors([undefined,undefined,gamepadBtn,undefined]);
-    backButton.setNeighbors([gamepadBtn,undefined,undefined,gamepadBtn]);
-    gamepadBtn.setNeighbors([this.volumeSlider,backButton,backButton,undefined]);
-    this.buttons = getButtons(this.gui);
-  }
-  goToMainMenu(){
-    this.driver.setScene(new MenuScene(false));
-  }
-  setVolume(slider){
-    setVolume(slider.value);
-  }
-  playSliderSound(slider){
-    SOUNDMAP.bounce.play();
-  }
-  navigateUI(direction){
-    switch(this.state){
-      case this.FREE:
-        super.navigateUI(direction);
-        break;
-      case this.VOLUME:
-        if(direction == 1)
-          this.changeVolumeBy(0.05);
-        else if(direction == 2){
-          this.selectedButton = this.selectedButton.buttonLinks[2];
-          this.selectedButton.selected = true;
-          this.volumeSlider.selected = false;
-          this.state = this.FREE;
-        }
-        else if(direction == 3)
-          this.changeVolumeBy(-0.05);
-        break;
-      
-    }
-    if(this.selectedButton == this.volumeSlider){
-      this.state = this.VOLUME;
-
-    }
-  }
-}addLevel( function(nameSpace) {
+}addBlock(function() { return {
+  //Doink Block
+  id: BLOCKS.length,
+  name: "DoinkPad",
+  hide: true,
+  ignoreCollisions: true,
+  redraws: true,
+  drawer: new DoinkPad(),
+  draw: drawEntity,
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.addEntity(new DoinkPad(x + width/2,y + height));
+  },
+}});
+addLevel( function(nameSpace) {
   {
 
     return {
@@ -7443,20 +8360,58 @@ class Collectable {
 
   }
 });
-addBlock(function() { return {
-  //Doink Block
-  id: BLOCKS.length,
-  name: "DoinkPad",
-  hide: true,
-  ignoreCollisions: true,
-  redraws: true,
-  drawer: new DoinkPad(),
-  draw: drawEntity,
-  onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new DoinkPad(x + width/2,y + height));
-  },
-}});
-class WorldText{
+class LevelIntroScene extends Scene{
+  constructor(nextScene, playIntro){
+    super(playIntro);
+    this.nextScene = nextScene;
+
+    this.player = this.nextScene.player;
+    this.originalPlayer = {x:this.player.x,y:this.player.y};
+    this.player.x = -50;
+    this.player.uncrouch();
+    this.player.width = this.player.w;
+    this.player.height = this.player.h;
+    this.player.y = this.originalPlayer.y;
+    this.player.vx = this.player.speed/3;
+    this.player.mx = 1;
+    this.postMoveDuration = 15;
+    this.postMoveTimer = 0;
+    this.nextScene.behinds=[];
+    this.touchButtonsActive = true;
+  }
+  update(dt, frameCount){
+    super.update(dt);
+    this.nextScene.updateTransition(dt);
+    this.player.updateEye(dt, frameCount);
+    this.player.y = this.originalPlayer.y;
+    this.player.vx = this.player.speed/3;
+    if(this.player.x < this.originalPlayer.x){
+      this.player.x += dt*this.player.vx;
+      this.player.angle = -Math.PI/40*this.player.vx/this.player.speed + Math.cos(frameCount*Math.PI/7)*Math.PI/20;
+    } else {
+      this.player.angle = 0;
+      this.player.vx = 0;
+      this.player.x = this.originalPlayer.x;
+      if(this.postMoveTimer < this.postMoveDuration){
+        this.postMoveTimer += dt;
+      } else{
+        this.loadNextScene();
+      }
+    }
+  }
+  draw(canvas){
+    super.draw(canvas);
+    this.nextScene.draw(canvas);
+    drawTransitionOverlay(this.overlayColor, canvas)
+  }
+  loadNextScene(){
+    this.player.angle = 0;
+    this.player.vx = 0;
+    this.player.x = this.originalPlayer.x;
+    this.player.grounded = true;
+    this.driver.setScene(this.nextScene);
+  }
+}class WorldText{
   constructor(x,y,w,text,font,inactiveColor,activeColor,
     changeDuration,isVisible,textAlign){
     this.x = x;
@@ -7515,58 +8470,7 @@ class WorldText{
     canvas.restore();
   }
 
-}class LevelIntroScene extends Scene{
-  constructor(nextScene, playIntro){
-    super(playIntro);
-    this.nextScene = nextScene;
-
-    this.player = this.nextScene.player;
-    this.originalPlayer = {x:this.player.x,y:this.player.y};
-    this.player.x = -50;
-    this.player.uncrouch();
-    this.player.width = this.player.w;
-    this.player.height = this.player.h;
-    this.player.y = this.originalPlayer.y;
-    this.player.vx = this.player.speed/3;
-    this.player.mx = 1;
-    this.postMoveDuration = 15;
-    this.postMoveTimer = 0;
-    this.nextScene.behinds=[];
-  }
-  update(dt, frameCount){
-    super.update(dt);
-    this.nextScene.updateTransition(dt);
-    this.player.updateEye(dt, frameCount);
-    this.player.y = this.originalPlayer.y;
-    this.player.vx = this.player.speed/3;
-    if(this.player.x < this.originalPlayer.x){
-      this.player.x += dt*this.player.vx;
-      this.player.angle = -Math.PI/40*this.player.vx/this.player.speed + Math.cos(frameCount*Math.PI/7)*Math.PI/20;
-    } else {
-      this.player.angle = 0;
-      this.player.vx = 0;
-      this.player.x = this.originalPlayer.x;
-      if(this.postMoveTimer < this.postMoveDuration){
-        this.postMoveTimer += dt;
-      } else{
-        this.loadNextScene();
-      }
-    }
-  }
-  draw(canvas){
-    super.draw(canvas);
-    this.nextScene.draw(canvas);
-    drawTransitionOverlay(this.overlayColor, canvas)
-  }
-  loadNextScene(){
-    this.player.angle = 0;
-    this.player.vx = 0;
-    this.player.x = this.originalPlayer.x;
-    this.player.grounded = true;
-    this.driver.setScene(this.nextScene);
-  }
-}WORLDTYPE = 2;
-addBlock(function() { return {
+}addBlock(function() { return {
   //Woof Block
   id: BLOCKS.length,
   name: "Woof",
@@ -7579,45 +8483,8 @@ addBlock(function() { return {
     game.addEntity(new Woof(x + width/2,y + height));
   },
 }});
-class TriggerZone{
-  constructor(x,y,w,h,player,onEnter,onStay,onExit,drawDebug){
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-    this.drawDebug = drawDebug || false;
-    this.player = player;
-    this.previousOutputState = 0;
-    this.outputState = 0;
-    this.onEnter = onEnter;
-    this.onStay = onStay;
-    this.onExit = onExit;
-  }
-  update(dt){
-    if(pointInRect(this.player.x,
-      this.player.y,{x:this.x,y:this.y,w:this.w,h:this.h})){
-      this.outputState = 1;
-    } else {
-      this.outputState = 0;
-    }
-    if(this.previousOutputState == 0 && this.outputState == 1){
-      if(this.onEnter) this.onEnter();
-    }
-    else if(this.previousOutputState == 1 && this.outputState == 0){
-      if(this.onExit) this.onExit();
-    }
-    else if(this.previousOutputState == 1 && this.outputState == 1){
-      if(this.onStay) this.onStay();
-    }
-    this.previousOutputState = this.outputState;
-  }
-  draw(canvas){
-    if(this.drawDebug){
-      canvas.fillStyle = (this.outputState == 1) ? 'rgba(0,255,0,0.4)': 'rgba(255,0,0,.4)';
-      canvas.fillRect(this.x,this.y,this.w,this.h);
-    }
-  }
-}class LevelCompleteScene extends Scene{
+WORLDTYPE = 2;
+class LevelCompleteScene extends Scene{
   constructor(prevScene, callback, win){
     super(false);
     this.prevScene = prevScene;
@@ -7654,9 +8521,11 @@ class TriggerZone{
     this.butcher.state = -1;
     SOUNDMAP.levelComplete.play();
     this.addAllGUI();
+    this.touchCount = 0;
   }
   update0(dt,frameCount) {
     super.update(dt,frameCount);
+    this.checkTapToSkip();
     if(this.player.grounded||true) {
       this.update = this.update1;
       this.player.ghostOn = true;
@@ -7670,6 +8539,7 @@ class TriggerZone{
   }
   update1(dt, frameCount){
     super.update(dt,frameCount);
+    this.checkTapToSkip();
     var t = this.time/this.maxTime;
     this.prevLevelAlpha = 1 - t;
     if(this.time>=this.maxTime) {
@@ -7708,6 +8578,7 @@ class TriggerZone{
   }
   update2(dt,frameCount) {
     super.update(dt,frameCount);
+    this.checkTapToSkip();
     this.time += 1;
     this.maxTime = 40;
     var t = this.time/this.maxTime;
@@ -7731,6 +8602,7 @@ class TriggerZone{
   }
   update3(dt,frameCount) {
     super.update(dt,frameCount);
+    this.checkTapToSkip();
     this.prevScene.musicFadeOnPig();
     this.time += 1;    
     var t = this.time/this.maxTime;
@@ -7776,6 +8648,7 @@ class TriggerZone{
     canvas.restore();
   }
   startExitTransition(){
+    this.prevScene.screenShakeLevel = 0;
     this.update = super.update;
     setTimeout(() => {
       this.startTransition(20, 1, this.loadNextScene);
@@ -7808,8 +8681,94 @@ class TriggerZone{
         "Perfect Clear!", buttonFont,textColor,'right');
       this.gui.push(this.perfectLabel);
     }
+    if(touchOn){
+      var entireScreenButton = new TextButton(0,0,1,1,0,
+        this.increaseTouchCount.bind(this),"",buttonFont,'transparent','transparent','transparent',0);
+      this.gui.push(entireScreenButton);
+      
+      var dim = rectDimFromCenter(.83,.08,.5,.1);
+      this.skipMessage = new Label(dim[0],dim[1],dim[2],dim[3],0,
+        "",buttonFont, 'black', 'center');
+      this.gui.push(this.skipMessage);
+    }
+    this.buttons = getButtons(this.gui);
+
   }
-}addLevel( function(nameSpace) {
+  increaseTouchCount(){
+    this.touchCount += 1;
+  }
+  checkTapToSkip(){
+    if(touchOn){
+      if(this.touchCount >= 1){
+        this.skipMessage.text = "Tap again to skip";
+      }
+      if(this.touchCount >= 2){
+        this.startExitTransition()
+      }
+    }
+  }
+}class TriggerZone{
+  constructor(x,y,w,h,player,onEnter,onStay,onExit,drawDebug){
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.drawDebug = drawDebug || false;
+    this.player = player;
+    this.previousOutputState = 0;
+    this.outputState = 0;
+    this.onEnter = onEnter;
+    this.onStay = onStay;
+    this.onExit = onExit;
+  }
+  update(dt){
+    if(pointInRect(this.player.x,
+      this.player.y,{x:this.x,y:this.y,w:this.w,h:this.h})){
+      this.outputState = 1;
+    } else {
+      this.outputState = 0;
+    }
+    if(this.previousOutputState == 0 && this.outputState == 1){
+      if(this.onEnter) this.onEnter();
+    }
+    else if(this.previousOutputState == 1 && this.outputState == 0){
+      if(this.onExit) this.onExit();
+    }
+    else if(this.previousOutputState == 1 && this.outputState == 1){
+      if(this.onStay) this.onStay();
+    }
+    this.previousOutputState = this.outputState;
+  }
+  draw(canvas){
+    if(this.drawDebug){
+      canvas.fillStyle = (this.outputState == 1) ? 'rgba(0,255,0,0.4)': 'rgba(255,0,0,.4)';
+      canvas.fillRect(this.x,this.y,this.w,this.h);
+    }
+  }
+}addBlock(function() { return {
+  name: "ByrdWall",
+  solid: true,
+  id: BLOCKS.length,
+  hide: true,
+  //ignoreCollisions: true,
+  draw: function(canvas, x,y,w,h, world,i,j) {
+    //var w= width;
+    //var h=height;
+    canvas.fillStyle = 'rgba(50,50,0,.5)';
+    canvas.fillRect(x,y,w,h);
+  },
+  isColliding: function(entity, pos, dx, dy, cellPos) {
+    if(entity.isByrd||entity.isPig || entity.isBigSaw) {
+      return true;
+      //entity.mx = 2*(entity.x < this.x) - 1;
+      //entity.mx = 2*(dx<0)-1;
+      //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
+      //entity.game.world.forceRedraw();
+      //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = this.id;
+    }
+  },
+}});
+addLevel( function(nameSpace) {
   {
 
     return {
@@ -7848,30 +8807,77 @@ class TriggerZone{
 
   }
 });
-addBlock(function() { return {
-  name: "ByrdWall",
-  solid: true,
-  id: BLOCKS.length,
-  hide: true,
-  //ignoreCollisions: true,
-  draw: function(canvas, x,y,w,h, world,i,j) {
-    //var w= width;
-    //var h=height;
-    canvas.fillStyle = 'rgba(50,50,0,.5)';
-    canvas.fillRect(x,y,w,h);
-  },
-  isColliding: function(entity, pos, dx, dy, cellPos) {
-    if(entity.isByrd||entity.isPig || entity.isBigSaw) {
-      return true;
-      //entity.mx = 2*(entity.x < this.x) - 1;
-      //entity.mx = 2*(dx<0)-1;
-      //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
-      //entity.game.world.forceRedraw();
-      //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = this.id;
+class PostWinScene extends Scene{
+  constructor(prevScene) {
+    super();
+    this.prevScene = prevScene;
+    this.keyMap = {
+      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
+      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
+
+      '87': { down: this.navigateUI.bind(this,0)},    //W
+      '65': { down: this.navigateUI.bind(this,1)},   //D
+      '83': { down: this.navigateUI.bind(this,2)},    //S
+      '68': { down: this.navigateUI.bind(this,3)},    //A
+      '38': { down: this.navigateUI.bind(this,0)},  //up
+      '39': { down: this.navigateUI.bind(this,1)},  //right
+      '40': { down: this.navigateUI.bind(this,2)},   //down
+      '37': { down: this.navigateUI.bind(this,3)},   //left
     }
-  },
-}});
-class Knife {
+    this.allowUIInput = true;
+    this.selectedButton = undefined;
+    this.addAllGUI();
+  }
+  update(dt){
+    super.update(dt);
+  }
+  draw(canvas){
+    this.prevScene.draw(canvas);
+    canvas.fillStyle="rgba(255,255,255,.7)"
+    canvas.fillRect(0,0,canvas.width,canvas.height);
+    this.deathCount.text = ""+this.prevScene.totalDeaths;
+    this.drawAllGUI(canvas);
+    if(this.debug)
+      drawGrid(canvas);
+    drawTransitionOverlay(this.overlayColor,canvas);
+  }
+  addAllGUI(){
+    var bigFont = "60px " + FONT;
+    var buttonFont = "30px noteworthy";
+    var textColor = 'black';
+    var buttonGap = 0.085;
+
+    var dim = rectDimFromCenter(.5,.4,.2,.08);
+    var winLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "You Win!",bigFont,textColor,'center');
+    this.gui.push(winLabel);
+
+    dim = rectDimFromCenter(.5,.55,.05,.08);
+    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "X", bigFont, textColor,'center');
+    this.gui.push(this.deathCount);
+
+    dim = rectDimFromCenter(.48,.56,.3,.08);
+    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
+      "You died          times", buttonFont,textColor,'center');
+    this.gui.push(deathLabel);
+
+
+    dim = rectDimFromCenter(0.5,0.7,.15,.08);
+    var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+      this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
+    this.gui.push(mainMenuButton);
+
+    this.selectedButton = mainMenuButton;
+    this.selectedButton.selected = true;
+
+    this.buttons = getButtons(this.gui);
+  }
+  goToMainMenu(){
+    this.allowUIInput = false;
+    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
+  }
+}class Knife {
   constructor(x,y,vx,vy) {
     this.x = x;
     this.y = y;
@@ -7968,103 +8974,7 @@ class Knife {
     canvas.fill();
     canvas.restore();
   }
-}class PostWinScene extends Scene{
-  constructor(prevScene) {
-    super();
-    this.prevScene = prevScene;
-    this.keyMap = {
-      '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
-      '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-
-      '87': { down: this.navigateUI.bind(this,0)},    //W
-      '65': { down: this.navigateUI.bind(this,1)},   //D
-      '83': { down: this.navigateUI.bind(this,2)},    //S
-      '68': { down: this.navigateUI.bind(this,3)},    //A
-      '38': { down: this.navigateUI.bind(this,0)},  //up
-      '39': { down: this.navigateUI.bind(this,1)},  //right
-      '40': { down: this.navigateUI.bind(this,2)},   //down
-      '37': { down: this.navigateUI.bind(this,3)},   //left
-    }
-    this.allowUIInput = true;
-    this.selectedButton = undefined;
-    this.addAllGUI();
-  }
-  update(dt){
-    super.update(dt);
-  }
-  draw(canvas){
-    this.prevScene.draw(canvas);
-    canvas.fillStyle="rgba(255,255,255,.7)"
-    canvas.fillRect(0,0,canvas.width,canvas.height);
-    this.deathCount.text = ""+this.prevScene.totalDeaths;
-    this.drawAllGUI(canvas);
-    if(this.debug)
-      drawGrid(canvas);
-    drawTransitionOverlay(this.overlayColor,canvas);
-  }
-  addAllGUI(){
-    var bigFont = "60px " + FONT;
-    var buttonFont = "30px noteworthy";
-    var textColor = 'black';
-    var buttonGap = 0.085;
-
-    var dim = rectDimFromCenter(.5,.4,.2,.08);
-    var winLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "You Win!",bigFont,textColor,'center');
-    this.gui.push(winLabel);
-
-    dim = rectDimFromCenter(.5,.55,.05,.08);
-    this.deathCount = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "X", bigFont, textColor,'center');
-    this.gui.push(this.deathCount);
-
-    dim = rectDimFromCenter(.48,.56,.3,.08);
-    var deathLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,
-      "You died          times", buttonFont,textColor,'center');
-    this.gui.push(deathLabel);
-
-
-    dim = rectDimFromCenter(0.5,0.7,.15,.08);
-    var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-      this.goToMainMenu.bind(this),"Main Menu",buttonFont,textColor,'transparent',textColor,5,.08);
-    this.gui.push(mainMenuButton);
-
-    this.selectedButton = mainMenuButton;
-    this.selectedButton.selected = true;
-
-    this.buttons = getButtons(this.gui);
-  }
-  goToMainMenu(){
-    this.allowUIInput = false;
-    this.startTransition(25,1,sceneTransition(this,MenuScene,true));
-  }
-}addLevel( function(nameSpace) {
-  {
-
-    return {
-      name: "Deadly Byrds",
-      worldType: 2,
-      grid: [
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-[1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,],
-[1,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,],
-[1,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,17,0,0,0,0,14,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,],
-[1,0,0,0,0,0,0,0,0,0,17,0,0,14,0,0,0,0,0,17,0,0,14,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,],
-[1,0,0,0,0,0,0,0,0,0,17,0,14,0,0,14,0,17,0,17,14,0,0,0,0,0,0,17,0,0,14,0,0,0,0,14,0,0,0,0,1,0,0,0,],
-[1,10,10,10,10,3,10,10,10,3,3,10,10,10,10,10,10,3,3,3,10,10,10,3,3,10,10,10,10,10,3,10,3,10,10,3,3,3,10,10,1,0,0,0,],
-[1,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,],
-[1,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,],
-[1,1,0,15,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,15,0,1,2,2,0,0,0,0,0,0,0,2,1,1,0,0,0,0,1,1,0,0,],
-[1,1,1,1,1,0,0,0,0,2,1,1,1,1,0,0,0,0,0,0,1,1,1,1,2,2,0,0,0,0,0,15,0,2,1,1,0,0,0,0,1,1,1,1,],
-[0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0,22,0,0,2,1,2,1,1,1,0,0,0,0,0,0,0,0,],
-[0,4,0,0,0,0,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,2,2,2,1,1,1,1,1,0,0,0,0,0,5,0,0,],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-]
-    };
-
-  }
-});
-addBlock(function() { return {
+}addBlock(function() { return {
     name: "treeTrunk",
     solid: false,
     groundBlock: false,
@@ -8121,6 +9031,32 @@ addBlock(function() { return {
       return false;
     },
 }});
+addLevel( function(nameSpace) {
+  {
+
+    return {
+      name: "Deadly Byrds",
+      worldType: 2,
+      grid: [
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+[1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,],
+[1,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,],
+[1,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,17,0,0,0,0,14,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,],
+[1,0,0,0,0,0,0,0,0,0,17,0,0,14,0,0,0,0,0,17,0,0,14,0,0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,],
+[1,0,0,0,0,0,0,0,0,0,17,0,14,0,0,14,0,17,0,17,14,0,0,0,0,0,0,17,0,0,14,0,0,0,0,14,0,0,0,0,1,0,0,0,],
+[1,10,10,10,10,3,10,10,10,3,3,10,10,10,10,10,10,3,3,3,10,10,10,3,3,10,10,10,10,10,3,10,3,10,10,3,3,3,10,10,1,0,0,0,],
+[1,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,],
+[1,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,],
+[1,1,0,15,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,15,0,1,2,2,0,0,0,0,0,0,0,2,1,1,0,0,0,0,1,1,0,0,],
+[1,1,1,1,1,0,0,0,0,2,1,1,1,1,0,0,0,0,0,0,1,1,1,1,2,2,0,0,0,0,0,15,0,2,1,1,0,0,0,0,1,1,1,1,],
+[0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0,22,0,0,2,1,2,1,1,1,0,0,0,0,0,0,0,0,],
+[0,4,0,0,0,0,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,2,2,2,1,1,1,1,1,0,0,0,0,0,5,0,0,],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+]
+    };
+
+  }
+});
 class ButcherTurret extends Butcher{
   constructor(x,y) {
     super(x,y);
@@ -8246,45 +9182,7 @@ class ButcherTurret extends Butcher{
     var knife = new Knife(this.x,this.y-this.h/2, vx, vy);
     this.game.addEntity(knife);
   }
-}addLevel( function(nameSpace) {
-  {
-
-    return {
-      name: "Saws",
-      worldType: 2,
-      grid:   [
-  [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,27,2,2,2,2,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,9,9,9,27,27,27,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,1,],
-  [0,9,9,9,23,9,9,9,9,23,9,9,9,23,9,9,9,23,9,9,9,23,9,9,23,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1,],
-  [0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,30,0,2,0,0,0,0,0,0,30,0,0,0,0,2,0,0,0,0,0,0,5,0,0,0,1,],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
-  ]
-    };
-
-  }
-});addBlock(function() { return {
+}addBlock(function() { return {
     name: "treeLeaves",
     solid: false,
     groundBlock: false,
@@ -8377,7 +9275,45 @@ class ButcherTurret extends Butcher{
       return false;
     },
 }});
-class ButcherTurretPoint {
+addLevel( function(nameSpace) {
+  {
+
+    return {
+      name: "Saws",
+      worldType: 2,
+      grid:   [
+  [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,27,2,2,2,2,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,9,9,9,9,27,27,27,27,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,30,1,],
+  [0,9,9,9,23,9,9,9,9,23,9,9,9,23,9,9,9,23,9,9,9,23,9,9,23,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1,],
+  [0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,30,0,2,0,0,0,0,0,0,30,0,0,0,0,2,0,0,0,0,0,0,5,0,0,0,1,],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+  ]
+    };
+
+  }
+});class ButcherTurretPoint {
   constructor(x,y) {
     this.x=x;
     this.y=y;
@@ -8425,7 +9361,19 @@ class ButcherTurretPoint {
     canvas.fillStyle = '#000';
     canvas.fillRect(this.x-this.w/2,this.y-this.h/2,this.w,this.h);
   }
-}addLevel( function(nameSpace) {
+}addBlock(function() { return {
+  id: BLOCKS.length,
+  name: "Pig",
+  hide: true,   
+  ignoreCollisions: true,
+  redraws: true,
+  drawer: new PigBeginning(),
+  draw: drawEntity,
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.pig = new PigBeginning(x + width/2,y + height);
+    game.addEntity(game.pig);
+  },
+}});addLevel( function(nameSpace) {
   {
 
     return {
@@ -8462,19 +9410,7 @@ class ButcherTurretPoint {
     };
 
   }
-});addBlock(function() { return {
-  id: BLOCKS.length,
-  name: "Pig",
-  hide: true,   
-  ignoreCollisions: true,
-  redraws: true,
-  drawer: new PigBeginning(),
-  draw: drawEntity,
-  onload: function(game, x,y,width,height, world,ii,jj) {
-    game.pig = new PigBeginning(x + width/2,y + height);
-    game.addEntity(game.pig);
-  },
-}});class KnifeTurret {
+});class KnifeTurret {
   constructor(x,y) {
     this.x=x;
     this.y=y;
@@ -8548,7 +9484,32 @@ class ButcherTurretPoint {
     var knife = new Knife(this.x,this.y, vx, vy);
     this.game.addEntity(knife);
   }
-}addLevel( function(nameSpace) {
+}addBlock(function() { return {
+    name: "treeApple",
+    solid: false,
+    groundBlock: false,
+    ignoreCollisions: true,
+    leaves: true,
+    id: BLOCKS.length,
+    draw: function(canvas, x,y,w,h, world,i,j) {
+      CELLMAP[19].draw(canvas,x,y, w, h, world, i,j);
+      canvas.fillStyle = "#640";
+      var dw = w*.44;
+      var dh = h*.6;
+      canvas.fillRect(x+dw,y+dh,w-dw*2,h-dh);
+    },
+    isColliding: function(entity, pos, dx, dy, cellPos) {
+      if(dy>0&&entity.y<=cellPos.y) {
+        return true;
+      }
+      return false;
+    },
+    onload: function(game, x,y,width,height, world,ii,jj) {
+      // world.getCell(ii,jj).id = 19;
+      game.addEntity(new Apple(x + width/2,y + height*1.5));
+  },
+}});
+addLevel( function(nameSpace) {
   {
     
     return {
@@ -8576,31 +9537,6 @@ class ButcherTurretPoint {
     
   }
 });
-addBlock(function() { return {
-    name: "treeApple",
-    solid: false,
-    groundBlock: false,
-    ignoreCollisions: true,
-    leaves: true,
-    id: BLOCKS.length,
-    draw: function(canvas, x,y,w,h, world,i,j) {
-      CELLMAP[19].draw(canvas,x,y, w, h, world, i,j);
-      canvas.fillStyle = "#640";
-      var dw = w*.44;
-      var dh = h*.6;
-      canvas.fillRect(x+dw,y+dh,w-dw*2,h-dh);
-    },
-    isColliding: function(entity, pos, dx, dy, cellPos) {
-      if(dy>0&&entity.y<=cellPos.y) {
-        return true;
-      }
-      return false;
-    },
-    onload: function(game, x,y,width,height, world,ii,jj) {
-      // world.getCell(ii,jj).id = 19;
-      game.addEntity(new Apple(x + width/2,y + height*1.5));
-  },
-}});
 class MovingWorldText extends WorldText{
   constructor(x,y,w,dx,dy,text,font,inactiveColor,activeColor,
     changeDuration,initialDelay,isVisible){
@@ -8631,7 +9567,21 @@ class MovingWorldText extends WorldText{
   die(){
     this.shouldDelete = true;
   }
-}addLevel( function(nameSpace) {
+}addBlock(function() { return {
+  //Byrd Block
+  id: BLOCKS.length,
+  name: "collectable",
+  hide: true,   
+  ignoreCollisions: true,
+  draw: function(canvas, x,y,width,height, world,ii,jj) {
+    canvas.fillStyle = 'rgba(50,0,50,.5)';
+    canvas.fillRect(x,y,width,height);
+  },
+  onload: function(game, x,y,width,height, world,ii,jj) {
+    game.addEntity(new Collectable(x + width/2,y + height/2));
+  },
+}});
+addLevel( function(nameSpace) {
   {
 
     return {
@@ -8673,20 +9623,6 @@ class MovingWorldText extends WorldText{
 
   }
 });
-addBlock(function() { return {
-  //Byrd Block
-  id: BLOCKS.length,
-  name: "collectable",
-  hide: true,   
-  ignoreCollisions: true,
-  draw: function(canvas, x,y,width,height, world,ii,jj) {
-    canvas.fillStyle = 'rgba(50,0,50,.5)';
-    canvas.fillRect(x,y,width,height);
-  },
-  onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new Collectable(x + width/2,y + height/2));
-  },
-}});
 class SleepText extends MovingWorldText{
   constructor(x,y,w,dx,dy,text,fontSize,fontType,inactiveColor,activeColor,
     changeDuration,initialDelay,isVisible){

@@ -9,6 +9,7 @@ addBlock(function() { return {
     h*=.4;
     var color1 = "#642";
     var color2 = "#532";
+    
     // color1 = "#555";
     // color2 = "#777";
     // color3 = "#000";

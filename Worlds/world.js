@@ -215,8 +215,8 @@ class WorldFromLevel extends World {
     var song = 0;
     if(level.song!=undefined){
       song = level.song;
-    }else {
-      song = (level.worldType == 2 ? 1:0);
+    } else {
+      song = level.worldType || 0;
     }
     SOUNDMAP.music.setSong(song);
     // if(level.worldType == 2)SOUNDMAP.music.setSong(1);
@@ -227,6 +227,7 @@ class WorldFromLevel extends World {
     this.world = grid;
     this.h = grid.length;
     this.w = grid[0].length;
+    this.index = index;
   }
   loadWorld(game) {
     var s = this.s;

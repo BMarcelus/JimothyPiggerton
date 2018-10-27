@@ -59,7 +59,9 @@ class DoinkPad {
 	}
 
     getHitBox() {
-    return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
+      var w = this.w*2;
+      var h = this.h;
+    return {x:this.x-.5*w, y:this.y-h, w, h};
     }
     
 }

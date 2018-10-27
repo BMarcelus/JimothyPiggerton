@@ -1,1 +1,1 @@
-WORLDTYPE = 1;
+changeWorldType(1);

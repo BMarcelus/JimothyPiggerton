@@ -14,8 +14,10 @@ addBlock(function() { return {
     w*=.9;
     
     //x+=w/2;
-    var color1 = "#754";
-    var color2 = "#532";
+    var color1 = "#805940";
+    var color2 = "#531";
+    // var color1 = "#754";
+    // var color2 = "#532";
     // color1 = "#555";
     // color2 = "#777";
     // color3 = "#000";

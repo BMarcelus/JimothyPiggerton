@@ -233,6 +233,7 @@ class GameScene extends Scene {
     var level = this.levels[this.levelIndex];
     if(!same)
       this.world = new WorldFromLevel(level, this.levelIndex);
+    this.isFinalInWorld = level.isFinalInWorld;
     this.player.reset();
     this.entities = [];    
     //this.addEntity(new Byrd(100,400));
@@ -281,7 +282,7 @@ class GameScene extends Scene {
   musicFadeOnPig() {
     var pig = this.pig;
     var player = this.player;
-    if(!this.music) this.music = SOUNDMAP.music.play();
+    // if(!this.music) this.music = SOUNDMAP.music.play();
     if(pig&&player) {
       var r = distanceBetweenEntities(pig, player);
       if(r<500) {
@@ -289,16 +290,16 @@ class GameScene extends Scene {
         if(r<100) {
           this.musicFaded = true;
           this.musicTime = this.music.getTime();
-          this.music.pause();
+          SOUNDMAP.music.pause();
         } else {
           if(this.musicFaded)
-          this.music.resume(this.musicTime);
+          SOUNDMAP.music.resume(this.musicTime);
           this.musicFaded=false;          
         }
       } else {
         if(this.music) {
           if(this.musicFaded)
-          this.music.resume(this.musicTime);
+          SOUNDMAP.music.resume(this.musicTime);
           this.musicFaded=false;          
         }
         this.musicTime = this.music.getTime();
