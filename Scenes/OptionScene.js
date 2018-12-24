@@ -64,13 +64,21 @@ class OptionScene extends Scene{
         this.selectedButton = backButton;
         backButton.selected = true;
 
-        dim = rectDimFromCenter(.5,.7,.2,.1);
+        dim = rectDimFromCenter(.5,.82,.2,.1);
         var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
           MAIN.gamepadOn = !MAIN.gamepadOn;
           gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
         },"Gamepad On",'30px Noteworthy', 
         'white','transparent','white', 5,.05);
         this.gui.push(gamepadBtn);
+
+        dim = rectDimFromCenter(.5,.7,.2,.1);
+        var musicBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
+          SOUNDMAP.music.toggle();
+          musicBtn.text = "Music " + (SOUNDMAP.music.on ? 'On' : 'Off');
+        },"Music On",'30px Noteworthy', 
+        'white','transparent','white', 5,.05);
+        this.gui.push(musicBtn);
       break;
       case true:
         dim = rectDimFromCenter(.8,.9,.2,.1);
@@ -80,13 +88,21 @@ class OptionScene extends Scene{
         this.selectedButton = backButton;
         backButton.selected = true;
 
-        dim = rectDimFromCenter(.5,.7,.2,.1);
+        dim = rectDimFromCenter(.5,.82,.2,.1);
         var gamepadBtn = new TextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
           MAIN.gamepadOn = !MAIN.gamepadOn;
           gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
         },"Gamepad On",'30px Noteworthy', 
         'white','rgba(255,255,255,0.5)','white', 5);
         this.gui.push(gamepadBtn);
+
+        dim = rectDimFromCenter(.5,.7,.2,.1);
+        var musicBtn = new TextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
+          SOUNDMAP.music.toggle();
+          musicBtn.text = "Music " + (SOUNDMAP.music.on ? 'On' : 'Off');
+        },"Music On",'30px Noteworthy', 
+        'white','rgba(255,255,255,0.5)','white', 5);
+        this.gui.push(musicBtn);
       break;
     }
     

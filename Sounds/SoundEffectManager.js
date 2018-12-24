@@ -301,18 +301,23 @@ class MusicHandler {
     this.songs = args;
     this.setSong(0);
     this.volume = 1;
+    this.on = true;
   }
   setSong(index) {
     var newSong = this.songs[index];
     if(this.song == newSong) return;
     newSong.isSong = true;
-    newSong.play();
+    if(this.on) newSong.play();
     if(this.song){
       this.song.stopSound();
       this.song.pause();
       this.song.isSong = false;
     }
     this.song = newSong;
+  }
+  toggle() {
+    this.on = !this.on;
+    this.volume = this.on ? 1 : 0;
   }
   play() {
     if(this.song == undefined)return;
