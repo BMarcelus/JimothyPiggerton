@@ -300,6 +300,7 @@ class MusicHandler {
   constructor(...args) {
     this.songs = args;
     this.setSong(0);
+    this.volume = 1;
   }
   setSong(index) {
     var newSong = this.songs[index];
@@ -319,19 +320,21 @@ class MusicHandler {
     return this.song.play();
   }
   lerpVolume(v) {
-    this.song.lerpVolume(v);
+    this.song.lerpVolume(v*this.volume);
   }
   setVolume(v) {
-    this.song.setVolume(v);
+    this.song.setVolume(v*this.volume);
   }
   getTime() {
     return this.song.getTime();
   }
   pause() {
-    this.song.pause();
+    // this.song.pause();
+    this.song.setVolume(0);
   }
   resume(k) {
-    this.song.resume(k);
+    // this.song.setVolume(1);
+    // this.song.resume(k);
   }
 }
 

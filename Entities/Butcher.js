@@ -14,6 +14,7 @@ class Butcher extends Mover {
     this.speed = 4;
     this.state = 0;
     this.knifeAngle = 0;
+    this.wielding=true;
   }
   update(dt, frameCount) {
     super.update(dt, frameCount);

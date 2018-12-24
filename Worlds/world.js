@@ -62,21 +62,21 @@ class World {
     var world = this.world;
     if(this.image) {
       canvas.drawImage(this.image,0,0);
-      for(var i=0;i<this.w;i++) {
-        for(var j=0;j<this.h;j++) {
-          var type = world[j][i];
-          var cell = CELLMAP[type];
-          if(cell.draw&&cell.redraws) {
-            if (!cell.hide || editor)
-              cell.draw(canvas, s*i,s*j,s,s, this, i,j);
-          }
-          // if(type == 1) ctx.fillStyle='brown';
-          // else if(type == 2) ctx.fillStyle='#fdd';
-          // if(type) {
-          //   ctx.fillRect(s*i,s*j, s,s);
-          // }
-        }
-      }
+      // for(var i=0;i<this.w;i++) {
+      //   for(var j=0;j<this.h;j++) {
+      //     var type = world[j][i];
+      //     var cell = CELLMAP[type];
+      //     if(cell.draw&&cell.redraws) {
+      //       if (!cell.hide || editor)
+      //         cell.draw(canvas, s*i,s*j,s,s, this, i,j);
+      //     }
+      //     // if(type == 1) ctx.fillStyle='brown';
+      //     // else if(type == 2) ctx.fillStyle='#fdd';
+      //     // if(type) {
+      //     //   ctx.fillRect(s*i,s*j, s,s);
+      //     // }
+      //   }
+      // }
       return;
     }
     this.image = document.createElement('canvas');

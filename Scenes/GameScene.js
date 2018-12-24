@@ -214,7 +214,8 @@ class GameScene extends Scene {
 
     
   }
-  loadNewLevel(index) {   
+  loadNewLevel(index) {
+    this.musicFaded = false;
     this.frameStop = 0;
     this.screenShakeLevel = 0;
     this.screenZoom=0;
@@ -365,12 +366,7 @@ class GameScene extends Scene {
     var camera = this.camera;
     canvas.clearRect(0,0,canvas.width,canvas.height);
     this.doScreenShake(canvas);    
-    
-    
-    // canvas.translate(-canvas.width/2,-canvas.height/2);      
 
-    // canvas.translate(canvas.width/2,canvas.height/2);  
-  
     canvas.save();
     this.world.drawBackground(canvas, this.camera);    
     if(this.shouldFillAroundWorld) {
@@ -379,13 +375,14 @@ class GameScene extends Scene {
 
     canvas.translate(canvas.width/2,canvas.height/2);  
     canvas.rotate(camera.r);
-    // canvas.scale(camera.zoom,camera.zoom);
     
     canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
     
     this.world.draw(canvas);
     for(var i=0;i<this.entities.length;i+=1) {
       var entity = this.entities[i];
+      if(entity.x-camera.x>canvas.width/2+entity.w)continue;
+      if(entity.x-camera.x<-canvas.width/2-entity.w)continue;
       entity.draw(canvas);
     }
     canvas.restore();
@@ -398,7 +395,33 @@ class GameScene extends Scene {
     drawTransitionOverlay(this.overlayColor,canvas);
     
   }
-
+  testUpdate() {
+    var startTime = Date.now();
+    var iters = 1000;
+    for(var i=0;i<iters;++i) {
+      this.update(0.8);
+    }
+    var endTime = Date.now();
+    console.log(endTime-startTime);
+  }
+  testDraw() {
+    var startTime = Date.now();
+    var iters = 1000;
+    for(var j=0;j<iters;++j) {
+      this.draw(canvas);
+    }
+    var endTime = Date.now();
+    console.log(endTime-startTime);
+  }
+  testDrawEntity(entityIndex) {
+    var startTime = Date.now();
+    var iters = 1000;
+    for(var j=0;j<iters;++j) {
+      this.entities[entityIndex].draw(canvas);
+    }
+    var endTime = Date.now();
+    console.log(endTime-startTime);
+  }
   fillAroundWorld(canvas) {
     if(this.world.image) {
       var cameraOffsetY = canvas.height/2-Math.floor(this.camera.y);

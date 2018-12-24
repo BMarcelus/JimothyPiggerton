@@ -12,16 +12,17 @@ class Grass {
     this.color2 = "#191";
     this.isColliding = false;
     this.angle = 0;
-    this.timeFromCollision = 0;
+    this.timeFromCollision = 100 + this.x/15;
+    this.swayTime = 18+Math.random()*8;
     this.tangle = 0;
     this.i=i;
     this.j=j-1;
-    this._angle = Math.PI/40*(Math.random()*2-1);
+    this._angle = Math.PI/20*(Math.random()*2-1);
     if(Math.random()>.7) this.drawShape = this.drawShape2;
 	}
 	getHitByEntity(player) {
     this.timeFromCollision = 0;
-    this.tangle = Math.PI/4*(player.flipped ? -1 : 1);
+    this.tangle = Math.PI/3*(player.flipped ? -1 : 1);
   }
   
   playerInCell() {
@@ -30,17 +31,18 @@ class Grass {
   }
 
 	update(dt, frameCount) {
-    var w = this.w*2;
+    var w = this.w;
 		var mbox = {
       x: this.x-w/2,
       y: this.y-this.h,
       w,
       h: this.h,
     }	// Perforamnce effeciency issue
-		var playerBox = this.game.player.getHitBox();
+    var player = this.game.player;
+		var playerBox = player.getHitBox();
 		if(rectangleCollision(mbox, playerBox) == true) {
     // if(this.playerInCell()) {
-      if(!this.isColliding) {
+      if(!this.isColliding||player.mx||player.vy<0) {
         this.getHitByEntity(this.game.player);
         this.isColliding = true;
       }
@@ -48,14 +50,16 @@ class Grass {
       this.isColliding = false;
     }
     this.timeFromCollision+=1;
-    var div = 5;
-    var dif = 8;
+    var div = 10;
+    var dif = 10;
     if(this.timeFromCollision<dif) {
-      this.angle += (this.tangle - this.angle)/5;
+      this.angle += (this.tangle - this.angle)/div;
     } else if(this.timeFromCollision<dif*2){
-      this.angle += (-this.tangle/2 - this.angle)/5;
+      this.angle += (-this.tangle - this.angle)/div;
     } else if(this.timeFromCollision<dif*3) {
-      this.angle += (0 - this.angle)/3;
+      this.angle += (0 - this.angle)/div;
+    } else {
+      this.angle = Math.cos(this.timeFromCollision/this.swayTime)/10;
     }
 	}
   draw(canvas) {

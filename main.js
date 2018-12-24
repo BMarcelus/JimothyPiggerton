@@ -6,7 +6,7 @@ function setUpTouchBtns() {
   var moveBtnHeight = 0.3;
   touchButtons = [
   {
-    x: 0, y: 1-moveBtnHeight, w: moveBtnWidth, h: moveBtnHeight,
+    x: -1, y: 1-moveBtnHeight, w: 1+moveBtnWidth, h: moveBtnHeight,
     key: 65,
   },
   {
@@ -14,7 +14,7 @@ function setUpTouchBtns() {
     key: 68,
   },
   {
-    x: .75, y: .5, w: .2, h: .24,
+    x: .75, y: .5, w: 1, h: .24,
     key: 32,
   },
   {
@@ -190,7 +190,7 @@ class MainDriver {
     touchButtonMap[id] = 0;    
   }
   getTouchPosition(touch, e) {
-    var boundingClientRect = e.target.getBoundingClientRect();    
+    var boundingClientRect = CE.getBoundingClientRect();    
     var x = touch.pageX-boundingClientRect.left;
     var y = touch.pageY-boundingClientRect.top;
     var W = this.canvas.canvas.offsetWidth;
@@ -203,6 +203,7 @@ class MainDriver {
   }
   touchstart(e) {
     this.userGesture();
+    e.preventDefault();
     touchOn = true;
     // if(this.scene.startGame)this.scene.startGame();
     // if(this.scene.time)this.scene.time=0;
@@ -224,6 +225,7 @@ class MainDriver {
     }
   }
   touchmove(e) {
+    e.preventDefault();
     for(var i=0;i<e.changedTouches.length;i+=1) {
       var touch = e.changedTouches[i];
       var {x, y} = this.getTouchPosition(touch, e);
@@ -246,6 +248,7 @@ class MainDriver {
     }
   }
   touchend(e) {
+    e.preventDefault();
     for(var i=0;i<e.changedTouches.length;i+=1) {
       var touch = e.changedTouches[i];
       var {x, y} = this.getTouchPosition(touch, e);
@@ -401,10 +404,10 @@ window.onload = function() {
   window.addEventListener('mousemove', driver.mousemove.bind(driver));
   window.addEventListener('mouseup', driver.mouseup.bind(driver));
   window.addEventListener('mousedown', driver.mousedown.bind(driver));
-  CE.addEventListener('touchstart', driver.touchstart.bind(driver));
-  CE.addEventListener('touchmove', driver.touchmove.bind(driver));
-  CE.addEventListener('touchend', driver.touchend.bind(driver));
-  CE.addEventListener('touchcancel', driver.touchend.bind(driver));
+  window.addEventListener('touchstart', driver.touchstart.bind(driver));
+  window.addEventListener('touchmove', driver.touchmove.bind(driver));
+  window.addEventListener('touchend', driver.touchend.bind(driver));
+  window.addEventListener('touchcancel', driver.touchend.bind(driver));
   window.addEventListener('resize', onresize);
   onresize();
 }

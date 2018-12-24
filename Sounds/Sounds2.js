@@ -1,6 +1,8 @@
 SOUNDMAP.crouch = new SoundSource("jumpSound1-1.m4a", 3);
+// SOUNDMAP.crouch = new SoundSource("crouch2.wav");
 SOUNDMAP.land = new SoundSource("jumpSound1-2.m4a", 0.75);
-SOUNDMAP.jump = new SoundSource("crouch1-1.m4a", 3, 4);
+// SOUNDMAP.jump = new SoundSource("crouch1-1.m4a", 3, 4);
+SOUNDMAP.jump = new SoundSource("jump.wav", 1, 0.5);
 SOUNDMAP.jump2 = new SoundSource("jumpSound1-1.m4a", 3, 1);
 SOUNDMAP.wallJump = new SoundSource("crouch1-1.m4a", 2);
 // SOUNDMAP.doubleJump = new SoundSource("jumpSound1-1.m4a", 5);
