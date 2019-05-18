@@ -404,9 +404,9 @@ window.onload = function() {
   window.addEventListener('mousemove', driver.mousemove.bind(driver));
   window.addEventListener('mouseup', driver.mouseup.bind(driver));
   window.addEventListener('mousedown', driver.mousedown.bind(driver));
-  window.addEventListener('touchstart', driver.touchstart.bind(driver));
-  window.addEventListener('touchmove', driver.touchmove.bind(driver));
-  window.addEventListener('touchend', driver.touchend.bind(driver));
+  window.addEventListener('touchstart', driver.touchstart.bind(driver), { passive: false });
+  window.addEventListener('touchmove', driver.touchmove.bind(driver), { passive: false });
+  window.addEventListener('touchend', driver.touchend.bind(driver), { passive: false });
   window.addEventListener('touchcancel', driver.touchend.bind(driver));
   window.addEventListener('resize', onresize);
   onresize();
