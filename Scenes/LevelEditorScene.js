@@ -50,6 +50,7 @@ class LevelEditorScene extends Scene{
       '70': {down: this.gridScrollDown.bind(this)},   //F
       '68': {down: this.selectAir.bind(this)},        //D
       '72': {down: this.toggleCommandList.bind(this)},//H
+      '89': {down: this.cycleWorldType.bind(this)},//Y
 
       '90': {down: this.selectFromQuickSelect.bind(this,0)},   //Z
       '88': {down: this.selectFromQuickSelect.bind(this,1)},   //X
@@ -83,6 +84,10 @@ class LevelEditorScene extends Scene{
   pause() {
     this.driver.setScene(new PauseScene(this, true));
   }
+  cycleWorldType() {
+    this.world.worldtype = (this.world.worldtype +1) %3;
+    this.world.forceRedraw();
+  }
   resetCameraPosition() {
     this.camera.x=this.world.w*this.world.s/2*this.zoom;
     this.camera.y=this.world.h*this.world.s/2*this.zoom;
@@ -107,16 +112,40 @@ class LevelEditorScene extends Scene{
   }
   growi()
   {
+    if(this.keys[16]&&this.keys[18])return this.shrinkLeft();
     if(this.keys[16]) return this.extendLeft();
+    if(this.keys[18]) return this.shrinkRight();
     for (var j = 0; j < this.grid.length; j++)
     {
       this.grid[j].push(0);
     }
     this.world.w++;
   }
+  shrinkRight()
+  {
+    for (var j = 0; j < this.grid.length; j++)
+    {
+      this.grid[j].pop();
+    }
+    this.world.w--;
+    this.world.forceRedraw();
+  }
+  shrinkLeft()
+  {
+    console.log('hi');
+    for (var j = 0; j < this.grid.length; j++)
+    {
+      this.grid[j].shift();
+    }
+    this.world.w--;
+    this.world.forceRedraw();
+  }
   growj()
   {
+
+    if(this.keys[16]&&this.keys[18]) return this.shrinkTop();
     if(this.keys[16]) return this.extendTop();
+    if(this.keys[18]) return this.shrinkBottom();
     var newrow = [];
     for (var j = 0; j < this.grid[0].length; j++)
     {
@@ -132,6 +161,16 @@ class LevelEditorScene extends Scene{
     }
     this.grid.unshift(newrow);
     this.world.h++;
+    this.world.forceRedraw();
+  }
+  shrinkBottom() {
+    this.grid.pop();
+    this.world.h--;
+    this.world.forceRedraw();
+  }
+  shrinkTop() {
+    this.grid.shift();
+    this.world.h--;
     this.world.forceRedraw();
   }
   extendLeft() {
@@ -234,6 +273,7 @@ class LevelEditorScene extends Scene{
     return {
       name: 'test1',
       abilities: this.playerAbility,
+      worldType: this.world.worldtype,
       modifyPlayer: function(player) {
         for (var i = 0; i < this.abilities.length; i++)
         {

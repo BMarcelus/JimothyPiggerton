@@ -305,7 +305,7 @@ class MusicHandler {
   }
   setSong(index) {
     var newSong = this.songs[index];
-    if(this.song == newSong) return;
+    if(!newSong || this.song == newSong) return;
     newSong.isSong = true;
     if(this.on) newSong.play();
     if(this.song){

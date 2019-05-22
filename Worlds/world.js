@@ -40,7 +40,7 @@ function randomizeWorld(world, width,height) {
 }
 class World {
   constructor(bgtype) {
-    this.worldtype = bgtype;
+    this.worldtype = bgtype || 0;
     this.background = new Background(bgtype);    
     this.s = 40;
   }
@@ -214,7 +214,9 @@ class WorldFromLevel extends World {
     var backgroundType = 0;
     // if(index>2) backgroundType=1;
     // if(index>3)backgroundType=2;
-    if(level.worldType) backgroundType = level.worldType;
+    if(level.worldType) {
+      backgroundType = level.worldType;
+    }
     var song = 0;
     if(level.song!=undefined){
       song = level.song;
