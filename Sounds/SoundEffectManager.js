@@ -1,7 +1,7 @@
 var AUDIOCONTEXT;
 var DESTINATION;
 var BUFFERBUFFER = [];
-var VOLUME = 1;
+var VOLUME = 3;
 function setVolume(val) {
   if(val < 0) val = 0;
   if(val > 1) val = 1;

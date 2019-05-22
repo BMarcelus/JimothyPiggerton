@@ -42,6 +42,7 @@ class LevelEditorScene extends Scene{
       '73': {down: this.growi.bind(this)},              //I
       '74': {down: this.growj.bind(this)},              //J
       //'27': {down: this.backToSelect.bind(this)},       //Escape
+      '27': {down: this.pause.bind(this)},       //Escape
       '66': {down: this.resetCameraPosition.bind(this)},//B
       '65': {down: this.pickBlockFromLevel.bind(this)}, //A
 
@@ -78,6 +79,9 @@ class LevelEditorScene extends Scene{
     this.quickSelect = [];
     this.resetCameraPosition();
     this.addLevelEditorGUI();
+  }
+  pause() {
+    this.driver.setScene(new PauseScene(this, true));
   }
   resetCameraPosition() {
     this.camera.x=this.world.w*this.world.s/2*this.zoom;
@@ -174,7 +178,7 @@ class LevelEditorScene extends Scene{
       string += '[';
       for(var j=0;j<this.grid[i].length;j++) {
         var s = this.grid[i][j];
-        if(s<10) s='0'+s;
+        if(s<10) s=' '+s;
         string += s + ',';
       }
       string += '],\n'

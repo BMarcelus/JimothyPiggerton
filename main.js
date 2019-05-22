@@ -368,6 +368,7 @@ window.onload = function() {
       FPScounter=0;
       lastFPSupdate = currentTime;
     }
+    // dt = 1.2;
     dt = .8;   
     // dt = 1;
     driver.update(dt);

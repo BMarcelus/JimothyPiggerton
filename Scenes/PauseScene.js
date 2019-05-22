@@ -1,5 +1,5 @@
 class PauseScene extends Scene {
-  constructor(prevScene) {
+  constructor(prevScene, levelEditor) {
     super();
     this.prevScene = prevScene;
     if(prevScene.onPause)prevScene.onPause();
@@ -25,6 +25,7 @@ class PauseScene extends Scene {
     }
     this.allowUIInput = true;
     this.selectedButton = undefined;
+    this.levelEditor = levelEditor;
     this.addPauseMenuGUI();
   }
   update(dt){
@@ -94,16 +95,18 @@ class PauseScene extends Scene {
         var resumeButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
           this.unpause.bind(this),"Resume",buttonFont,textColor,'transparent',textColor,5,.08);
         this.gui.push(resumeButton);
-    
-        dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
-        var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
-        this.gui.push(levelSelectButton);
-    
-        dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
-        var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-          this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
-        this.gui.push(restartButton);
+        
+        if(!this.levelEditor) {
+          dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
+          var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+            this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
+          this.gui.push(levelSelectButton);
+      
+          dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
+          var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+            this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
+          this.gui.push(restartButton);
+        }
         
         dim = rectDimFromCenter(0.5,0.55+buttonGap*3,.2,.08);
         var mainMenuButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
@@ -159,8 +162,10 @@ class PauseScene extends Scene {
     }
     
     resumeButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
-    levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
-    restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
+    if(!this.levelEditor) {
+      levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
+      restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
+    }
     mainMenuButton.setNeighbors([restartButton,undefined,undefined,undefined]);
 
     this.buttons = getButtons(this.gui);
