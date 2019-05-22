@@ -4,7 +4,6 @@ addBlock(function() { return {
   name: "Woof",
   hide: true,   
   ignoreCollisions: true,
-  redraws: true,
   drawer: new Woof(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {

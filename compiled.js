@@ -3983,7 +3983,7 @@ addBlock(function() { return {
   name: "Start",
   hide: true,   
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new Player(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {
@@ -4598,7 +4598,7 @@ class Enemy extends Mover {
   name: "End",
   hide: true,
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new Pig(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {
@@ -8370,7 +8370,7 @@ class Apple extends Mover {
   name: "Byrd",
   hide: true,   
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new Byrd(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {
@@ -8525,7 +8525,7 @@ class Collectable {
   name: "DoinkPad",
   hide: true,
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new DoinkPad(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {
@@ -8749,7 +8749,7 @@ class WorldText{
   name: "Woof",
   hide: true,   
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new Woof(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {
@@ -9682,7 +9682,7 @@ addLevel( function(nameSpace) {
   name: "Pig",
   hide: true,   
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new PigBeginning(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {

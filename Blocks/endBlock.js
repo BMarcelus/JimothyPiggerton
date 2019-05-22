@@ -4,7 +4,7 @@ addBlock(function() { return {
   name: "End",
   hide: true,
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new Pig(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {

@@ -4,7 +4,7 @@ addBlock(function() { return {
   name: "DoinkPad",
   hide: true,
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new DoinkPad(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {

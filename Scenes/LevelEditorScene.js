@@ -480,8 +480,8 @@ class LevelEditorScene extends Scene{
     canvas.lineWidth = 3;
     canvas.strokeRect(this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height);
     if(this.driver.mouse.held && this.clickDragPivot) {
-      var w = Math.floor((this.clickDragPivot.x - this.driver.mouse.x)/this.zoom/this.world.s);
-      var h = Math.floor((this.clickDragPivot.y - this.driver.mouse.y)/this.zoom/this.world.s);
+      var w = Math.floor((this.clickDragPivot.x - this.driver.mouse.x/this.zoom)/this.world.s);
+      var h = Math.floor((this.clickDragPivot.y - this.driver.mouse.y/this.zoom)/this.world.s);
       w = Math.abs(w);
       h = Math.abs(h);
       canvas.fillText(w+','+h, this.mousePoint.x + offset.x*3, this.mousePoint.y+offset.y*3);
@@ -537,8 +537,8 @@ class LevelEditorScene extends Scene{
     canvas.stroke();
     
     canvas.fillStyle='#000';
-    canvas.fillText("[" + CELLMAP[this.currentBlock].name + "]", canvas.width/5, canvas.height/1.1-100);
-    canvas.fillText("[Wall Jump: " + this.playerAbility[0] + "   Double Jump: " + this.playerAbility[1]+ "]", canvas.width/1.5, canvas.height/1.1-100);
+    canvas.fillText("[" + CELLMAP[this.currentBlock].name + "]", canvas.width/10, canvas.height/1.1-100);
+    canvas.fillText("[Wall Jump: " + this.playerAbility[0] + "   Double Jump: " + this.playerAbility[1]+ "]", canvas.width/2, canvas.height/1.1-100);
     
   /*
 '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},

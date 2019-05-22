@@ -4,7 +4,6 @@ addBlock(function() { return {
   name: "Start",
   hide: true,   
   ignoreCollisions: true,
-  redraws: true,
   drawer: new Player(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {

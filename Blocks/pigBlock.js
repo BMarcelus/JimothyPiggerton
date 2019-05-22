@@ -3,7 +3,7 @@ addBlock(function() { return {
   name: "Pig",
   hide: true,   
   ignoreCollisions: true,
-  redraws: true,
+  redraws: false,
   drawer: new PigBeginning(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {

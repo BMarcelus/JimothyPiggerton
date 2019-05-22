@@ -4,7 +4,6 @@ addBlock(function() { return {
   name: "Byrd",
   hide: true,   
   ignoreCollisions: true,
-  redraws: true,
   drawer: new Byrd(),
   draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {
