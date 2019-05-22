@@ -134,7 +134,6 @@ class LevelEditorScene extends Scene{
   }
   shrinkLeft()
   {
-    console.log('hi');
     for (var j = 0; j < this.grid.length; j++)
     {
       this.grid[j].shift();
