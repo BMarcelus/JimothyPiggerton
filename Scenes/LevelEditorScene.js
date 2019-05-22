@@ -51,6 +51,8 @@ class LevelEditorScene extends Scene{
       '68': {down: this.selectAir.bind(this)},        //D
       '72': {down: this.toggleCommandList.bind(this)},//H
       '89': {down: this.cycleWorldType.bind(this)},//Y
+      '77': {down: this.saveLocal.bind(this)},//M
+      '76': {down: this.loadLocal.bind(this)},//L
 
       '90': {down: this.selectFromQuickSelect.bind(this,0)},   //Z
       '88': {down: this.selectFromQuickSelect.bind(this,1)},   //X
@@ -233,9 +235,36 @@ class LevelEditorScene extends Scene{
     if(!localStorage||!localStorage.setItem)return;
     localStorage.setItem("currentLevel", string);
   }
+  saveLocal() {
+    var string = this.getLevelString();
+    if(!localStorage||!localStorage.setItem) alert("localStorage saves not supported by this web browser");
+    var name = prompt("save as");
+    localStorage.setItem(name, string);
+    var names = localStorage.getItem("Names") || ';';
+    if(!names.includes(';'+name+';')) {
+      localStorage.setItem("Names", names + name + ';');
+    }
+  }
+  loadLocal() {
+    if(!localStorage||!localStorage.setItem) alert("localStorage saves not supported by this web browser");
+    var names = localStorage.getItem("Names") || ';';
+    console.log(names);
+    var name = prompt("load");
+    var string = localStorage.getItem(name);
+    if(!string) return alert("save not found");
+    var grid = this.loadString(string);
+    this.grid = grid;
+    this.world.world = grid;
+    this.world.h = grid.length;
+    this.world.w = grid[0].length;
+    this.world.forceRedraw();
+  }
   load() {
     if(!localStorage || !localStorage.getItem)return null;
     var string = localStorage.getItem("currentLevel");
+    return this.loadString(string);
+  }
+  loadString(string) {
     if(!string)return false;
     var grid = [];
     var currentRow;
