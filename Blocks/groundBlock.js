@@ -304,6 +304,7 @@ addBlock(function() {
     },
     onload: function(game, x,y,width,height, world,ii,jj) {
       var block = world.getCell(ii,jj-1);
+      if(!particles.grass.enabled)return;
       if(!block.air) { return };
       if(Math.random()<.5)return;
       for(var i=0;i<3;++i) {

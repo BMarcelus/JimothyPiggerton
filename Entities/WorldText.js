@@ -12,6 +12,11 @@ class WorldText{
     this.colorTimer = (isVisible) ? this.changeDuration : 0;
     this.visible = isVisible || false;
     this.textAlign = textAlign || "center";
+    this.dim = rectDimFromCenter(this.x,this.y,this.w,0);
+
+    var fillColor = colorLerp(this.inactiveColor,this.activeColor,this.colorTimer*1.0/this.changeDuration);
+    fillColor[3] = 1;
+    this.color = makeColorStr(fillColor);
   }
   update(dt){
     if(this.visible){
@@ -23,6 +28,7 @@ class WorldText{
       if(this.colorTimer < 0)
         this.colorTimer = 0;
     } 
+    // this.dim = rectDimFromCenter(this.x,this.y,this.w,0);
   }
   setVisible(x){
     this.visible = x;
@@ -35,14 +41,13 @@ class WorldText{
   }
   draw(canvas){
     canvas.save();
-    var fillColor = colorLerp(this.inactiveColor,this.activeColor,this.colorTimer*1.0/this.changeDuration);
+    // var fillColor = colorLerp(this.inactiveColor,this.activeColor,this.colorTimer*1.0/this.changeDuration);
     canvas.globalAlpha = this.colorTimer*1.0/this.changeDuration;
-    fillColor[3] = 1;
-    canvas.fillStyle = makeColorStr(fillColor);
+    canvas.fillStyle = this.color;
     canvas.font = this.font;
     canvas.textAlign = this.textAlign;
     canvas.textBaseline='middle';
-    var dim = rectDimFromCenter(this.x,this.y,this.w,0);
+    var dim = this.dim;
     switch(this.textAlign){
       case 'left':
         canvas.fillText(this.text,dim[0],dim[1]+dim[3]/2,this.w);  

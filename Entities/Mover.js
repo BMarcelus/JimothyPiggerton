@@ -51,8 +51,10 @@ class Mover {
     }
     if(this.mx && !this.spinning){
       this.flipped=this.mx<0;
-      if(!this.wallcolliding&&this.cloudParticlesOn&&this.grounded&&!this.crouching&&(frameCount%20==0||this.vx*this.mx<=0||Math.abs(this.vx)<1)) {
-        for(var i=0;i<3;i++) {
+      if(!this.wallcolliding&&(this.cloudParticlesOn && particles.cloud.enabled)&&this.grounded&&!this.crouching&&(frameCount%20==0||this.vx*this.mx<=0||Math.abs(this.vx)<1)) {
+        var num = 3;
+        if(particles.cloud.low)num=1;
+        for(var i=0;i<num;i++) {
           this.game.addEntity(new Cloud(this.x-this.mx*i*5,this.y+Math.random(),5+i*2,10,-this.mx,0,10+i*2));
         }
       }
@@ -209,8 +211,10 @@ class Mover {
     if(!this.crouching) {
       this.vx = 0;
     }
-    if(this.cloudParticlesOn) {
-      for(var i=0;i<6;i++) {
+    if((this.cloudParticlesOn && particles.cloud.enabled)) {
+      var num=6;
+      if(particles.cloud.low)num=1;
+      for(var i=0;i<num;i++) {
         this.game.addEntity(new Cloud(this.x+this.w/2+4,this.y+3,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
         this.game.addEntity(new Cloud(this.x-this.w/2-4,this.y+3,3+Math.random(),10,3*Math.random()-3*Math.random(),0));
       }
@@ -299,8 +303,10 @@ class Mover {
       if(!noSound)
       this.playJumpSound();
       if(this.jumpRelease) this.vy = this.vy * .65;
-      if(this.cloudParticlesOn) {
-        for(var i=0;i<3;i++) {
+      if((this.cloudParticlesOn && particles.cloud.enabled)) {
+        var num = 3;
+        if(particles.cloud.low)num=1;
+        for(var i=0;i<num;i++) {
           this.game.addEntity(new Cloud(this.x-i*5,this.y,5+i*2,10,-2,0,5+i*2));
           this.game.addEntity(new Cloud(this.x+i*5,this.y,5+i*2,10,2,0,5+i*2));
           this.game.addEntity(new Cloud(this.x-6+i*3,this.y,5,10,-1+i,0,5+i*2));
@@ -326,8 +332,10 @@ class Mover {
     this.height += 10;
     this.width -= 10;
     this.spinning = false;
-    if(this.cloudParticlesOn) {
-      for(var i=0;i<3;i++) {
+    if((this.cloudParticlesOn && particles.cloud.enabled)) {
+      var num = 3;
+      if(particles.cloud.low)num=1;
+      for(var i=0;i<num;i++) {
         this.game.addEntity(new Cloud(this.x-i*5,this.y,5+i*2,10,-2,0,5+i*2));
         this.game.addEntity(new Cloud(this.x+i*5,this.y,5+i*2,10,2,0,5+i*2));
         this.game.addEntity(new Cloud(this.x-6+i*3,this.y,5,10,-1+i,0,5+i*2));

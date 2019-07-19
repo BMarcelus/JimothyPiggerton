@@ -327,6 +327,10 @@ class MainDriver {
 }
 var CE = document.getElementById('gc');
 var canvas = CE.getContext('2d');
+// canvas.fillRectSuper = canvas.fillRect;
+// canvas.fillRect = function(x,y,w,h) {
+//   this.fillRectSuper(Math.floor(x),Math.floor(y),Math.floor(w),Math.floor(h));
+// }
 canvas.fillStyle='black';
 canvas.fillRect(0, 0, CE.width, CE.height);
 canvas.fillStyle='white';
@@ -342,8 +346,15 @@ window.onload = function() {
   // initializeSound();
   // CE.width = window.innerWidth;
   // CE.height = window.innerHeight;
+
+
   canvas.width = CE.width;
   canvas.height = CE.height;
+
+  // CE.width /= 2;
+  // CE.height /= 2;
+  // canvas.scale(1/2,1/2);
+
   // window.addEventListener('resize', function(e) {
   //   CE.width = window.innerWidth;
   //   CE.height = window.innerHeight;
@@ -363,9 +374,10 @@ window.onload = function() {
     lastTime = currentTime;
     dt = dt * 60 / 1000;
     FPScounter ++;
-    if(currentTime>lastFPSupdate+1000) {
-      currentFPS = FPScounter;
-      FPScounter=0;
+    if(currentTime>lastFPSupdate+100) {
+      // currentFPS = FPScounter;
+      // FPScounter=0;
+      currentFPS = Math.floor(60/dt);
       lastFPSupdate = currentTime;
     }
     // dt = 1.2;
@@ -377,18 +389,55 @@ window.onload = function() {
   // window.addEventListener('keydown', function() {
   //   driver.update(.8);
   // });
+  var lastDraw = Date.now();
+  var fpsInterval = 1000/100;
   function draw() {
-    driver.draw(canvas);
-    canvas.fillStyle = "white";
-    canvas.textAlign = 'left';
     window.requestAnimationFrame(draw);    
+    var time = Date.now();
+    var dt = time-lastDraw;
+    if(dt >=  fpsInterval) {
+      lastDraw = time - (dt % fpsInterval);
+      driver.draw(canvas);
+      canvas.fillStyle = "white";
+      canvas.textAlign = 'left';
+    }
+    // canvas.fillText(currentFPS, 10,50);
   }
-  draw();
-  // step();
-  setInterval(step, 1000/60);
-  // window.addEventListener('keydown', function(){
+  function start() {
+    draw();
     // step();
-  // })
+    setInterval(step, 1000/60);
+    // window.addEventListener('keydown', function(){
+      // step();
+    // })
+  }
+  var iters = 1000;
+
+  updateTest = function() {
+    var t1 = Date.now();
+    for(var i=0;i<iters;i++) {
+      step();
+    }
+    var t2 = Date.now();
+    console.log("pizza", t2-t1);
+  }
+  drawTest = function() {
+    t1 = Date.now();
+    for(var i=0;i<iters;i++) {
+      driver.draw(canvas);
+    }
+    t2 = Date.now();
+    console.log("balogne", t2-t1);
+  }
+  updateAndDrawTest = function() {
+    updateTest();
+    drawTest();
+  }
+
+  start();
+  // test();
+
+
   function onresize(e){
     var rw = window.innerWidth/window.innerHeight;
     var rc = canvas.width/canvas.height;
@@ -399,6 +448,12 @@ window.onload = function() {
       CE.style.width = "100%";
       CE.style.height = "";
     }
+
+    // canvas.imageSmoothingEnabled = false;
+    // canvas.mozImageSmoothingEnabled=false;
+    // canvas.msImageSmoothingEnabled = false;
+    // canvas.oImageSmoothingEnabled=false;
+    // canvas.webkitImageSmoothingEnabled=false;
   }
   window.addEventListener('keydown', driver.keydown.bind(driver));
   window.addEventListener('keyup', driver.keyup.bind(driver));
@@ -411,4 +466,21 @@ window.onload = function() {
   window.addEventListener('touchcancel', driver.touchend.bind(driver));
   window.addEventListener('resize', onresize);
   onresize();
+}
+
+particles = {
+  enabled: true,
+  player: {enabled: true},
+  cloud: {enabled: true, low: true},
+  powerup: {enabled: true},
+  collectable: {enabled: true},
+  enemy: {enabled: false},
+  grass: {enabled: false},
+}
+
+function setQuality(v) {
+  CE.width *= v;
+  CE.height *= v;
+  canvas.width = CE.width;
+  canvas.height = CE.height;
 }

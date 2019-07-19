@@ -46,9 +46,11 @@ class Byrd extends Enemy {
     this._angle = -this.angle;
   }
   drawShape(canvas, w,h) {
-    canvas.strokeStyle="#000";
-    canvas.lineWidth = 5;
-    canvas.strokeRect(-w/2,-h,w,h);    
+    // canvas.strokeStyle="#000";
+    // canvas.lineWidth = 5;
+    // canvas.strokeRect(-w/2,-h,w,h); 
+    canvas.fillStyle = "#000"; 
+    canvas.fillRect(-w/2-2.5,-h-2.5,w+5,h+5);  
     this.drawWings(canvas,w,h,1);        
     canvas.fillStyle=this.color1;
     canvas.fillRect(-w/2,-h,w,h);
@@ -63,6 +65,7 @@ class Byrd extends Enemy {
     canvas.fillStyle = this.eyeColor;
     canvas.fillRect(25,-h*.95,7,5);
     // canvas.fillText('^', 25,-h*.95+h*.4);
+
     canvas.fillStyle = this.beakColor;
     // canvas.fillRect(12,-h*.7,30,15);
     canvas.beginPath();
@@ -84,16 +87,19 @@ class Byrd extends Enemy {
   drawWings(canvas, w,h,s) {
     var ww = w*.6;
     var hh = h/4;
-    canvas.fillStyle = this.color1;
+    var d = s?3:0;
+    canvas.fillStyle = s?"#000":this.color1;
     canvas.beginPath();
     // canvas.rect(-w/2-ww/2,-h/2, ww,hh);
     // canvas.rect(w/2,-h/2, ww,hh);
     var angle = this.vy/15;
     var y = -h*.8-angle*10;
-    this.pathWingAtAngle(canvas, -w/2-ww/2,y, ww,hh, ww*.8, hh/2, angle);
-    this.pathWingAtAngle(canvas,w*.4,y, ww,hh, ww*.2, hh/2, -angle);
-    if(s)canvas.stroke();
-    else canvas.fill();
+    this.pathWingAtAngle(canvas, -w/2-ww/2-d,y-d, ww+d*2,hh+d*2, ww*.8, hh/2, angle);
+    this.pathWingAtAngle(canvas,w*.4-d,y-d, ww+d*2,hh+d*2, ww*.2, hh/2, -angle);
+    // if(s)
+      // canvas.stroke();
+    // else
+      canvas.fill();
   }
   pathWingAtAngle(canvas, x,y,w,h, px,py, angle) {
     canvas.save();

@@ -11,6 +11,7 @@ class Enemy extends Mover {
 		this.mx = 1;
     this.killPlayer = true;
     this.isColliding = false;
+    this.cloudParticlesOn = particles.enemy.enabled;
 	}
 		 
 	playerCollision(player) {

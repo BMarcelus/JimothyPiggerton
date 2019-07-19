@@ -21,6 +21,7 @@ class Collectable {
       SOUNDMAP.pickup.play(player);
       player.game.screenShakeLevel = 0.4;
       player.game.frameStop = 2;
+      if(particles.collectable.enabled)
       for(var i=0;i<10;i++) {
         var x = this.x;// + (Math.random()*this.w-this.w/2)/2;
         var y = this.y;// - (Math.random()*this.h)/4;

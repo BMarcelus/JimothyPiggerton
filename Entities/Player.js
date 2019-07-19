@@ -32,6 +32,7 @@ class Player extends Mover{
       this.height = this.h;
     }.bind(this), function() {
       var num = 20;
+      if(particles.player.enabled)
       for(var i=0;i<20;i++) {
         var x = this.x + (Math.random()*this.w-this.w/2)/2;
         var y = this.y - (Math.random()*this.h)/2;
@@ -166,6 +167,7 @@ class Player extends Mover{
   }
   drawWings(canvas, w,h,s) {
     if(this.maxJumps<2)return;
+    var d = s?7:0;
     var angle = 0;
     var ww = 40;
     var hh = 7;
@@ -178,15 +180,15 @@ class Player extends Mover{
       angle = -Math.PI/4+this.vy/10;
       ww=25;
     }
-    canvas.fillStyle = this.color2;
+    canvas.fillStyle = s?"#000":this.color2;
     canvas.beginPath();
     // canvas.rect(-w/2-ww/2,-h/2, ww,hh);
     // canvas.rect(w/2,-h/2, ww,hh);
     var y = -h-angle*10;
-    this.pathWingAtAngle(canvas, -w/2-ww*.8,y, ww,hh, ww*.8, hh/2, angle);
-    this.pathWingAtAngle(canvas,w*.3,y, ww,hh, ww*.2, hh/2, -angle);
-    if(s)canvas.stroke();
-    else canvas.fill();
+    this.pathWingAtAngle(canvas, -w/2-ww*.8-d/2,y-d/2, ww+d,hh+d, ww*.8, hh/2, angle);
+    this.pathWingAtAngle(canvas,w*.3-d/2,y-d/2, ww+d,hh+d, ww*.2+d, hh/2, -angle);
+    // if(s)canvas.stroke(); else 
+    canvas.fill();
   }
   pathWingAtAngle(canvas, x,y,w,h, px,py, angle) {
     canvas.save();
@@ -200,15 +202,15 @@ class Player extends Mover{
   drawShape(canvas,w,h) {
     if(this.wallJumps) this.drawTail(canvas, w,h);
     canvas.save();
-    canvas.strokeStyle = "#000";
+    // canvas.strokeStyle = "#000";
     canvas.lineWidth=7;
     if(this.jumpCount<this.maxJumps&&this.jumpCount>0&&!(this.wallJumps&&this.wallCollideTimer>0)) {
       // canvas.strokeStyle="white";
     }
     this.drawWings(canvas,w,h,1);    
     this.drawWings(canvas,w,h);  
-    canvas.strokeStyle = "#000";      
-    canvas.strokeRect(-w/2-1,-h-1,w+2,h+2);
+    canvas.fillStyle = "#000";      
+    canvas.fillRect(-w/2-1-3,-h-1-3,w+2+6,h+2+6);
     // canvas.fillStyle = "#73d";
     canvas.fillStyle = "#666";    
     
@@ -259,12 +261,19 @@ class Player extends Mover{
     if(hatAngle>Math.PI/4)hatAngle=Math.PI/4;
     canvas.rotate(-hatAngle);
     canvas.rotate(0);
+
+    canvas.fillStyle = "#000";
+    // canvas.fillStyle = "#444";
+    canvas.beginPath();
+    canvas.rect(-w/2-1-3,-4-3,w+9+6,4+6);
+    canvas.rect(-w/2-1-3,-12-3,w-3+6,12+6);
+    canvas.fill();
+
     canvas.fillStyle = "#f4d";
     // canvas.fillStyle = "#444";
     canvas.beginPath();
     canvas.rect(-w/2-1,-4,w+9,4);
     canvas.rect(-w/2-1,-12,w-3,12);
-    canvas.stroke();
     canvas.fill();
 
     canvas.fillStyle = "#c2d";

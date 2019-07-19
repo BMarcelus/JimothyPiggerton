@@ -131,8 +131,8 @@ class World {
   rectCollides(x,y,w,h,entity, dx,dy) {
     var result = false;
     var points = [[x,y],[x+w,y],[x,y+h],[x+w,y+h],[x+w/2,y+h],[x+w/2,y]];
-    var types = {};
-    for(var i in points) {
+    var types = [];
+    for(var i=0;i<points.length;i++) {
       var x1 = points[i][0];
       var y1 = points[i][1];
       var p = this.pointToMatrix(x1,y1);
@@ -154,12 +154,13 @@ class World {
       if(colliding) {
         if(colliding.x) cellPos = colliding;
         if(cell.safe) return cellPos;
-        if(type != 0) types[type] = pos;
+        if(type != 0) types.push([type,pos]);
       }
     }
-    for(var i in types) {
-      var pos = types[i];
-      var col = this.entityCollision(entity, i, pos, dx,dy)
+    for(var i=0;i<types.length;i++) {
+      var type = types[i][0];
+      var pos = types[i][1];
+      var col = this.entityCollision(entity, type, pos, dx,dy)
       if(col){
         result = col;
       }

@@ -381,8 +381,8 @@ class GameScene extends Scene {
     this.world.draw(canvas);
     for(var i=0;i<this.entities.length;i+=1) {
       var entity = this.entities[i];
-      if(entity.x-camera.x>canvas.width/2+entity.w)continue;
-      if(entity.x-camera.x<-canvas.width/2-entity.w)continue;
+      if(Math.abs(entity.x-camera.x)>canvas.width/2+entity.w)continue;
+      if(Math.abs(entity.y-camera.y)>canvas.height/2+entity.h)continue;
       entity.draw(canvas);
     }
     canvas.restore();
