@@ -13,9 +13,11 @@ SOUNDMAP.land = new SoundEffect(.01,
   [.5, .8, .5, 0],
 4);
 // SOUNDMAP.dash = new SoundEffect(.04, [440, 2400, 1200, 1800], [.1,.5,.6,.7,.1], 5, 10);
-SOUNDMAP.dash = new SoundEffect(.04, [440, 2400, 2000, 1800], [.1,.5,.6,.7,.1], 5, 3);
-SOUNDMAP.dash = new SoundEffect(.02, [660, 770, 880, 990, 990], [.1,.5,.6,.7,0], 5, 2, 'sine');
+// SOUNDMAP.dash = new SoundEffect(.04, [440, 2400, 2000, 1800], [.1,.5,.6,.7,.1], 5, 3);
+// SOUNDMAP.dash = new SoundEffect(.02, [660, 770, 880, 990, 990], [.1,.5,.6,.7,0], 5, 2, 'sine');
 SOUNDMAP.woof = new SoundEffect(.04, [880, 1200, 660, 440], [.7,.5,.6,.3,.1], 5, 10);
+SOUNDMAP.dash = new SoundEffect(.03, [660, 1000, 660, 440], [.7,.5,.6,.3,.1], 5, 10);
+SOUNDMAP.dash.volume = 0.2;
 SOUNDMAP.pickup = new SoundEffect(.1, [440, 880, 880], [.5,.5,0], 3, 1);
 // SOUNDMAP.dash = new SoundEffect(.02, [2200,1500,2100,2000,1000,1900,], [.3,.35,.4,.45,.5,.6,.7], 5, 2);
 // SOUNDMAP.playerDeath = new SoundEffect(.05, [1200,550,440,220,330,220,110], [.5],8,10, 'square');

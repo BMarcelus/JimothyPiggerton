@@ -37,6 +37,7 @@ class Mover {
     this._angle = 0;
     this.movementStun=0;
     this.jumpSoundType = SOUNDMAP.jump2;
+    this.canDash = false;
   }
   die() {
     this.shouldDelete=true;
@@ -327,7 +328,7 @@ class Mover {
     this.dashCount = 0;
     this.vy = -this.jumpPower;
     // this.playJumpSound();
-    SOUNDMAP.wallJump.play();
+    this.jumpSound = SOUNDMAP.wallJump.play();
     this.grounded = false;
     this.height += 10;
     this.width -= 10;
@@ -375,7 +376,7 @@ class Mover {
     return {x:this.x-.5*w, y:this.y-h, w:w, h:h};
   }
   dash(dir) {
-    if(!DASHON) return;
+    if(!this.canDash) return;
     if(dir==undefined) dir = this.mx;
     if(!dir) dir = 1-2*this.flipped;
     if (this.dashCount == 0)

@@ -29,4 +29,5 @@ loadSequentially('Entities/',
   "BigSaw.js",
   "Grass.js",
   "Butterfly.js",
+  "DashPowerup.js",
 ]);

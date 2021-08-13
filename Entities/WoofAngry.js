@@ -49,6 +49,9 @@ class Woof extends Enemy {
           {
             return entity.toTwo();
           }
+          if(entity.transition<10) {
+            entity.crouching = true;
+          }
           entity.transition--;//tick down timer- might have to modify this so it's not fps dependent
           return this.index;
         },
@@ -169,7 +172,7 @@ class Woof extends Enemy {
 
   toOne()
   {
-    this.transition = 30;//set the transition timer
+    this.transition = 40;//set the transition timer
     this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//prepare for next state
     this.speed = 0;
     this.jump();//just a lil surprise animation
@@ -189,6 +192,8 @@ class Woof extends Enemy {
     this.color1=this.colorsCharge[0];
     this.color2=this.colorsCharge[1];
     this.color3=this.colorsCharge[2];
+    this.crouching = false;
+    this.jump();
     return 2;//now we chasing
   }
 

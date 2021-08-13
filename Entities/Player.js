@@ -148,8 +148,8 @@ class Player extends Mover{
     canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
     // canvas.closePath();
     if(this.wallCollideTimer>0) {
-      // canvas.strokeStyle = "white";
-      // canvas.stroke();
+      canvas.strokeStyle = "white";
+      canvas.stroke();
     }  
     canvas.fill();    
     canvas.fillStyle = '#a42';    
@@ -175,14 +175,18 @@ class Player extends Mover{
       ww=20;
       hh=5;
     }
+    if(this.wallCollideTimer>0) {
+      ww=20;
+      hh=5;
+    }
     var color1 = "#000";
     if(this.jumpCount<this.maxJumps) {
       angle = Math.PI/10+this.vy/10;
-      if(this.jumpCount>0)
-        color1 = "#fff";
+      // if(this.jumpCount>0)
+      //   color1 = "#fff";
     } else {
       angle = -Math.PI/4+this.vy/10;
-      ww=25;
+      ww=5;
     }
     canvas.fillStyle = s?color1:this.color2;
     canvas.beginPath();
@@ -191,7 +195,7 @@ class Player extends Mover{
     var y = -h-angle*10;
     this.pathWingAtAngle(canvas, -w/2-ww*.8-d/2,y-d/2, ww+d,hh+d, ww*.8, hh/2, angle);
     this.pathWingAtAngle(canvas,w*.3-d/2,y-d/2, ww+d,hh+d, ww*.2+d, hh/2, -angle);
-    // if(s)canvas.stroke(); else 
+    if(s)canvas.stroke(); 
     canvas.fill();
   }
   pathWingAtAngle(canvas, x,y,w,h, px,py, angle) {
@@ -207,9 +211,11 @@ class Player extends Mover{
     if(this.wallJumps) this.drawTail(canvas, w,h);
     canvas.save();
     // canvas.strokeStyle = "#000";
-    canvas.lineWidth=7;
-    if(this.jumpCount<this.maxJumps&&this.jumpCount>0&&!(this.wallJumps&&this.wallCollideTimer>0)) {
-      // canvas.strokeStyle="white";
+    // canvas.lineWidth=7;
+    // if(this.jumpCount<this.maxJumps&&this.jumpCount>0&&!(this.wallJumps&&this.wallCollideTimer>0)) {
+    canvas.lineWidth = 6;
+    if(this.jumpCount<this.maxJumps&&this.jumpCount>0) {
+      canvas.strokeStyle="white";
     }
     this.drawWings(canvas,w,h,1);    
     this.drawWings(canvas,w,h);  
@@ -236,7 +242,7 @@ class Player extends Mover{
     
     canvas.fillStyle="#fff";
     var squint = 1-.6*Math.abs(this.vy)/this.terminalVelocity;
-    var eyey = -h+10 + this.eyeMovement.y;
+    var eyey = -h*.8 + this.eyeMovement.y;
     var eyex = 6 + this.eyeMovement.x;
     var eyed = 10 - this.eyeMovement.x/3;
     
@@ -259,12 +265,33 @@ class Player extends Mover{
     }
     canvas.fillRect(eyex-eyed,eyey,8,eyh);
     canvas.fillRect(eyex,eyey,6,eyh2);
+
+    if(this.canDash) {
+      // this.drawWoofMouth(canvas, eyex-w*.1,eyey+h*.2,w*.5,h*.4);
+      this.drawWoofMouth(canvas, eyex-w*.1,eyey+10,w*.5,-h*.1);
+    }
+
     w=this.w;
     canvas.translate(0,-h);
     var hatAngle = Math.abs(this.angle);
     if(hatAngle>Math.PI/4)hatAngle=Math.PI/4;
     canvas.rotate(-hatAngle);
     canvas.rotate(0);
+
+    if(this.canDash) {
+      canvas.strokeStyle = "#000";
+      canvas.lineWidth = 5;
+      if(this.crouching&&this.dashCount==0) {
+        canvas.strokeStyle = "#fff";
+        canvas.lineWidth = 8;
+      }
+      canvas.beginPath();
+      canvas.rect(w*.1, -20, 4,4);
+      canvas.rect(-w*.5, -20, 4,4);
+      canvas.fillStyle = "#888";  
+      canvas.stroke();  
+      canvas.fill();
+    } 
 
     canvas.fillStyle = "#000";
     // canvas.fillStyle = "#444";
@@ -286,7 +313,26 @@ class Player extends Mover{
     canvas.rect(-w/2-1,-4,(w+9)/4,4);
     canvas.rect(-w/2-1,-12,(w-3)/2,12);
     canvas.fill();
+    
     canvas.restore();    
+  }
+  drawWoofMouth(canvas, x,y,w,h) {
+    canvas.save();
+    canvas.translate(x,y);
+    canvas.strokeStyle = "#fff";
+    canvas.lineWidth = 1;
+    if(this.crouching&&this.dashCount==0)canvas.lineWidth=3;
+    canvas.linecap="round";
+    canvas.beginPath();
+    // canvas.moveTo(-w/2,2);
+    canvas.moveTo(-w/2,h/4);
+    canvas.lineTo(-w/7,2);
+    canvas.lineTo(0,h/4);
+    canvas.lineTo(w/7,2);    
+    canvas.lineTo(w/2,h/4);    
+    // canvas.lineTo(w/2,2);  
+    canvas.stroke();
+    canvas.restore();
   }
   bounceOffEntity(enemy, amt) {
     this.groundCollide(this.y, true);

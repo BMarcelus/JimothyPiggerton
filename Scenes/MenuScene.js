@@ -27,6 +27,7 @@ class MenuScene extends Scene{
    
     this.camera = {x:0,y:0,dx:0,dy:0};
     this.allowUIInput = true;
+    SOUNDMAP.music.pause();
   }
   
   update(dt) {

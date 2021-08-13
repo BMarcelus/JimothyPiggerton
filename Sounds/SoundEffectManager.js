@@ -33,13 +33,14 @@ class SoundEffect {
     this.frqData=frq;
     this.volData=vol;
     this.length = this.sampleRate*len;
+    this.volume =1;
   }
   play(entity) {
     // return;
     if(!DESTINATION)return;
-    var volume = 1;
+    var volume = this.volume;
     if(entity&&!entity.player) {
-      var d = distanceBetweenEntities(entity, entity.game.player);
+      // var d = distanceBetweenEntities(entity, entity.game.player);
       // console.log(d);
       // volume = 1/(d/50+1);
       volume = .1;
