@@ -167,7 +167,7 @@ class Player extends Mover{
   }
   drawWings(canvas, w,h,s) {
     if(this.maxJumps<2)return;
-    var d = s?7:0;
+    var d = s?7:3;
     var angle = 0;
     var ww = 40;
     var hh = 7;
@@ -175,12 +175,16 @@ class Player extends Mover{
       ww=20;
       hh=5;
     }
-    if(this.jumpCount<this.maxJumps) angle = Math.PI/10+this.vy/10;
-    else {
+    var color1 = "#000";
+    if(this.jumpCount<this.maxJumps) {
+      angle = Math.PI/10+this.vy/10;
+      if(this.jumpCount>0)
+        color1 = "#fff";
+    } else {
       angle = -Math.PI/4+this.vy/10;
       ww=25;
     }
-    canvas.fillStyle = s?"#000":this.color2;
+    canvas.fillStyle = s?color1:this.color2;
     canvas.beginPath();
     // canvas.rect(-w/2-ww/2,-h/2, ww,hh);
     // canvas.rect(w/2,-h/2, ww,hh);
