@@ -398,8 +398,8 @@ window.onload = function() {
     if(dt >=  fpsInterval) {
       lastDraw = time - (dt % fpsInterval);
       driver.draw(canvas);
-      canvas.fillStyle = "white";
-      canvas.textAlign = 'left';
+      // canvas.fillStyle = "white";
+      // canvas.textAlign = 'left';
     }
     // canvas.fillText(currentFPS, 10,50);
   }
@@ -471,11 +471,11 @@ window.onload = function() {
 particles = {
   enabled: true,
   player: {enabled: true},
-  cloud: {enabled: true, low: true},
+  cloud: {enabled: true, low: false},
   powerup: {enabled: true},
   collectable: {enabled: true},
   enemy: {enabled: false},
-  grass: {enabled: false},
+  grass: {enabled: true},
 }
 
 function setQuality(v) {
