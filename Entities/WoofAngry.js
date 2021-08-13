@@ -6,7 +6,7 @@ class Woof extends Enemy {
     this.width = this.w;
     this.height = this.h;
     this.jumpPower = 7;
-    this.killPlayer = true;
+    this.killPlayer = false;
     this.startY= y;
     this.mx = .5;
     this.transition = 0; //timer for transitions
@@ -15,10 +15,14 @@ class Woof extends Enemy {
     this.state = 0;//starting state
     this.xsight = 300;//line of sight
     this.ysight = 300;
-    this.color1="#aaa";
-    this.color2="#888";
-    this.color3="#555";
+    this.colorsNeutral=["#aaa", "#888", "#555"]
+    this.colorsCharge=["#dc0", "#ba0", "#980"]
+    this.color1=this.colorsNeutral[0];
+    this.color2=this.colorsNeutral[1];
+    this.color3=this.colorsNeutral[2];
+    this.chargeColor = "#dc0"
     this.jumpSoundType = SOUNDMAP.woof; 
+    this.confusedTimings=[80,57,20];
   }
 
   populateFsm()
@@ -70,6 +74,11 @@ class Woof extends Enemy {
             entity.vy = -10;
             //entity.jump();
             entity.killPlayer = false;
+            entity.worried = true;
+            entity.width -= 40;
+            entity.color1=entity.colorsNeutral[0];
+            entity.color2=entity.colorsNeutral[1];
+            entity.color3=entity.colorsNeutral[2];
             //entity.mx *= -1;
           }
           //if (entity.transition == 20)
@@ -108,10 +117,13 @@ class Woof extends Enemy {
           {
             return entity.toZero();
           }
-          else if (entity.transition%7==0)
+          else if (entity.transition%7==0&&entity.transition<entity.confusedTimings[1]&&entity.transition>entity.confusedTimings[2])
           {
             // entity.mx *= -1; // turning around in confusion
             entity.flipped = !entity.flipped;
+            entity.width+=10;
+            entity.height-=10;
+            entity.worried=false;
           }
           entity.transition--;
           return this.index;
@@ -136,6 +148,8 @@ class Woof extends Enemy {
     this.height-=10;
     this.movementStun += 10;
     this.toThree();
+    this.killPlayer = false;
+    this.worried = true;
 		//this.h=this.h/2;
 		//this.die();
 	}
@@ -147,17 +161,23 @@ class Woof extends Enemy {
     this.mx = .5 * Math.sign(this.mx);
     this.speed = 3;
     this._angle = 0;
+    this.color1=this.colorsNeutral[0];
+    this.color2=this.colorsNeutral[1];
+    this.color3=this.colorsNeutral[2];
     return 0;//back to wandering
   }
 
   toOne()
   {
-    this.transition = 10;//set the transition timer
+    this.transition = 30;//set the transition timer
     this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//prepare for next state
     this.speed = 0;
     this.jump();//just a lil surprise animation
     this.game.addEntity(new SleepText(this.x,this.y-this.h-70,80,0,-1,"!",
     "45", FONT,[255,255,255,1],[250,40,40,0],10,10,true));
+    this.color1=this.colorsNeutral[0];
+    this.color2=this.colorsNeutral[1];
+    this.color3=this.colorsNeutral[2];
     return 1;//change state
   }
 
@@ -166,14 +186,22 @@ class Woof extends Enemy {
     this.transition = 0;
     this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//speed up for chase
     this.speed = 10;
+    this.color1=this.colorsCharge[0];
+    this.color2=this.colorsCharge[1];
+    this.color3=this.colorsCharge[2];
     return 2;//now we chasing
   }
 
   toThree()
   {
-    this.transition = 21;
+    this.transition = this.confusedTimings[0];
     this.mx = 0;//-1 * Math.sign(this.mx);//prep for next animation
     this.speed = 1;
+    this.color1=this.colorsNeutral[0];
+    this.color2=this.colorsNeutral[1];
+    this.color3=this.colorsNeutral[2];
+    this.width+=20;
+    this.height-=20;
     return 3;
   }
 
@@ -243,10 +271,17 @@ class Woof extends Enemy {
     canvas.lineWidth = 3;
     canvas.lineCap = "round";
     canvas.beginPath();
-    canvas.moveTo(-w/4-2, -h/4);
-    canvas.lineTo(-w/4,-h/4+2);
-    canvas.moveTo(w/4+2, -h/4);
-    canvas.lineTo(w/4,-h/4+2);    
+    if(this.worried) {
+      canvas.moveTo(-w/4-2, -h/4+2);
+      canvas.lineTo(-w/4,-h/4);
+      canvas.moveTo(w/4+2, -h/4+2);
+      canvas.lineTo(w/4,-h/4); 
+    } else {
+      canvas.moveTo(-w/4-2, -h/4);
+      canvas.lineTo(-w/4,-h/4+2);
+      canvas.moveTo(w/4+2, -h/4);
+      canvas.lineTo(w/4,-h/4+2);   
+    } 
     canvas.stroke();
     canvas.lineWidth = 3;
     canvas.beginPath();

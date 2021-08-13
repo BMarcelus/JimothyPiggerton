@@ -160,6 +160,7 @@ class GameScene extends Scene {
     if(player.mx!=0) {
       // camera.dx = linearMove(camera.dx, (player.mx * 100), 5);
     }
+    
     this.constrainCamera();
   }
   constrainCamera(x,y,w,h){
@@ -373,10 +374,13 @@ class GameScene extends Scene {
       this.fillAroundWorld(canvas);
     }
 
+
     canvas.translate(canvas.width/2,canvas.height/2);  
     canvas.rotate(camera.r);
+    canvas.scale(camera.zoom, camera.zoom);
     
     canvas.translate(-Math.floor(camera.x), -Math.floor(camera.y));
+
     
     this.world.draw(canvas);
     for(var i=0;i<this.entities.length;i+=1) {
