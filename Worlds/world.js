@@ -1,4 +1,6 @@
 
+var drawRedraws = true;
+
 function makeWorld(width, height) {
   var world = [];
   for(var j=0;j<height;j++) {
@@ -62,21 +64,23 @@ class World {
     var world = this.world;
     if(this.image) {
       canvas.drawImage(this.image,0,0);
-      // for(var i=0;i<this.w;i++) {
-      //   for(var j=0;j<this.h;j++) {
-      //     var type = world[j][i];
-      //     var cell = CELLMAP[type];
-      //     if(cell.draw&&cell.redraws) {
-      //       if (!cell.hide || editor)
-      //         cell.draw(canvas, s*i,s*j,s,s, this, i,j);
-      //     }
-      //     // if(type == 1) ctx.fillStyle='brown';
-      //     // else if(type == 2) ctx.fillStyle='#fdd';
-      //     // if(type) {
-      //     //   ctx.fillRect(s*i,s*j, s,s);
-      //     // }
-      //   }
-      // }
+      if(drawRedraws) {
+        for(var i=0;i<this.w;i++) {
+          for(var j=0;j<this.h;j++) {
+            var type = world[j][i];
+            var cell = CELLMAP[type];
+            if(cell.draw&&cell.redraws) {
+              if (!cell.hide || editor)
+                cell.draw(canvas, s*i,s*j,s,s, this, i,j);
+            }
+            // if(type == 1) ctx.fillStyle='brown';
+            // else if(type == 2) ctx.fillStyle='#fdd';
+            // if(type) {
+            //   ctx.fillRect(s*i,s*j, s,s);
+            // }
+          }
+        }
+      }
       return;
     }
     this.image = document.createElement('canvas');
@@ -210,6 +214,10 @@ class WorldDefault extends World {
   }
 }
 
+function copyGrid(grid) {
+  return JSON.parse(JSON.stringify(grid));
+}
+
 class WorldFromLevel extends World {
   constructor(level, index) {
     var backgroundType = 0;
@@ -230,13 +238,15 @@ class WorldFromLevel extends World {
     super(backgroundType);
     var grid = level.grid;
     //
-    this.world = grid;
+    this.levelGrid = level.grid;
+    this.world = copyGrid(grid);
     this.h = grid.length;
     this.w = grid[0].length;
     this.index = index;
   }
   loadWorld(game) {
     var s = this.s;
+    this.world = copyGrid(this.levelGrid);
     var world = this.world;
     for(var i=0;i<this.w;i++) {
       for(var j=0;j<this.h;j++) {
@@ -247,6 +257,7 @@ class WorldFromLevel extends World {
         }
       }
     }
+    this.forceRedraw();
   }
 }
 

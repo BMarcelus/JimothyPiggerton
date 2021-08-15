@@ -299,8 +299,8 @@ addBlock(function() {
       // type = 3;
       // this.redraws = true;
       this.drawTypes[type](canvas,x,y,w,h,world,i,j);
-      // if(type == 3) this.redraws = true;
-      // else this.redraws = false;
+      if(type == 3) this.redraws = true;
+      else this.redraws = false;
     },
     onload: function(game, x,y,width,height, world,ii,jj) {
       var block = world.getCell(ii,jj-1);

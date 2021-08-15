@@ -4,7 +4,7 @@ addBlock(function() { return {
       name: "Spike",
       solid: true,
       angle: 0,
-      redraws: false,
+      // redraws: true,
       draw: function(canvas, x,y,w,h, world,i,j) {
         if(world.getCell(i,j-1).trunk||world.getCell(i,j+1).trunk||world.getCell(i+1,j).trunk||world.getCell(i-1,j).trunk)
         CELLMAP[18].draw(canvas,x,y,w,h,world,i,j);   

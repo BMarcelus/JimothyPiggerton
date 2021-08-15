@@ -286,7 +286,7 @@ class Mover {
     this.vy = 0;
     // this.jumpCount++;   
     this.jumpSquating = true; 
-    this.vx = 0;
+    // this.vx = 0;
     this.currentGroundAccel=0;
     setTimeout(function() {
       this.jumpSquating = false;      

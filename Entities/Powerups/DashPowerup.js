@@ -14,6 +14,9 @@ class DashPowerup extends Powerup {
     this.color2 = "#888";
     this.color3 = "#666";
   }
+  givePlayerAbility(player) {
+    player.canDash = true;
+  }
   drawShape(canvas,w,h) {
     // canvas.translate(0,-h/2);
     // canvas.rotate(this.angle);

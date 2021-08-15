@@ -12,6 +12,10 @@ class doubleJump extends Powerup {
     this.color1= "#000";
     this.angle = Math.PI/4;
   }
+  givePlayerAbility(player) {
+    player.maxJumps = 2;
+    player.jumpCount = 1;
+  }
   canBeCollected() {
     var player = this.game.player;
     return player.maxJumps == 1 || player.jumpCount > 1;

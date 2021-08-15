@@ -14,6 +14,9 @@ class wallJump extends Powerup {
     this.color2 = "#520";
     this.color3 = "#411";
   }
+  givePlayerAbility(player) {
+    player.wallJumps = true;
+  }
   drawShape(canvas,w,h) {
     // canvas.translate(0,-h/2);
     // canvas.rotate(this.angle);

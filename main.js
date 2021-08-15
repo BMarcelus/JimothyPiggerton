@@ -401,7 +401,9 @@ window.onload = function() {
       // canvas.fillStyle = "white";
       // canvas.textAlign = 'left';
     }
-    // canvas.fillText(currentFPS, 10,50);
+    canvas.fillStyle = "white";
+    canvas.textAlign = "left";
+    canvas.fillText(currentFPS, 10,50);
   }
   function start() {
     draw();

@@ -12,6 +12,7 @@ addBlock(function() { return {
   },
   entityCollision: function(entity, pos, dx, dy, cellPos) {
     if(dy<0) {
+      console.log(pos, cellPos);
       entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = 1;
       entity.game.world.forceRedraw();
       //entity.game.world.world[cellPos.y/cellPos.h][cellPos.x/cellPos.w] = this.id;

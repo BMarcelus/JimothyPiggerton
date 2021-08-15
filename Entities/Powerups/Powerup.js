@@ -46,9 +46,11 @@ class Powerup {
     canvas.fillStyle = this.color;
     canvas.fillRect(-w/2, -h, w, h);
   }
-
+  givePlayerAbility(player) {
+    // PLAYER_ABILITIES[this.power](player);
+  }
   onHitPlayer(player) {
-    PLAYER_ABILITIES[this.power](player);
+    this.givePlayerAbility(player);
     SOUNDMAP.powerup.play();
     player.game.screenShakeLevel = 0.4;
     player.game.frameStop = 2;

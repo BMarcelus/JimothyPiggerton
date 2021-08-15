@@ -66,6 +66,7 @@ class LevelEditorScene extends Scene{
       '53': {down: this.selectFromBar.bind(this,4)},            //5
       '54': {down: this.selectFromBar.bind(this,5)},            //6
       '55': {down: this.selectFromBar.bind(this,6)},            //7
+      '79': {down: this.loadFromStringPrompt.bind(this)},            //7
 
       
     }
@@ -233,6 +234,16 @@ class LevelEditorScene extends Scene{
     var string = this.getLevelString();
     if(!localStorage||!localStorage.setItem)return;
     localStorage.setItem("currentLevel", string);
+  }
+  loadFromStringPrompt() {
+    var string = prompt("Level string");
+    if(!string||string.length < 10) return;
+    var grid = this.loadString(string);
+    this.grid = grid;
+    this.world.world = grid;
+    this.world.h = grid.length;
+    this.world.w = grid[0].length;
+    this.world.forceRedraw();
   }
   saveLocal() {
     var string = this.getLevelString();
