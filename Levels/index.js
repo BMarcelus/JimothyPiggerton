@@ -20,8 +20,7 @@ loadSequentially('Levels/',
   "World1/woofBouncing.js",
   "World1/TreeTops.js",
   
-  "ChangeToWorld2.js",
-  
+  "ChangeToWorld2.js",  
   "World2/spikeTops.js",
   "World2/deadlyByrds.js",
   "World2/Saws1.js",  

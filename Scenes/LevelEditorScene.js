@@ -412,11 +412,11 @@ class LevelEditorScene extends Scene{
   addLevelEditorGUI(){
     this.buildButtonGrid();
     this.buildQuickSelect();
+    var buttonFont = "30px " + FONT;
 
     var dim = rectDimFromCenter(0.945,.75,.07,.08);
     var saveButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.save.bind(this),'Save','30px ' + FONT,'black','rgba(255,255,255,0.75)','black',5);
     this.gui.push(saveButton);
-
 
 
     this.buttons = getButtons(this.gui);
@@ -641,8 +641,8 @@ class LevelEditorScene extends Scene{
   */
     canvas.font = "20px " + FONT;
     canvas.textAlign = 'left';
+    var origin = {x:0.02,y:0.05};
     if(this.showCommands){
-      var origin = {x:0.02,y:0.1};
       var gap = 0.04;
       var text = [
         "[H] - Toggle Command List",
@@ -662,7 +662,8 @@ class LevelEditorScene extends Scene{
         "[J] - Grow J [Shift] reverse [Alt] Delete",
         "[Y] - Cycle World Type",
         "[P] - Print as String",
-
+        "[O] - Load from String",
+        "[Space] - pan camera",
       ];
       for(var i = 0; i < text.length; i++){
         canvas.fillStyle = 'rgba(255,255,255,0.75)';
@@ -673,7 +674,7 @@ class LevelEditorScene extends Scene{
           (origin.y+i*gap)*canvas.height,1600);
       }
     } else {
-      canvas.fillText("[H] - Help",canvas.width*0.02,canvas.height*0.1,1600);
+      canvas.fillText("[H] - Help",canvas.width*origin.x,canvas.height*origin.y,1600);
     }
     canvas.textAlign = 'center';
     this.drawAllGUI(canvas);

@@ -103,7 +103,8 @@ class MainDriver {
     this.canvas=canvas;
     this.frameCount=0;
     this.keys = [];
-    this.scene = new VgdcSplashScreen(true);
+    // this.scene = new VgdcSplashScreen(true);
+    this.scene = new MenuScene(true);
     this.scene.driver = this;
     this.mouse = {x:0,y:0};
     this.soundsInitialized = false;
