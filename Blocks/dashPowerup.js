@@ -1,7 +1,7 @@
 addBlock(function() { return {
-  //End Block
+  //Dash power block
   id: BLOCKS.length,
-  name: "WallJump",
+  name: "DashPowerup",
   hide: true,
   ignoreCollisions: true,
   draw: drawEntity,
