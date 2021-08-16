@@ -7,6 +7,7 @@ class Player extends Mover{
     // this.speed = 10;
     this.mx = 0;
     this.eyeMovement = {x:0,y:0, blink: 0, blinkTime: 10, tx: 0, ty: 0};
+    // this.eyes = this.addShape(new Eyes(this));
     this.dead=false;
     this.player=true;
     this.color1 = "#666";
@@ -315,6 +316,9 @@ class Player extends Mover{
     canvas.fill();
     
     canvas.restore();    
+
+    this.shapes.forEach(s=>s.drawShape(canvas,w,h));
+
   }
   drawWoofMouth(canvas, x,y,w,h) {
     canvas.save();

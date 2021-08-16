@@ -1,6 +1,7 @@
 var FONT = "Handlee";
 var movementKeys = [32,37,38,39,40];
 var touchButtons = [];
+var DISPLAY_FPS= false;
 function setUpTouchBtns() {
   var moveBtnWidth = 0.15;
   var moveBtnHeight = 0.3;
@@ -404,6 +405,7 @@ window.onload = function() {
     }
     canvas.fillStyle = "white";
     canvas.textAlign = "left";
+    if(DISPLAY_FPS)
     canvas.fillText(currentFPS, 10,50);
   }
   function start() {

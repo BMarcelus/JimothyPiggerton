@@ -38,6 +38,12 @@ class Mover {
     this.movementStun=0;
     this.jumpSoundType = SOUNDMAP.jump2;
     this.canDash = false;
+    this.shapes = [];
+    this.groundDecel=10;
+  }
+  addShape(shape) {
+    this.shapes.push(shape);
+    return shape;
   }
   die() {
     this.shouldDelete=true;
@@ -69,7 +75,7 @@ class Mover {
       if(!this.grounded)ga = this.airAccel;
       var mx = this.mx;
       if(this.movementStun) mx =0;
-      if(mx==0&&this.grounded)ga = 10;
+      if(mx==0&&this.grounded)ga = this.groundDecel;
       this.vx = linearMove(this.vx, mx*this.speed, ga*dt); 
     }
     this.vy += this.grav * dt;
@@ -143,6 +149,7 @@ class Mover {
     if(this.ceilingColliding && (this.h-this.height) <= .5) {
       this.ceilingColliding = false;
     }
+    this.shapes.forEach(s=>s.update(dt,frameCount));
   }
   safeMove(vx,vy) {
     if(this.ghostOn) {
@@ -263,6 +270,7 @@ class Mover {
   drawShape(canvas,w,h) {
     canvas.fillStyle = this.color;    
     canvas.fillRect(-w/2,-h, w,h);
+    this.shapes.forEach(s=>s.drawShape(canvas,w,h));
   }
   jump(amt, noSound) {
     this.jumpRelease=false;    
