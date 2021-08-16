@@ -16,6 +16,11 @@ class DashPowerup extends Powerup {
   }
   givePlayerAbility(player) {
     player.canDash = true;
+    player.dashCount = 0;
+  }
+  canBeCollected() {
+    var player = this.game.player;
+    return !player.canDash || player.dashCount > 0;
   }
   drawShape(canvas,w,h) {
     // canvas.translate(0,-h/2);
@@ -45,8 +50,5 @@ class DashPowerup extends Powerup {
     canvas.doRect(-sd,-h+dh/2,sd*2,dh);      
     canvas.fillStyle = "#fff";
     canvas.doRect(w*0.2,-h*0.8,w*0.15,h*0.35);    
-  }
-  die() {
-    this.shouldDelete = true;
   }
 }

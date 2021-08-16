@@ -11,7 +11,7 @@ addBlock(function() { return {
     canvas.fillRect(x,y,w,h);
   },
   isColliding: function(entity, pos, dx, dy, cellPos) {
-    if(entity.isByrd||entity.isPig || entity.isBigSaw) {
+    if(entity.isByrd||entity.isPig || entity.isBigSaw || entity.isSquirrel) {
       return true;
       //entity.mx = 2*(entity.x < this.x) - 1;
       //entity.mx = 2*(dx<0)-1;

@@ -9,6 +9,7 @@ class Enemy extends Mover {
 		this.speed = 3;
 		this.groundAccel = 5;
 		this.mx = 1;
+		this.turnsAroundAtWall = true;
     this.killPlayer = true;
     this.isColliding = false;
     this.cloudParticlesOn = particles.enemy.enabled;
@@ -33,7 +34,7 @@ class Enemy extends Mover {
 
 
 	update(dt, frameCount) {
-		if(this.wallcolliding == true) {
+		if(this.turnsAroundAtWall&&this.wallcolliding == true) {
 			this.mx = this.mx*-1;
 		}
 		super.update(dt, frameCount);       
