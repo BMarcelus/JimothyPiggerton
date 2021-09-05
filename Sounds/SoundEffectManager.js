@@ -368,3 +368,25 @@ class MusicHandler {
 //     }, 4000/v);
 //   }
 // }
+
+
+
+class SoundList {
+  constructor(sounds) {
+    this.sounds = sounds;
+    this.index = 0;
+  }
+  play() {
+    this.sounds[this.index].play();
+    this.index = (this.index+1)%this.sounds.length;
+  }
+}
+
+class SoundListRandom {
+  constructor(sounds) {
+    this.sounds = sounds;
+  }
+  play(...args) {
+    this.sounds[Math.floor(Math.random()*this.sounds.length)].play(...args);
+  }
+}

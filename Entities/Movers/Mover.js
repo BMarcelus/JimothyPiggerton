@@ -9,11 +9,11 @@ class Mover {
     this.height = this.h;
     this.vx = 0;
     this.vy = 0;
-    this.grav = .8;
     this.mx = 0;
     this.my = 0;
     this.speed = 10;
     this.grounded = false;
+    this.grav = .8;
     this.jumpPower = 15;
     this.flipped = false;
     this.color = "#000";

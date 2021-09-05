@@ -13,10 +13,14 @@ class Eyes {
     this.randomXRange = 6;
     this.randomYMin=-4;
     this.randomYRange=5;
+    this.blinkTimer = 0;
   }
   update(dt, frameCount) {
     frameCount = Math.floor(frameCount);
-    if(frameCount%60==0&&Math.random()>.5) {
+    this.blinkTimer -= dt;
+    if(this.blinkTimer<0) {
+      this.blinkTimer = 50+Math.random()*100;
+    // if(frameCount%60==0&&Math.random()>.5) {
       this.eyeMovement.blink = this.eyeMovement.blinkTime;
     }
     if(this.eyeMovement.blink>0) {

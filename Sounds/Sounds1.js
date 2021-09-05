@@ -29,3 +29,12 @@ SOUNDMAP.playerDeath = new SoundEffect(.03,
 SOUNDMAP.playerDeath = new SoundEffect(.04,
   [220,440,0,440,110,440,110,0,220,110,100,102,105,110,120,121],
   [.25, 0, 0, .25, .25, .5, .5, 0, .5],5,1, 'sawtooth');
+
+
+  SOUNDMAP.playerTalk =  new SoundList([
+    new SoundTag('onPress.wav', 1,1),
+    new SoundTag('onPress.wav', 1.25,1),
+    new SoundTag('onPress.wav', 1.33,1),
+    new SoundTag('onPress.wav', 1.17,1),
+    new SoundTag('onPress.wav', .91,1),
+  ])

@@ -2,10 +2,10 @@
 class GameScene extends Scene {
   constructor(level, dontSpawnPig,playIntro) {
     super(playIntro);
+    this.entities = [];
     this.touchButtonsActive = true;
     this.dontSpawnPig=dontSpawnPig;
     this.player = new Player();
-    this.entities = [];
     this.behinds=[];    
     this.addEntity(this.player);
     var p1controls = connectControls(Player.controls, this.player);
@@ -385,8 +385,10 @@ class GameScene extends Scene {
     this.world.draw(canvas);
     for(var i=0;i<this.entities.length;i+=1) {
       var entity = this.entities[i];
-      if(Math.abs(entity.x-camera.x)>canvas.width/2+entity.w)continue;
-      if(Math.abs(entity.y-camera.y)>canvas.height/2+entity.h)continue;
+      if(!entity.alwaysDraw) {
+        if(Math.abs(entity.x-camera.x)>canvas.width/2+entity.w)continue;
+        if(Math.abs(entity.y-camera.y)>canvas.height/2+entity.h)continue;
+      }
       entity.draw(canvas);
     }
     canvas.restore();
@@ -397,7 +399,6 @@ class GameScene extends Scene {
     }
     this.drawAllGUI(canvas);
     drawTransitionOverlay(this.overlayColor,canvas);
-    
   }
   testUpdate() {
     var startTime = Date.now();

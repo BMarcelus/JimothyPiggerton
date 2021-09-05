@@ -34,4 +34,5 @@ loadSequentially('Blocks/',
   "bigSawSpawner.js",
   "dashPowerup.js",
   "squirrelBlock.js",
+  "smolByrdBlock.js",
 ]);
