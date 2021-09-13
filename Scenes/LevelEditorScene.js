@@ -66,7 +66,7 @@ class LevelEditorScene extends Scene{
       '53': {down: this.selectFromBar.bind(this,4)},            //5
       '54': {down: this.selectFromBar.bind(this,5)},            //6
       '55': {down: this.selectFromBar.bind(this,6)},            //7
-      '79': {down: this.loadFromStringPrompt.bind(this)},            //7
+      '79': {down: this.loadFromStringPrompt.bind(this)},            //O
 
       
     }
@@ -639,36 +639,36 @@ class LevelEditorScene extends Scene{
       '69': {down: this.selectAir.bind(this)},        //D
       '72': {down: this.toggleCommandList.bind(this)},//H
   */
-    canvas.font = "20px " + FONT;
+    canvas.font = "18px " + FONT;
     canvas.textAlign = 'left';
     var origin = {x:0.02,y:0.05};
     if(this.showCommands){
       var gap = 0.04;
       var text = [
+        "============= General =============",
         "[H] - Toggle Command List",
-        "[W] - Cycle block forward",
-        "[S] - Cycle block backward",
-        "[E] - Cycle abilities",
-        "[A] - Block Picker",
-        "[R] - Scroll Block Select Up",
-        "[F] - Scroll Block Select Down",
-        "[T] - Zoom In",
-        "[G] - Zoom Out",
+        "[K] - Test Level",
+        "[Space] - Pan Camera",
+        "[T/G] - Zoom In/Out",
+        "[B] - Reset Camera",
+        "============= Block Selection =============",
+        "[W/S] - Cycle block backward/forward",
+        "[R/F] - Scroll Block Select Up/Down",
         "[D] - Select Erase (Air)",
         "[1/2/3/4] - Quick select",
-        "[K] - Test Level",
-        "[B] - Reset Camera",
-        "[I] - Grow I [Shift] reverse [Alt] Delete",
-        "[J] - Grow J [Shift] reverse [Alt] Delete",
-        "[Y] - Cycle World Type",
-        "[P] - Print as String",
-        "[O] - Load from String",
-        "[Space] - pan camera",
+        "[A] - Block Picker",
+        "============= Level Settings =============",
+        "[I] - Grow horizontal; [Shift] reverse; [Alt] Delete",
+        "[J] - Grow vertical; [Shift] reverse; [Alt] Delete",
+        "[Y/E] - Cycle World Type/abilities",
+        "============= Save / Load =============",
+        "[P/O] - Print as String / Load from String",
+        "[M/L] - Save localy with name / Load localy from name",
       ];
       for(var i = 0; i < text.length; i++){
         canvas.fillStyle = 'rgba(255,255,255,0.75)';
         canvas.fillRect(origin.x*canvas.width,
-          (origin.y+i*gap-gap/2)*canvas.height,300,gap*canvas.height);
+          (origin.y+i*gap-gap/2)*canvas.height,420,gap*canvas.height);
         canvas.fillStyle = 'black';
         canvas.fillText(text[i],origin.x*canvas.width,
           (origin.y+i*gap)*canvas.height,1600);
