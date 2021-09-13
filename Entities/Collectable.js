@@ -6,8 +6,8 @@ class Collectable {
     this.y=y-this.h/2;
     this.color = 'gainsboro';
 
-    this.color1 = "red";
-    this.color2 = "#a00";
+    this.color1 = "#ffd700";
+    this.color2 = "#98720b";
     this.color3 = "#fff";
     this.color4 = "#640";
   }

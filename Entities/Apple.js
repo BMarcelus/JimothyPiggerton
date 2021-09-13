@@ -4,8 +4,8 @@ class Apple extends Mover {
       super(x,y);
       this.x=x;this.y=y;
       this.startY=this.y;
-      this.w= 25;
-      this.h = 25;
+      this.w= 30;
+      this.h = 30;
       this.r = 15;
       this.mx = 0;
       //this.vy = 0;
