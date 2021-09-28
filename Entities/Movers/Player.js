@@ -132,7 +132,7 @@ class Player extends Mover{
     // canvas.fillRect(-w/2-width,-10,width,10);
     var dx = Math.cos(Date.now()/500)*10;
     var dy = 0;
-    if(this.wallCollideTimer>0) {
+    if(this.canWallJump) {
       dy = 10;
       canvas.fillStyle="#c60";
       canvas.lineWidth = 7;
@@ -148,7 +148,7 @@ class Player extends Mover{
     canvas.quadraticCurveTo(-w/2, -width, -w/2-width,-width-dx-dy);
     canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
     // canvas.closePath();
-    if(this.wallCollideTimer>0) {
+    if(this.canWallJump) {
       canvas.strokeStyle = "white";
       canvas.stroke();
     }  
@@ -158,10 +158,10 @@ class Player extends Mover{
     canvas.moveTo(-w/2, -1);
     canvas.quadraticCurveTo(-w/2-width, -width/2, -w/2-width,-width-dx);
     canvas.quadraticCurveTo(-w/2-width, -1, -w/2-10,-1);
-    if(this.wallCollideTimer>0) {
+    // if(this.canWallJump) {
       // canvas.strokeStyle = "white";
       // canvas.stroke();
-    }    
+    // }    
     canvas.fill();    
     canvas.restore();
     

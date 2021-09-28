@@ -1,7 +1,7 @@
 var FONT = "Handlee";
 var movementKeys = [32,37,38,39,40];
 var touchButtons = [];
-var DISPLAY_FPS= false;
+var DISPLAY_FPS= true;
 function setUpTouchBtns() {
   var moveBtnWidth = 0.15;
   var moveBtnHeight = 0.3;
@@ -326,6 +326,17 @@ class MainDriver {
     return grd;
   }
   
+  
+}
+
+function makeGrdRad(c1,c2) {
+  var gx = canvas.width/2;
+  var gy = canvas.height*2;
+  var r = canvas.height*2;
+  var grd=canvas.createRadialGradient(gx, gy, 0, gx, gy, r);
+  grd.addColorStop(0,c1);
+  grd.addColorStop(1,c2);
+  return grd;
 }
 var CE = document.getElementById('gc');
 var canvas = CE.getContext('2d');

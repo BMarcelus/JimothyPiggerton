@@ -88,7 +88,7 @@ class LevelEditorScene extends Scene{
     this.driver.setScene(new PauseScene(this, true));
   }
   cycleWorldType() {
-    this.world.worldtype = (this.world.worldtype +1) %3;
+    this.world.worldtype = (this.world.worldtype +1) %6;
     this.world.forceRedraw();
   }
   resetCameraPosition() {

@@ -1,5 +1,5 @@
 class Butterfly {
-	constructor(x,y,i,j) {
+	constructor(x,y,i,j,type) {
     this.x = x;
     this.y = y;
 		this.w = 2;
@@ -7,8 +7,14 @@ class Butterfly {
 		this.height = this.h;
 		this.width = this.w; 
     this.color = "#000";
-    this.color2 = "#139";
+    this.color2 = "#17d";
     this.color3 = "#17d";
+    this.color4 = "#17d";
+    if(type==3) {
+      this.color2 = "#e99";
+      this.color3 = "#fff";
+      this.color4 = "#eee";
+    }
     this.angle = 0;
     this.timeFromCollision = 0;
     this._angle = Math.PI/3;
@@ -83,13 +89,19 @@ class Butterfly {
 
     var w2 = this.w * 10 * this.flap;
     canvas.fillStyle = this.color3;  
-    canvas.strokeStyle = this.color3;  
+    canvas.strokeStyle = this.color4;  
     canvas.lineWidth = 2;
     canvas.fillRect(-w2/2,-h, w2/4,h*.6);
     canvas.strokeRect(-w2/2,-h, w2/4,h*.6);
     w2*=.8;
     canvas.fillRect(-w2/2,-h*.9, w2/2,h*.8);
     canvas.strokeRect(-w2/2,-h*.9, w2/2,h*.8);
+    canvas.fillStyle = this.color2;  
+    canvas.strokeStyle = this.color2;  
+    w2*=.8;
+    canvas.fillRect(-w2/2,-h*.8, w2/2*.6,h*.3);
+    canvas.fillRect(-w2/2*.7,-h*.38, w2/2*.4,h*.2);
+    // canvas.strokeRect(-w2/2,-h*.9, w2/2*.5,h*.4);
 
   }
 }

@@ -1,5 +1,5 @@
 class Grass {
-	constructor(x,y,i,j) {
+	constructor(x,y,i,j,type) {
     x+=(Math.random()*2-1)*20;
     this.x = x;
     this.y = y;
@@ -10,6 +10,12 @@ class Grass {
 		this.width = this.w; 
     this.color = "#070";
     this.color2 = "#191";
+    if(type==3) {
+      this.color2 = "#b0a756";
+      this.color = "#91823c";
+    } else {
+      if(Math.random()>.7) this.drawShape = this.drawShape2;
+    }
     this.isColliding = false;
     this.angle = 0;
     this.timeFromCollision = 100 + this.x/15;
@@ -18,7 +24,6 @@ class Grass {
     this.i=i;
     this.j=j-1;
     this._angle = Math.PI/20*(Math.random()*2-1);
-    if(Math.random()>.7) this.drawShape = this.drawShape2;
 	}
 	getHitByEntity(player) {
     this.timeFromCollision = 0;

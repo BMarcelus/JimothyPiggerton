@@ -150,6 +150,7 @@ class Mover {
       this.ceilingColliding = false;
     }
     this.shapes.forEach(s=>s.update(dt,frameCount));
+    this.canWallJump = this.wallCollideTimer>0&&!this.grounded;
   }
   safeMove(vx,vy) {
     if(this.ghostOn) {

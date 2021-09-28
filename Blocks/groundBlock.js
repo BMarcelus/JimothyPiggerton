@@ -62,6 +62,68 @@ addBlock(function() {
       // canvas.fillRect(x,y,w,h);
       // canvas.restore();
     },
+    snow: function(canvas, x,y,w,h, world,i,j) {
+      var color1 = "#766";
+      var color2 = "#877";
+      var color3 = "#fff";
+      var ri = Math.floor(i*i/2+i)
+      if(ri%j==1) {
+        color1="#6a5a5a";
+        color2="#7a6a6a";
+      }
+      if(ri%j==0) {
+        color1="#7a6a6a";
+        color2="#8a7a7a";
+      }
+      // var color1 = "#7c4a0c";
+      // var color2 = "#965c15";
+      // color1 = "#555";
+      // color2 = "#777";
+      // color3 = "#000";
+      canvas.fillStyle=color1;
+      canvas.fillRect(x,y,w,h);
+      canvas.strokeStyle="#000";
+      canvas.lineWidth = 1;
+      // console.log(canvas.lineWidth);
+      var s = Math.max(w,h);
+      // canvas.strokeRect(x,y,w,h);
+      canvas.fillStyle=color2;
+      var ww = s/3;
+      var hh = ww;
+      var spacing = 10;
+      for(var ii=0;ii<3;ii++) {
+        var r1 = psuedoRandom(x,y,ii,1);
+        var r2 = psuedoRandom(x,y,ii,2);
+        var xx = Math.floor(r1*(w-ww)/spacing) * spacing;
+        var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
+        canvas.fillRect(xx+x,yy+y,ww,hh);
+      }
+      if(!world)
+        return;
+      if(!world.getCell(i,j-1).groundBlock) {
+        canvas.fillStyle=color3;
+        canvas.fillRect(x,y,w,s/6);
+        canvas.strokeRect(x,y,w,0);
+      }
+      if(!world.getCell(i,j+1).groundBlock) {
+        canvas.strokeRect(x,y+h,w,0);
+      }
+      if(!world.getCell(i+1,j).groundBlock) {
+        canvas.strokeRect(x+w,y,0,h);
+      }
+      if(!world.getCell(i-1,j).groundBlock) {
+        canvas.strokeRect(x,y,0,h);
+      }
+      // canvas.save();
+      // canvas.globalCompositeOperation='color-dodge';
+      // var t=MAIN.frameCount;
+      // var n = i*i+j*j+t;
+      // var v = Math.abs((n)%(255*2-1)-255);
+      //  var c = 'rgba('+v+','+v+','+v+',0.5)';
+      // canvas.fillStyle = c;
+      // canvas.fillRect(x,y,w,h);
+      // canvas.restore();
+    },
     dirt: function(canvas, x,y,w,h, world,i,j) {
       // var color1 = "#732";
       // var color2 = "#843";
@@ -299,26 +361,32 @@ addBlock(function() {
       // type = 3;
       // this.redraws = true;
       this.drawTypes[type](canvas,x,y,w,h,world,i,j);
-      if(type == 3) this.redraws = true;
-      else this.redraws = false;
+      // if(type == 3) this.redraws = true;
+      // else
+      this.redraws = false;
     },
     onload: function(game, x,y,width,height, world,ii,jj) {
       var block = world.getCell(ii,jj-1);
       if(!particles.grass.enabled)return;
       if(!block.air) { return };
       if(Math.random()<.5)return;
+      var type = (world&&world.worldtype) || 0;
       for(var i=0;i<3;++i) {
-        game.unshift(new Grass(x+width/2,y, ii,jj));
+        game.unshift(new Grass(x+width/2,y, ii,jj,type));
       }
       if(Math.random()<.75)return;
-      game.unshift(new Butterfly(x+width/2,y, ii,jj));
+      game.unshift(new Butterfly(x+width/2,y, ii,jj,type));
     },
-    drawTypes: {
-      0: drawTypes.grass,
-      1: drawTypes.dirt,
-      2: drawTypes.concrete,
-      3: drawTypes.funTime,
-    }
+    drawTypes: [
+      drawTypes.grass,
+      drawTypes.dirt,
+      drawTypes.concrete,
+      drawTypes.snow,
+      drawTypes.grass,
+      drawTypes.dirt,
+      drawTypes.concrete,
+      drawTypes.funTime,
+    ]
 }});
 
 /*
