@@ -4,6 +4,7 @@ class LevelEditorScene extends Scene{
     this.editLevel = index;
     this.zoom = 1;
     var grid;
+    this.levelName = "test";
 
     switch (this.editLevel)
     {
@@ -16,9 +17,10 @@ class LevelEditorScene extends Scene{
         break;
       case 0:
         this.world = new WorldDefault(48, 24);      
-        grid = this.load();
-        this.world.h = grid.length;
-        this.world.w = grid[0].length;
+        // grid = this.load();
+        this.load();
+        // this.world.h = this.grid.length;
+        // this.world.w = this.grid[0].length;
         break;
       default:
         var levels = createLevels();
@@ -88,6 +90,7 @@ class LevelEditorScene extends Scene{
     this.driver.setScene(new PauseScene(this, true));
   }
   cycleWorldType() {
+    if(!this.world.worldtype)this.world.worldtype = 0;
     this.world.worldtype = (this.world.worldtype +1) %6;
     this.world.forceRedraw();
   }
@@ -213,6 +216,38 @@ class LevelEditorScene extends Scene{
         this.playerAbility = [0,0];
     }
   }
+  versionload(string) {
+    if(string[0] == '[') {
+      //previous version
+      var grid = this.loadString(string);
+      this.levelName = string;
+      this.grid = grid;
+      this.world.world = grid;
+      this.world.h = grid.length;
+      this.world.w = grid[0].length;
+      this.world.forceRedraw();
+    } else {
+      this.loadLevelJsonString(string);
+    }
+  }
+  getLevelJsonString() {
+    var level = {};
+    level.version = "0.1";
+    level.grid = this.grid;
+    level.name = this.levelName;
+    level.worldtype = this.world.worldtype;
+    return JSON.stringify(level);
+  }
+  loadLevelJsonString(jsonString) {
+    var level = JSON.parse(jsonString);
+    this.grid = level.grid;
+    this.levelName = level.name;
+    this.world.worldtype = parseInt(level.worldtype);
+    this.world.world = this.grid;
+    this.world.h = this.grid.length;
+    this.world.w = this.grid[0].length;
+    this.world.forceRedraw();
+  }
   getLevelString() {
     var string = '[\n';
     for(var i = 0;i < this.grid.length;i++) {
@@ -225,13 +260,15 @@ class LevelEditorScene extends Scene{
       string += '],\n'
     }
     string += ']';
+    // string += ';';
+    // string += this.world.worldType;
     return string;
   }
   save() {
 
     //if (this.editLevel)
     //  return;
-    var string = this.getLevelString();
+    var string = this.getLevelJsonString();
     if(!localStorage||!localStorage.setItem)return;
     localStorage.setItem("currentLevel", string);
   }
@@ -246,9 +283,10 @@ class LevelEditorScene extends Scene{
     this.world.forceRedraw();
   }
   saveLocal() {
-    var string = this.getLevelString();
     if(!localStorage||!localStorage.setItem) alert("localStorage saves not supported by this web browser");
     var name = prompt("save as");
+    this.levelName = name;
+    var string = this.getLevelJsonString();
     localStorage.setItem(name, string);
     var names = localStorage.getItem("Names") || ';';
     if(!names.includes(';'+name+';')) {
@@ -257,22 +295,20 @@ class LevelEditorScene extends Scene{
   }
   loadLocal() {
     if(!localStorage||!localStorage.setItem) alert("localStorage saves not supported by this web browser");
-    var names = localStorage.getItem("Names") || ';';
+    var names = localStorage.getItem("Names") || 'No saves found';
     console.log(names);
-    var name = prompt("load");
+    var name = prompt("load:["+names+"]");
     var string = localStorage.getItem(name);
     if(!string) return alert("save not found");
-    var grid = this.loadString(string);
-    this.grid = grid;
-    this.world.world = grid;
-    this.world.h = grid.length;
-    this.world.w = grid[0].length;
-    this.world.forceRedraw();
+
+    this.versionload(string);
   }
   load() {
     if(!localStorage || !localStorage.getItem)return null;
     var string = localStorage.getItem("currentLevel");
-    return this.loadString(string);
+    this.versionload(string);
+    return;
+    this.grid = this.loadString(string);
   }
   loadString(string) {
     if(!string)return false;
@@ -281,8 +317,11 @@ class LevelEditorScene extends Scene{
     var currentDigit = '';
     var x = 0;
     var y = 0;
-    for(var i = 1; i < string.length-1; i++) {
-      var char = string[i];
+    // var params = string.split(';');
+    // var levelString = params[0];
+    var levelString = string;
+    for(var i = 1; i < levelString.length-1; i++) {
+      var char = levelString[i];
       switch(char) {
         case '[':
           currentRow = [];
@@ -305,12 +344,12 @@ class LevelEditorScene extends Scene{
     return grid;
   }
   printLevel() {
-    var string = this.getLevelString();
+    var string = this.getLevelJsonString();
     console.log(string);
   }
   getLevel() {
     return {
-      name: 'test1',
+      name: this.levelName,
       abilities: this.playerAbility,
       worldType: this.world.worldtype,
       modifyPlayer: function(player) {
