@@ -39,7 +39,7 @@ class Byrd extends Enemy {
     player.bounceOffEntity(this);
     this.height/=4;
     this.width*=.8;
-    this.jumpCooldownTimer = 20;
+    // this.jumpCooldownTimer = 20;
 		// this.h=this.h/2;
 		// this.die();
 	}

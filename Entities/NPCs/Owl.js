@@ -38,12 +38,13 @@ class Owl extends Byrd {
     var dy = this.game.player.y-this.y;
     // if(dx>0) this.d = 1;
     // if(dx<0)this.d=-1;
-    if(Math.abs(dx)>30) {
+    var turnAroundArea = 40;
+    if(Math.abs(dx)>turnAroundArea) {
       this.d = dx>0?1:-1;
     }
     this.flipped = this.d==-1;
     if(this.flyAway) {
-      if(this.wallcolliding == true) {
+      if(this.wallcolliding == true && Math.abs(dx)<turnAroundArea) {
         this.d = this.d*-1;
       }
       this.mx = -this.d;
@@ -60,7 +61,8 @@ class Owl extends Byrd {
         this.mx = -this.mx;
       }
     }
-    if(Math.abs(dx)<50&&Math.abs(dy)<50) {
+    var fleeDistance = 100;
+    if(Math.abs(dx)<fleeDistance&&Math.abs(dy)<fleeDistance) {
       this.flyAway = true;
       this.mx = -this.d;
     }
