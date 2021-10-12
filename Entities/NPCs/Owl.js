@@ -9,7 +9,7 @@ class Owl extends Byrd {
 
     this.color1 = "#743";
     this.color2 = "#000";
-    this.color3 = '#ca87fd';
+    this.color3 = '#632';
     this.eyeColor = "#fff";
     this.beakColor = "#f7ff8c";
     
@@ -38,7 +38,7 @@ class Owl extends Byrd {
     var dy = this.game.player.y-this.y;
     // if(dx>0) this.d = 1;
     // if(dx<0)this.d=-1;
-    var turnAroundArea = 40;
+    var turnAroundArea = 20;
     if(Math.abs(dx)>turnAroundArea) {
       this.d = dx>0?1:-1;
     }
@@ -78,6 +78,8 @@ class Owl extends Byrd {
     // this.wingAngle = Math.sin(frameCount*Math.PI/20)*Math.PI/2;
   }
   drawFace(canvas,w,h) {
+    canvas.save();
+    canvas.translate(0,this.vy);
     var eyepad = 1;
     var eyeSize = 9;
     canvas.fillStyle = this.eyeColor;
@@ -109,5 +111,6 @@ class Owl extends Byrd {
     // canvas.moveTo(20,-h*.8);
     // canvas.lineTo(20-2,-h*.8+2);
     // canvas.stroke();
+    canvas.restore();
   }
 }
