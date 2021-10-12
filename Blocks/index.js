@@ -35,4 +35,5 @@ loadSequentially('Blocks/',
   "dashPowerup.js",
   "squirrelBlock.js",
   "smolByrdBlock.js",
+  "owlBlock.js",
 ]);

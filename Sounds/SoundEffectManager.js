@@ -322,6 +322,7 @@ class MusicHandler {
   }
   play() {
     if(this.song == undefined)return;
+    // if(!this.on)return;
     this.song.stopSound();
     return this.song.play();
   }

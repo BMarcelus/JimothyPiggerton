@@ -5,7 +5,7 @@ class LevelEditorScene extends Scene{
     this.zoom = 1;
     var grid;
     this.levelName = "test";
-
+    if(SOUNDMAP.music.on) SOUNDMAP.music.toggle();
     switch (this.editLevel)
     {
       case -2:
@@ -220,7 +220,6 @@ class LevelEditorScene extends Scene{
     if(string[0] == '[') {
       //previous version
       var grid = this.loadString(string);
-      this.levelName = string;
       this.grid = grid;
       this.world.world = grid;
       this.world.h = grid.length;
@@ -236,6 +235,7 @@ class LevelEditorScene extends Scene{
     level.grid = this.grid;
     level.name = this.levelName;
     level.worldtype = this.world.worldtype;
+    // console.log(level);
     return JSON.stringify(level);
   }
   loadLevelJsonString(jsonString) {
@@ -300,7 +300,7 @@ class LevelEditorScene extends Scene{
     var name = prompt("load:["+names+"]");
     var string = localStorage.getItem(name);
     if(!string) return alert("save not found");
-
+    this.levelName = name;
     this.versionload(string);
   }
   load() {

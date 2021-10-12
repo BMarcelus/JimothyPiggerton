@@ -190,6 +190,68 @@ addBlock(function() {
       // canvas.fillRect(x,y,w,h);
       // canvas.restore();
     },
+    darkGrass: function(canvas, x,y,w,h, world,i,j) {
+      var color1 = "#332";
+      var color2 = "#443";
+      var color3 = "#898";
+      var ri = Math.floor(i*i/2+i)
+      if(ri%j==1) {
+        color1="#3a3a2a";
+        color2="#4a4a3a";
+      }
+      if(ri%j==0) {
+        color1="#443";
+        color2="#554";
+      }
+      // var color1 = "#7c4a0c";
+      // var color2 = "#965c15";
+      // color1 = "#555";
+      // color2 = "#777";
+      // color3 = "#000";
+      canvas.fillStyle=color1;
+      canvas.fillRect(x,y,w,h);
+      canvas.strokeStyle="#000";
+      canvas.lineWidth = 1;
+      // console.log(canvas.lineWidth);
+      var s = Math.max(w,h);
+      // canvas.strokeRect(x,y,w,h);
+      canvas.fillStyle=color2;
+      var ww = s/3;
+      var hh = ww;
+      var spacing = 10;
+      for(var ii=0;ii<3;ii++) {
+        var r1 = psuedoRandom(x,y,ii,1);
+        var r2 = psuedoRandom(x,y,ii,2);
+        var xx = Math.floor(r1*(w-ww)/spacing) * spacing;
+        var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
+        canvas.fillRect(xx+x,yy+y,ww,hh);
+      }
+      if(!world)
+        return;
+      if(!world.getCell(i,j-1).groundBlock) {
+        canvas.fillStyle=color3;
+        canvas.fillRect(x,y,w,s/6);
+        canvas.strokeRect(x,y,w,0);
+      }
+      if(!world.getCell(i,j+1).groundBlock) {
+        canvas.strokeRect(x,y+h,w,0);
+      }
+      if(!world.getCell(i+1,j).groundBlock) {
+        canvas.strokeRect(x+w,y,0,h);
+      }
+      if(!world.getCell(i-1,j).groundBlock) {
+        canvas.strokeRect(x,y,0,h);
+      }
+      // canvas.save();
+      // canvas.globalCompositeOperation='color-dodge';
+      // var t=MAIN.frameCount;
+      // var n = i*i+j*j+t;
+      // var v = Math.abs((n)%(255*2-1)-255);
+      //  var c = 'rgba('+v+','+v+','+v+',0.5)';
+      // canvas.fillStyle = c;
+      // canvas.fillRect(x,y,w,h);
+      // canvas.restore();
+    },
     grass2: function(canvas, x,y,w,h, world,i,j) {
 
       var color1 = "#5f3529";
@@ -383,7 +445,7 @@ addBlock(function() {
       drawTypes.concrete,
       drawTypes.snow,
       drawTypes.grass,
-      drawTypes.dirt,
+      drawTypes.darkGrass,
       drawTypes.concrete,
       drawTypes.funTime,
     ]

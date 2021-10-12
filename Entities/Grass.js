@@ -13,6 +13,9 @@ class Grass {
     if(type==3) {
       this.color2 = "#b0a756";
       this.color = "#91823c";
+    } else if(type == 5){
+      this.color2 = "#565";
+      this.color = "#343";
     } else {
       if(Math.random()>.7) this.drawShape = this.drawShape2;
     }
