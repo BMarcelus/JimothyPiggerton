@@ -2,12 +2,6 @@ loadSequentially('Levels/',
 [
   "init.js",
   
-  "RevampedLevels/1-Hills/1-1.js",
-  "RevampedLevels/1-Hills/1-2.js",
-  "RevampedLevels/1-Hills/1-2b.js",
-  "RevampedLevels/1-Hills/1-3.js",
-  "RevampedLevels/1-Hills/1-3b.js",
-  
   "World0/jumpChallenges.js",
   "World0/birdJump.js",
   "World0/birdFlight.js",
