@@ -40,6 +40,8 @@ class Mover {
     this.canDash = false;
     this.shapes = [];
     this.groundDecel=10;
+    this.jumpCooldownTimer=0;
+    this.jumpCooldownTime=0;
   }
   addShape(shape) {
     this.shapes.push(shape);
@@ -49,6 +51,7 @@ class Mover {
     this.shouldDelete=true;
   }
   update(dt, frameCount) {
+    if(this.jumpCooldownTimer>0)this.jumpCooldownTimer-=dt;
     if(this.mx>1)this.mx=1;
     if(this.mx<-1)this.mx=-1;
     if(this.my>1)this.my=1;
@@ -203,10 +206,14 @@ class Mover {
         this.vy = this.vy*.7;
         vy = 0;
         this.ceilingColliding=true;
+        this.onCeilingCollide();
       }
     } else {
       this.y += vy;
     }
+  }
+  onCeilingCollide() {
+
   }
   land() {
     this.width += 30;
@@ -274,6 +281,7 @@ class Mover {
     this.shapes.forEach(s=>s.drawShape(canvas,w,h));
   }
   jump(amt, noSound) {
+    if(this.jumpCooldownTimer>0) return;
     this.jumpRelease=false;    
     if(this.jumpSquating)return;
     // if(!this.grounded)return;
@@ -297,6 +305,7 @@ class Mover {
     this.jumpSquating = true; 
     // this.vx = 0;
     this.currentGroundAccel=0;
+    this.jumpCooldownTimer = this.jumpCooldownTime;
     setTimeout(function() {
       this.jumpSquating = false;      
       this.vx = this.mx*this.speed; 

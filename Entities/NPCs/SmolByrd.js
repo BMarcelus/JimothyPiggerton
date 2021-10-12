@@ -44,6 +44,7 @@ class SmolByrd extends Byrd {
     }
     if(this.wallcolliding == true) {
 			this.d = this.d*-1;
+      this.mx = this.d;
 		}
     super.update(dt, frameCount);
     

@@ -3,7 +3,7 @@ class Owl extends Byrd {
     super(x,y);
     this.moveTimer=0;
     this.moveTime = 20;
-    this.speed = 10;
+    this.speed = 2;
     this.mx=0;
     this.d = 1;
 
@@ -17,9 +17,11 @@ class Owl extends Byrd {
     this.h = 30;
     this.width = this.w;
     this.height = this.h;
-    this.grav = .4;
-    this.jumpPower = 4;
+    this.grav = .3;
+    this.jumpPower = 8;
     this.turnsAroundAtWall = false;
+    this.flyAway = false;
+    this.startY = 100000;
   }
   getHitByEntity(player) {
     player.bounceOffEntity(this);
@@ -34,20 +36,52 @@ class Owl extends Byrd {
   update(dt, frameCount) {
     var dx = this.game.player.x-this.x;
     var dy = this.game.player.y-this.y;
-    if(dx>0) this.d = 1;
-    if(dx<0)this.d=-1;
-    if(this.y>this.startY&&this.vy>=0) {
-      this.jumpCount = 0;
-      this.jump();
+    // if(dx>0) this.d = 1;
+    // if(dx<0)this.d=-1;
+    if(Math.abs(dx)>30) {
+      this.d = dx>0?1:-1;
     }
+    this.flipped = this.d==-1;
+    if(this.flyAway) {
+      if(this.wallcolliding == true) {
+        this.d = this.d*-1;
+      }
+      this.mx = -this.d;
+      if(this.vy >= -4) {
+        this.jumpCount = 0;
+        this.jump();
+      }
+    } else {
+      if(this.grounded) {
+        this.mx = 0;
+        this.flipped = this.d==-1;
+      } else if(this.wallcolliding == true) {
+        this.d = this.d*-1;
+        this.mx = -this.mx;
+      }
+    }
+    if(Math.abs(dx)<50&&Math.abs(dy)<50) {
+      this.flyAway = true;
+      this.mx = -this.d;
+    }
+    if(Math.abs(dx)>200||Math.abs(dy)>200) {
+      this.flyAway = false;
+      if(this.groudned)this.mx=0;
+    }
+
+    super.update(dt, frameCount);
     
     this._angle = -this.angle;
     if(this.grounded) this.wingAngle += (-Math.PI/2-this.wingAngle)/2;
     // this.wingAngle = Math.sin(frameCount*Math.PI/20)*Math.PI/2;
   }
   drawFace(canvas,w,h) {
+    var eyepad = 1;
+    var eyeSize = 9;
     canvas.fillStyle = this.eyeColor;
     canvas.fillRect(0,-h*.95,7,7);
+    // canvas.fillStyle = "#000";
+    // canvas.fillRect(0+eyepad,-h*.95+eyepad,eyeSize-eyepad*2,eyeSize-eyepad*2);
     // canvas.fillText('^', 25,-h*.95+h*.4);
 
     canvas.fillStyle = this.beakColor;
@@ -64,6 +98,8 @@ class Owl extends Byrd {
     canvas.fillStyle = this.eyeColor;
     // canvas.fillText('^', 10,-h*.95+h*.4);
     canvas.fillRect(12,-h*.95,7,7);
+    // canvas.fillStyle = "#000";
+    // canvas.fillRect(12+eyepad,-h*.95+eyepad,eyeSize-eyepad*2,eyeSize-eyepad*2);
     // canvas.lineWidth=4;
     // canvas.lineCap = 'round';
     // canvas.moveTo(3,-h*.8);

@@ -21,7 +21,10 @@ class Byrd extends Enemy {
     // this.beakColor = "#000";
     
     TheByrd = this;
+    this.wingAngleOffset = 0;
     this.wingAngle = 0;
+    this.terminalVelocity = 10;
+    this.jumpCooldownTime=0;
   }
   playJumpSound() {
     
@@ -29,10 +32,14 @@ class Byrd extends Enemy {
   die() {
 
   }
+  onCeilingCollide() {
+    this.jumpCooldownTimer = 20;
+  }
   getHitByEntity(player) {
     player.bounceOffEntity(this);
     this.height/=4;
     this.width*=.8;
+    this.jumpCooldownTimer = 20;
 		// this.h=this.h/2;
 		// this.die();
 	}
@@ -43,7 +50,13 @@ class Byrd extends Enemy {
     }
     super.update(dt, frameCount);
     this._angle = -this.angle;
-    this.wingAngle = this.vy/15;
+    if(this.grounded) {
+      this.wingAngle += (-Math.PI/2-this.wingAngle)/2;
+      this.wingAngleOffset += (Math.PI/8-this.wingAngleOffset)/2;
+    } else {
+      this.wingAngle = this.vy/15;
+      this.wingAngleOffset = 0;
+    }
   }
   drawShape(canvas, w,h) {
     // canvas.strokeStyle="#000";
@@ -94,8 +107,11 @@ class Byrd extends Enemy {
     // canvas.rect(w/2,-h/2, ww,hh);
     var angle = this.wingAngle;
     var y = -h*.8-angle*10;
-    this.pathWingAtAngle(canvas, -w/2-ww/2-d,y-d, ww+d*2,hh+d*2, ww*.8, hh/2, angle);
-    this.pathWingAtAngle(canvas,w*.4-d,y-d, ww+d*2,hh+d*2, ww*.2, hh/2, -angle);
+    var wx = 0;
+    var wy = -this.wingAngleOffset*50;
+    if(this.wingAngle<0)wx=this.wingAngle*10;
+    this.pathWingAtAngle(canvas, -w/2-ww/2-d-wx,y-d+wy, ww+d*2,hh+d*2, ww*.8, hh/2, angle+this.wingAngleOffset);
+    this.pathWingAtAngle(canvas,w*.4-d+wx,y-d+wy, ww+d*2,hh+d*2, ww*.2, hh/2, -angle+this.wingAngleOffset);
     // if(s)
       // canvas.stroke();
     // else
