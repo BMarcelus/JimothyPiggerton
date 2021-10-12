@@ -32,6 +32,10 @@ class Owl extends Byrd {
     
 	}
   update(dt, frameCount) {
+    var dx = this.game.player.x-this.x;
+    var dy = this.game.player.y-this.y;
+    if(dx>0) this.d = 1;
+    if(dx<0)this.d=-1;
     if(this.y>this.startY&&this.vy>=0) {
       this.jumpCount = 0;
       this.jump();

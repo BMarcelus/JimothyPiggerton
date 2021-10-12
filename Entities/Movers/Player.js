@@ -85,6 +85,7 @@ class Player extends Mover{
     this.vy=0;
     this.maxJumps=1;
     this.wallJumps=false;
+    this.canDash=false;
     this.animation=null;
     this.invisible=false;
     this.dead=false;
