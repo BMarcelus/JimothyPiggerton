@@ -85,6 +85,36 @@ class LevelEditorScene extends Scene{
     this.quickSelect = [];
     this.resetCameraPosition();
     this.addLevelEditorGUI();
+    this.inputElement = document.getElementById("level-editor-level-name");
+    this.inputElement.addEventListener('keyup', e=> {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+          this.cancelInputWait();
+          this.inputElement.blur();
+      }
+    });
+    this.inputElement.addEventListener('focus', e=> {
+      this.inputWaiting = true;
+    })
+    this.inputElement.addEventListener('blur', e=> {
+      this.inputWaiting = false;
+    })
+    this.promptLabel = document.getElementById("level-editor-prompt-label");
+    document.getElementById("level-editor-editor").classList.remove("hidden");
+    this.inputWaiting = false;
+  }
+  reload() {
+    document.getElementById("level-editor-editor").classList.remove("hidden");
+  }
+  unload() {
+    super.unload();
+    document.getElementById("level-editor-editor").classList.add("hidden");
+  }
+  cancelInputWait() {
+    this.inputWaiting = false;
+  }
+  keydown(e) {
+    if(this.inputWaiting)return;
+    super.keydown(e);
   }
   pause() {
     this.driver.setScene(new PauseScene(this, true));
@@ -272,8 +302,19 @@ class LevelEditorScene extends Scene{
     if(!localStorage||!localStorage.setItem)return;
     localStorage.setItem("currentLevel", string);
   }
+  prompt(text) {
+    var result = prompt(text);
+    if(!result || result == "" || result == null) {
+      this.promptLabel.innerHTML = text;
+      result = this.inputElement.value;
+      if(!result || result == "" || result == null) {
+        this.inputElement.focus();
+      }
+    }
+    return result;
+  }
   loadFromStringPrompt() {
-    var string = prompt("Level string");
+    var string = this.prompt("Level string");
     if(!string||string.length < 10) return;
     var grid = this.loadString(string);
     this.grid = grid;
@@ -284,7 +325,7 @@ class LevelEditorScene extends Scene{
   }
   saveLocal() {
     if(!localStorage||!localStorage.setItem) alert("localStorage saves not supported by this web browser");
-    var name = prompt("save as");
+    var name = this.prompt("save as");
     this.levelName = name;
     var string = this.getLevelJsonString();
     localStorage.setItem(name, string);
@@ -297,7 +338,7 @@ class LevelEditorScene extends Scene{
     if(!localStorage||!localStorage.setItem) alert("localStorage saves not supported by this web browser");
     var names = localStorage.getItem("Names") || 'No saves found';
     console.log(names);
-    var name = prompt("load:["+names+"]");
+    var name = this.prompt("load:["+names+"]");
     var string = localStorage.getItem(name);
     if(!string) return alert("save not found");
     this.levelName = name;

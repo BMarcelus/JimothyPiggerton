@@ -1,33 +1,26 @@
-class Owl extends Byrd {
+class FollowBird extends Byrd {
   constructor(x,y) {
     super(x,y);
     this.moveTimer=0;
     this.moveTime = 20;
-    this.speed = 5;
+    this.speed = 10;
     this.mx=0;
     this.d = 1;
 
-    // this.color1 = "#743";
-    // this.color2 = "#000";
-    // this.color3 = '#632';
-    this.color1 = "#333";
+    this.color1 = "#ddd";
     this.color2 = "#000";
-    this.color3 = '#222';
+    this.color3 = '#ccc';
     this.eyeColor = "#fff";
     this.beakColor = "#f7ff8c";
     
-    this.w = 30;
-    this.h = 25;
+    this.w = 40;
+    this.h = 30;
     this.width = this.w;
     this.height = this.h;
-    this.grav = .5;
-    this.jumpPower = 10;
+    this.grav = .4;
+    this.jumpPower = 8;
     this.turnsAroundAtWall = false;
-    this.flyAway = false;
-    this.startY = 100000;
-    this.terminalVelocity = 4;
-    this.airAccel = 1;
-    this.offset = Math.random()*10;
+    // this.startY = 100000;
   }
   getHitByEntity(player) {
     player.bounceOffEntity(this);
@@ -44,39 +37,12 @@ class Owl extends Byrd {
     var dy = this.game.player.y-this.y;
     // if(dx>0) this.d = 1;
     // if(dx<0)this.d=-1;
-    var turnAroundArea = 20;
+    var turnAroundArea = 0;
     if(Math.abs(dx)>turnAroundArea) {
       this.d = dx>0?1:-1;
     }
-    this.flipped = this.d==-1;
-    if(this.flyAway) {
-      if(this.wallcolliding == true && Math.abs(dx)<turnAroundArea) {
-        this.d = this.d*-1;
-      }
-      this.mx = -this.d;
-      if(this.vy >= -4) {
-        this.jumpCount = 0;
-        this.jump();
-      }
-    } else {
-      if(this.grounded) {
-        this.mx = 0;
-        this.flipped = this.d==-1;
-      } else if(this.wallcolliding == true) {
-        this.d = this.d*-1;
-        this.mx = -this.mx;
-      }
-    }
-    var fleeDistance = 100+this.offset;
-    var stopDistance = 400+this.offset;
-    if(Math.abs(dx)<fleeDistance&&Math.abs(dy)<fleeDistance) {
-      this.flyAway = true;
-      this.mx = -this.d;
-    }
-    if(Math.abs(dx)>stopDistance||Math.abs(dy)>stopDistance) {
-      this.flyAway = false;
-      if(this.groudned)this.mx=0;
-    }
+    // this.flipped = this.d==-1;
+    this.mx = this.d;
 
     super.update(dt, frameCount);
     

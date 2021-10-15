@@ -17,6 +17,9 @@ class Player extends Mover{
     this.holdingJump = false;
     this.bounceTimer = 0;
   }
+  entityCollision(other, processedSecond, dx,dy) {
+    this.vx += dx;
+  }
   die() {
     if(this.dead)return;
     SOUNDMAP.playerDeath.play(this);

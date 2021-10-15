@@ -42,6 +42,7 @@ class Mover {
     this.groundDecel=10;
     this.jumpCooldownTimer=0;
     this.jumpCooldownTime=0;
+    this.isMover = true;
   }
   addShape(shape) {
     this.shapes.push(shape);
@@ -155,6 +156,13 @@ class Mover {
     this.shapes.forEach(s=>s.update(dt,frameCount));
     this.canWallJump = this.wallCollideTimer>0&&!this.grounded;
   }
+  nudge(dx,dy) {
+    this.safeMove(dx,dy);
+  }
+  entityCollision(other, processedSecond,dx,dy) {
+    this.vx += dx;
+    this.vy += dy;
+  }
   safeMove(vx,vy) {
     if(this.ghostOn) {
       this.x += vx;
@@ -200,8 +208,8 @@ class Mover {
       } else {
         this.y = yCol.y+h+world.s;
         // this.vy = 0;
-        this.width+=-this.vy+3;
-        this.height-=5;
+        this.width+=(this.w-this.vy+3-this.width)/3;
+        this.height+=(5-this.height)/3;
         // this.spinning=false;
         this.vy = this.vy*.7;
         vy = 0;

@@ -105,15 +105,15 @@ class MainDriver {
     this.frameCount=0;
     this.keys = [];
     // this.scene = new VgdcSplashScreen(true);
-    this.scene = new MenuScene(true);
+    // this.scene = new MenuScene(true);
+    
+    this.scene = new LevelEditorScene(0);
     this.scene.driver = this;
+
     this.mouse = {x:0,y:0};
     this.soundsInitialized = false;
     this.timeoutes = [];
     this.gamepadOn=true;
-
-
-   
   }
   setTimeout(callback, frames) {
     this.timeoutes.push({callback, frames});
@@ -280,6 +280,9 @@ class MainDriver {
     if(keys[k])return;
     this.scene.keydown(k);
     keys[k] = true;
+    if(keys[17]&&k==87) {
+      //ctrl + w
+    }
   }
   keyup(e) {
     var keys = this.keys;
@@ -314,6 +317,7 @@ class MainDriver {
     if(this.scene&&this.scene.unload)this.scene.unload();
     scene.driver = this;
     this.scene = scene;
+    if(scene.reload)scene.reload();
   }
   makeGrd() {
     var gx = canvas.width/2;
@@ -325,8 +329,6 @@ class MainDriver {
     // grd.addColorStop(1,"rgba(20,50,100,1)");
     return grd;
   }
-  
-  
 }
 
 function makeGrdRad(c1,c2) {
@@ -394,7 +396,8 @@ window.onload = function() {
       lastFPSupdate = currentTime;
     }
     // dt = 1.2;
-    dt = .8;   
+    dt *= .8;   
+    // dt = .6;   
     // dt = 1;
     driver.update(dt);
     // window.requestAnimationFrame(step);

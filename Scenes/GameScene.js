@@ -346,6 +346,7 @@ class GameScene extends Scene {
     // this.entities = this.entities.sort(function(a,b) {
     //   return -b.behind;
     // })
+    this.entitiesCollision();
     this.followPlayer();
 
     
@@ -353,6 +354,31 @@ class GameScene extends Scene {
     // this.detectLevelComplete();
     this.updateScreenShakeLevel();
     // this.screenShakeLevel -= this.screenShakeLevel/10;
+  }
+  entitiesCollision() {
+    for(var i=0;i<this.entities.length;i++) {
+      var e = this.entities[i];
+      if(!e.isMover)continue;
+      for(var j=i+1;j<this.entities.length;j++) {
+        var o = this.entities[j];
+        if(!o.isMover)continue;
+        var eBox = e.getHitBox();	// Perforamnce effeciency issue
+        var oBox = o.getHitBox();
+        var dx = e.x - o.x;
+        var dy = e.y - o.y;
+        if(dx==0)dx=1;
+        if(rectangleCollision(eBox, oBox) == true) {
+          // o.nudge(dx/2,0);
+          // e.nudge(-dx/2,0);
+          e.entityCollision(o,false,dx/10,dy/10);
+          o.entityCollision(e,true,-dx/10,-dy/10);
+          // o.vx -= dx/10;
+          // o.vy -= dy/10;
+          // e.vx += dx/10;
+          // e.vy += dy/10;
+        }
+      }
+    }
   }
   updateScreenShakeLevel() {
     this.screenShakeLevel = linearMove(this.screenShakeLevel, 0, .05); 

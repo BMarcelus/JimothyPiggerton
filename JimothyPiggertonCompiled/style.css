@@ -14,3 +14,16 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.hidden {
+  visibility: hidden;
+}
+
+#level-editor-editor {
+  display: flex;
+  flex-direction: column;
+}
+
+#level-editor-prompt-label {
+  color: white;
+}

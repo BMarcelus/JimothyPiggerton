@@ -3,7 +3,8 @@
       "target": "ES6"
   },
   "exclude": [
-      "compiled.js",
+      "JimothyPiggertonCompiled/compiled.js",
+      "**compiled*.js",
       "node_modules",
       "**/node_modules/*"
   ]

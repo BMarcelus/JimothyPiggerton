@@ -9,6 +9,7 @@ function setVolume(val) {
   DESTINATION.gain.setValueAtTime(val, 0);  
 }
 function initializeSound() {
+  console.log("initializing sound");
   if('webkitAudioContext' in window) {
     AUDIOCONTEXT = new webkitAudioContext();
   } else {
@@ -222,6 +223,8 @@ class SoundTag {
   }
   createAudio() {
     var audioElement = document.createElement("audio");
+    // audioElement.setAttribute('crossorigin', 'anonymous');   
+    // audioElement.crossOrigin = 'anonymous';
     audioElement.src = this.url;
     this.audioElement = audioElement;
     audioElement.playbackRate = this.playbackRate;

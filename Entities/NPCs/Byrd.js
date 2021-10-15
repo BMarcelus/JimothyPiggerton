@@ -32,6 +32,10 @@ class Byrd extends Enemy {
   die() {
 
   }
+  entityCollision(other, processedSecond,dx,dy) {
+    this.mx = this.mx*-1;
+    super.entityCollision(other,processedSecond,dx,dy);
+  }
   onCeilingCollide() {
     this.jumpCooldownTimer = 20;
   }

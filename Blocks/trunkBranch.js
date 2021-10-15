@@ -13,6 +13,7 @@ addBlock(function() { return {
   isColliding: function(entity, pos, dx, dy, cellPos) {
     if(entity.apple)
       return false;
+    if(entity.ignoresPlatforms)return false;
     if(dy>0&&entity.y<=cellPos.y) {
       return true;
     }

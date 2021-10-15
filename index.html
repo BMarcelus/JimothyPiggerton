@@ -19,6 +19,10 @@
   <link href="https://fonts.googleapis.com/css?family=Handlee" rel="stylesheet">
 
 </head>
+<div id="level-editor-editor" class="hidden">
+  <label id="level-editor-prompt-label"></label>
+  <input type="text" id="level-editor-level-name">
+</div>
 <canvas id="gc" width="1000" height="600"></canvas>
 <!-- <canvas id="gc" width="800" height="600"></canvas> -->
 <script>
@@ -75,4 +79,7 @@ loadScript('./Animations/', 'Animation.js');
 <script src="./Dialogue/index.js"></script>
 <script>
 loadScript("./", "main.js");
+// window.addEventListener('load', function() {
+//   document.getElementById("gc").focus();
+// })
 </script>

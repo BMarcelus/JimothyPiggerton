@@ -17,6 +17,7 @@ addBlock(function() { return {
         canvas.translate(x+w/2,y+h/2);
         canvas.rotate(this.angle);
         // this.angle += Math.PI/20*1.5;
+        // this.angle = frameCount * Math.PI/20*1.5;
         w=w*.9;
         h=h*.9;
         for(var i=0;i<3;i++){

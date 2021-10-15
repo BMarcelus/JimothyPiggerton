@@ -174,6 +174,7 @@ class Woof extends Enemy {
   {
     this.transition = 40;//set the transition timer
     this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//prepare for next state
+    this.flipped = this.mx <0;
     this.speed = 0;
     this.jump();//just a lil surprise animation
     this.game.addEntity(new SleepText(this.x,this.y-this.h-70,80,0,-1,"!",
@@ -187,7 +188,8 @@ class Woof extends Enemy {
   toTwo()
   {
     this.transition = 0;
-    this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//speed up for chase
+    // this.mx = 1 * (this.game.player.x-this.x < 0 ? -1 : 1);//speed up for chase
+    this.mx = 1 * (this.flipped? -1 : 1);//speed up for chase
     this.speed = 10;
     this.color1=this.colorsCharge[0];
     this.color2=this.colorsCharge[1];
