@@ -31,8 +31,10 @@ class Owl extends Byrd {
   }
   getHitByEntity(player) {
     player.bounceOffEntity(this);
+    this.vy = -player.vy;
     this.height/=4;
     this.width*=.8;
+    this.jumpCooldownTimer = 20;
     // if(this.wallcolliding == true && this.moveTimer<=0) {
 		// 	this.d = this.d*-1;
 		// }
@@ -45,13 +47,14 @@ class Owl extends Byrd {
     // if(dx>0) this.d = 1;
     // if(dx<0)this.d=-1;
     var turnAroundArea = 20;
-    if(Math.abs(dx)>turnAroundArea) {
+    if(Math.abs(dx)>turnAroundArea&&!this.flyAway) {
       this.d = dx>0?1:-1;
     }
     this.flipped = this.d==-1;
     if(this.flyAway) {
-      if(this.wallcolliding == true && Math.abs(dx)<turnAroundArea) {
+      if(this.wallcolliding == true){// && Math.abs(dx)<turnAroundArea) {
         this.d = this.d*-1;
+        this.mx = -this.d;
       }
       this.mx = -this.d;
       if(this.vy >= -4) {

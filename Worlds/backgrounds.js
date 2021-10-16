@@ -37,7 +37,10 @@ class Background {
         return createForrestBackground(w,c,e);
         break;
       case 2:
-        this.backgroundColor = MAIN.makeGrd();
+        this.backgroundColor = makeGrdRad(
+          "rgba(255,100,100,1)",
+          "rgba(20,20,20,1)"
+        );
         return createCityRuinBackground(w,c,e);
         break;
       case 3:

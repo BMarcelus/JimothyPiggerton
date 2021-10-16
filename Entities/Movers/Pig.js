@@ -22,6 +22,7 @@ class Pig extends Mover {
     this.animationState = 0;
     this.isPig=true;
   }
+  entityCollision(){}
   update(dt, frameCount) {
     // if(this.x > this.tx+50) this.mx = -1;
     // if(this.x < this.tx-50) this.mx = 1;

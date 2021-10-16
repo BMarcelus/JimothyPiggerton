@@ -44,6 +44,10 @@ class PauseScene extends Scene {
     this.allowUIInput = false;
     this.startTransition(25,1,sceneTransition(this,LevelSelectScene,true));
   }
+  goToLevelEditorSelect() {
+    this.allowUIInput = false;
+    this.driver.setScene(getOrCreate(LevelsViewerScene));
+  }
   restartLevel(){
     this.allowUIInput = false;
     this.prevScene.loadNewLevel();
@@ -106,6 +110,11 @@ class PauseScene extends Scene {
           var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
             this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
           this.gui.push(restartButton);
+        } else {
+          dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
+          var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+            this.goToLevelEditorSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
+          this.gui.push(levelSelectButton);
         }
         
         dim = rectDimFromCenter(0.5,0.55+buttonGap*3,.2,.08);

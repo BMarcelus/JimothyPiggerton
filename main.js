@@ -1,3 +1,10 @@
+try {
+  if(performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+    console.clear();
+  }
+} catch {
+
+}
 var FONT = "Handlee";
 var movementKeys = [32,37,38,39,40];
 var touchButtons = [];
@@ -107,7 +114,8 @@ class MainDriver {
     // this.scene = new VgdcSplashScreen(true);
     // this.scene = new MenuScene(true);
     
-    this.scene = new LevelEditorScene(0);
+    // this.scene = new LevelEditorScene(0);
+    this.scene = new LevelsViewerScene();
     this.scene.driver = this;
 
     this.mouse = {x:0,y:0};
@@ -313,6 +321,12 @@ class MainDriver {
     this.setMousePos(e);
     this.scene.mousemove(e, this.mouse);
   }
+  wheelEvent(e) {
+    var scroll = e.deltaY;
+    this.mouse.scroll = scroll;
+    if(this.scene.onWheel)
+    this.scene.onWheel(scroll);
+  }
   setScene(scene) {
     if(this.scene&&this.scene.unload)this.scene.unload();
     scene.driver = this;
@@ -330,6 +344,17 @@ class MainDriver {
     return grd;
   }
 }
+
+// function makeGrd() {
+//   var gx = canvas.width/2;
+//   var gy = canvas.height*2;
+//   var r = canvas.height*2;
+//   var grd=canvas.createRadialGradient(gx, gy, 0, gx, gy, r);
+//   grd.addColorStop(0,"rgba(255,100,100,1)");
+//   grd.addColorStop(1,"rgba(20,20,20,1)");
+//   // grd.addColorStop(1,"rgba(20,50,100,1)");
+//   return grd;
+// }
 
 function makeGrdRad(c1,c2) {
   var gx = canvas.width/2;
@@ -479,6 +504,7 @@ window.onload = function() {
   window.addEventListener('mousemove', driver.mousemove.bind(driver));
   window.addEventListener('mouseup', driver.mouseup.bind(driver));
   window.addEventListener('mousedown', driver.mousedown.bind(driver));
+  window.addEventListener('wheel', driver.wheelEvent.bind(driver));
   window.addEventListener('touchstart', driver.touchstart.bind(driver), { passive: false });
   window.addEventListener('touchmove', driver.touchmove.bind(driver), { passive: false });
   window.addEventListener('touchend', driver.touchend.bind(driver), { passive: false });

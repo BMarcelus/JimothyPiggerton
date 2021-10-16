@@ -121,7 +121,7 @@ function loadBuffer(url, callback) {
         callback(buffer);
       },
       function(error) {
-        console.error('decodeAudioData error', error);
+        // console.error('decodeAudioData error', error);
       }
     );
   }

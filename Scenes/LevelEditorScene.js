@@ -1,11 +1,15 @@
 class LevelEditorScene extends Scene{
-  constructor(index) {
+  constructor(index, actuallevel) {
     super(false);
     this.editLevel = index;
     this.zoom = 1;
     var grid;
     this.levelName = "test";
     if(SOUNDMAP.music.on) SOUNDMAP.music.toggle();
+    if(actuallevel) {
+      this.world = new WorldFromLevel(actuallevel);
+    }
+    else
     switch (this.editLevel)
     {
       case -2:
@@ -101,7 +105,8 @@ class LevelEditorScene extends Scene{
     this.promptLabel = document.getElementById("level-editor-prompt-label");
     document.getElementById("level-editor-editor").classList.remove("hidden");
     this.inputWaiting = false;
-  }
+    this.dragging = false;
+  }//consend
   reload() {
     document.getElementById("level-editor-editor").classList.remove("hidden");
   }
@@ -128,23 +133,55 @@ class LevelEditorScene extends Scene{
     this.camera.x=this.world.w*this.world.s/2*this.zoom;
     this.camera.y=this.world.h*this.world.s/2*this.zoom;
   }
-  zoomIn() {
-    this.zoom += .1;
-    if(this.zoom>2) {
-      this.zoom=2;
-      return;
+  mouseRelative() {
+    return {
+      x: (this.mousePoint.x-this.camera.offset.x)/this.zoom,
+      y: (this.mousePoint.y-this.camera.offset.y)/this.zoom,
+      // x: (this.mousePoint.x-this.camera.offset.x)/this.zoom,
+      // y: (this.mousePoint.y-this.camera.offset.y)/this.zoom,
     }
-    this.camera.x += this.world.w*this.world.s*.1/2;
-    this.camera.y += this.world.h*this.world.s*.1/2;
+  }
+  changeZoom(amount) {
+    var startMouse = this.mouseRelative();
+    this.zoom *= amount;
+    var endMouse = this.mouseRelative();
+    // this.camera.x -= endMouse.x-startMouse.x;
+    // this.camera.y -= endMouse.y-startMouse.y;
+  }
+  zoomIn() {
+    var dz = this.zoom * .25;
+    this.changeZoom(1.25);
+    this.camera.x += this.world.w*this.world.s*dz/2;
+    this.camera.y += this.world.h*this.world.s*dz/2;
   }
   zoomOut() {
-    this.zoom -= .1;
-    if(this.zoom<.1) {
-      this.zoom=.1;
-      return;
-    }
-    this.camera.x -= this.world.w*this.world.s*.1/2;    
-    this.camera.y -= this.world.h*this.world.s*.1/2;    
+    var dz = this.zoom*0.2;
+    this.changeZoom(0.8); 
+    //wtf is this
+    this.camera.x -= this.world.w*this.world.s*dz/2;
+    this.camera.y -= this.world.h*this.world.s*dz/2;
+  }
+  // zoomIn() {
+  //   this.zoom += .1;
+  //   if(this.zoom>2) {
+  //     this.zoom=2;
+  //     return;
+  //   }
+    // this.camera.x += this.world.w*this.world.s*.1/2;
+    // this.camera.y += this.world.h*this.world.s*.1/2;
+  // }
+  // zoomOut() {
+  //   this.zoom -= .1;
+  //   if(this.zoom<.1) {
+  //     this.zoom=.1;
+  //     return;
+  //   }
+  //   this.camera.x -= this.world.w*this.world.s*.1/2;    
+  //   this.camera.y -= this.world.h*this.world.s*.1/2;    
+  // }
+  onWheel(amount) {
+    if(amount>0)this.zoomOut();
+    if(amount<0)this.zoomIn();
   }
   growi()
   {
@@ -269,7 +306,10 @@ class LevelEditorScene extends Scene{
     return JSON.stringify(level);
   }
   loadLevelJsonString(jsonString) {
-    var level = JSON.parse(jsonString);
+    var level = jsonToLevel(jsonString);
+    this.loadLevelObj(level);
+  }
+  loadLevelObj(level) {
     this.grid = level.grid;
     this.levelName = level.name;
     this.world.worldtype = parseInt(level.worldtype);
@@ -432,6 +472,13 @@ class LevelEditorScene extends Scene{
     // this.grid[y][x] = (t+1)%3;
     // this.grid[y][x] = this.currentBlock;
     // this.world.forceRedraw(); 
+    if(e.button!=0) {
+      this.startDragging();
+      this.dragging = true;
+      this.clickDragPivot = undefined;
+      super.mousedown(e,mouse);
+      return;
+    }
     var onGUI = pointContainsGUI(getPercentPoint(e),this.gui);
     if(!onGUI&&canvas.height-mouse.y> this.bottomBarHeight*canvas.height){
       this.clickDragPivot = {x:0,y:0};
@@ -443,7 +490,11 @@ class LevelEditorScene extends Scene{
     super.mousedown(e,mouse);
   }
   mouseup(e, mouse) {
-
+    if(e.button!=0) {
+      this.dragging = false;
+      super.mouseup(e,mouse);
+      return;
+    }
     if(canvas.height-mouse.y> this.bottomBarHeight*canvas.height && this.clickDragPivot != undefined){
       var camera = this.camera;    
       var wx = mouse.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
@@ -487,6 +538,7 @@ class LevelEditorScene extends Scene{
   //   }
   // }
   update(dt){
+    if(this.dragging)this.drag();
     super.update(dt);
   }
   addLevelEditorGUI(){
