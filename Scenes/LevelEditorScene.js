@@ -60,7 +60,7 @@ class LevelEditorScene extends Scene{
       '77': {down: this.saveLocal.bind(this)},//M
       '76': {down: this.loadLocal.bind(this)},//L
 
-      '90': {down: this.selectFromQuickSelect.bind(this,0)},   //Z
+      '90': {down: this.onZ.bind(this)},   //Z
       '88': {down: this.selectFromQuickSelect.bind(this,1)},   //X
       '67': {down: this.selectFromQuickSelect.bind(this,2)},   //C
       '86': {down: this.selectFromQuickSelect.bind(this,3)},   //V
@@ -106,6 +106,10 @@ class LevelEditorScene extends Scene{
     document.getElementById("level-editor-editor").classList.remove("hidden");
     this.inputWaiting = false;
     this.dragging = false;
+    this.maxUndoSize = 32;
+    this.clearsRedoStackOnChange = false;
+    this.undoStack = [];
+    this.redoStack = [];
   }//consend
   reload() {
     document.getElementById("level-editor-editor").classList.remove("hidden");
@@ -123,6 +127,17 @@ class LevelEditorScene extends Scene{
   }
   pause() {
     this.driver.setScene(new PauseScene(this, true));
+  }
+  onZ() {
+    if(this.keys[17]) {
+      if(this.keys[16]) {
+        this.redo();
+      } else {
+        this.undo();
+      }
+    } else {
+      this.selectFromQuickSelect.bind(this,0);
+    }
   }
   cycleWorldType() {
     if(!this.world.worldtype)this.world.worldtype = 0;
@@ -188,6 +203,7 @@ class LevelEditorScene extends Scene{
     if(this.keys[16]&&this.keys[18])return this.shrinkLeft();
     if(this.keys[16]) return this.extendLeft();
     if(this.keys[18]) return this.shrinkRight();
+    this.pushUndoStack();
     for (var j = 0; j < this.grid.length; j++)
     {
       this.grid[j].push(0);
@@ -196,6 +212,7 @@ class LevelEditorScene extends Scene{
   }
   shrinkRight()
   {
+    this.pushUndoStack();
     for (var j = 0; j < this.grid.length; j++)
     {
       this.grid[j].pop();
@@ -205,6 +222,7 @@ class LevelEditorScene extends Scene{
   }
   shrinkLeft()
   {
+    this.pushUndoStack();
     for (var j = 0; j < this.grid.length; j++)
     {
       this.grid[j].shift();
@@ -218,6 +236,7 @@ class LevelEditorScene extends Scene{
     if(this.keys[16]&&this.keys[18]) return this.shrinkTop();
     if(this.keys[16]) return this.extendTop();
     if(this.keys[18]) return this.shrinkBottom();
+    this.pushUndoStack();
     var newrow = [];
     for (var j = 0; j < this.grid[0].length; j++)
     {
@@ -227,6 +246,7 @@ class LevelEditorScene extends Scene{
     this.world.h++;
   }
   extendTop() {
+    this.pushUndoStack();
     var newrow = [];
     for (var j = 0; j < this.grid[0].length; j++) {
       newrow.push(0);
@@ -236,16 +256,19 @@ class LevelEditorScene extends Scene{
     this.world.forceRedraw();
   }
   shrinkBottom() {
+    this.pushUndoStack();
     this.grid.pop();
     this.world.h--;
     this.world.forceRedraw();
   }
   shrinkTop() {
+    this.pushUndoStack();
     this.grid.shift();
     this.world.h--;
     this.world.forceRedraw();
   }
   extendLeft() {
+    this.pushUndoStack();
     for (var j = 0; j < this.grid.length; j++)
     {
       this.grid[j].unshift(0);
@@ -255,6 +278,7 @@ class LevelEditorScene extends Scene{
     
   }
   shrinkj() {
+    this.pushUndoStack();
     this.grid.splice(this.grid.length-1,1);
     this.world.h--;    
   }
@@ -509,6 +533,7 @@ class LevelEditorScene extends Scene{
 
       var dx = (1 - 2 * (x2<x1));
       var dy = (1 - 2 * (y2<y1));
+      this.pushUndoStack();
       for(var i = x1; i != x2+dx; i+= dx) {
         for(var j=y1; j!=y2+dy; j+=dy) {
           if(this.world.oob(i, j))continue;
@@ -521,6 +546,30 @@ class LevelEditorScene extends Scene{
       this.world.forceRedraw();
     }
     super.mouseup(e,mouse);
+  }
+  pushUndoStack() {
+    this.undoStack.push(copyGrid(this.grid));
+    if(this.clearsRedoStackOnChange) this.redoStack = [];
+    if(this.undoStack.length>this.maxUndoSize) this.undoStack.shift();
+  }
+  updateWorld() {
+    this.world.world = this.grid;
+    this.world.h = this.grid.length;
+    this.world.w = this.grid[0].length;
+    this.world.forceRedraw();
+  }
+  undo() {
+    if(this.undoStack.length==0)return;
+    this.redoStack.push(this.grid); //no need to copy since its being overwridden;
+    this.grid = this.undoStack.pop();
+    this.updateWorld();
+  }
+  redo() {
+    if(this.redoStack.length==0)return;
+    this.undoStack.push(this.grid);
+    this.grid = this.redoStack.pop();
+    this.updateWorld();
+    if(this.redoStack.length>this.maxUndoSize) this.redoStack.shift();
   }
   mousemove(e,mouse){
     super.mousemove(e);
