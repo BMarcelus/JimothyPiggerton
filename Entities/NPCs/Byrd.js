@@ -25,12 +25,24 @@ class Byrd extends Enemy {
     this.wingAngle = 0;
     this.terminalVelocity = 10;
     this.jumpCooldownTime=0;
+    this.airTilt = false;
   }
   playJumpSound() {
     
   }
   die() {
 
+  }
+  getHitBox() {
+    var w = this.width;
+    var h = this.height;
+    if(!this.grounded) {
+      //add wingspan to hitbox
+      w *= 1.6;
+    }
+    // canvas.strokeStyle = "rgba(200,100,100,0.5);
+    // canvas.strokeRect(this.x-.5*w,this.y-.5*h,w,h);
+    return {x:this.x-.5*w, y:this.y-h, w:w, h:h};
   }
   entityCollision(other, processedSecond,dx,dy) {
     this.mx = this.mx*-1;
@@ -53,7 +65,8 @@ class Byrd extends Enemy {
       this.jump();
     }
     super.update(dt, frameCount);
-    this._angle = -this.angle;
+    // this.angle =0;
+    // this._angle = -this.angle;
     if(this.grounded) {
       this.wingAngle += (-Math.PI/2-this.wingAngle)/2;
       this.wingAngleOffset += (Math.PI/8-this.wingAngleOffset)/2;

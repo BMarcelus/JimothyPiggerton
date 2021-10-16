@@ -19,6 +19,11 @@ class Player extends Mover{
   }
   entityCollision(other, processedSecond, dx,dy) {
     this.vx += dx;
+    if(this.vy<=0) {
+      //dont modify if the player is moving downwards
+      //otherwise it might mess up jumping off of detection
+      this.vy += dy;
+    }
   }
   die() {
     if(this.dead)return;

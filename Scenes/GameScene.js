@@ -25,6 +25,11 @@ class GameScene extends Scene {
 
       27: {down: this.pause.bind(this)},
       69: p1controls.dash,
+      72: {down: function() {
+        if(this.keys[67] && DEBUG) {
+          drawHitbox = !drawHitbox;
+        }
+      }.bind(this)},
       78: {down: function() {
         if(this.keys[67] && DEBUG) {
           this.loadNewLevel(this.levelIndex+1);

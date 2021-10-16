@@ -1,4 +1,4 @@
-
+var drawHitbox = false;
 class Mover {
   constructor(x,y) {
     this.x = x||10;
@@ -43,6 +43,7 @@ class Mover {
     this.jumpCooldownTimer=0;
     this.jumpCooldownTime=0;
     this.isMover = true;
+    this.airTilt = true;
   }
   addShape(shape) {
     this.shapes.push(shape);
@@ -122,7 +123,7 @@ class Mover {
     //   this.x -= this.vx;
     // }
     if(this.vy>this.grav*3&&this.jumpCount==0)this.jumpCount=1; 
-    if (this.jumpCount == 1 && !this.wallcolliding) {
+    if (this.jumpCount == 1 && !this.wallcolliding && this.airTilt) {
       // this.angle = Math.atan2(-this.vy, this.vx);//,this.vy);
       this.angle = -Math.cos(this.vy/this.terminalVelocity*Math.PI)*(1-2*this.flipped)*Math.abs(this.vx/this.speed)/2;
     }
@@ -282,6 +283,11 @@ class Mover {
     }
     this.drawShape(canvas,w,h);
     canvas.restore();
+    if(drawHitbox) {
+      var box = this.getHitBox();
+      canvas.strokeStyle = "rgba(200,100,100,0.5)";
+      canvas.strokeRect(box.x,box.y,box.w,box.h);
+    }
   }
   drawShape(canvas,w,h) {
     canvas.fillStyle = this.color;    

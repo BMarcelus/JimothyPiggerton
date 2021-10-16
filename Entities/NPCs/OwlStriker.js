@@ -58,7 +58,13 @@ class OwlStriker extends Byrd {
     var attackDistance = 400;
     var strikeSpeed = 25;
     var strikeTime = 20;
-    if(this.attack2) {
+    this.spinning = this.stunned;
+    if(this.stunned) {
+      if(this.grounded) {
+        this.stunned = false;
+      }
+    }
+    else if(this.attack2) {
       this.attackDelayTimer -= dt;
       if(this.attackDelayTimer<=0||this.grounded) {
         this.attack2 = false;
@@ -67,6 +73,11 @@ class OwlStriker extends Byrd {
         this.grav = this._grav;
         this.mx = 0;
         this.ignoresPlatforms = false;
+        if(this.grounded) {
+          this.stunned = true;
+          this.grounded = false;
+          this.vy = -this.jumpPower;
+        }
       }
     }
     else if(this.attackDelayTimer>0) {
@@ -102,6 +113,7 @@ class OwlStriker extends Byrd {
     }
 
     this.cloudTimer -= dt;
+   
     if(this.killPlayer&&this.cloudTimer<0) {
       this.cloudTimer = 3;
       var x = this.x + (Math.random()*this.w-this.w/2);
@@ -204,5 +216,28 @@ class OwlStriker extends Byrd {
     // canvas.stroke();
     this.drawFeathers(canvas,w,h);
     canvas.restore();
+  }
+  getHitByEntity(player) {
+		player.bounceOffEntity(this);
+    // player.y -= 20;
+    // this.width+=20;
+    // this.height-=10;
+    this.height/=4;
+    this.width*=.8;
+    this.killPlayer = false;
+    this.stunned = true;
+    this.attack2 = false;
+    this.attack = false;
+    this.vx *= 0.3;
+    this.vy *= 0.3;
+    this.attackDelayTimer = 0;
+    this.width = 100;
+		//this.h=this.h/2;
+		//this.die();
+	}
+  entityCollision(other, processedSecond,dx,dy) {
+    if(this.attack||this.attackDelayTimer)return;
+    this.vx += dx;
+    this.vy += dy;
   }
 }
