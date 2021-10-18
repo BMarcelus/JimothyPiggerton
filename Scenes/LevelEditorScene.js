@@ -40,7 +40,7 @@ class LevelEditorScene extends Scene{
       '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
       '75': {down: this.runTest.bind(this)},    //K
       '80': {down: this.printLevel.bind(this)},       //P
-      '83': {down: this.cycleBlockBackwards.bind(this)},//S
+      '83': {down: this.onS.bind(this)},//S
       '87': {down: this.cycleBlock.bind(this)},         //W
       '69': {down: this.cycleAbility.bind(this)},       //E
       '84': {down: this.zoomIn.bind(this)},             //T
@@ -61,9 +61,9 @@ class LevelEditorScene extends Scene{
       '76': {down: this.loadLocal.bind(this)},//L
 
       '90': {down: this.onZ.bind(this)},   //Z
-      '88': {down: this.selectFromQuickSelect.bind(this,1)},   //X
-      '67': {down: this.selectFromQuickSelect.bind(this,2)},   //C
-      '86': {down: this.selectFromQuickSelect.bind(this,3)},   //V
+      '88': {down: this.onX.bind(this)},   //X
+      '67': {down: this.onC.bind(this)},   //C
+      '86': {down: this.onV.bind(this)},   //V
       
       '49': {down: this.selectFromBar.bind(this,0)},            //1
       '50': {down: this.selectFromBar.bind(this,1)},            //2
@@ -110,6 +110,13 @@ class LevelEditorScene extends Scene{
     this.clearsRedoStackOnChange = false;
     this.undoStack = [];
     this.redoStack = [];
+    this.selecting = false;
+    this.cutting = false;
+    this.copying = false;
+    this.pasting = false;
+    this.clipBoard = null;
+    this.clipBoardImage = document.createElement('canvas');
+    this.clipBoardCanvas = this.clipBoardImage.getContext('2d');
   }//consend
   reload() {
     document.getElementById("level-editor-editor").classList.remove("hidden");
@@ -128,6 +135,18 @@ class LevelEditorScene extends Scene{
   pause() {
     this.driver.setScene(new PauseScene(this, true));
   }
+  onS() {
+    if(this.keys[17]) {
+      this.saveLocal();
+      // if(this.keys[16]) {
+      //   this.redo();
+      // } else {
+      //   this.undo();
+      // }
+    } else {
+      this.cycleBlockBackwards();
+    }
+  }
   onZ() {
     if(this.keys[17]) {
       if(this.keys[16]) {
@@ -136,8 +155,49 @@ class LevelEditorScene extends Scene{
         this.undo();
       }
     } else {
-      this.selectFromQuickSelect.bind(this,0);
+      this.selectFromQuickSelect(0);
     }
+  }
+  onX() {
+    if(this.keys[17]) {
+      this.beginCut();
+    } else {
+      this.selectFromQuickSelect(1);
+    }
+  }
+  onC() {
+    if(this.keys[17]) {
+      this.beginCopy();
+    } else {
+      this.selectFromQuickSelect(2);
+    }
+  }
+  onV() {
+    if(this.keys[17]) {
+      this.beginPaste();
+    } else {
+      this.selectFromQuickSelect(3);
+    }
+  }
+  beginCopy() {
+    this.copying = true;
+    this.cutting = false;
+    this.pasting = false;
+  }
+  beginCut() {
+    this.cutting = true;
+    this.copying = true;
+    this.pasting = false;
+  }
+  beginPaste() {
+    this.pasting = true;
+    this.copying = false;
+    this.cutting = false;
+  }
+  cancelCutPaste() {
+    this.pasting = false;
+    this.copying = false;
+    this.cutting = false;
   }
   cycleWorldType() {
     if(!this.world.worldtype)this.world.worldtype = 0;
@@ -533,15 +593,56 @@ class LevelEditorScene extends Scene{
 
       var dx = (1 - 2 * (x2<x1));
       var dy = (1 - 2 * (y2<y1));
-      this.pushUndoStack();
-      for(var i = x1; i != x2+dx; i+= dx) {
-        for(var j=y1; j!=y2+dy; j+=dy) {
-          if(this.world.oob(i, j))continue;
-          this.grid[j][i] = this.currentBlock;
-          //var t = this.grid[j][i];
-          //this.grid[j][i] = (t+1)%3;
+      
+      var sx = Math.min(x1,x2);
+      var sy = Math.min(y1,y2);
+      var ex = Math.max(x1,x2);
+      var ey = Math.max(y1,y2);
+      var iw = ex - sx;
+      var jh = ey - sy;
+      if(this.copying) {
+        this.clipBoard = [];
+        if(this.cutting)this.pushUndoStack();
+        this.clipBoardImage.width = (iw+1) * this.world.s;
+        this.clipBoardImage.height = (jh+1) * this.world.s;
+        this.clipBoardCanvas.save();
+        this.clipBoardCanvas.translate(-sx*this.world.s,-sy*this.world.s);
+        this.world.draw(this.clipBoardCanvas,true);
+        this.clipBoardCanvas.restore();
+        for(var j=sy; j<=ey; j+=1) {
+          var row = [];
+          for(var i = sx; i<= ex; i+=1) {
+            if(this.world.oob(i, j))continue;
+            row.push(this.grid[j][i]);
+            if(this.cutting)
+              this.grid[j][i] = 0;
+          }
+          this.clipBoard.push(row);
+        }
+        console.log(this.clipBoard);
+        this.beginPaste();
+      } else if(this.pasting) {
+        console.log(this.clipBoard);
+        this.pushUndoStack();
+        for(var j=0;j<this.clipBoard.length;j++) {
+          for(var i=0;i<this.clipBoard[j].length;i++) {
+            var x= sx + i;
+            var y = sy + j;
+            if(this.world.oob(x, y))continue;
+            this.grid[y][x] = this.clipBoard[j][i];
+          }
+        }
+      } else {
+        this.pushUndoStack();
+        for(var j=sy; j<=ey; j+=1) {
+          for(var i = sx; i<= ex; i+=1) {
+            if(this.world.oob(i, j))continue;
+            this.grid[j][i] = this.currentBlock;
+          }
         }
       }
+
+      
       this.save();
       this.world.forceRedraw();
     }
@@ -575,6 +676,11 @@ class LevelEditorScene extends Scene{
     super.mousemove(e);
     this.mousePoint.x = mouse.x;
     this.mousePoint.y = mouse.y;
+    var s = this.world.s;
+    var wx = Math.floor((this.mousePoint.x + this.camera.x - this.camera.offset.x)/this.zoom/s);
+    var wy = Math.floor((this.mousePoint.y + this.camera.y - this.camera.offset.y)/this.zoom/s);
+    this.wx = wx;
+    this.wy = wy;
   }
   // mouseheld(mouse) {
 
@@ -689,12 +795,15 @@ class LevelEditorScene extends Scene{
     } else {
       this.selectBlock(button);
     }
+    this.cancelCutPaste();
   }
   selectFromQuickSelect(quickSlotIndex){
     this.currentBlock = this.quickSelect[quickSlotIndex].blockID;
+    this.cancelCutPaste();
   }
   selectFromBar(index){
     this.currentBlock = this.buttonGrid[0][index].blockID;
+    this.cancelCutPaste();
   }
   selectBlock(button){
     this.currentBlock = button.blockID;
@@ -703,6 +812,7 @@ class LevelEditorScene extends Scene{
     if(this.currentBlock < 0){      
       this.currentBlock = 0;
     }
+    this.cancelCutPaste();
   }
   resetQuickSelect(){
     for(var i = 0; i < this.quickSelect.length; i++){
@@ -734,11 +844,24 @@ class LevelEditorScene extends Scene{
     var world = {
       getCell: function() {return true}
     };
-    if(this.currentBlock < CELLMAP.length && this.currentBlock > 0 && CELLMAP[this.currentBlock].draw)
-      CELLMAP[this.currentBlock].draw(canvas,this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height,world,0,0);
-    canvas.strokeStyle = 'black';
-    canvas.lineWidth = 3;
-    canvas.strokeRect(this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height);
+    canvas.textAlign = 'left';
+    canvas.textBaseline = 'top';
+    if(this.pasting) {
+      canvas.fillText("📋",this.mousePoint.x+offset.x,this.mousePoint.y+offset.y);
+    } else if(this.cutting) {
+      canvas.fillText("✂️",this.mousePoint.x+offset.x,this.mousePoint.y+offset.y);
+
+    } else if(this.copying) {
+      canvas.fillText("📝",this.mousePoint.x+offset.x,this.mousePoint.y+offset.y);
+      canvas.fillText("📝",this.mousePoint.x+offset.x+10,this.mousePoint.y+offset.y+10);
+    }
+    else {
+      if(this.currentBlock < CELLMAP.length && this.currentBlock > 0 && CELLMAP[this.currentBlock].draw)
+        CELLMAP[this.currentBlock].draw(canvas,this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height,world,0,0);
+      canvas.strokeStyle = 'black';
+      canvas.lineWidth = 3;
+      canvas.strokeRect(this.mousePoint.x+offset.x,this.mousePoint.y+offset.y,width,height);
+    }
     if(this.driver.mouse.held && this.clickDragPivot) {
       var w = Math.floor((this.clickDragPivot.x - this.driver.mouse.x/this.zoom)/this.world.s);
       var h = Math.floor((this.clickDragPivot.y - this.driver.mouse.y/this.zoom)/this.world.s);
@@ -746,6 +869,8 @@ class LevelEditorScene extends Scene{
       h = Math.abs(h);
       canvas.fillText(w+','+h, this.mousePoint.x + offset.x*3, this.mousePoint.y+offset.y*3);
     }
+    canvas.fillText(this.wx+","+this.wy, 0,0);
+    
   }
   selectAir(){
     this.currentBlock = 0;
@@ -762,7 +887,63 @@ class LevelEditorScene extends Scene{
     var y = Math.floor(wy/this.world.s);
     if(x > this.world.w || x < 0 || y > this.world.h || y < 0) return;  //bail if out of bounds
     this.currentBlock = this.grid[y][x];
-  
+    this.cancelCutPaste();
+  }
+  drawTileHighlight(canvas) {
+    canvas.lineWidth = 1;
+    canvas.strokeStyle = "rgba(50,200,50,0.5)"
+    var s = this.world.s;
+    canvas.strokeRect(this.wx*s,this.wy*s,s,s);
+    if(this.pasting) {
+      var w = this.clipBoard[0].length * s;
+      var h = this.clipBoard.length * s;
+      canvas.strokeRect(this.wx*s,this.wy*s,w,h);
+      canvas.globalAlpha = 0.5;
+      canvas.drawImage(this.clipBoardImage,this.wx*s,this.wy*s);
+      canvas.globalAlpha = 1;
+    }
+  }
+  drawHelp(canvas) {
+    canvas.font = "18px " + FONT;
+    canvas.textAlign = 'left';
+    var origin = {x:0.02,y:0.05};
+    if(this.showCommands){
+      var gap = 0.04;
+      var text = [
+        "============= General =============",
+        "[H] - Toggle Command List",
+        "[K] - Test Level",
+        "[Space] - Pan Camera",
+        "[T/G] - Zoom In/Out",
+        "[B] - Reset Camera",
+        "============= Block Selection =============",
+        "[W/S] - Cycle block backward/forward",
+        "[R/F] - Scroll Block Select Up/Down",
+        "[D] - Select Erase (Air)",
+        "[1/2/3/4] - Quick select",
+        "[A] - Block Picker",
+        "============= Level Settings =============",
+        "[I] - Grow horizontal; [Shift] reverse; [Alt] Delete",
+        "[J] - Grow vertical; [Shift] reverse; [Alt] Delete",
+        "[Y/E] - Cycle World Type/abilities",
+        "============= Save / Load =============",
+        "[P/O] - Print as String / Load from String",
+        "[M/L] - Save localy with name / Load localy from name",
+        "============= Ctrl =============",
+        "[Ctrl+Z/Ctrl+Shift+Z] - Undo / Redo",
+        "[Ctrl+C/Ctrl+V/Ctrl+X] - Begin Copy /Paste / Cut",
+      ];
+      for(var i = 0; i < text.length; i++){
+        canvas.fillStyle = 'rgba(200,200,200,0.9)';
+        canvas.fillRect(origin.x*canvas.width,
+          (origin.y+i*gap-gap/2)*canvas.height,420,gap*canvas.height);
+        canvas.fillStyle = 'black';
+        canvas.fillText(text[i],origin.x*canvas.width,
+          (origin.y+i*gap)*canvas.height,1600);
+      }
+    } else {
+      canvas.fillText("[H] - Help",canvas.width*origin.x,canvas.height*origin.y,1600);
+    }
   }
   draw(canvas) {
     var camera = this.camera;
@@ -785,6 +966,9 @@ class LevelEditorScene extends Scene{
     canvas.lineWidth = 10;
     canvas.strokeRect(0,0,world1.w*world1.s,world1.h*world1.s);
     this.world.draw(canvas,true);
+
+    this.drawTileHighlight(canvas);
+
     canvas.restore();
     var mouse = this.driver.mouse;
 
@@ -820,45 +1004,10 @@ class LevelEditorScene extends Scene{
       '69': {down: this.selectAir.bind(this)},        //D
       '72': {down: this.toggleCommandList.bind(this)},//H
   */
-    canvas.font = "18px " + FONT;
-    canvas.textAlign = 'left';
-    var origin = {x:0.02,y:0.05};
-    if(this.showCommands){
-      var gap = 0.04;
-      var text = [
-        "============= General =============",
-        "[H] - Toggle Command List",
-        "[K] - Test Level",
-        "[Space] - Pan Camera",
-        "[T/G] - Zoom In/Out",
-        "[B] - Reset Camera",
-        "============= Block Selection =============",
-        "[W/S] - Cycle block backward/forward",
-        "[R/F] - Scroll Block Select Up/Down",
-        "[D] - Select Erase (Air)",
-        "[1/2/3/4] - Quick select",
-        "[A] - Block Picker",
-        "============= Level Settings =============",
-        "[I] - Grow horizontal; [Shift] reverse; [Alt] Delete",
-        "[J] - Grow vertical; [Shift] reverse; [Alt] Delete",
-        "[Y/E] - Cycle World Type/abilities",
-        "============= Save / Load =============",
-        "[P/O] - Print as String / Load from String",
-        "[M/L] - Save localy with name / Load localy from name",
-      ];
-      for(var i = 0; i < text.length; i++){
-        canvas.fillStyle = 'rgba(255,255,255,0.75)';
-        canvas.fillRect(origin.x*canvas.width,
-          (origin.y+i*gap-gap/2)*canvas.height,420,gap*canvas.height);
-        canvas.fillStyle = 'black';
-        canvas.fillText(text[i],origin.x*canvas.width,
-          (origin.y+i*gap)*canvas.height,1600);
-      }
-    } else {
-      canvas.fillText("[H] - Help",canvas.width*origin.x,canvas.height*origin.y,1600);
-    }
+    
     canvas.textAlign = 'center';
     this.drawAllGUI(canvas);
+    this.drawHelp(canvas);
     this.drawBlockAtCursor(canvas);
     if(mouse.held && this.clickDragPivot != undefined) {
       canvas.strokeStyle = "rgba(0,100,0,1)";

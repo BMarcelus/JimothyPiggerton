@@ -35,7 +35,6 @@ function stringToGrid(string) {
 function jsonToLevel(jsonString) {
   var level = JSON.parse(jsonString);
   level.worldtype = parseInt(level.worldtype);
-
   return level;
 }
 
