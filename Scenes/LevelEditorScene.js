@@ -117,6 +117,7 @@ class LevelEditorScene extends Scene{
     this.clipBoard = null;
     this.clipBoardImage = document.createElement('canvas');
     this.clipBoardCanvas = this.clipBoardImage.getContext('2d');
+    this.pasteIgnoreAir = false;
   }//consend
   reload() {
     document.getElementById("level-editor-editor").classList.remove("hidden");
@@ -622,11 +623,13 @@ class LevelEditorScene extends Scene{
         this.beginPaste();
       } else if(this.pasting) {
         this.pushUndoStack();
+        var ignoreAir = this.keys[16];
         for(var j=0;j<this.clipBoard.length;j++) {
           for(var i=0;i<this.clipBoard[j].length;i++) {
             var x= sx + i;
             var y = sy + j;
             if(this.world.oob(x, y))continue;
+            if(ignoreAir&&this.clipBoard[j][i]==0)continue;
             this.grid[y][x] = this.clipBoard[j][i];
           }
         }
