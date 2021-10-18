@@ -619,10 +619,8 @@ class LevelEditorScene extends Scene{
           }
           this.clipBoard.push(row);
         }
-        console.log(this.clipBoard);
         this.beginPaste();
       } else if(this.pasting) {
-        console.log(this.clipBoard);
         this.pushUndoStack();
         for(var j=0;j<this.clipBoard.length;j++) {
           for(var i=0;i<this.clipBoard[j].length;i++) {
