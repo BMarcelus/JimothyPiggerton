@@ -10,6 +10,7 @@ class Player extends Mover{
     // this.eyes = this.addShape(new Eyes(this));
     this.dead=false;
     this.player=true;
+    this.isPlayer=true;
     this.color1 = "#666";
     this.color2 = "#222";
     this.jumpSoundType = SOUNDMAP.jump;
@@ -18,12 +19,12 @@ class Player extends Mover{
     this.bounceTimer = 0;
   }
   entityCollision(other, processedSecond, dx,dy) {
-    this.vx += dx;
-    if(this.vy<=0) {
-      //dont modify if the player is moving downwards
-      //otherwise it might mess up jumping off of detection
-      this.vy += dy;
-    }
+    // this.vx += dx;
+    // if(this.vy<=0) {
+    //   //dont modify if the player is moving downwards
+    //   //otherwise it might mess up jumping off of detection
+    //   this.vy += dy;
+    // }
   }
   die() {
     if(this.dead)return;

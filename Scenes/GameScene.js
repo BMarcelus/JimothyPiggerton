@@ -351,7 +351,7 @@ class GameScene extends Scene {
     // this.entities = this.entities.sort(function(a,b) {
     //   return -b.behind;
     // })
-    this.entitiesCollision();
+    // this.entitiesCollision();
     this.followPlayer();
 
     
@@ -364,8 +364,10 @@ class GameScene extends Scene {
     for(var i=0;i<this.entities.length;i++) {
       var e = this.entities[i];
       if(!e.isMover)continue;
+      if(e.isPlayer)return;
       for(var j=i+1;j<this.entities.length;j++) {
         var o = this.entities[j];
+        if(o.isPlayer)return;
         if(!o.isMover)continue;
         var eBox = e.getHitBox();	// Perforamnce effeciency issue
         var oBox = o.getHitBox();
