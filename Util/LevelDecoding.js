@@ -41,7 +41,7 @@ function jsonToLevel(jsonString) {
 function versionLoadLevel(string, name) {
   if(string[0] == '[') {
     //previous version
-    var grid = this.loadString(string);
+    var grid = stringToGrid(string);
     var level = {
       name: name,
       grid: grid

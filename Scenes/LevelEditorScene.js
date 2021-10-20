@@ -8,6 +8,7 @@ class LevelEditorScene extends Scene{
     if(SOUNDMAP.music.on) SOUNDMAP.music.toggle();
     if(actuallevel) {
       this.world = new WorldFromLevel(actuallevel);
+      this.levelName = actuallevel.name;
     }
     else
     switch (this.editLevel)
@@ -933,6 +934,7 @@ class LevelEditorScene extends Scene{
         "============= Ctrl =============",
         "[Ctrl+Z/Ctrl+Shift+Z] - Undo / Redo",
         "[Ctrl+C/Ctrl+V/Ctrl+X] - Begin Copy /Paste / Cut",
+        "[Shift+Paste] - Ignore air blocks",
       ];
       for(var i = 0; i < text.length; i++){
         canvas.fillStyle = 'rgba(200,200,200,0.9)';
