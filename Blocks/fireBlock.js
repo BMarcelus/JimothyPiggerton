@@ -5,7 +5,9 @@ addBlock(function() { return {
       solid: false,
       angle: 0,
       fire: true,
-      // redraws: true,
+      redraws: true,
+      flameIndex: 0,
+      flameTime: 0,
       draw: function(canvas, x,y,w,h, world,i,j) {
         //h*=.5;
         var color1 = "#f00";
@@ -44,15 +46,13 @@ addBlock(function() { return {
         }
 
         this.flameTime++;
-        if (this.flameTime >= 600)
+        if (this.flameTime >= 100)
         {
           this.flameTime = 0;
           this.flameIndex++;
         }
 
-        canvas.fillRect(xe,ye,we,he);
-
-        canvas.fillStyle=color2;
+        canvas.fillStyle=color1;
         for(var ii=0;ii<10;ii++) {
             var r1 = psuedoRandom(x,y,ii,this.flameIndex+1);
             var r2 = psuedoRandom(x,y,ii,this.flameIndex+2);
@@ -61,7 +61,7 @@ addBlock(function() { return {
             canvas.fillRect(xx+x,yy+y,ww,hh);
         }
 
-        canvas.fillStyle=color3;
+        canvas.fillStyle=color2;
         for(var ii=0;ii<10;ii++) {
             var r1 = psuedoRandom(x,y,ii,this.flameIndex+3);
             var r2 = psuedoRandom(x,y,ii,this.flameIndex+4);
@@ -69,29 +69,15 @@ addBlock(function() { return {
             var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
             canvas.fillRect(xx+x,yy+y,ww,hh);
         }
-  
-      },
-           drawSpike: function(canvas, x,y,w,h, world,i,j) {
-        canvas.fillStyle="white";
-        canvas.strokeStyle = "#000";
-        canvas.save();
-        canvas.translate(x+w/2,y+h/2);
-        canvas.rotate(this.angle);
-        // this.angle += Math.PI/20*1.5;
-        // this.angle = frameCount * Math.PI/20*1.5;
-        w=w*.9;
-        h=h*.9;
-        for(var i=0;i<3;i++){
-          canvas.rotate(Math.PI/8);
-          canvas.fillRect(-w/2,-h/2,w,h);        
-          canvas.strokeRect(-w/2,-h/2,w,h);
+
+        canvas.fillStyle=color3;
+        for(var ii=0;ii<10;ii++) {
+            var r1 = psuedoRandom(x,y,ii,this.flameIndex+5);
+            var r2 = psuedoRandom(x,y,ii,this.flameIndex+6);
+            var xx = Math.floor(r1*(w-ww)/spacing) * spacing;
+            var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
+            canvas.fillRect(xx+x,yy+y,ww,hh);
         }
-        w=w*.8;
-        h=h*.8;
-        canvas.rotate(-3*Math.PI/8);
-        canvas.fillStyle="grey";
-        canvas.fillRect(-w/2,-h/2,w,h);      
-        canvas.restore();
       },
       entityCollision: function(entity, pos) {
         if(entity.player) entity.die();
