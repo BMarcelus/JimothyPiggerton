@@ -44,6 +44,8 @@ class Mover {
     this.jumpCooldownTime=0;
     this.isMover = true;
     this.airTilt = true;
+    this.hitboxScalarX = 1;
+    this.hitboxScalarY = 1;
   }
   addShape(shape) {
     this.shapes.push(shape);
@@ -403,8 +405,8 @@ class Mover {
     this.crouching = false;
   }
   getHitBox() {
-    var w = this.width;
-    var h = this.height;
+    var w = this.width*this.hitboxScalarX;
+    var h = this.height*this.hitboxScalarY;
     return {x:this.x-.5*w, y:this.y-h, w:w, h:h};
   }
   dash(dir) {

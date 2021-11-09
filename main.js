@@ -100,6 +100,7 @@ function handleGamePad(driver) {
     }
   }
 }
+
   
 var touchButtonMap = {};
 var touchOn = false;
@@ -111,11 +112,13 @@ class MainDriver {
     this.canvas=canvas;
     this.frameCount=0;
     this.keys = [];
+
     // this.scene = new VgdcSplashScreen(true);
     // this.scene = new MenuScene(true);
     
     // this.scene = new LevelEditorScene(0);
-    this.scene = new LevelsViewerScene();
+    // this.scene = new LevelsViewerScene();
+    this.scene = loadLastScene();
     this.scene.driver = this;
 
     this.mouse = {x:0,y:0};
@@ -528,4 +531,58 @@ function setQuality(v) {
   CE.height *= v;
   canvas.width = CE.width;
   canvas.height = CE.height;
+}
+
+
+window.addEventListener('beforeunload', function() {
+  var scene = MAIN.scene;
+  var saveScene = {};
+  if(scene.isLevelTesterScene) {
+    saveScene.isLevelTesterScene = true;
+  }
+  else if(scene.isGameScene) {
+    saveScene.isGameScene = true;
+    saveScene.levelIndex = scene.levelIndex;
+  }
+  if(scene.isLevelEditorScene) {
+    saveScene.isLevelEditorScene = true;
+    saveScene.camera = scene.camera;
+    saveScene.zoom = scene.zoom;
+  }
+  if(scene.isLevelsViewerScene) {
+    saveScene.isLevelsViewerScene = true;
+  }
+  this.localStorage.setItem("scene", JSON.stringify(saveScene));
+}, false)
+
+
+function loadLastScene() {
+  if(!localStorage||!localStorage.getItem) {
+    console.log("localStorage saves not supported by this web browser");
+  }
+  var string = localStorage.getItem("scene");
+  if(!string) {
+    console.log("scene not found");
+    return new MenuScene(true);
+  }
+  var lastScene = JSON.parse(string);
+  if(lastScene.isLevelsViewerScene) {
+    return new LevelsViewerScene();
+  }
+  if(lastScene.isLevelEditorScene||lastScene.isLevelTesterScene) {
+    var scene = new LevelEditorScene(0);
+    if(lastScene.camera) {
+      scene.camera.x = parseFloat(lastScene.camera.x||0);
+      scene.camera.y = parseFloat(lastScene.camera.y||0);
+    }
+    scene.zoom = lastScene.zoom||1;
+    return scene;
+  }
+  if(lastScene.isGameScene) {
+    var scene = new GameScene();
+    scene.loadNewLevel(parseInt(lastScene.levelIndex));
+    return scene;
+  }
+  return new MenuScene(true);
+
 }

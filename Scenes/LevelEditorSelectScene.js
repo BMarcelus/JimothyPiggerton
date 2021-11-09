@@ -1,6 +1,7 @@
 class LevelEditorSelectScene extends LevelSelectScene{
   constructor(playIntro){
     super(playIntro);
+    this.isLevelEditorSelectScene = true;
     
     this.keyMap['78'] = {down: this.loadNewLevel.bind(this)};
     this.keyMap['69'] = {down: this.loadLocalLevel.bind(this)};
