@@ -37,5 +37,5 @@ loadSequentially('Blocks/',
   "squirrelBlockFollow.js",
   "smolByrdBlock.js",
   "owlBlock.js",
-  "fireBlock.js",
+  "brazierBlock.js",
 ]);

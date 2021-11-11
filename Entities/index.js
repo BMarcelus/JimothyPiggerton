@@ -36,4 +36,6 @@ loadSequentially('Entities/',
   "Grass.js",
   "Butterfly.js",
   "Powerups/DashPowerup.js",
+  "Flame.js",
+  "Brazier.js"
 ]);
