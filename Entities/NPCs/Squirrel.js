@@ -27,6 +27,7 @@ class Squirrel extends Enemy {
     this.eyes.x=10;
     this.groundAccel=2;
     this.groundDecel=1;
+    this.hitboxScalarX = 2;
   }
   getHitByEntity(player) {
     player.bounceOffEntity(this);
@@ -34,19 +35,27 @@ class Squirrel extends Enemy {
     this.width*=.8;
         // this.h=this.h/2;
         // this.die();
-        this.d=-this.d;
+    // if(this.shouldJump) {
+    //   this.jump();
+    // }
+    // if(!this.grounded&&!this.wallCollideTimer) {
+      this.d=-this.d;
+    // }
   }
-  update(dt, frameCount) {
+  runUpate(dt,frameCount) {
     var dx = this.game.player.x-this.x;
     var dy = this.game.player.y-this.y;
     var jt = 10;
     if(!this.grounded)jt=4;
-    if(Math.abs(dy)>400)this.shouldJump=false;
+    // if(Math.abs(dy)>200)this.shouldJump=false;
+    // if(dy>100)this.shouldJump = false;
     if(this.grounded)this.shouldJump=true;
-    if(Math.abs(dx)<200&&this.shouldJump) {
+    // if(Math.abs(dx)<200&&this.shouldJump) {
+    if(this.shouldJump) {
         // this.mx = -Math.sign(dx);
         this.mx=this.d;
-        if(!this.grounded||Math.abs(dx)<60) {
+        if(!this.grounded||this.wallcolliding) {
+        // if(!this.grounded) {
             this.jumpTimer += dt;
             if(this.jumpTimer>jt) {
                 this.jump();
@@ -64,6 +73,41 @@ class Squirrel extends Enemy {
       this.w=35;
       this.h=25;
     }
+  }
+  originalUpdate(dt, frameCount) {
+    var dx = this.game.player.x-this.x;
+    var dy = this.game.player.y-this.y;
+    var jt = 10;
+    if(!this.grounded)jt=4;
+    if(Math.abs(dy)>200)this.shouldJump=false;
+    // if(dy>100)this.shouldJump = false;
+    if(this.grounded)this.shouldJump=true;
+    if(Math.abs(dx)<200&&this.shouldJump) {
+        // this.mx = -Math.sign(dx);
+        this.mx=this.d;
+        if(!this.grounded||Math.abs(dx)<100) {
+        // if(!this.grounded) {
+            this.jumpTimer += dt;
+            if(this.jumpTimer>jt) {
+                // if(this.wallcolliding&&!this.grounded) this.d=-this.d;
+                this.jump();
+                this.jumpTimer = 0;
+            }
+        }
+    } else {
+        this.mx = 0;
+        this.jumpTimer = 0;
+    }
+    if(this.mx==0||!this.grounded) {
+      this.w=25;
+      this.h=35;
+    } else {
+      this.w=35;
+      this.h=25;
+    }
+  }
+  update(dt, frameCount) {
+    this.originalUpdate(dt,frameCount);
     super.update(dt,frameCount);
   }
 

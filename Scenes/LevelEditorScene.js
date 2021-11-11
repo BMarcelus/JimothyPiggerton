@@ -1,6 +1,7 @@
 class LevelEditorScene extends Scene{
   constructor(index, actuallevel) {
     super(false);
+    this.isLevelEditorScene = true;
     this.editLevel = index;
     this.zoom = 1;
     var grid;

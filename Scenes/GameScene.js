@@ -2,6 +2,7 @@
 class GameScene extends Scene {
   constructor(level, dontSpawnPig,playIntro) {
     super(playIntro);
+    this.isGameScene = true;
     this.entities = [];
     this.touchButtonsActive = true;
     this.dontSpawnPig=dontSpawnPig;
@@ -295,7 +296,7 @@ class GameScene extends Scene {
   musicFadeOnPig() {
     var pig = this.pig;
     var player = this.player;
-    // if(!this.music) this.music = SOUNDMAP.music.play();
+    if(!this.music) this.music = SOUNDMAP.music.play();
     if(pig&&player) {
       var r = distanceBetweenEntities(pig, player);
       if(r<500) {
@@ -313,9 +314,9 @@ class GameScene extends Scene {
         if(this.music) {
           if(this.musicFaded)
           SOUNDMAP.music.resume(this.musicTime);
-          this.musicFaded=false;          
+          this.musicFaded=false;       
+          this.musicTime = this.music.getTime();
         }
-        this.musicTime = this.music.getTime();
         SOUNDMAP.music.setVolume(1);
       }
     }

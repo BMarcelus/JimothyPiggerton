@@ -6,6 +6,7 @@ function getOrCreate(className, params) {
 class LevelsViewerScene extends Scene{
   constructor() {
     super(false);
+    this.isLevelsViewerScene = true;
     this.camera = {x:0,y:0, offset: {x: 0, y: 0}};
     this.zoom = 1;
     this.keyMap = {
