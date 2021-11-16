@@ -12,6 +12,8 @@ class Brazier {
     this.fireChangeSpeed = 15;
     this.fireSeed = 0;
     this.killPlayer = true;
+    this.color2 = "#f00";
+    this.color3 = "#fa0";
   }
   update(dt,frameCount) {
     this.flameTimer += 1;
@@ -30,6 +32,14 @@ class Brazier {
     {
       this.fireTime = 0;
       this.fireSeed++;
+      var val = Math.floor(255 * Math.random());
+    // var val = *this.life/this.maxlife;
+    this.color2 = "rgb(255,"+val+",0)";
+
+    val = Math.floor(255 * Math.random());
+    // var val = *this.life/this.maxlife;
+    this.color3 = "rgb(255,"+val+",0)";
+
     }
   
     var enemyBox = this.getHitBox();	// Perforamnce effeciency issue
@@ -44,10 +54,6 @@ class Brazier {
   }
 
   draw(canvas) {
-    var color1 = "#f00";
-    var color2 = "#fa0";
-    var color3 = "#ff0";
-
     var w = this.w;
     var h = this.h;
     var x = this.x - this.w/2;
@@ -58,11 +64,9 @@ class Brazier {
     var ww = s/3;
     var hh = ww;
     var spacing = 3;
-    // canvas.strokeRect(x,y,w,h);
-    canvas.fillStyle=color1;
     
 
-    canvas.fillStyle=color1;
+    canvas.fillStyle=this.color2;
     for(var ii=0;ii<10;ii++) {
         var r1 = psuedoRandom(x,y,ii,this.fireSeed+1);
         var r2 = psuedoRandom(x,y,ii,this.fireSeed+2);
@@ -71,7 +75,7 @@ class Brazier {
         canvas.fillRect(xx+x,yy+y,ww,hh);
     }
 
-    canvas.fillStyle=color2;
+    canvas.fillStyle=this.color3;
     for(var ii=0;ii<10;ii++) {
         var r1 = psuedoRandom(x,y,ii,this.fireSeed+3);
         var r2 = psuedoRandom(x,y,ii,this.fireSeed+4);
@@ -79,18 +83,10 @@ class Brazier {
         var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
         canvas.fillRect(xx+x,yy+y,ww,hh);
     }
-
-    canvas.fillStyle=color3;
-    for(var ii=0;ii<10;ii++) {
-        var r1 = psuedoRandom(x,y,ii,this.fireSeed+5);
-        var r2 = psuedoRandom(x,y,ii,this.fireSeed+6);
-        var xx = Math.floor(r1*(w-ww)/spacing) * spacing;
-        var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
-        canvas.fillRect(xx+x,yy+y,ww,hh);
-    }  }
+  }
   makeFlame() {
     var spawnX = (this.x - this.w /2) + Math.random() * this.w;
-    var spawnY = (this.y - this.h /2) - Math.random() * this.h;
+    var spawnY = (this.y) - Math.random() * this.h;
     var flame = new Flame(spawnX, spawnY, 30, 30, 0, -1, 75);
     this.game.addEntity(flame);
   }
