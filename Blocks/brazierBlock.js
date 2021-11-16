@@ -7,6 +7,6 @@ addBlock(function() { return {
       drawer: new Brazier(),
       draw: drawEntity,
   onload: function(game, x,y,width,height, world,ii,jj) {
-    game.addEntity(new Brazier(x + width/2,y + height, width, height/4));
+    game.addEntity(new Brazier(x + width/2,y + height));
   },
 }});
