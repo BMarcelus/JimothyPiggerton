@@ -1,3 +1,4 @@
+var paused = false;
 try {
   if(performance.navigation.type == performance.navigation.TYPE_RELOAD) {
     console.clear();
@@ -45,8 +46,8 @@ function handleGamePad(driver) {
     if(gp.axes) {
       var x = gp.axes[0];
       var y = gp.axes[1];
-      if(Math.abs(x)<.25)x=0;
-      if(Math.abs(y)<.25)y=0;
+      if(Math.abs(x)<.3)x=0;
+      if(Math.abs(y)<.3)y=0;
       // if(x>0)x=1;
       // if(x<0)x=-1;
       // player.mx += x;
@@ -92,9 +93,16 @@ function handleGamePad(driver) {
       }
       if(pressed(gp.buttons[1])) {
         this.heldB = true;
-        driver.keydown({keyCode: 27});
+        // driver.keydown({keyCode: 27});
       } else if(this.heldB) {
         this.heldB = false;
+        // driver.keyup({keyCode: 27});
+      }
+      if(pressed(gp.buttons[9])) {
+        this.heldStart = true;
+        driver.keydown({keyCode: 27});
+      } else if(this.heldStart) {
+        this.heldStart = false;
         driver.keyup({keyCode: 27});
       }
     }
@@ -137,6 +145,7 @@ class MainDriver {
     AUDIOCONTEXT.resume();    
   }
   update(dt) {
+    if(paused)return;
     this.frameCount+=dt;
     // var time = Date.now();
     // var dt = time-this.lastTime;
@@ -155,6 +164,7 @@ class MainDriver {
     }
   }
   draw(canvas) {
+    if(paused)return;
     canvas.clearRect(0,0,canvas.width,canvas.height);
     this.scene.draw(canvas);
     if(touchOn && this.scene.touchButtonsActive) {
@@ -424,6 +434,7 @@ window.onload = function() {
       lastFPSupdate = currentTime;
     }
     // dt = 1.2;
+    dt = 1;
     dt *= .8;   
     // dt = .6;   
     // dt = 1;
@@ -552,6 +563,9 @@ window.addEventListener('beforeunload', function() {
   if(scene.isLevelsViewerScene) {
     saveScene.isLevelsViewerScene = true;
   }
+  if(scene.isOptionScene) {
+    saveScene.isOptionScene = true;
+  }
   this.localStorage.setItem("scene", JSON.stringify(saveScene));
 }, false)
 
@@ -566,6 +580,9 @@ function loadLastScene() {
     return new MenuScene(true);
   }
   var lastScene = JSON.parse(string);
+  if(lastScene.isOptionScene) {
+    return new OptionScene(false, new MenuScene(true));
+  }
   if(lastScene.isLevelsViewerScene) {
     return new LevelsViewerScene();
   }

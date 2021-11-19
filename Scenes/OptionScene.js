@@ -1,8 +1,10 @@
 class OptionScene extends Scene{
-  constructor(playLevelIntro){
+  constructor(playLevelIntro, previousScene){
     super(playLevelIntro);
+    this.isOptionScene = true;
+    this.previousScene = previousScene;
     this.keyMap = {
-      '27': {down: this.safeButtonCall(this,this.goToMainMenu)},   //esc
+      '27': {down: this.safeButtonCall(this,this.goBack)},   //esc
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
       '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
       '87': { down: this.navigateUI.bind(this,0)},    //W
@@ -29,97 +31,111 @@ class OptionScene extends Scene{
   update(dt){
     this.camera.x += 3;
     super.update(dt);
-    this.volumeLabel.text = "Volume: "+Math.floor(this.volumeSlider.value*100);
+    // this.volumeLabel.text = "Volume: "+Math.floor(this.volumeSlider.value*100);
   }
   draw(canvas){
     this.background.drawLayers(canvas, this.camera);
     this.drawAllGUI(canvas);
   }
   changeVolumeBy(toAdd){
-    this.volumeSlider.setValue(this.volumeSlider.value+toAdd);
-    this.volumeSlider.setValue(Math.round(this.volumeSlider.value*100)/100);
+    this.volumeSlider.setValue(Math.round((this.volumeSlider.value+toAdd)*100)/100);
     this.volumeSlider.onRelease();
   }
-  loadOptionGUI(){
-    var dim = rectDimFromCenter(.5,.5,.2,.1);
-    this.volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
-      0,undefined,0.03,DESTINATION.gain.value,'white','white','gray','black');
-    this.volumeSlider.onRelease = this.playSliderSound.bind(this,this.volumeSlider); 
-    this.volumeSlider.onHold = this.setVolume.bind(this,this.volumeSlider);
-    this.volumeSlider.selectable = true;
-    this.gui.push(this.volumeSlider);
+  addSlider(dim, name) {
+    var startValue = VOLUME;
+    var sliderLabel = new Label(
+      dim[0],dim[1]-0.05,dim[2]+0.05,dim[3],
+      // dim[0]-0.25,dim[1],dim[2]+0.05,dim[3],
+      0,
+      name+": " + Math.floor(100*startValue),'35px ' + FONT,'white','left');
 
-    dim = rectDimFromCenter(0,.4,.25,.1);
-    this.volumeLabel = new Label(.4,dim[1],dim[2],dim[3],0,
-      this.volumeSlider.value,'35px ' + FONT,'white','left');
-    this.gui.push(this.volumeLabel);
+    var volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
+      0,undefined,0.03,startValue,'white','white','gray','black');
+    volumeSlider.onRelease = this.playSliderSound.bind(this,volumeSlider); 
+    volumeSlider.onHold = this.setVolume.bind(this,volumeSlider);
+    volumeSlider.selectable = true;
+    volumeSlider.label = sliderLabel;
+    volumeSlider.name = name;
+    this.gui.push(volumeSlider);
+    this.gui.push(sliderLabel);
+
 
     
-    switch(touchOn){
-      case false:
-        dim = rectDimFromCenter(.8,.9,.2,.1);
-        var backButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
-        'white','transparent','white', 5,.05);
-        this.gui.push(backButton);
-        this.selectedButton = backButton;
-        backButton.selected = true;
 
-        dim = rectDimFromCenter(.5,.82,.2,.1);
-        var gamepadBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
-          MAIN.gamepadOn = !MAIN.gamepadOn;
-          gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
-        },"Gamepad On",'30px Noteworthy', 
-        'white','transparent','white', 5,.05);
-        this.gui.push(gamepadBtn);
+    return volumeSlider;
+  }
+  loadOptionGUI(){
+    // var dim = rectDimFromCenter(.5,.5,.2,.1);
+    // this.volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
+    //   0,undefined,0.03,DESTINATION.gain.value,'white','white','gray','black');
+    // this.volumeSlider.onRelease = this.playSliderSound.bind(this,this.volumeSlider); 
+    // this.volumeSlider.onHold = this.setVolume.bind(this,this.volumeSlider);
+    // this.volumeSlider.selectable = true;
+    // this.gui.push(this.volumeSlider);
+    var dim = rectDimFromCenter(.5,.35,.2,.05);
+    this.volumeSlider = this.addSlider(dim, "Master");
+    dim = rectDimFromCenter(.5,.48,.2,.05);
+    this.musicSlider = this.addSlider(dim, "Music");
+    dim = rectDimFromCenter(.5,.61,.2,.05);
+    this.effectsSlider = this.addSlider(dim, "Effects");
+    // dim = rectDimFromCenter(.5,.5,.2,.1);
 
-        dim = rectDimFromCenter(.5,.7,.2,.1);
-        var musicBtn = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
-          SOUNDMAP.music.toggle();
-          musicBtn.text = "Music " + (SOUNDMAP.music.on ? 'On' : 'Off');
-        },"Music On",'30px Noteworthy', 
-        'white','transparent','white', 5,.05);
-        this.gui.push(musicBtn);
-      break;
-      case true:
-        dim = rectDimFromCenter(.8,.9,.2,.1);
-        var backButton = new TextButton(dim[0],dim[1],dim[2],dim[3],0,this.goToMainMenu.bind(this),"Main Menu",'30px Noteworthy', 
-        'white','rgba(255,255,255,0.5)','white', 5);
-        this.gui.push(backButton);
-        this.selectedButton = backButton;
-        backButton.selected = true;
 
-        dim = rectDimFromCenter(.5,.82,.2,.1);
-        var gamepadBtn = new TextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
-          MAIN.gamepadOn = !MAIN.gamepadOn;
-          gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
-        },"Gamepad On",'30px Noteworthy', 
-        'white','rgba(255,255,255,0.5)','white', 5);
-        this.gui.push(gamepadBtn);
+    // dim = rectDimFromCenter(0,.4,.25,.1);
+    // this.volumeLabel = new Label(.4,dim[1],dim[2],dim[3],0,
+    //   this.volumeSlider.value,'35px ' + FONT,'white','left');
+    // this.gui.push(this.volumeLabel);
 
-        dim = rectDimFromCenter(.5,.7,.2,.1);
-        var musicBtn = new TextButton(dim[0],dim[1],dim[2],dim[3],0,() => {
-          SOUNDMAP.music.toggle();
-          musicBtn.text = "Music " + (SOUNDMAP.music.on ? 'On' : 'Off');
-        },"Music On",'30px Noteworthy', 
-        'white','rgba(255,255,255,0.5)','white', 5);
-        this.gui.push(musicBtn);
-      break;
+    var ButtonType = GrowthTextButton;
+    var backColor = 'transparent';
+    if(touchOn) {
+      ButtonType = TextButton;
+      backColor = 'rgba(255,255,255,0.5)';
     }
+
+    dim = rectDimFromCenter(.8,.9,.2,.1);
+    var backButton = new ButtonType(dim[0],dim[1],dim[2],dim[3],0,this.goBack.bind(this),"Back",'30px Noteworthy', 
+    'white',backColor,'white', 5, 0.05);
+    this.gui.push(backButton);
+    this.selectedButton = backButton;
+    backButton.selected = true;
+
+    dim = rectDimFromCenter(.5,.82,.2,.1);
+    var gamepadBtn = new ButtonType(dim[0],dim[1],dim[2],dim[3],0,() => {
+      MAIN.gamepadOn = !MAIN.gamepadOn;
+      gamepadBtn.text = "Gamepad " + (MAIN.gamepadOn ? 'On' : 'Off');
+    },"Gamepad On",'30px Noteworthy', 
+    'white',backColor,'white', 5, 0.05);
+    this.gui.push(gamepadBtn);
+
+    dim = rectDimFromCenter(.5,.7,.2,.1);
+    var musicBtn = new ButtonType(dim[0],dim[1],dim[2],dim[3],0,() => {
+      SOUNDMAP.music.toggle();
+      musicBtn.text = "Music " + (SOUNDMAP.music.on ? 'On' : 'Off');
+      localStorage.setItem("musicMute", !SOUNDMAP.music.on);
+    },"Music " + (SOUNDMAP.music.on ? 'On' : 'Off'),'30px Noteworthy', 
+    'white',backColor,'white', 5, 0.05);
+    this.gui.push(musicBtn);
     
 
     dim = rectDimFromCenter(.5,.15,.4,.2);
     var optionsLabel = new Label(dim[0],dim[1],dim[2],dim[3],0,"Options",'60px ' + FONT,'white','center');
     this.gui.push(optionsLabel);
     
-    this.volumeSlider.setNeighbors([undefined,undefined,gamepadBtn,undefined]);
+    this.volumeSlider.setNeighbors([undefined,undefined,this.musicSlider,undefined]);
+    this.musicSlider.setNeighbors([this.volumeSlider,undefined,this.effectsSlider,undefined]);
+    this.effectsSlider.setNeighbors([this.musicSlider,undefined,musicBtn,undefined]);
+    musicBtn.setNeighbors([this.volumeSlider,backButton,gamepadBtn,undefined]);
+    gamepadBtn.setNeighbors([musicBtn,backButton,backButton,undefined]);
     backButton.setNeighbors([gamepadBtn,undefined,undefined,gamepadBtn]);
-    gamepadBtn.setNeighbors([this.volumeSlider,backButton,backButton,undefined]);
     this.buttons = getButtons(this.gui);
   }
-  goToMainMenu(){
-    this.driver.setScene(new MenuScene(false));
+  goBack(){
+    // this.driver.setScene(new MenuScene(false));
+    this.driver.setScene(this.previousScene);
   }
   setVolume(slider){
+    slider.label.text = slider.name + ": " + Math.floor(slider.value*100);
     setVolume(slider.value);
   }
   playSliderSound(slider){

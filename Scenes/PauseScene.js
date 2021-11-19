@@ -30,7 +30,7 @@ class PauseScene extends Scene {
   }
   update(dt){
     super.update(dt);
-    SOUNDMAP.music.lerpVolume(0.2, 0.05);
+    // SOUNDMAP.music.lerpVolume(0.2, 0.05);
   }
   unpause() {
     if(this.prevScene.onResume)this.prevScene.onResume();
@@ -44,9 +44,16 @@ class PauseScene extends Scene {
     this.allowUIInput = false;
     this.startTransition(25,1,sceneTransition(this,LevelSelectScene,true));
   }
+  goToOptions(){
+    this.allowUIInput = false;
+    this.driver.setScene(new OptionScene(false, this));
+  }
   goToLevelEditorSelect() {
     this.allowUIInput = false;
     this.driver.setScene(getOrCreate(LevelsViewerScene));
+  }
+  reload() {
+    this.allowUIInput = true;
   }
   restartLevel(){
     this.allowUIInput = false;
@@ -100,13 +107,18 @@ class PauseScene extends Scene {
           this.unpause.bind(this),"Resume",buttonFont,textColor,'transparent',textColor,5,.08);
         this.gui.push(resumeButton);
         
+        dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
+        var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          this.goToOptions.bind(this),"Options",buttonFont,textColor,'transparent',textColor,5,.08);
+        this.gui.push(levelSelectButton);
+
         if(!this.levelEditor) {
-          dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
-          var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
-            this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
-          this.gui.push(levelSelectButton);
+          // dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
+          // var levelSelectButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
+          //   this.goToLevelSelect.bind(this),"Level Select",buttonFont,textColor,'transparent',textColor,5,.08);
+          // this.gui.push(levelSelectButton);
       
-          dim = rectDimFromCenter(0.5,0.55+buttonGap*2,.2,.08);
+        dim = rectDimFromCenter(.5,.55+buttonGap,.2,.08);
           var restartButton = new GrowthTextButton(dim[0],dim[1],dim[2],dim[3],0,
             this.restartLevel.bind(this),"Restart",buttonFont,textColor,'transparent',textColor,5,.08);
           this.gui.push(restartButton);
@@ -170,12 +182,12 @@ class PauseScene extends Scene {
         break;
     }
     
-    resumeButton.setNeighbors([undefined,undefined,levelSelectButton,undefined]);
+    resumeButton.setNeighbors([undefined,undefined,restartButton,undefined]);
     if(!this.levelEditor) {
-      levelSelectButton.setNeighbors([resumeButton,undefined,restartButton,undefined]);
-      restartButton.setNeighbors([levelSelectButton,undefined,mainMenuButton,undefined]);
+      restartButton.setNeighbors([resumeButton,undefined,levelSelectButton,undefined]);
+      levelSelectButton.setNeighbors([restartButton,undefined,mainMenuButton,undefined]);
     }
-    mainMenuButton.setNeighbors([restartButton,undefined,undefined,undefined]);
+    mainMenuButton.setNeighbors([levelSelectButton,undefined,undefined,undefined]);
 
     this.buttons = getButtons(this.gui);
 

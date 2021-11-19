@@ -430,7 +430,12 @@ class LevelEditorScene extends Scene{
     localStorage.setItem("currentLevel", string);
   }
   prompt(text) {
-    var result = prompt(text);
+    var result;
+    try {
+      result = prompt(text);
+      } catch(e) {
+        console.error(e);
+      }
     if(!result || result == "" || result == null) {
       this.promptLabel.innerHTML = text;
       result = this.inputElement.value;

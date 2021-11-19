@@ -1,12 +1,13 @@
 var AUDIOCONTEXT;
 var DESTINATION;
 var BUFFERBUFFER = [];
-var VOLUME = 3;
+var VOLUME = parseFloat(localStorage.getItem("volume"))||0.5;
 function setVolume(val) {
   if(val < 0) val = 0;
   if(val > 1) val = 1;
   VOLUME = val;
   DESTINATION.gain.setValueAtTime(val, 0);  
+  localStorage.setItem("volume", val);
 }
 function initializeSound() {
   console.log("initializing sound");
@@ -19,11 +20,12 @@ function initializeSound() {
   var GAIN = AUDIOCONTEXT.createGain();
   GAIN.connect(AUDIOCONTEXT.destination);
   DESTINATION = GAIN;
-  setVolume(0.5);
   for(var i in BUFFERBUFFER) {
     BUFFERBUFFER[i].beginLoad();
   }
   BUFFERBUFFER = [];
+  setVolume(VOLUME);
+  // setVolume(localStorage.getItem("volume")||0.5);
 }
 // var DESTINATION = AUDIOCONTEXT.destination;
 class SoundEffect {
@@ -261,8 +263,8 @@ class SoundTag {
   }
 }
 
-var OnFile = (window.location.protocol == "file:");
-if(OnFile) SoundSource = SoundTag;
+// var OnFile = (window.location.protocol == "file:");
+// if(OnFile) SoundSource = SoundTag;
 // SoundSource=SoundTag;
 
 class MixAudio {
@@ -300,6 +302,7 @@ class MusicSource extends SoundSource {
   }
 }
 
+var musicMixerVolume = localStorage.getItem("musicVolume") || 0.2;
 class MusicHandler {
   constructor(...args) {
     this.songs = args;
@@ -316,24 +319,28 @@ class MusicHandler {
       this.song.stopSound();
       this.song.pause();
       this.song.isSong = false;
+      this.song.setVolume(1)
     }
     this.song = newSong;
   }
   toggle() {
     this.on = !this.on;
     this.volume = this.on ? 1 : 0;
+    if(this.song)
+    this.song.setVolume(1);
   }
   play() {
     if(this.song == undefined)return;
     // if(!this.on)return;
     this.song.stopSound();
+    this.song.setVolume(1);
     return this.song.play();
   }
   lerpVolume(v) {
-    this.song.lerpVolume(v*this.volume);
+    this.song.lerpVolume(v*this.volume*musicMixerVolume);
   }
   setVolume(v) {
-    this.song.setVolume(v*this.volume);
+    this.song.setVolume(v*this.volume*musicMixerVolume);
   }
   getTime() {
     return this.song.getTime();

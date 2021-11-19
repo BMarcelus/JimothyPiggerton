@@ -142,14 +142,16 @@ class MenuScene extends Scene{
   }
   goToOptions(){
     this.allowUIInput = false;
-    this.driver.setScene(new OptionScene(false));
+    this.driver.setScene(new OptionScene(false, this));
   } 
   goToCredits(){
    
     this.allowUIInput = false;
     this.driver.setScene(new CreditsScene(false));
   }
-  
+  reload() {
+    this.allowUIInput = true;
+  }
   
 }
 
