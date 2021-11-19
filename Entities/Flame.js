@@ -1,13 +1,11 @@
-class Flame extends Mover {
+class Flame {
   constructor(x,y,w,h,vx,vy,life) {
-    super(x,y);
     this.x=x;this.y=y;this.w=w;this.h=h;this.vx=vx;this.vy=vy;
     this.startingW = w;
     this.life = life||50;
     this.maxlife = this.life;
     this.startingGreen = 180 + (75 * Math.random());
     this.color = "rgba(255,"+ this.startingGreen +",0,1)";
-    this.killPlayer = true;
   }
   update() {
     this.life--;
@@ -30,18 +28,5 @@ class Flame extends Mover {
     canvas.fillRect(-this.w/2, -this.h/2, this.w, this.h)
     
     canvas.restore();
-
-    // copied from big saw:
-    var enemyBox = this.getHitBox();	// Perforamnce effeciency issue
-		var playerBox = this.game.player.getHitBox();
-		if(rectangleCollision(enemyBox, playerBox) == true) {
-      this.game.player.getHitByEntity(this);
-    }
-  }
-
-  getHitBox() {
-    var w = this.w;
-    var h = this.h;
-    return {x:this.x-.5*w, y:this.y-h, w:w, h:h};
   }
 }
