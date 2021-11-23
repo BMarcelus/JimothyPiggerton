@@ -2,12 +2,30 @@ var AUDIOCONTEXT;
 var DESTINATION;
 var BUFFERBUFFER = [];
 var VOLUME = parseFloat(localStorage.getItem("volume"))||0.5;
+var MUSIC_VOLUME = parseFloat(localStorage.getItem("music_volume"))||1;
+var EFFECTS_VOLUME = parseFloat(localStorage.getItem("effects_volume"))||1;
+var musicGain;
+var effectsGain;
 function setVolume(val) {
   if(val < 0) val = 0;
   if(val > 1) val = 1;
   VOLUME = val;
   DESTINATION.gain.setValueAtTime(val, 0);  
   localStorage.setItem("volume", val);
+}
+function setMusicVolume(val) {
+  if(val < 0) val = 0;
+  if(val > 1) val = 1;
+  MUSIC_VOLUME = val;
+  musicGain.gain.setValueAtTime(val, 0);  
+  localStorage.setItem("music_volume", val);
+}
+function setEffectsVolume(val) {
+  if(val < 0) val = 0;
+  if(val > 1) val = 1;
+  EFFECTS_VOLUME = val;
+  effectsGain.gain.setValueAtTime(val, 0);  
+  localStorage.setItem("effects_volume", val);
 }
 function initializeSound() {
   console.log("initializing sound");
@@ -17,14 +35,21 @@ function initializeSound() {
     AUDIOCONTEXT = new AudioContext();
   }
   AUDIOCONTEXT.resume();
-  var GAIN = AUDIOCONTEXT.createGain();
-  GAIN.connect(AUDIOCONTEXT.destination);
-  DESTINATION = GAIN;
+  var maseterGain = AUDIOCONTEXT.createGain();
+  maseterGain.connect(AUDIOCONTEXT.destination);
+  DESTINATION = maseterGain;
+  effectsGain = AUDIOCONTEXT.createGain();
+  effectsGain.connect(maseterGain);
+  musicGain = AUDIOCONTEXT.createGain();
+  musicGain.connect(maseterGain);
   for(var i in BUFFERBUFFER) {
     BUFFERBUFFER[i].beginLoad();
   }
   BUFFERBUFFER = [];
-  setVolume(VOLUME);
+  musicGain.gain.setValueAtTime(MUSIC_VOLUME, 0);  
+  effectsGain.gain.setValueAtTime(EFFECTS_VOLUME, 0);  
+  DESTINATION.gain.setValueAtTime(VOLUME, 0);  
+  // setVolume(VOLUME);
   // setVolume(localStorage.getItem("volume")||0.5);
 }
 // var DESTINATION = AUDIOCONTEXT.destination;
@@ -51,7 +76,7 @@ class SoundEffect {
       // console.log(volume);
     }
     var audioContext= AUDIOCONTEXT;
-    var destination = DESTINATION;
+    var destination = effectsGain;
     var oscillator = audioContext.createOscillator();
     var gain = audioContext.createGain();
     var time = audioContext.currentTime;
@@ -180,7 +205,7 @@ class SoundSource {
   }
   play() {
     var audioContext= AUDIOCONTEXT;
-    var destination = DESTINATION;
+    var destination = this.isSong?musicGain:effectsGain;
     if(!destination)return;
     var time = audioContext.currentTime;
     var source = audioContext.createBufferSource();

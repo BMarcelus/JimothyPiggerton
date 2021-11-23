@@ -317,7 +317,7 @@ class GameScene extends Scene {
           this.musicFaded=false;       
           this.musicTime = this.music.getTime();
         }
-        SOUNDMAP.music.setVolume(1);
+        // SOUNDMAP.music.setVolume(1);`
       }
     }
   }

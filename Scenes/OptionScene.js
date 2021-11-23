@@ -41,8 +41,7 @@ class OptionScene extends Scene{
     this.volumeSlider.setValue(Math.round((this.volumeSlider.value+toAdd)*100)/100);
     this.volumeSlider.onRelease();
   }
-  addSlider(dim, name) {
-    var startValue = VOLUME;
+  addSlider(dim, name, volumeFunc, startValue) {
     var sliderLabel = new Label(
       dim[0],dim[1]-0.05,dim[2]+0.05,dim[3],
       // dim[0]-0.25,dim[1],dim[2]+0.05,dim[3],
@@ -52,10 +51,14 @@ class OptionScene extends Scene{
     var volumeSlider = new Slider(dim[0],dim[1],dim[2],dim[3],
       0,undefined,0.03,startValue,'white','white','gray','black');
     volumeSlider.onRelease = this.playSliderSound.bind(this,volumeSlider); 
-    volumeSlider.onHold = this.setVolume.bind(this,volumeSlider);
-    volumeSlider.selectable = true;
+    // volumeSlider.onHold = this.setVolume.bind(this,volumeSlider);
     volumeSlider.label = sliderLabel;
     volumeSlider.name = name;
+    volumeSlider.onHold = function(value) {
+      this.label.text = this.name + ": " + Math.floor(this.value*100);
+      volumeFunc(this.value);
+    }
+    volumeSlider.selectable = true;
     this.gui.push(volumeSlider);
     this.gui.push(sliderLabel);
 
@@ -73,11 +76,11 @@ class OptionScene extends Scene{
     // this.volumeSlider.selectable = true;
     // this.gui.push(this.volumeSlider);
     var dim = rectDimFromCenter(.5,.35,.2,.05);
-    this.volumeSlider = this.addSlider(dim, "Master");
+    this.volumeSlider = this.addSlider(dim, "Master", setVolume, VOLUME);
     dim = rectDimFromCenter(.5,.48,.2,.05);
-    this.musicSlider = this.addSlider(dim, "Music");
+    this.musicSlider = this.addSlider(dim, "Music", setMusicVolume, MUSIC_VOLUME);
     dim = rectDimFromCenter(.5,.61,.2,.05);
-    this.effectsSlider = this.addSlider(dim, "Effects");
+    this.effectsSlider = this.addSlider(dim, "Effects", setEffectsVolume, EFFECTS_VOLUME);
     // dim = rectDimFromCenter(.5,.5,.2,.1);
 
 
@@ -125,7 +128,7 @@ class OptionScene extends Scene{
     this.volumeSlider.setNeighbors([undefined,undefined,this.musicSlider,undefined]);
     this.musicSlider.setNeighbors([this.volumeSlider,undefined,this.effectsSlider,undefined]);
     this.effectsSlider.setNeighbors([this.musicSlider,undefined,musicBtn,undefined]);
-    musicBtn.setNeighbors([this.volumeSlider,backButton,gamepadBtn,undefined]);
+    musicBtn.setNeighbors([this.effectsSlider,undefined,gamepadBtn,undefined]);
     gamepadBtn.setNeighbors([musicBtn,backButton,backButton,undefined]);
     backButton.setNeighbors([gamepadBtn,undefined,undefined,gamepadBtn]);
     this.buttons = getButtons(this.gui);
@@ -142,27 +145,12 @@ class OptionScene extends Scene{
     SOUNDMAP.bounce.play();
   }
   navigateUI(direction){
-    switch(this.state){
-      case this.FREE:
-        super.navigateUI(direction);
-        break;
-      case this.VOLUME:
-        if(direction == 1)
-          this.changeVolumeBy(0.05);
-        else if(direction == 2){
-          this.selectedButton = this.selectedButton.buttonLinks[2];
-          this.selectedButton.selected = true;
-          this.volumeSlider.selected = false;
-          this.state = this.FREE;
-        }
-        else if(direction == 3)
-          this.changeVolumeBy(-0.05);
-        break;
-      
+    if(this.selectedButton&&this.selectedButton.isSlider) {
+      if(direction == 1)
+        this.selectedButton.changeBy(0.05);
+      else if(direction == 3)
+        this.selectedButton.changeBy(-0.05);
     }
-    if(this.selectedButton == this.volumeSlider){
-      this.state = this.VOLUME;
-
-    }
+    super.navigateUI(direction);
   }
 }

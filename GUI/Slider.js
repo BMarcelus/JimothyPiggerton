@@ -11,6 +11,7 @@ class Slider extends Button{
     this.value = defaultValue;
     this.selectable = false;
     this.requireMouseInRegionOnRelease = false;
+    this.isSlider = true;
   }
   update(dt,percentPoint){
     if(this.held){
@@ -48,6 +49,10 @@ class Slider extends Button{
     this.value = (this.value > 1) ? 1 : this.value;
     this.value = (this.value < 0) ? 0 : this.value;
     if(this.onHold) this.onHold(this.value);
+  }
+  changeBy(toAdd){
+    this.setValue(Math.round((this.value+toAdd)*100)/100);
+    this.onRelease();
   }
   // contains(x,y){
   //   return x>= this.x+this.value*this.w-this.handleWidth/2 && x<=this.x+this.value*this.w+this.handleWidth/2 && y>=this.y && y<=this.y+this.h;
