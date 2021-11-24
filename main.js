@@ -515,9 +515,9 @@ window.onload = function() {
   }
   window.addEventListener('keydown', driver.keydown.bind(driver));
   window.addEventListener('keyup', driver.keyup.bind(driver));
-  window.addEventListener('mousemove', driver.mousemove.bind(driver));
-  window.addEventListener('mouseup', driver.mouseup.bind(driver));
-  window.addEventListener('mousedown', driver.mousedown.bind(driver));
+  CE.addEventListener('mousemove', driver.mousemove.bind(driver));
+  CE.addEventListener('mouseup', driver.mouseup.bind(driver));
+  CE.addEventListener('mousedown', driver.mousedown.bind(driver));
   window.addEventListener('wheel', driver.wheelEvent.bind(driver));
   window.addEventListener('touchstart', driver.touchstart.bind(driver), { passive: false });
   window.addEventListener('touchmove', driver.touchmove.bind(driver), { passive: false });

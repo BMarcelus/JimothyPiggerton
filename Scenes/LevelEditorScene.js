@@ -59,8 +59,8 @@ class LevelEditorScene extends Scene{
       '68': {down: this.selectAir.bind(this)},        //D
       '72': {down: this.toggleCommandList.bind(this)},//H
       '89': {down: this.cycleWorldType.bind(this)},//Y
-      '77': {down: this.saveLocal.bind(this)},//M
-      '76': {down: this.loadLocal.bind(this)},//L
+      '77': {up: this.saveLocal.bind(this)},//M
+      '76': {up: this.loadLocal.bind(this)},//L
 
       '90': {down: this.onZ.bind(this)},   //Z
       '88': {down: this.onX.bind(this)},   //X
@@ -75,7 +75,6 @@ class LevelEditorScene extends Scene{
       '54': {down: this.selectFromBar.bind(this,5)},            //6
       '55': {down: this.selectFromBar.bind(this,6)},            //7
       '79': {down: this.loadFromStringPrompt.bind(this)},            //O
-
       
     }
     this.bottomBarHeight = 0.2;
@@ -92,20 +91,57 @@ class LevelEditorScene extends Scene{
     this.resetCameraPosition();
     this.addLevelEditorGUI();
     this.inputElement = document.getElementById("level-editor-level-name");
-    this.inputElement.addEventListener('keyup', e=> {
+    this.fileInputElement = document.getElementById("level-editor-file-selector");
+    this.levelEditorEditor = document.getElementById("level-editor-editor");
+    this.optionIndex = 0;
+    this.fileInputElement.addEventListener("change", e=> {
+      console.log(e.target.files);
+      var files = e.target.files;
+      if(!files||files.length<1)return;
+      var file = files[0];
+      if(!file)return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        console.log(e.target.result);
+      };
+      reader.readAsText(file);
+    });
+    this.inputElement.addEventListener('keydown', e=> {
       if (e.key === 'Enter' || e.keyCode === 13) {
-          this.cancelInputWait();
+          // this.cancelInputWait();
           this.inputElement.blur();
+          if(this.promptCallback)
+            this.promptCallback(e.target.value);
+            this.levelEditorEditor.classList.add("hidden");
+      } else if (e.key == "Escape" || e.keyCode == 27) {
+        this.inputElement.blur();
+        this.levelEditorEditor.classList.add("hidden");
+        // setTimeout(e=>{this.cancelInputWait()},10);
+      } else if (e.key == "Tab" || e.keyCode == 9 || e.key=="ArrowDown" || e.keyCode==40) {
+        if(this.promptOptions.length<1)return;
+        this.optionIndex = (this.optionIndex + 1) % this.promptOptions.length;
+        this.inputElement.value = this.promptOptions[this.optionIndex];
+        e.preventDefault();
+        return;
+      } else if(e.key == "ArrowUp" || e.keyCode == 38) {
+        if(this.promptOptions.length<1)return;
+        this.optionIndex = (this.optionIndex - 1 + this.promptOptions.length) % this.promptOptions.length;
+        this.inputElement.value = this.promptOptions[this.optionIndex];
+        e.preventDefault();
+        return;
       }
     });
     this.inputElement.addEventListener('focus', e=> {
       this.inputWaiting = true;
+      console.log("inputwaiting true");
     })
     this.inputElement.addEventListener('blur', e=> {
-      this.inputWaiting = false;
+      this.cancelInputWait();
+      // this.inputWaiting = false;
+      // console.log("inputwaiting false");
     })
     this.promptLabel = document.getElementById("level-editor-prompt-label");
-    document.getElementById("level-editor-editor").classList.remove("hidden");
+    // document.getElementById("level-editor-editor").classList.remove("hidden");
     this.inputWaiting = false;
     this.dragging = false;
     this.maxUndoSize = 32;
@@ -121,19 +157,30 @@ class LevelEditorScene extends Scene{
     this.clipBoardCanvas = this.clipBoardImage.getContext('2d');
     this.pasteIgnoreAir = false;
   }//consend
-  reload() {
-    document.getElementById("level-editor-editor").classList.remove("hidden");
-  }
+  // reload() {
+    // this.levelEditorEditor.classList.remove("hidden");
+  // }
   unload() {
     super.unload();
-    document.getElementById("level-editor-editor").classList.add("hidden");
+    this.levelEditorEditor.classList.add("hidden");
   }
   cancelInputWait() {
-    this.inputWaiting = false;
+    this.shouldCancelInputWait = true;
+    // this.inputWaiting = false;
+    console.log("inputwaiting false");
   }
   keydown(e) {
     if(this.inputWaiting)return;
     super.keydown(e);
+  }
+  keyup(e) {
+    if(this.shouldCancelInputWait) return this.shouldCancelInputWait = this.inputWaiting = false;
+    if(this.inputWaiting)return;
+    super.keyup(e);
+  }
+  handleHeldKeys(dt) {
+    if(this.inputWaiting)return;
+    super.handleHeldKeys(dt);
   }
   pause() {
     this.driver.setScene(new PauseScene(this, true));
@@ -429,52 +476,80 @@ class LevelEditorScene extends Scene{
     if(!localStorage||!localStorage.setItem)return;
     localStorage.setItem("currentLevel", string);
   }
-  prompt(text) {
+  alert(string) {
+    this.promptLabel.innerHTML = string;
+  }
+  prompt(text, callback,defaultValue="") {
     var result;
-    try {
-      result = prompt(text);
-      } catch(e) {
-        console.error(e);
-      }
+    // try {
+    //   result = prompt(text);
+    //   return callback(result);
+    //   } catch(e) {
+    //     // console.error(e);
+    //   }
     if(!result || result == "" || result == null) {
+      this.promptCallback = callback;
+      // this.fileInputElement.click();
+      // return;
       this.promptLabel.innerHTML = text;
-      result = this.inputElement.value;
-      if(!result || result == "" || result == null) {
+      this.inputElement.value = defaultValue;
+      // result = this.inputElement.value;
+      // if(!result || result == "" || result == null) {
+        this.levelEditorEditor.classList.remove("hidden");
         this.inputElement.focus();
-      }
+      // }
     }
-    return result;
+    // return callback(result);
   }
   loadFromStringPrompt() {
-    var string = this.prompt("Level string");
-    if(!string||string.length < 10) return;
-    var grid = this.loadString(string);
-    this.grid = grid;
-    this.world.world = grid;
-    this.world.h = grid.length;
-    this.world.w = grid[0].length;
-    this.world.forceRedraw();
+    this.prompt("Level string", string => {
+      if(!string||string.length < 10) return;
+      var grid = this.loadString(string);
+      this.grid = grid;
+      this.world.world = grid;
+      this.world.h = grid.length;
+      this.world.w = grid[0].length;
+      this.world.forceRedraw();
+    });
+    
   }
   saveLocal() {
-    if(!localStorage||!localStorage.setItem) alert("localStorage saves not supported by this web browser");
-    var name = this.prompt("save as");
-    this.levelName = name;
     var string = this.getLevelJsonString();
-    localStorage.setItem(name, string);
-    var names = localStorage.getItem("Names") || ';';
-    if(!names.includes(';'+name+';')) {
-      localStorage.setItem("Names", names + name + ';');
+    if(!localStorage||!localStorage.setItem) {
+      alert("localStorage saves not supported by this web browser");
     }
+    this.prompt("save as", name=> {
+      name = name||this.levelName;
+      this.levelName = name;
+      if(!this.levelName)return console.log("canceling save: no name");
+      window.electronApi.send("save", this.levelName, string);
+      localStorage.setItem(name, string);
+      var names = localStorage.getItem("Names") || ';';
+      names = names.replace(";;", ";");
+      if(!names.includes(';'+name+';')) {
+        localStorage.setItem("Names", names + name + ';');
+      }
+    }, this.levelName);
   }
   loadLocal() {
-    if(!localStorage||!localStorage.setItem) alert("localStorage saves not supported by this web browser");
+    if(!localStorage||!localStorage.setItem) {
+      alert("localStorage saves not supported by this web browser");
+    }
     var names = localStorage.getItem("Names") || 'No saves found';
     console.log(names);
-    var name = this.prompt("load:["+names+"]");
-    var string = localStorage.getItem(name);
-    if(!string) return alert("save not found");
-    this.levelName = name;
-    this.versionload(string);
+    var defaultValue = "";
+    this.promptOptions=names.split(';');
+    if(names.includes(this.levelName))
+      defaultValue = this.levelName;
+    else if(this.promptOptions.length>1)
+      defaultValue = this.promptOptions[1];
+    this.prompt("load:["+names+"]", name => {
+      console.log("loading",name);
+      var string = localStorage.getItem(name);
+      if(!string) return this.alert("save not found");
+      this.levelName = name;
+      this.versionload(string);
+    },this.levelName);
   }
   load() {
     if(!localStorage || !localStorage.getItem)return null;
@@ -554,7 +629,7 @@ class LevelEditorScene extends Scene{
     this.dragPivot.y += dy; 
   }
   mousedown(e, mouse) {
-    // var camera = this.camera;
+    var camera = this.camera;
     // var wx = mouse.x + camera.x - camera.offset.x;
     // var wy = mouse.y + camera.y - camera.offset.y;
     // var x = Math.floor(wx/this.world.s);
@@ -564,6 +639,12 @@ class LevelEditorScene extends Scene{
     // this.grid[y][x] = (t+1)%3;
     // this.grid[y][x] = this.currentBlock;
     // this.world.forceRedraw(); 
+    var wx = mouse.x/this.zoom + (camera.x - camera.offset.x)/this.zoom;
+    var wy = mouse.y/this.zoom + (camera.y - camera.offset.y)/this.zoom;
+    var x1 = Math.floor(wx/this.world.s);
+    var y1 = Math.floor(wy/this.world.s);
+    this.downPoint = {x:x1, y:y1};
+    
     if(e.button!=0) {
       this.startDragging();
       this.dragging = true;
@@ -580,8 +661,13 @@ class LevelEditorScene extends Scene{
       this.clickDragPivot = undefined;
     }
     super.mousedown(e,mouse);
+    if(this.pasting) {
+      this.pushUndoStack();
+      this.dragging = false;
+      this.mouseup(e, mouse);
+    }
   }
-  mouseup(e, mouse) {
+  mouseup(e, mouse, dontSave) {
     if(e.button!=0) {
       this.dragging = false;
       super.mouseup(e,mouse);
@@ -629,19 +715,23 @@ class LevelEditorScene extends Scene{
         }
         this.beginPaste();
       } else if(this.pasting) {
-        this.pushUndoStack();
-        var ignoreAir = this.keys[16];
+        // if(!dontSave)
+        //   this.pushUndoStack();
+        var ignoreAir = this.keys[17];
+        var onlyReplaceAir = this.keys[16];
         for(var j=0;j<this.clipBoard.length;j++) {
           for(var i=0;i<this.clipBoard[j].length;i++) {
-            var x= sx + i;
-            var y = sy + j;
+            var x= x1 + i;
+            var y = y1 + j;
             if(this.world.oob(x, y))continue;
+            if(onlyReplaceAir&&this.grid[y][x])continue;
             if(ignoreAir&&this.clipBoard[j][i]==0)continue;
             this.grid[y][x] = this.clipBoard[j][i];
           }
         }
       } else {
-        this.pushUndoStack();
+        if(!dontSave)
+          this.pushUndoStack();
         for(var j=sy; j<=ey; j+=1) {
           for(var i = sx; i<= ex; i+=1) {
             if(this.world.oob(i, j))continue;
@@ -650,8 +740,8 @@ class LevelEditorScene extends Scene{
         }
       }
 
-      
-      this.save();
+      if(!dontSave)
+        this.save();
       this.world.forceRedraw();
     }
     super.mouseup(e,mouse);
@@ -687,6 +777,11 @@ class LevelEditorScene extends Scene{
     var s = this.world.s;
     var wx = Math.floor((this.mousePoint.x + this.camera.x - this.camera.offset.x)/this.zoom/s);
     var wy = Math.floor((this.mousePoint.y + this.camera.y - this.camera.offset.y)/this.zoom/s);
+    if(this.pasting&&this.driver.mouse.held) {
+      if(wx!=this.wx||wy!=this.wy) {
+        this.mouseup(e,mouse,true);
+      }
+    }
     this.wx = wx;
     this.wy = wy;
   }
@@ -907,6 +1002,10 @@ class LevelEditorScene extends Scene{
       var h = this.clipBoard.length * s;
       canvas.strokeRect(this.wx*s,this.wy*s,w,h);
       canvas.globalAlpha = 0.5;
+      if(!this.keys[16]&&!this.keys[17]) {
+        canvas.fillStyle = "white";
+        canvas.fillRect(this.wx*s,this.wy*s,w,h);
+      }
       canvas.drawImage(this.clipBoardImage,this.wx*s,this.wy*s);
       canvas.globalAlpha = 1;
     }
@@ -1018,7 +1117,7 @@ class LevelEditorScene extends Scene{
     this.drawAllGUI(canvas);
     this.drawHelp(canvas);
     this.drawBlockAtCursor(canvas);
-    if(mouse.held && this.clickDragPivot != undefined) {
+    if(!this.pasting && mouse.held && this.clickDragPivot != undefined) {
       canvas.strokeStyle = "rgba(0,100,0,1)";
       canvas.fillStyle = "rgba(0,255,0,.5)";
       canvas.beginPath();
@@ -1027,6 +1126,14 @@ class LevelEditorScene extends Scene{
       canvas.rect(tx, ty, -tx+mouse.x, -ty+mouse.y);
       canvas.fill();
       canvas.stroke();
+    }
+    if(this.pasting) {
+      canvas.fillStyle = "black";
+      if(this.keys[16])canvas.fillStyle = "green";
+      canvas.fillText("[Shift]: only replace air", CE.width/4, CE.height*.7);
+      if(this.keys[17])canvas.fillStyle = "green";
+      else canvas.fillStyle = "black";
+      canvas.fillText("[Ctrl]: do not paste air", CE.width/4, CE.height*.75);
     }
   }
 }
