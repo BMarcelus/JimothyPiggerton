@@ -12,7 +12,10 @@ class doubleJump extends Powerup {
     this.color1= "#000";
     this.angle = Math.PI/4;
   }
-  givePlayerAbility(player) {
+  givePlayerAbility(player, fake) {
+    if(!fake&&player.maxJumps!=2) {
+      player.powerUps.push(this.givePlayerAbility);
+    }
     player.maxJumps = 2;
     player.jumpCount = 1;
   }

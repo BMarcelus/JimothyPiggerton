@@ -14,7 +14,10 @@ class wallJump extends Powerup {
     this.color2 = "#520";
     this.color3 = "#411";
   }
-  givePlayerAbility(player) {
+  givePlayerAbility(player, fake) {
+    if(!fake&&!player.wallJumps) {
+      player.powerUps.push(this.givePlayerAbility);
+    }
     player.wallJumps = true;
   }
   drawShape(canvas,w,h) {

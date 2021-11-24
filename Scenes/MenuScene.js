@@ -12,7 +12,7 @@ class MenuScene extends Scene{
     this.keyMap = {
       '32': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //space
       '13': { down: this.pressButton.bind(this), up: this.unpressButton.bind(this) }, //enter
-      '69': { down: () => {if(DEBUG)this.driver.setScene(new LevelEditorSelectScene(false));} },
+      '69': { down: () => {if(DEBUG)this.driver.setScene(getOrCreate(LevelsViewerScene));} },
       '87': { down: this.navigateUI.bind(this,0)},    //W
       '65': { down: this.navigateUI.bind(this,1)},   //D
       '83': { down: this.navigateUI.bind(this,2)},    //S

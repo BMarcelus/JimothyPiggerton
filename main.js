@@ -162,6 +162,7 @@ class MainDriver {
         this.timeoutes.splice(i--, 1);
       }
     }
+    canvas.frameCount = this.frameCount;
   }
   draw(canvas) {
     if(paused)return;
@@ -380,7 +381,42 @@ function makeGrdRad(c1,c2) {
 }
 var CE = document.getElementById('gc');
 var canvas = CE.getContext('2d');
+canvas.frameCount = 0;
+canvas.drawCount = 0;
+function superify(funcName) {
+  var temp = canvas[funcName].bind(canvas);
+  // canvas[funcName+'super'] = canvas[funcName];
+  canvas[funcName] = function(x,y,w,h,...args) {
+    var t = this.frameCount + (this.drawCount++)-this.drawCount*this.drawCount;
+    var a = Math.cos(t/10)*5;
+    x += Math.cos(t*Math.PI/20)*a;
+    y += Math.sin(t*Math.PI/20)*a;
+    // var t = this.getTransform();
+    // x += t.e-CE.width/2;
+    // y += t.f-CE.height/2;
+    // w*=2;
+    temp(x,y,w,h,...args);
+  }
+}
+// superify('fillRect');
+// superify('strokeRect');
+// superify('rect');
+// superify('moveTo');
+// superify('lineTo');
 // canvas.fillRectSuper = canvas.fillRect;
+// canvas.fillRect = function(x,y,w,h) {
+//   var t = this.frameCount + this.drawCount++;
+//   x += Math.cos(t*Math.PI/20);
+//   y += Math.sin(t*Math.PI/20);
+//   this.fillRectSuper(x,y,w,h);
+// }
+// canvas.moveToSuper = canvas.moveTo;
+// canvas.moveTo = function(x,y) {
+//   var t = this.frameCount + this.drawCount++;
+//   x += Math.cos(t*Math.PI/20);
+//   y += Math.sin(t*Math.PI/20);
+//   this.moveToSuper(x,y);
+// }
 // canvas.fillRect = function(x,y,w,h) {
 //   this.fillRectSuper(Math.floor(x),Math.floor(y),Math.floor(w),Math.floor(h));
 // }
@@ -460,6 +496,7 @@ window.onload = function() {
     canvas.textAlign = "left";
     if(DISPLAY_FPS)
     canvas.fillText(currentFPS, 10,50);
+    canvas.drawCount = 0;
   }
   function start() {
     draw();

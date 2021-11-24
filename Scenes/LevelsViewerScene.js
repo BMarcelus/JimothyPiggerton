@@ -97,10 +97,12 @@ class LevelsViewerScene extends Scene{
     var names = localStorage.getItem("Names");
     if(!names)return [];
     var namesList = names.split(";");
+    namesList.push('currentLevel');
     for(var i=0;i<namesList.length;i++) {
       var name = namesList[i];
       if(!name || name == "") continue;
       var string = localStorage.getItem(name);
+      if(!string)continue;
       var level = versionLoadLevel(string, name);
       var w = level.grid[0].length;
       var h = level.grid.length;

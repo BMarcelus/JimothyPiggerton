@@ -62,10 +62,27 @@ class Player extends Mover{
         // this.y+=this.vy;
         // this.vy++;
       }.bind(this), function() {
-        this.game.respawn();
+        this.game.respawn(this.checkpoint);
       }.bind(this))
     }.bind(this))
     // this.game.respawn();
+  }
+  setCheckpoint(checkpoint) {
+    // this.checkpoint = {
+    //   x: checkpoint.x,
+    //   y: checkpoint.y,
+    //   powerUps: [],
+    // };
+    this.checkpoint = checkpoint;
+    checkpoint.powerUps = [];
+    this.powerUps.forEach(powerUp => checkpoint.powerUps.push(powerUp));
+  }
+  loadCheckpoint(checkpoint) {
+    this.x = checkpoint.x;
+    this.y = checkpoint.y;
+    checkpoint.powerUps.forEach(powerUp => {
+      powerUp(this, true);
+    });
   }
   resetControls() {
     this.mx = 0;
@@ -98,6 +115,7 @@ class Player extends Mover{
     this.animation=null;
     this.invisible=false;
     this.dead=false;
+    this.powerUps = [];
   }
   updateEye(dt, frameCount) {
     frameCount = Math.floor(frameCount);
@@ -380,5 +398,5 @@ Player.controls = {
     held: function() { this.holdingJump = true; this.eyeMovement.ty = - 6; this.height += .5; this.width -= .5},
   },
   down: {down: function() { this.crouch(); }, noneheld: function() { this.uncrouch(); }},
-  dash: { down: function() { this.dash(1-2*this.flipped); }},
+  dash: { down: function() { this.dash(); }},
 };

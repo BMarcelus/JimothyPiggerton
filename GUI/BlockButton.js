@@ -14,7 +14,7 @@ class BlockButton extends Button{
       var cell = CELLMAP[this.blockID];
       if(cell.draw){
         cell.draw(canvas,dim[0],dim[1],dim[2],dim[3],
-          this.world,this.i,this.j);
+          this.world,this.i,this.j,true);
       }    
     }
     canvas.strokeStyle = 'black';

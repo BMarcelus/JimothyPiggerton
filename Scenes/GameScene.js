@@ -26,6 +26,7 @@ class GameScene extends Scene {
 
       27: {down: this.pause.bind(this)},
       69: p1controls.dash,
+      16: p1controls.dash,
       72: {down: function() {
         if(this.keys[67] && DEBUG) {
           drawHitbox = !drawHitbox;
@@ -236,6 +237,7 @@ class GameScene extends Scene {
     } else {
       this.levelIndex = index;
       this.levelDeaths = 0;
+      this.player.checkpoint = null;
       if(this.music) {
       } else
       this.music = SOUNDMAP.music.play(); 
@@ -287,11 +289,16 @@ class GameScene extends Scene {
       level.init(this);
     }
   }
-  respawn() {
+  respawn(checkpoint) {
     this.totalDeaths++;
     this.levelDeaths++;
     // console.log(this.deaths);
     this.loadNewLevel();
+    if(checkpoint)
+    this.player.loadCheckpoint(checkpoint);
+    this.camera.x=this.player.x;
+    this.camera.y=this.player.y;
+    this.constrainCamera();
   }
   musicFadeOnPig() {
     var pig = this.pig;

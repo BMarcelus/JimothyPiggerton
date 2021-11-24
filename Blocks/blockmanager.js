@@ -18,6 +18,7 @@ function createBlocks() {
   for(var i=0;i<BLOCKS.length; i+= 1) {
     var block = BLOCKS[i]();
     block.id = i;
+    // block.redraws = true;//temp testing
     map[i] = block;
   }
   return map;

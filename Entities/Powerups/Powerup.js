@@ -14,15 +14,21 @@ class Powerup {
     this.reset = this.reset.bind(this);
     this.on = true;
     this.offset=0;
+    this.hitBoxScalar = 1.5;
   }
   update(dt, frameCount) {
     if(!this.on)return;
     var myBox = this.getHitBox();	// Perforamnce effeciency issue
     var player = this.game.player;
 		var playerBox = player.getHitBox();
-		if(rectangleCollision(myBox, playerBox) && this.canBeCollected()) {
-      this.die();
-      this.onHitPlayer(player);
+		if(rectangleCollision(myBox, playerBox)) {
+      if(this.canBeCollected()) {
+        this.die();
+        this.onHitPlayer(player);
+      }
+      this.isInCollision = true;
+    } else {
+      this.isInCollision = false;
     }
     if(this.on) {
       this.offset = Math.cos(frameCount*Math.PI/20)*2;
@@ -41,6 +47,11 @@ class Powerup {
     canvas.translate(0,this.offset);
     this.drawShape(canvas,this.w,this.h);
     canvas.restore();
+    if(drawHitbox) {
+      var box = this.getHitBox();
+      canvas.strokeStyle = "rgba(200,100,100,0.5)";
+      canvas.strokeRect(box.x,box.y,box.w,box.h);
+    }
   }
   drawShape(canvas,w,h) {
     canvas.fillStyle = this.color;
@@ -71,9 +82,9 @@ class Powerup {
   }
 
   getHitBox() {
-    return {x:this.x-.5*this.w, y:this.y-this.h, w:this.w, h:this.h};
+    var s = this.hitBoxScalar;
+    return {x:this.x-.5*this.w*s, y:this.y-this.h*(1+s)/2, w:this.w*s, h:this.h*s};
   }
-
   reset() {
     this.on = true;
     this.color = 'black';

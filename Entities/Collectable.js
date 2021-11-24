@@ -2,17 +2,16 @@ class Collectable {
   constructor(x,y) {
     this.w=30;
     this.h=30;
-    this.x=x-this.w/2;
-    this.y=y-this.h/2;
+    this.x=x;
+    this.y=y;
     this.color = 'gainsboro';
 
     this.color1 = "#ffd700";
     this.color2 = "#98720b";
     this.color3 = "#fff";
     this.color4 = "#640";
-  }
-  getHitBox() {
-    return this;
+    this.hitboxScalarX=1;
+    this.hitboxScalarY=1;
   }
   update(dt, frameCount) {
     if(this.game.collidesWithPlayer(this)) {
@@ -37,13 +36,25 @@ class Collectable {
       }
     }
   }
+
+  getHitBox() {
+    var w = this.w*this.hitboxScalarX;
+    var h = this.h*this.hitboxScalarY;
+    return {x:this.x-.5*w, y:this.y-h, w:w, h:h};
+  }
   draw(canvas) {
     // canvas.fillStyle = this.color;
     // canvas.fillRect(this.x,this.y,this.w,this.h);
     canvas.save();
-    canvas.translate(this.x+this.w/2,this.y+this.h/2);
+    canvas.translate(this.x,this.y);
     this.drawShape(canvas,this.w,this.h);
     canvas.restore();
+    
+    if(drawHitbox) {
+      var box = this.getHitBox();
+      canvas.strokeStyle = "rgba(200,100,100,0.5)";
+      canvas.strokeRect(box.x,box.y,box.w,box.h);
+    }
   }
   drawShape(canvas,w,h) {
     // canvas.strokeStyle = "#fff";

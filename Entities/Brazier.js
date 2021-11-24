@@ -50,7 +50,10 @@ class Brazier {
   }
 
   getHitBox() {
-    return {x:this.x-.5*this.w, y:this.y-.5*this.h, w:this.w, h:this.h};
+    var scalar = 0.8;
+    var w = this.w*scalar;
+    var h = this.h*scalar/2;
+    return {x:this.x-.5*w, y:this.y-h, w:w, h:h};
   }
 
   draw(canvas) {
@@ -82,6 +85,11 @@ class Brazier {
         var xx = Math.floor(r1*(w-ww)/spacing) * spacing;
         var yy = Math.floor(r2*(h-hh)/spacing) * spacing;
         canvas.fillRect(xx+x,yy+y,ww,hh);
+    }
+    if(drawHitbox) {
+      var box = this.getHitBox();
+      canvas.strokeStyle = "rgba(200,100,100,0.5)";
+      canvas.strokeRect(box.x,box.y,box.w,box.h);
     }
   }
   makeFlame() {

@@ -1,3 +1,4 @@
+
 class LevelEditorScene extends Scene{
   constructor(index, actuallevel) {
     super(false);
@@ -94,28 +95,33 @@ class LevelEditorScene extends Scene{
     this.fileInputElement = document.getElementById("level-editor-file-selector");
     this.levelEditorEditor = document.getElementById("level-editor-editor");
     this.optionIndex = 0;
-    this.fileInputElement.addEventListener("change", e=> {
+    (this.fileInputElement.onchange = e=> {
       console.log(e.target.files);
       var files = e.target.files;
       if(!files||files.length<1)return;
       var file = files[0];
       if(!file)return;
       const reader = new FileReader();
-      reader.onload = function(e) {
-        console.log(e.target.result);
+      reader.onload = (e) => {
+        this.versionload(e.target.result);
+        this.levelEditorEditor.classList.add("hidden");
+        // this.cancelInputWait();
+        this.inputWaiting = false;
       };
       reader.readAsText(file);
     });
-    this.inputElement.addEventListener('keydown', e=> {
+    (this.inputElement.onkeydown = e=> {
       if (e.key === 'Enter' || e.keyCode === 13) {
           // this.cancelInputWait();
           this.inputElement.blur();
           if(this.promptCallback)
             this.promptCallback(e.target.value);
-            this.levelEditorEditor.classList.add("hidden");
+          this.levelEditorEditor.classList.add("hidden");
+          this.cancelInputWait();
       } else if (e.key == "Escape" || e.keyCode == 27) {
         this.inputElement.blur();
         this.levelEditorEditor.classList.add("hidden");
+        this.cancelInputWait();
         // setTimeout(e=>{this.cancelInputWait()},10);
       } else if (e.key == "Tab" || e.keyCode == 9 || e.key=="ArrowDown" || e.keyCode==40) {
         if(this.promptOptions.length<1)return;
@@ -131,15 +137,15 @@ class LevelEditorScene extends Scene{
         return;
       }
     });
-    this.inputElement.addEventListener('focus', e=> {
+    (this.inputElement.onfocus = e=> {
       this.inputWaiting = true;
       console.log("inputwaiting true");
     })
-    this.inputElement.addEventListener('blur', e=> {
-      this.cancelInputWait();
-      // this.inputWaiting = false;
-      // console.log("inputwaiting false");
-    })
+    // (this.inputElement.onblur= e=> {
+    //   this.cancelInputWait();
+    //   // this.inputWaiting = false;
+    //   // console.log("inputwaiting false");
+    // })
     this.promptLabel = document.getElementById("level-editor-prompt-label");
     // document.getElementById("level-editor-editor").classList.remove("hidden");
     this.inputWaiting = false;
@@ -253,6 +259,7 @@ class LevelEditorScene extends Scene{
     if(!this.world.worldtype)this.world.worldtype = 0;
     this.world.worldtype = (this.world.worldtype +1) %6;
     this.world.forceRedraw();
+    this.save();
   }
   resetCameraPosition() {
     this.camera.x=this.world.w*this.world.s/2*this.zoom;
@@ -518,6 +525,7 @@ class LevelEditorScene extends Scene{
     if(!localStorage||!localStorage.setItem) {
       alert("localStorage saves not supported by this web browser");
     }
+    this.fileInputElement.classList.add("hidden");
     this.prompt("save as", name=> {
       name = name||this.levelName;
       this.levelName = name;
@@ -543,6 +551,7 @@ class LevelEditorScene extends Scene{
       defaultValue = this.levelName;
     else if(this.promptOptions.length>1)
       defaultValue = this.promptOptions[1];
+    this.fileInputElement.classList.remove("hidden");
     this.prompt("load:["+names+"]", name => {
       console.log("loading",name);
       var string = localStorage.getItem(name);
@@ -762,6 +771,7 @@ class LevelEditorScene extends Scene{
     this.redoStack.push(this.grid); //no need to copy since its being overwridden;
     this.grid = this.undoStack.pop();
     this.updateWorld();
+    this.save();
   }
   redo() {
     if(this.redoStack.length==0)return;
@@ -769,6 +779,7 @@ class LevelEditorScene extends Scene{
     this.grid = this.redoStack.pop();
     this.updateWorld();
     if(this.redoStack.length>this.maxUndoSize) this.redoStack.shift();
+    this.save();
   }
   mousemove(e,mouse){
     super.mousemove(e);

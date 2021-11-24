@@ -18,7 +18,7 @@ class PauseScene extends Scene {
       '37': { down: this.navigateUI.bind(this,3)},   //left
 
       '78': {down: function() {
-        if(this.keys[67] && DEBUG) {
+        if(this.keys[67] && DEBUG) { //c+n
           this.goToLevelEditor(prevScene.levelIndex+1);
         }
       }.bind(this)},

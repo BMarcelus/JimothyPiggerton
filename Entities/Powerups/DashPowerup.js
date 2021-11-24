@@ -13,8 +13,12 @@ class DashPowerup extends Powerup {
     this.color1 = "#aaa";
     this.color2 = "#888";
     this.color3 = "#666";
+    this.hitBoxScalar *= 1.2;
   }
-  givePlayerAbility(player) {
+  givePlayerAbility(player, fake) {
+    if(!player.canDash&&!fake) {
+      player.powerUps.push(this.givePlayerAbility);
+    }
     player.canDash = true;
     player.dashCount = 0;
   }
@@ -28,10 +32,10 @@ class DashPowerup extends Powerup {
     // canvas.translate(0,h/2);    
     canvas.strokeStyle = "#fff";
     canvas.lineWidth = 7;
-    this.drawAcorn(canvas,w,h,1);
-    this.drawAcorn(canvas,w,h);
+    this.drawTag(canvas,w,h,1);
+    this.drawTag(canvas,w,h);
   }
-  drawAcorn(canvas, w,h,s) {
+  drawTag(canvas, w,h,s) {
     h=h*1;
     var w = w*.6;
     var h2 = h*1.2;

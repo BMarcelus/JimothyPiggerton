@@ -1,9 +1,14 @@
+function getWithDefault(string, defaultValue) {
+  var val = localStorage.getItem(string);
+  if(val===null)return defaultValue;
+  return parseFloat(val);
+}
 var AUDIOCONTEXT;
 var DESTINATION;
 var BUFFERBUFFER = [];
-var VOLUME = parseFloat(localStorage.getItem("volume"))||0.5;
-var MUSIC_VOLUME = parseFloat(localStorage.getItem("music_volume"))||1;
-var EFFECTS_VOLUME = parseFloat(localStorage.getItem("effects_volume"))||1;
+var VOLUME = getWithDefault("volume", 0.5);
+var MUSIC_VOLUME = getWithDefault("music_volume",1);
+var EFFECTS_VOLUME = getWithDefault("effects_volume",1);
 var musicGain;
 var effectsGain;
 function setVolume(val) {

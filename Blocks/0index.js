@@ -38,4 +38,5 @@ loadSequentially('Blocks/',
   "smolByrdBlock.js",
   "owlBlock.js",
   "brazierBlock.js",
+  "checkpointBlock.js",
 ]);

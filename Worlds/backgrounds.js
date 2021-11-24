@@ -3,7 +3,7 @@ class Background {
     this.type = type;    
     this.backgroundColor = "#87ceeb";    
     this.paralaxScalar =1;
-    this.paralaxScalary =1;
+    this.paralaxScalary =0.2;
     this.background1 = this.createBackground(60, "#0b6623", true);
     this.background2 = this.createBackground(100, "#0b6623", false);
     // this.backgroundColor = "#333";
@@ -18,12 +18,16 @@ class Background {
       canvas.fillRect(0,0,canvas.width,canvas.height);
     }
     var s = this.paralaxScalar;
+    var sy = this.paralaxScalary;
     if(!this.scrollStatic) {
-      canvas.translate(0,world.h*world.s-canvas.height/2);
-      canvas.translate(-camera.x/8*s,-camera.y);
+      canvas.translate(0,(world.h*world.s-canvas.height/2)*sy);
+      canvas.translate(-camera.x/40*s,(-camera.y)*sy);
+
+      // canvas.translate(0,0);
+      // canvas.translate(-camera.x/8*s,0);
     }
     canvas.drawImage(this.background1,-150,-200);   
-    canvas.translate(-camera.x/4*s,0);
+    canvas.translate(-camera.x/20*s,0);
     canvas.drawImage(this.background2,-150,-100); 
     canvas.restore();
   }
@@ -276,10 +280,10 @@ function createForrestBackground(w,c,e) {
   var yy = 260+300;
   canvas.fillStyle="#050";
   canvas.fillRect(0,yy,image.width,yy);
-  w=60;
+  // w=60;
   for(var i=0;i<image.width;i+=w) {
     if(Math.random()>.5)continue;
-    var h = 300; 
+    var h = 300/60*w; 
     h -= Math.random()*100;
     var y = yy-h;  
     var ww = w/2+Math.random()*10;
