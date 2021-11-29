@@ -126,7 +126,12 @@ class MainDriver {
     
     // this.scene = new LevelEditorScene(0);
     // this.scene = new LevelsViewerScene();
-    this.scene = loadLastScene();
+    try {
+      this.scene = loadLastScene();
+    } catch(e) {
+      console.error(e);
+      this.scene = new MenuScene(true);
+    }
     this.scene.driver = this;
 
     this.mouse = {x:0,y:0};

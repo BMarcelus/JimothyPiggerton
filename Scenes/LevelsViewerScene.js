@@ -13,6 +13,9 @@ class LevelsViewerScene extends Scene{
       '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
       '84': {down: this.zoomIn.bind(this)},             //T
       '71': {down: this.zoomOut.bind(this)},            //G
+      '27': {down: ()=>this.driver.setScene(getOrCreate(MenuScene))},
+      '78': {down: ()=>this.driver.setScene(new LevelEditorScene(-2))}, //N
+      '69': {down: ()=>this.driver.setScene(new LevelEditorScene(0))}, //E
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
