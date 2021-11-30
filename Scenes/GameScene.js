@@ -238,9 +238,9 @@ class GameScene extends Scene {
       this.levelIndex = index;
       this.levelDeaths = 0;
       this.player.checkpoint = null;
-      if(this.music) {
-      } else
-      this.music = SOUNDMAP.music.play(); 
+      // if(this.music) {
+      // } else
+      // this.music = SOUNDMAP.music.play(); 
     }
     if(this.levelIndex>=this.levels.length) {
       this.win();
