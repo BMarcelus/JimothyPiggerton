@@ -131,8 +131,8 @@ class MenuScene extends Scene{
   startGame(){
    
     this.allowUIInput = false;
-    //this.driver.setScene(new PigFunScene());
-    this.startTransition(25,1,sceneTransition(this,PigFunScene2,true));
+    this.driver.setScene(new IntroScene());
+    // this.startTransition(25,1,sceneTransition(this,PigFunScene2,true));
   }
   goToLevelSelect(){
    

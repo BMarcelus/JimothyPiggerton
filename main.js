@@ -93,10 +93,10 @@ function handleGamePad(driver) {
       }
       if(pressed(gp.buttons[1])) {
         this.heldB = true;
-        // driver.keydown({keyCode: 27});
+        driver.keydown({keyCode: 16});
       } else if(this.heldB) {
         this.heldB = false;
-        // driver.keyup({keyCode: 27});
+        driver.keyup({keyCode: 16});
       }
       if(pressed(gp.buttons[9])) {
         this.heldStart = true;

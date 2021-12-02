@@ -18,6 +18,8 @@ function addLevel(func) {
   LEVEL_CREATION_FUNCTIONS.push(func);
 }
 
+var levelsMap = {};
+
 function createLevels() {
   var supportedChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var nameSpace = {};
@@ -32,6 +34,7 @@ function createLevels() {
     level.worldType = creator.worldType;
     level.isFinalInWorld = creator.isFinalInWorld;
     levels.push(level);
+    levelsMap[level.name] = level;
   }
   return levels;
 }
