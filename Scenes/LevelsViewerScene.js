@@ -13,6 +13,10 @@ class LevelsViewerScene extends Scene{
       '32': {down: this.startDragging.bind(this), held: this.drag.bind(this)},
       '84': {down: this.zoomIn.bind(this)},             //T
       '71': {down: this.zoomOut.bind(this)},            //G
+      '27': {down: ()=>this.driver.setScene(getOrCreate(MenuScene))},
+      '78': {down: ()=>this.driver.setScene(new LevelEditorScene(-2))}, //N
+      '69': {down: ()=>this.driver.setScene(new LevelEditorScene(0))}, //E
+      '82': {down: ()=>this.createLevelsEntities()},//r
     }
     this.dragPivot = {x: 0, y: 0};
     this.clickDragPivot = {x: 0, y: 0};
@@ -45,6 +49,15 @@ class LevelsViewerScene extends Scene{
         canvas.strokeStyle = "rgba(200,100,100,0.5)";
         canvas.strokeRect(this.x,this.y,this.w,this.h);
         canvas.drawImage(this.image, this.x,this.y);
+        canvas.font = "300px " + FONT;
+        canvas.textAlign = 'left';
+        canvas.textBaseline = 'top';
+        canvas.strokeStyle = "white";
+        canvas.fillStyle = "black";
+        canvas.lineWidth = 20;
+        var name = this.level.name;
+        canvas.strokeText(name, this.x+30,this.y+30, this.w,this.h);
+        canvas.fillText(name, this.x+30,this.y+30, this.w,this.h);
       }
     };
   }
@@ -118,6 +131,17 @@ class LevelsViewerScene extends Scene{
       gameScene.camera.x = 0;//width/2;
       gameScene.camera.y = 0;//height/2;
       gameScene.draw(imageCanvas);
+      // imageCanvas.font = "300px " + FONT;
+      // // imageCanvas.textAlign = 'center';
+      // // imageCanvas.textBaseline = 'middle';
+      // // imageCanvas.fillText(name, width/2,height/2);
+      // imageCanvas.textAlign = 'left';
+      // imageCanvas.textBaseline = 'top';
+      // imageCanvas.strokeStyle = "white";
+      // imageCanvas.fillStyle = "black";
+      // imageCanvas.lineWidth = 20;
+      // imageCanvas.strokeText(name, 30,30);
+      // imageCanvas.fillText(name, 30,30);
       this.entities.push(this.createLevelEntity(x,y,width,height,image,level));
       x+=width;
     }

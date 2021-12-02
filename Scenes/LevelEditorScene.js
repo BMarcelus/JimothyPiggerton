@@ -6,7 +6,7 @@ class LevelEditorScene extends Scene{
     this.editLevel = index;
     this.zoom = 1;
     var grid;
-    this.levelName = "test";
+    this.levelName = "currentLevel";
     if(SOUNDMAP.music.on) SOUNDMAP.music.toggle();
     if(actuallevel) {
       this.world = new WorldFromLevel(actuallevel);
@@ -521,7 +521,6 @@ class LevelEditorScene extends Scene{
     
   }
   saveLocal() {
-    var string = this.getLevelJsonString();
     if(!localStorage||!localStorage.setItem) {
       alert("localStorage saves not supported by this web browser");
     }
@@ -530,6 +529,7 @@ class LevelEditorScene extends Scene{
       name = name||this.levelName;
       this.levelName = name;
       if(!this.levelName)return console.log("canceling save: no name");
+      var string = this.getLevelJsonString();
       window.electronApi.send("save", this.levelName, string);
       localStorage.setItem(name, string);
       var names = localStorage.getItem("Names") || ';';
