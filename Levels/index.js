@@ -1,8 +1,8 @@
 loadSequentially('Levels/',
 [
   "init.js",
-  "EditorFiles/DogAndTag.js",
-  "EditorFiles/DoubleJumpDashFireBridge.js",
+  // "EditorFiles/DogAndTag.js",
+  // "EditorFiles/DoubleJumpDashFireBridge.js",
   
   "World0/jumpChallenges.js",
   "World0/birdJump.js",
